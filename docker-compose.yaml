@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  mobix-cams-digital-loan-web:
+    container_name: mobix-cams-digital-loan-web
+    image: fra.ocir.io/lolctech/pakoman/release/mobix-cams-digital-loan-web:uat
+    ports:
+      - "3000:3000"
+    env_file:
+      - /appl/.env
