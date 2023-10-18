@@ -44,7 +44,7 @@ pipeline {
       agent any
       steps {
         sshagent(credentials: ['devcstool']) {
-          sh "ssh -o StrictHostKeyChecking=no -N -L 127.0.0.1:${tun_port}:${dest_server}:22 ${proxy_user}@${proxy_server} &"
+          sh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -N -L 127.0.0.1:${tun_port}:${dest_server}:22 ${proxy_user}@${proxy_server} &"
           sh 'sleep 1'
           sh 'ssh -o StrictHostKeyChecking=no -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yml ps"'
           sh 'ssh -o StrictHostKeyChecking=no -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yml down"'
