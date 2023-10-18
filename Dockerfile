@@ -5,18 +5,15 @@ WORKDIR /usr/src/app
 ENV NODE_ENV production
 ENV PATH /app/node_modules/.bin:$PATH
  
-COPY package.json ./
+COPY ./package.json ./
 COPY vite.config.ts .
 RUN npm cache clean --force
-#RUN npm i
+RUN npm i
 #RUN npm install --no-package-lock --production
-RUN npm install 
- 
-COPY . ./
- 
-RUN npm run build
+#RUN npm install 
  
  
-EXPOSE 80
- 
-CMD ["nginx", "-g", "daemon off;"]
+COPY . .
+
+
+CMD ["npm", "run", "dev"]
