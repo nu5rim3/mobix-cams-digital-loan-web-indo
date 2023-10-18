@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.3'
 services:
   mobix-cams-digital-loan-web-indo:
     container_name: mobix-cams-digital-loan-web-indo
