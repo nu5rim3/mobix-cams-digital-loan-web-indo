@@ -8,7 +8,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
  
 RUN npm cache clean --force
-RUN npm install --no-package-lock --production
+RUN npm i
+#RUN npm install --no-package-lock --production
  
 COPY . ./
  
