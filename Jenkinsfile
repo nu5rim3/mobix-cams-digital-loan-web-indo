@@ -1,6 +1,6 @@
 pipeline {  
     environment {
-        def con_name="mobix-cams-digital-loan-web"
+        def con_name="mobix-cams-digital-loan-web-indo"
         def tag="dev"
         def dest_server="10.0.154.79"
         def dest_user="root"
