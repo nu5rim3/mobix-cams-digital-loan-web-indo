@@ -5,17 +5,15 @@ pipeline {
         def dest_server="10.0.154.79"
         def dest_user="root"
         def tun_port="5540"
-        def proxy_server="root"
+        def proxy_server="130.61.33.64"
         def proxy_user="opc"
     }
     agent none
       stages {
           stage('mvn build') {
-          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/maven:3.6.3-jdk-11' } }
+          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/node:latest' } }
           steps {
-                sh 'mvn --version'
-                sh 'mvn clean install'
-                sh 'ls -lrt target/'
+               sh 'ls -la'
  
       }
     }
