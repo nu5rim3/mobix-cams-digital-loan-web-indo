@@ -18,4 +18,4 @@ RUN npm run build
 
 EXPOSE 80
  
-CMD ["npm", "-g", "daemon off;"]
+CMD ["npm", "run", "daemon off;"]
