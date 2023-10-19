@@ -2,7 +2,7 @@ version: '3.3'
 services:
   mobix-cams-digital-loan-web-indo:
     container_name: mobix-cams-digital-loan-web-indo
-    image: fra.ocir.io/lolctech/indo/develop/mobix-cams-digital-loan-web-indo:uat
+    image: fra.ocir.io/lolctech/indo/release/mobix-cams-digital-loan-web-indo:uat
     ports:
       - "3000:3000"
     env_file:
