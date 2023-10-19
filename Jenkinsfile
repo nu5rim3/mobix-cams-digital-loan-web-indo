@@ -1,11 +1,11 @@
 pipeline {  
     environment {
         def con_name="mobix-cams-digital-loan-web"
-        def tag="uat"
-        def dest_server="10.254.160.11"
+        def tag="dev"
+        def dest_server="10.0.154.79"
         def dest_user="root"
         def tun_port="5540"
-        def proxy_server="130.61.33.64"
+        def proxy_server="opc"
         def proxy_user="opc"
     }
     agent none
@@ -24,7 +24,7 @@ pipeline {
               label "local"
             }
         steps {
-            sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
+            sh "docker build -t  fra.ocir.io/lolctech/indo/develop/${con_name}:${tag} ."
                }
             } 
         stage('Push to OCIR') {
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry( 'https://fra.ocir.io', 'OCIR-JEN' ) {
-                    sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
+                    sh "docker push fra.ocir.io/lolctech/indo/develop/${con_name}:${tag}"
                     }
                 }
             }
