@@ -1,25 +1,18 @@
 import React, {useContext, useState} from 'react';
 import { Button, Layout, theme } from 'antd';
-import { 
-    LaptopOutlined, 
-    NotificationOutlined, UserOutlined, MenuUnfoldOutlined, 
+import { MenuUnfoldOutlined, 
     MenuFoldOutlined,
     SettingOutlined,
-    HomeOutlined
   } from '@ant-design/icons';
 import ThemeSettingModel from './ThemeSettingModel';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header} = Layout;
 
 const headerStyle: React.CSSProperties = {
     textAlign: 'left',
-  //   color: '#fff',
     paddingInline: 8,
     lineHeight: 4,
-    // backgroundColor: '#fff',
-  //   padding: '5px',
-    // boxShadow: '0px 5px 12px -10px rgba(0,0,0,0.89)',
     height: 50
   };
 

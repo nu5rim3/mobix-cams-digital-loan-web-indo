@@ -1,20 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Button, ColorPicker, ConfigProvider, Divider, Grid, Layout, Menu, Modal, Space, Switch, theme } from 'antd';
+import {  Grid, Layout} from 'antd';
 import ThemeBlueWhite from '../../themes/ThemeBlueWhite';
 import SideBar from './sidebar/SideBar';
 import HeaderContainer from './header/Header';
-import UserManagement from '../../pages/userManagement/UserManagement';
 import FooterContainer from './footer/Footer';
 import navigation, { MenuItem } from '../../routes/navigation';
 import { Route, Routes } from 'react-router-dom';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
 import DotWave from '../loaders/DotWave';
-import digitalMe from '../../assets/digitalMe.png'
 import { setAxiosToken } from '../../services/config';
-import { API } from '../../services/Services';
 import jwt_decode from 'jwt-decode';
+import { actions } from '../../store/store';
+import { useSelector } from 'react-redux';
 
-const { Header, Footer, Sider, Content } = Layout;
+const {Content } = Layout;
 
 const contentStyle: React.CSSProperties = {
     overflow: 'auto',
@@ -30,10 +29,9 @@ export interface ILayoutProps {
 export default function LayoutContainer (props: ILayoutProps) {
 
     const [collapsed, setCollapsed] = useState<boolean>(false);
-    const [userData, setUserData] = useState<any>();
     const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
-    // const [routes, setRoutes] = useState([])
+    const screens = useBreakpoint();
+    const userData = useSelector((state: any) => state.AppData.userData.data)
 
     const routes = function menuItems(params: MenuItem[] | undefined) : any  {
         if(!params || !userData) return
@@ -65,17 +63,12 @@ export default function LayoutContainer (props: ILayoutProps) {
         }
         if(token){
             setAxiosToken(token)
-            var decoded = jwt_decode(token);
-            getUserData(decoded)
+            const decoded = jwt_decode(token) as any;
+            actions.getUserDataById(decoded.sub)
+            // getUserData(decoded)
         }
 
       }, [loginInProgress])
-
-      const getUserData = async (tokenData: any) => {
-        const userData = await API.userServices.getUserById(tokenData.sub)
-        setUserData(userData.data)
-        // generateNavigation()
-      } 
 
   return (
     <>
@@ -107,7 +100,7 @@ export default function LayoutContainer (props: ILayoutProps) {
                     collapsed = {collapsed}
                     setCollapsed={setCollapsed}
                 />
-                <Content style={contentStyle} className={screens.xs? 'p-3' : 'p-6'}>
+                <Content style={contentStyle} className={screens.xs? 'p-3' : 'px-6 py-3'}>
                     
                     <Routes>
                         {routes.map((route:any) => {

@@ -1,8 +1,7 @@
-import { AxiosResponse } from "axios";
+
 import {axiosInstance} from "../../config";
 
 const api = axiosInstance
-// console.log("creating API", api)
 
 const getAllUsers = () => {
     return api.get('/mobixCamsCommon/v1/users')

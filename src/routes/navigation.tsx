@@ -1,13 +1,15 @@
-import type { MenuProps, MenuTheme } from 'antd/es/menu';
+
 import { 
     DashboardOutlined,
     UserOutlined,
     FileDoneOutlined,
     NotificationOutlined
   } from '@ant-design/icons';
-import UnderConstruction from '../pages/UnderConstruction/UnderConstruction';
+import UnderConstruction from '../pages/underConstruction/UnderConstruction';
 import UserManagement from '../pages/userManagement/UserManagement';
 import UserForm from '../pages/userManagement/UserForm';
+import SlikRequests from '../pages/slikRequests/SlikRequests';
+import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRequest/UpdateSlikRequest';
 
 export interface MenuItem {
     type: "LINK" | "GROUP";
@@ -99,18 +101,35 @@ const sidebarMenu: MenuItem[] = [
     },
     {
         type: "LINK",
-        path: "/slickRequest",
-        label: 'Slick Requests',
-        key: 'slickRequest',
+        path: "/slikRequest",
+        label: 'SLIK Requests',
+        key: '/slikRequest',
         icon: <DashboardOutlined/>,
         visibleInMenu: true,
-        component: UnderConstruction,
+        // component: SlikRequests,
+        children: [ 
+            {
+                type: "LINK",
+                path:'/slikRequest',
+                key: '/slikRequest',
+                visibleInMenu: false,
+                component: SlikRequests,
+            },
+            {
+                type: "LINK",
+                path:'/slikRequest/updateSlik/:id',
+                key: '/updateSlik/:id',
+                visibleInMenu: false,
+                component: UpdateSlikRequest,
+            },
+        ],
     },
     {
         type: "LINK",
         path:'/test',
         label: 'Reports',
         key: 'Reports',
+        visibleInMenu: true,
         icon: <NotificationOutlined/>,
     }
 

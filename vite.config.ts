@@ -21,6 +21,11 @@ export default defineConfig(({ command, mode }) => {
           target: env.VITE_INDO_BASE_URL,
           changeOrigin: true,
           secure: false,
+        },
+        '/mobixCamsCredit':  {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
         }
       },
       port: 3000,

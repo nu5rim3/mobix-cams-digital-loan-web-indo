@@ -1,0 +1,7 @@
+export interface AppDataStoreType {
+    userData: {
+        data: {} | null,
+        fetching : boolean,
+        error: boolean | string
+    }
+}

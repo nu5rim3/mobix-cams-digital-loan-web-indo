@@ -1,23 +1,21 @@
-import { Button, Col, Form, Grid, Input, Row, Select, Space, Table, Typography, notification, theme } from 'antd';
+import { Button, Form, Grid, Input, Select, Space,  notification } from 'antd';
 import React, {useEffect, useState} from 'react';
 import Paragraph from 'antd/es/typography/Paragraph';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API } from '../../services/Services';
 import {InfoCircleOutlined} from '@ant-design/icons'
+import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
+import ContentContainer from '../../components/Containers/ContentContainer';
+import Title from '../../components/Typography/Tytle';
 
 export interface IUserFormProps {
 }
 
 export default function UserForm (props: IUserFormProps) {
-    const {
-        token: { colorBgContainer, boxShadow, colorBgLayout, colorBgElevated , borderRadiusOuter},
-    
-      } = theme.useToken();
-    const { Title, Text } = Typography;
+
     const [branch, setBranch] = useState([])
     const [role, setRole] = useState([])
-    const [token, setToken] = useState('')
     let { id } = useParams();
     const [addLoading, setAllLoading] = useState(false)
     const [verifyLoading, setVerifyLoading] = useState<boolean>(false)
@@ -27,17 +25,6 @@ export default function UserForm (props: IUserFormProps) {
     const screens = useBreakpoint();
 
     const [form] = Form.useForm();
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 12 },
-        sm: { span: 12 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-    };
 
     const getValues = async () => {
       const branches = await API.branchServices.getAllBranches()
@@ -184,21 +171,20 @@ export default function UserForm (props: IUserFormProps) {
 
   return (
     <div>
-    <div className='h-12'>
-      Testing Round
-    </div>
+      <BreadCrumbContainer>
+        <Paragraph className='m-0 p-0 ' style={{margin: 0, padding:0}}  type="secondary">Home</Paragraph>
+        <Title 
+          level={4}
+          title='User Management'
+        />
+      </BreadCrumbContainer>
 
-    <div 
-      style={{
-        width: '100%',
-        overflow: 'auto',
-        backgroundColor: colorBgContainer,
-        borderRadius: borderRadiusOuter
-      }}
-      className={screens.xs? 'p-2': 'p-3'}
-    >
-      <Title className='m-0 p-0 ' style={{margin: 0}} level={screens.xs? 4 : 3}>User Details</Title>
-      <Paragraph className='m-0 p-0 ' type="secondary">Enter new user details</Paragraph>
+    <ContentContainer>
+      <Title 
+          style={{color: '#374957'}} 
+          level={4}
+          title='User Details'
+      /> 
       <div
        className='border-l-current border-r-current'
       >
@@ -502,24 +488,8 @@ export default function UserForm (props: IUserFormProps) {
           {/* </Space> */}
         {/* </Form.Item> */}
       </Form>
-
       </div>
-
-      {/* <div className='flex justify-center p-10'>
-        <Button 
-          onClick={() => {
-            console.log("cli")
-            // navigate('/userManagement/createUser')
-          }} 
-          type='primary'
-          shape="round"
-          size='large'
-        //   icon={<PlusOutlined/>}
-        >
-          Create User
-        </Button>
-      </div> */}
-    </div>
+    </ContentContainer>
   </div>
   );
 }

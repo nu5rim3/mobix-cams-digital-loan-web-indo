@@ -6,10 +6,6 @@ export interface IFooterContainerProps {
 
 const footerStyle: React.CSSProperties = {
     textAlign: 'right',
-  //   color: '#fff',
-    // backgroundColor: '#DDF',
-  //   paddingInline: 0,
-  //   lineHeight: 0,
     height: 30,
     padding: 5,
     paddingRight: 20,
