@@ -14,6 +14,8 @@ RUN npm i
  
  
 COPY . .
+RUN npm run build
 
-
-CMD ["npm", "run", "uat"]
+EXPOSE 80
+ 
+CMD ["nginx", "-g", "daemon off;"]
