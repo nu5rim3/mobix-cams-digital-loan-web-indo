@@ -8,12 +8,12 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY . /app
 
 
-RUN npm install serve -g
-
-RUN npm install
-
-RUN npm run build
-
 EXPOSE 3000
+
+COPY package.json package-lock.json ./
+
+RUN npm install --silent
+
+COPY . ./
 
 CMD ["npm", "run", "serve"]
