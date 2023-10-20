@@ -1,10 +1,12 @@
 # build environment
 FROM fra.ocir.io/lolctech/fxapiuser/node:14.17-alpine as build-step
-WORKDIR /app
+WORKDIR /usr/src/app
+ 
+ENV NODE_ENV production
+ENV PATH /app/node_modules/.bin:$PATH
 
 COPY . /app
 
-ENV NODE_ENV=production
 
 RUN npm install serve -g
 
