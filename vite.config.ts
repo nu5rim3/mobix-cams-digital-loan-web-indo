@@ -25,6 +25,7 @@ export default defineConfig(({ command, mode }) => {
       },
       port: 3000,
     },
+     host: true,
     plugins: [react()],
   }
 })
