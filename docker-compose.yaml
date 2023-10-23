@@ -1,9 +1,11 @@
-version: '3.3'
+version: '3.9'
 services:
   mobix-cams-digital-loan-web-indo:
+    build: .
+    command: npm run preview
     container_name: mobix-cams-digital-loan-web-indo
-    image: fra.ocir.io/lolctech/indo/release/mobix-cams-digital-loan-web-indo:uat
+    image: mobix-cams-digital-loan-web-indo:uat
     ports:
-      - "3000:3000"
+      - '3000:3000'
     env_file:
-      - /appl/.env
+      - .env

@@ -1,19 +1,15 @@
 # build environment
-FROM fra.ocir.io/lolctech/fxapiuser/node:14.17-alpine as build-step
-WORKDIR /usr/src/app
+FROM node:18-alpine as build-step
+WORKDIR /mobix-cams-digital-loan-web-indo
  
-ENV NODE_ENV production
-ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json .
 
-COPY . /app
+RUN npm install
 
+COPY . .
+
+RUN npm run build
 
 EXPOSE 3000
 
-COPY package.json package-lock.json ./
-
-RUN npm install --silent
-
-COPY . ./
-
-CMD ["npm", "run", "preview"]
+CMD [ "npm", "run", "preview" ]
