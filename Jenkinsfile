@@ -3,7 +3,7 @@ pipeline {
         def con_name="mobix-cams-digital-loan-web-indo"
         def tag="dev"
         def dest_server="10.0.154.79"
-        def dest_user="root"
+        def dest_user="loit"
         def tun_port="5540"
         def proxy_server="130.61.33.64"
         def proxy_user="opc"
