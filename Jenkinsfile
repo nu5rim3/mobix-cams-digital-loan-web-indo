@@ -43,11 +43,11 @@ pipeline {
         sshagent(credentials : ['devcstool']) {
                 sh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -N -L 127.0.0.1:${tun_port}:${dest_server}:22 ${proxy_user}@${proxy_server} &"
                 sh 'sleep 1'
-                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yaml ps"'
-                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yaml down"'
-                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yaml pull"'
-                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yaml up -d"'
-                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "docker-compose -f /appl/${con_name}/docker-compose.yaml ps"'
+                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "sudo docker-compose -f /appl/${con_name}/docker-compose.yaml ps"'
+                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "sudo docker-compose -f /appl/${con_name}/docker-compose.yaml down"'
+                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "sudo docker-compose -f /appl/${con_name}/docker-compose.yaml pull"'
+                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "sudo docker-compose -f /appl/${con_name}/docker-compose.yaml up -d"'
+                sh 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${tun_port} ${dest_user}@localhost "sudo docker-compose -f /appl/${con_name}/docker-compose.yaml ps"'
                 sh 'kill -9 $tun || true'
         }
         }
