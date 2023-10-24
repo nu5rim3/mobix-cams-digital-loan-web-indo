@@ -1,19 +1,15 @@
 # build environment
-FROM fra.ocir.io/lolctech/fxapiuser/node:14.17-alpine as build-step
-WORKDIR /usr/src/app
+FROM node:18-alpine as build-step
+WORKDIR /mobix-cams-digital-loan-web-indo
  
-ENV NODE_ENV production
-ENV PATH /app/node_modules/.bin:$PATH
- 
-COPY ./package.json ./
-COPY vite.config.ts .
-RUN npm cache clean --force
-RUN npm i
-#RUN npm install --no-package-lock --production
-#RUN npm install 
- 
- 
+COPY package.json .
+
+RUN npm install
+
 COPY . .
 
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+EXPOSE 3000
+
+CMD [ "npm", "run", "preview" ]
