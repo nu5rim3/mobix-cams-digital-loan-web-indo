@@ -14,7 +14,7 @@ export default defineConfig(({ command, mode }) => {
       // },
       proxy: {
         '/token': {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,
           secure: false,
         },
