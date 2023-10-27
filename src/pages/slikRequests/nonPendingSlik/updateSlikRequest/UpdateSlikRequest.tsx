@@ -45,7 +45,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '1',
+      key: '2',
       label: 'Residence Address',
       children: '-',
       labelStyle: {
@@ -55,7 +55,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '2',
+      key: '3',
       label: 'Group No',
       children: initialData?.groupIdx,
       labelStyle: {
@@ -65,7 +65,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '1',
+      key: '4',
       label: 'DP Name & Relathionship',
       children: '-',
       labelStyle: {
@@ -75,7 +75,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '3',
+      key: '5',
       label: 'Customer Name',
       children: initialData?.customerName,
       labelStyle: {
@@ -85,7 +85,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '1',
+      key: '6',
       label: 'Contact Number',
       children: '-',
       labelStyle: {
@@ -95,7 +95,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '4',
+      key: '7',
       label: 'NIK',
       children: initialData?.customerKTP,
       labelStyle: {
@@ -105,7 +105,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '1',
+      key: '8',
       label: 'Batch No',
       children: initialData?.batchNumber,
       labelStyle: {
@@ -115,7 +115,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '5',
+      key: '9',
       label: 'Family Contact Number',
       children: '-',
       labelStyle: {
@@ -124,7 +124,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
         width: '40%'
       }
     },{
-      key: '5',
+      key: '10',
       label: '',
       children: '',
       labelStyle: {
@@ -213,15 +213,15 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
               >
                 {[
                   {
-                    code: 'Ok',
+                    code: 'OK',
                     description: 'Ok',
                   },
                   {
-                    code: 'Claimable',
+                    code: 'C',
                     description: 'Claimable',
                   },
                   {
-                    code: 'Not Ok',
+                    code: 'NOT_OK',
                     description: 'Not Ok',
                   },
                 ]?.map((option:any, index) => (

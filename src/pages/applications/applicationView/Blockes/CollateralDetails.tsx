@@ -1,0 +1,323 @@
+import * as React from 'react';
+import Title from '../../../../components/Typography/Tytle';
+import { useSelector } from 'react-redux';
+import { Descriptions, DescriptionsProps, Divider } from 'antd';
+import getCurrency from '../../../../utils/getCurrency';
+
+export interface ICollateralDetailsProps {
+}
+
+const itemsGold: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'goldIdx',
+        label: 'Gold Id',
+        children: (data.goldIdx),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'goldValue',
+        label: 'Gold Value',
+        children: getCurrency(data.goldValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'goldCarat',
+        label: 'Gold Carat',
+        children: data.goldCarat,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'goldGram',
+        label: 'Gold Gram',
+        children: data.goldGram,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'nameInCertificate',
+        label: 'Name In Certificate',
+        children: data.nameInCertificate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ex1',
+        label: '',
+        children:''
+    },
+]
+
+const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'landIdx',
+        label: 'Land Id',
+        children: (data.landIdx),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'landValue',
+        label: 'Land Value',
+        children: getCurrency(data.landValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'certificateNo',
+        label: 'Certificate No',
+        children: data.certificateNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'location',
+        label: 'Location',
+        children: data.location,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ownerName',
+        label: 'Owner Name',
+        children: data.ownerName,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ex1',
+        label: '',
+        children:''
+    },
+]
+
+const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'vehIdx',
+        label: 'Vehicle Id',
+        children: (data.vehIdx),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'vehicleType',
+        label: 'Vehicle Type',
+        children: data.vehicleType,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'vehicleModel',
+        label: 'Vehicle Model',
+        children: data.vehicleModel,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'vehicleNo',
+        label: 'Vehicle No',
+        children: data.vehicleNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'currentValue',
+        label: 'Current Value',
+        children: getCurrency(data.currentValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ownerName',
+        label: 'Owner Name',
+        children: data.ownerName,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ex1',
+        label: '',
+        children:''
+    },
+]
+
+const itemsOther: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'otherType',
+        label: 'Other Type',
+        children: (data.otherType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'otherIdx',
+        label: 'Other Id',
+        children: getCurrency(data.otherIdx),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '20%'
+        }
+    },
+    {
+        key: 'otherValue',
+        label: 'Value',
+        children: getCurrency(data.otherValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '20%'
+        }
+    },
+   
+]
+
+export default function CollateralDetails (props: ICollateralDetailsProps) {
+
+    const {
+        collateralDetails : {
+            data }
+    } = useSelector((state: any) => state.Application)
+    
+  return (
+    <div
+        style={{
+            fontWeight: 300
+        }} 
+    >
+        <Title 
+            level={5}
+            title='Collateral Type: Gold'
+        />
+
+
+        {data?.goldDtoList?.map((guarantor:any, index: any) => {
+                    return  <div className='py-4' key={index}>
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={guarantor? itemsGold(guarantor): []} 
+                        size='small'
+                    />  
+
+                    </div>
+        })}
+
+        <Divider/>
+
+        <Title 
+            level={5}
+            title='Collateral Type: Land'
+        />
+
+        {data?.landDtoList?.map((guarantor:any, index: any) => {
+                    return  <div className='py-4' key={index}>
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={guarantor? itemsLand(guarantor): []} 
+                        size='small'
+                    />  
+                    </div>
+        })}
+
+        <Divider/>
+
+        <Title 
+            level={5}
+            title='Collateral Type: Vehical'
+        />
+
+
+        {data?.vehicleDtoList?.map((guarantor:any, index: any) => {
+                    return  <div className='py-4' key={index}>
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={guarantor? itemsVehicle(guarantor): []} 
+                        size='small'
+                    />  
+                    </div>
+        })}
+
+        <Divider/>
+
+        <Title 
+            level={5}
+            title='Collateral Type: Other'
+        />
+
+        {data?.otherDtoList?.map((guarantor:any, index: any) => {
+                    return  <div className='py-4' key={index}>
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={guarantor? itemsOther(guarantor): []} 
+                        size='small'
+                    />  
+                    </div>
+        })}
+    </div>
+  );
+}

@@ -32,6 +32,7 @@ function App() {
             token: {
               // colorPrimary: primary,
               borderRadiusOuter: 10,
+              colorTextHeading: primary
             },
             components: {
               Table: {
@@ -59,7 +60,18 @@ function App() {
                 itemSelectedColor: primary,
                 inkBarColor: primary
               },
-              
+              Select:{
+                fontSizeLG: 14
+              },
+              DatePicker : {
+                fontSizeLG: 14
+              },
+              Input:{
+                fontSizeLG: 14
+              },
+              Collapse: {
+                headerBg: '#E2EAF2'
+              }
             }
             // 2. Combine dark algorithm and compact algorithm
             // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],

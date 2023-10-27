@@ -20,12 +20,14 @@ export default function FPaginatedTable ({
     const screens = useBreakpoint();
     
   return (
-    <Table 
-        loading={loading}
-        rowKey={rowKey}
-        columns={columns} 
-        dataSource={dataSource || []}
-        size={screens.xs? 'small' :'middle'}
-    />
+    <div className='overflow-x-auto'>
+      <Table 
+          loading={loading}
+          rowKey={rowKey}
+          columns={columns} 
+          dataSource={dataSource || []}
+          size={screens.xs? 'small' :'middle'}
+      />
+    </div>
   );
 }

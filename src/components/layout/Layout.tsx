@@ -12,6 +12,7 @@ import { setAxiosToken } from '../../services/config';
 import jwt_decode from 'jwt-decode';
 import { actions } from '../../store/store';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const {Content } = Layout;
 
@@ -35,6 +36,7 @@ export default function LayoutContainer (props: ILayoutProps) {
 
     const routes = function menuItems(params: MenuItem[] | undefined) : any  {
         if(!params || !userData) return
+        if(!params) return
   
         // roles,permission check can be done here if needed
         const roles = userData?.roles?.map((role:any) => role.code)
@@ -65,10 +67,22 @@ export default function LayoutContainer (props: ILayoutProps) {
             setAxiosToken(token)
             const decoded = jwt_decode(token) as any;
             actions.getUserDataById(decoded.sub)
-            // getUserData(decoded)
         }
 
       }, [loginInProgress])
+
+    // useEffect(() => {
+    //     axios.post('/token','',{
+    //         headers:{
+    //             'client_id' : 'TV3IaPzj7ejIDvzjG0fsA_qQuxAa',
+    //             'client_secret' : 'h0VsCzNqiyIuk7M3oHXFKYXtmU8a',
+    //             'grant_type': 'client_credentials'
+    //         }
+    //     })
+    //     .then((res) => {
+    //         console.log("res")
+    //     })
+    // },[])
 
   return (
     <>

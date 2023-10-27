@@ -13,10 +13,13 @@
     "@reduxjs/toolkit": "^1.9.7",
     "antd": "^5.9.0",
     "axios": "^1.5.1",
+    "google-map-react": "^2.2.1",
+    "google-maps-react-markers": "^2.0.5",
     "jwt-decode": "^3.1.2",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-oauth2-code-pkce": "^1.14.0",
@@ -25,6 +28,7 @@
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
+    "@types/google-map-react": "^2.1.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

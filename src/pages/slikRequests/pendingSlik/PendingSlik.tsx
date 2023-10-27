@@ -42,8 +42,8 @@ export default function Pending (props: IPendingProps) {
           />
         </div>
       {selectedType === 'group'
-      ? <GroupUpdate/>
-      : <IndividualUpdate/>
+      ? <GroupUpdate searchText={searchText}/>
+      : <IndividualUpdate searchText={searchText}/>
       }
     </div>
   );

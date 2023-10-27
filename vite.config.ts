@@ -26,6 +26,27 @@ export default defineConfig(({ command, mode }) => {
           target: env.VITE_INDO_BASE_URL,
           changeOrigin: true,
           secure: false,
+        },
+        '/mobixCamsLoan':  {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/mobixCamsStakeholder':  {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/mobixCamsDocument':  {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        }
+        ,
+        '/mobixCamsApproval':  {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
         }
       },
       port: 3000,
@@ -33,3 +54,5 @@ export default defineConfig(({ command, mode }) => {
     plugins: [react()],
   }
 })
+
+// 

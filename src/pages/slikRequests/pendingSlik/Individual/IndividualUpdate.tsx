@@ -8,10 +8,13 @@ import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
 
 export interface IIndividualUpdateProps {
+  searchText: string
 }
 
-export default function IndividualUpdate (props: IIndividualUpdateProps) {
-
+export default function IndividualUpdate ({
+  searchText
+}: IIndividualUpdateProps) {
+  
   const {
     slikRequestsIndividualData,
   } = useSelector((state: any) => state.SlikRequest)
@@ -23,10 +26,6 @@ export default function IndividualUpdate (props: IIndividualUpdateProps) {
       title: 'Center',
       dataIndex: 'centerCode',
       key: 'center',
-      // filteredValue: [searchText],
-      // onFilter: (value, record) => {
-      //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
-      // }
     },
     {
       title: 'Group No',
@@ -37,6 +36,10 @@ export default function IndividualUpdate (props: IIndividualUpdateProps) {
       title: 'Customer Name',
       dataIndex: 'customerName',
       key: 'customerName',
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      }
     },
     {
       title: 'NIK',
@@ -139,7 +142,7 @@ export default function IndividualUpdate (props: IIndividualUpdateProps) {
     >
         <FPaginatedTable 
             loading={slikRequestsIndividualData.fetching}
-            rowKey={'idx'}
+            rowKey={'slkIdx'}
             columns={columns} 
             dataSource={slikRequestsIndividualData.data|| []}
         />

@@ -8,7 +8,8 @@ export interface IButtonProps {
     loading?: boolean;
     type?: 'primary',
     icon?: React.ReactNode
-    shape?: "circle" | "default" | "round" | undefined
+    shape?: "circle" | "default" | "round" | undefined,
+    className?: any
 }
 
 export default function ButtonContainer ({
@@ -18,10 +19,12 @@ export default function ButtonContainer ({
     type,
     loading,
     icon,
-    shape
+    shape,
+    className
 }: IButtonProps) {
   return (
     <Button 
+        className={className}
         onClick={() => {
             onClick()
         }} 

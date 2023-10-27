@@ -10,6 +10,8 @@ import UserManagement from '../pages/userManagement/UserManagement';
 import UserForm from '../pages/userManagement/UserForm';
 import SlikRequests from '../pages/slikRequests/SlikRequests';
 import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRequest/UpdateSlikRequest';
+import Applications from '../pages/applications/Applications';
+import ApplicationView from '../pages/applications/applicationView/ApplicationView';
 
 export interface MenuItem {
     type: "LINK" | "GROUP";
@@ -76,7 +78,7 @@ const sidebarMenu: MenuItem[] = [
         ],
     },
     {
-        type: "GROUP",
+        type: "LINK",
         label: 'Applications',
         path:'/applications',
         key: '/applications',
@@ -85,18 +87,17 @@ const sidebarMenu: MenuItem[] = [
         children: [ {
             type: "LINK",
             path:'/applications',
-            label: 'Test Sub 1',
-            key: 'est Sub 1',
-            visibleInMenu: true,
-            component: UnderConstruction,
+            key: '/applications',
+            visibleInMenu: false,
+            component: Applications,
         },
         {
             type: "LINK",
-            path:'/applications/test2',
-            label: 'Test Sub 2',
-            key: 'Test Sub 2',
-            visibleInMenu: true,
-            component: UnderConstruction,
+            path:'/applications/viewApplication/:id',
+            // label: 'Test Sub 2',
+            key: '/applications/viewApplication/:id',
+            visibleInMenu: false,
+            component: ApplicationView,
         },],
     },
     {

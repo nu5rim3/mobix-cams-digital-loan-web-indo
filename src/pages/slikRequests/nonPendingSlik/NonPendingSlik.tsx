@@ -14,16 +14,17 @@ export interface INonPendingSlikProps {
 }
 
 export default function NonPendingSlik (props: INonPendingSlikProps) {
-
+  
   const navigate = useNavigate();
+  const [searchText, setSearchText] = useState<string>('')
   const columns: ColumnsType<any> = [
     {
       title: 'Center',
       dataIndex: 'centerCode',
       key: 'center',
-      // filteredValue: [searchText],
+      filteredValue: [searchText],
       // onFilter: (value, record) => {
-      //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      //   return record?.centerCode?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
       // }
     },
     {
@@ -35,6 +36,10 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       title: 'Customer Name',
       dataIndex: 'customerName',
       key: 'customerName',
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      }
     },
     {
       title: 'NIK',
@@ -77,7 +82,6 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
     },
   ];
 
-  const [searchText, setSearchText] = useState<string>('')
   const {
     selectedStatus,
     slikRequestsData
@@ -111,7 +115,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
         >
           <FPaginatedTable 
             loading={slikRequestsData.fetching}
-            rowKey={'idx'}
+            rowKey={'slkIdx'}
             columns={columns} 
             dataSource={
               selectedStatus === 'inprogress'

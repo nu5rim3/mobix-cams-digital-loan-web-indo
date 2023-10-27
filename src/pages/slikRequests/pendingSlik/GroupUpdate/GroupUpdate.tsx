@@ -7,9 +7,12 @@ import { Button, Input, Space, notification } from 'antd';
 import { API } from '../../../../services/Services';
 
 export interface IGroupUpdateProps {
+  searchText: string
 }
 
-export default function GroupUpdate (props: IGroupUpdateProps) {
+export default function GroupUpdate ({
+  searchText
+}: IGroupUpdateProps) {
 
   
   const {
@@ -38,6 +41,10 @@ export default function GroupUpdate (props: IGroupUpdateProps) {
         title: 'MFO Username',
         dataIndex: 'customerName',
         key: 'customerName',
+        filteredValue: [searchText],
+        onFilter: (value, record) => {
+          return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+        }
       },
       {
         title: 'Date',
@@ -199,7 +206,7 @@ export default function GroupUpdate (props: IGroupUpdateProps) {
       <>
         <FPaginatedTable 
           loading={slikRequestsGroupData.fetching}
-          rowKey={'idx'}
+          rowKey={'centerCode'}
           columns={columnsNew} 
           dataSource={selectedGroup|| []}
         />
