@@ -16,12 +16,12 @@ export default defineConfig(({ command, mode }) => {
         '/oauth2/token': {
           target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,
-          secure: false,
+          secure: true,
         },
         '/mobixCamsCommon': {
           target: env.VITE_INDO_BASE_URL,
           changeOrigin: true,
-          secure: false,
+          secure: true,
         }
       },
       port: 3000,
