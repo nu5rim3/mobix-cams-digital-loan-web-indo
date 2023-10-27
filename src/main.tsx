@@ -9,7 +9,7 @@ const authConfig: TAuthConfig = {
   clientId: import.meta.env.VITE_CLIENT_ID,
   authorizationEndpoint: import.meta.env.VITE_AUTHORIZATION_ENDPOINT,
   tokenEndpoint: 'https://indoauthdev.lolc.com/oauth2/token',
-  redirectUri: 'https://indodevlb1/indo-digital-loan/redirect',
+  redirectUri: 'https://indodevlb1/indo-digital-loan/redirect1',
   scope: 'someScope openid',
   onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => window.confirm('Session expired. Refresh page to continue using the site?') && event.login(),
 }
