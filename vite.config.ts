@@ -9,9 +9,9 @@ export default defineConfig(({ command, mode }) => {
   return {
     base: "/indo-digital-loan",
     server: {
-      // cors: {
-      //   origin : false
-      // },
+      cors: {
+        origin : true
+      },
       proxy: {
         '/oauth2/token': {
           target: env.VITE_INDO_BASE_AUTH_URL,

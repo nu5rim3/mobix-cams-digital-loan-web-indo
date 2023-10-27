@@ -6,14 +6,14 @@ var cors = require('cors')
 var proxy = httpProxy.createProxyServer()
  
 var IDENTITY_SERVER_URL = 'https://indoauthdev.lolc.com';
-var MIDDLEWARE_BASE_URL = 'https://indodevlb1';
+var MIDDLEWARE_BASE_URL = 'https://apidevindo.lolc.com';
  
 app.use(cors());
  
 app.disable('x-powered-by');
  
 app.use(function (req, res, next) {
-    res.setHeader("content-security-policy", "upgrade-insecure-requests; frame-ancestors 'self' https://indodevlb1/indo-digital-loan");
+    res.setHeader("content-security-policy", "upgrade-insecure-requests; frame-ancestors 'self' https://apidevindo.lolc.com/indo-digital-loan");
     res.setHeader("strict-transport-security", "max-age=31536000");
     res.setHeader("Referrer-Policy", "no-referrer");
     res.setHeader("X-Content-Type-Options", "nosniff");
