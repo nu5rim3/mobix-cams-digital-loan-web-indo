@@ -9,7 +9,7 @@ const authConfig: TAuthConfig = {
   clientId: import.meta.env.VITE_CLIENT_ID,
   authorizationEndpoint: import.meta.env.VITE_AUTHORIZATION_ENDPOINT,
   tokenEndpoint: 'https://indoauthdev.lolc.com/oauth2/token',
-  redirectUri: 'https://digiloanuat.pomicro.com/pakoman-digital-loan/oauth2/token',
+  redirectUri: 'https://indodigitalmedev.lolc.com/indo-digital-loan/redirect',
   scope: 'someScope openid',
   onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => window.confirm('Session expired. Refresh page to continue using the site?') && event.login(),
 }
