@@ -30,9 +30,9 @@ export interface MenuItem {
 const sidebarMenu: MenuItem[] = [
     {
         type: "LINK",
-        path: "/",
+        path: "/indo-digital-loan",
         label: 'Dashboard',
-        key: '/',
+        key: '/indo-digital-loan',
         icon: <DashboardOutlined/>,
         breadcrumb: {
             title: "Dashboard"
