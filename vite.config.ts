@@ -7,7 +7,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: "/indo-digital-loan",
+    base: "/",
     server: {
       cors: {
         origin : true
