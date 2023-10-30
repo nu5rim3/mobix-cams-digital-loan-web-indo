@@ -108,7 +108,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
 
     useEffect(() => {
         if(id){
-            actions.getCustomerData(id)
+            actions.getCustomerData('APP00000000234')
             actions.getCustomerContactData(id)
             actions.getCustomerAddressData(id)
             actions.getBusinessData(id)
@@ -118,7 +118,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
             actions.getCashFlowDetails('APP00000000231')
             actions.getImageDetails(id)
             actions.getApprovalStepsDetails('APP000000000000623')
-            actions.getFinanceDetails(id)
+            actions.getFinanceDetails('APP00000000234')
         }
     },[])
 

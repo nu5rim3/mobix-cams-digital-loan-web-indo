@@ -65,7 +65,8 @@ export const initialState: AppDataStoreType = {
         fetching: false,
         error: false,
         data: null
-    }
+    },
+    financialDetailsSavePending : false
 }; 
 export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchAllApplications',
@@ -278,10 +279,30 @@ export const ApplicationDataSlice = createSlice({
                 financialDetails : {
                     ...state.financialDetails,
                     data: {
-                        ...state.financialDetails,
+                        ...state.financialDetails.data,
                         pTrhdLocCost: action.payload
                     }
                 }
+            };
+            return state;
+        },
+        updateTerm: (state, action: PayloadAction<any>) => {
+            state = { 
+                ...state, 
+                financialDetails : {
+                    ...state.financialDetails,
+                    data: {
+                        ...state.financialDetails.data,
+                        pTrhdTerm: action.payload
+                    }
+                }
+            };
+            return state;
+        },
+        financialDSavePendingUpdate: (state, action: PayloadAction<boolean>) => {
+            state = { 
+                ...state, 
+                financialDetailsSavePending : action.payload
             };
             return state;
         },

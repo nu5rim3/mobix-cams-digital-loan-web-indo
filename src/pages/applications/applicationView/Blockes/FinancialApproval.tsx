@@ -1,7 +1,8 @@
-import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space, notification } from 'antd';
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
+import { API } from '../../../../services/Services';
 
 export interface IFinancialApprovalProps {
 }
@@ -17,16 +18,6 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
         width: '40%'
       }
     }, 
-    {
-        key: 'fundingPurpose',
-        label: 'Funding Purpose',
-        children: data.fundingPurpose, //initialData?.centerCode,
-        labelStyle: {
-          color: '#102C57',
-          fontWeight: 600,
-          width: '40%'
-        }
-    },
     {
         key: 'fundingPurpose',
         label: 'Funding Purpose',
@@ -57,14 +48,9 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
           width: '40%'
         }
     },{
-        key: '',
+        key: 'ex1',
         label: '',
-        children: '', //initialData?.centerCode,
-        labelStyle: {
-          color: '#102C57',
-          fontWeight: 600,
-          width: '40%'
-        }
+        children: ''
     },
 ]
 
@@ -72,12 +58,42 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
 
     const [editLoan, setEditLoan] = useState(false)
     const [editTerm, setEditTerm] = useState(false)
-    const [enableSave, setEnableSave] = useState(false)
+    const [tcSaveLoading, setTCSaveLoading] = useState(false)
 
     const {
-        financialDetails
+        customerData,
+        financialDetails,
+        financialDetailsSavePending
     } = useSelector((state: any) => state.Application)
-    
+
+    const updateFinancialDetails = async() => {
+      try{
+        setTCSaveLoading(true)
+        const save = await API.financialServices.saveTCByAppraisal(
+          customerData?.data?.appraisalId,
+          customerData?.data?.cltIdx,
+          financialDetails.data
+        )
+
+        if(save.data.code == "ERROR"){
+          return notification.error({
+            message: 'An Error occured while updating TC details'
+          })
+        }
+
+        notification.success({
+          message: 'TC details updated successfullly'
+        })
+      }
+      catch(err){
+
+      }
+      finally{
+        setTCSaveLoading(false)
+      }
+    }
+
+  console.log("financialDetails.data?.pTrhdLocCost", financialDetails.data?.pTrhdLocCost)
   return (
     <div  
     style={{
@@ -99,10 +115,20 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                 value={financialDetails.data?.pTrhdLocCost}
                 readOnly={!editLoan}
                 onChange={(e) => {
-                    actions.updateLoan(e.target.value)
+                    console.log("e", e)
+                    actions.updateLoan(e)
                 }}
             />
-            <Button type="primary" onClick={() => setEditLoan(!editLoan)}>{editLoan? 'Done' :'Edit' }</Button>
+            <Button type="primary" 
+              onClick={() => {
+                setEditLoan(!editLoan)
+                if(editLoan){
+                  actions.financialDSavePendingUpdate(true)
+                }
+              }}
+            >
+              {editLoan? 'Done' :'Edit' }
+            </Button>
             </Space.Compact>
         </div>
         <div className='pr-6'>
@@ -112,17 +138,26 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                 value={financialDetails.data?.pTrhdTerm}
                 readOnly={!editTerm}
                 onChange={(e) => {
-                    actions.updateLoan(e.target.value)
+                    actions.updateTerm(e)
                 }}
             />
-            <Button type="primary" onClick={() => setEditTerm(!editTerm)}>{editTerm? 'Done' :'Edit'}</Button>
+            <Button type="primary" onClick={
+              () => {
+                setEditTerm(!editTerm)
+                if(editTerm){
+                  actions.financialDSavePendingUpdate(true)
+                }
+              }}
+            >
+              {editTerm? 'Done' :'Edit'}
+            </Button>
             </Space.Compact>
         </div>
         <div>
             <Button 
-                disabled = {!enableSave}
+                disabled = {!financialDetailsSavePending}
                 type='primary' onClick={() => {
-
+                  updateFinancialDetails()
                 }}
             >Save Financial Approval</Button>
         </div>

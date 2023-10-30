@@ -384,6 +384,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
           <Title 
               level={5}
               title='Personal Details'
+              style={{color: '#7C3626'}} 
           /> 
         }
         column={
@@ -399,12 +400,16 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
     <Title 
         level={5}
         title='Contact Details'
-        style={{color: '#102C57'}} 
+        style={{color: '#7C3626'}} 
     /> 
 
     <div className='grid grid-cols-3 gap-5 pt-2 '>
         {contactDetails?.data?.map((contact:any, index: any) => {
-            return <div className='shadow-md p-5 rounded-lg'>
+            return <div 
+                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                className='p-5 rounded-md  font-sans' 
+                key={index}
+                >
             <Descriptions 
                 key={index}
                 column={
@@ -423,11 +428,16 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
     <Title 
         level={5}
         title='Address Details'
+        style={{color: '#7C3626'}} 
     /> 
 
     <div className='grid grid-cols-3 gap-5 pt-2'>
         {addressDetails?.data?.map((address:any, index: any) => {
-            return  <div className='shadow-md p-5 rounded-lg bg-slate-50 font-sans'> 
+            return  <div 
+                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                className='p-5 rounded-md  font-sans' 
+                key={index}
+                > 
             <Descriptions 
                 key={index}
                 column={
@@ -447,6 +457,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
           <Title 
               level={5}
               title='Bussiness Details'
+              style={{color: '#7C3626'}} 
           /> 
         }
         column={
@@ -463,6 +474,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         <Title 
             level={5}
             title='Spouse Details'
+            style={{color: '#7C3626'}} 
         /> 
         }
         column={

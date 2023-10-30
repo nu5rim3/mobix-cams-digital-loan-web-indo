@@ -1,4 +1,4 @@
-import { Divider, Form, Table, Tag } from 'antd';
+import { Divider, Form, Table, Tag, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import * as React from 'react';
 import ButtonContainer from '../../../../components/Buttons/Button';
@@ -15,7 +15,10 @@ export default function Approval ({
 }: IApprovalProps) {
     // approvalSteps
 
-    const {approvalSteps} = useSelector((state: any) => state.Application)
+    const {
+      approvalSteps,
+      financialDetailsSavePending
+    } = useSelector((state: any) => state.Application)
 
     console.log("approvalSteps", approvalSteps)
 
@@ -58,6 +61,15 @@ export default function Approval ({
         dataIndex: 'lastModifiedDate',
       },
     ];
+
+    const handleSubmit = (type: string) => {
+      if(financialDetailsSavePending){
+        return notification.warning({
+          message: 'Please save the updated Financial Approval to countinue.'
+        })
+      }
+      
+    }
     
   return (
     <div>
@@ -72,7 +84,15 @@ export default function Approval ({
           <TextArea rows={4} placeholder='Add Comment here'/>
         </Form.Item>
         <div className='flex justify-center'>
-            <ButtonContainer type='primary' label='Reject' loading={false} size='large' onClick={() => console.log("hello", fileList)} className='mr-1 w-28' shape='round'/>
+            <ButtonContainer 
+              type='primary' 
+              label='Reject' 
+              loading={false} 
+              size='large' 
+              onClick={() => handleSubmit('reject')}
+              className='mr-1 w-28' 
+              shape='round'
+            />
             <ButtonContainer type='primary' label='Return' loading={false} size='large' onClick={() => console.log("hello")} className='mr-1 w-28' shape='round'/>
             <ButtonContainer type='primary' label='Approve' loading={false} size='large' onClick={() => console.log("hello")} className='mr-1 w-28' shape='round'/>
         </div>

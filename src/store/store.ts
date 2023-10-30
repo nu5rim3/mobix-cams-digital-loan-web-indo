@@ -9,9 +9,9 @@ export const store = configureStore({
         AppData: AppDataReducer,
         Application: ApplicationReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-        serializableCheck: false
-    }),
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    //     serializableCheck: false
+    // }),
 })
 
 export const actions = bindActionCreators(

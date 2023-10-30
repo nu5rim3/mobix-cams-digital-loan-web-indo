@@ -61,5 +61,6 @@ export interface AppDataStoreType {
         data: any | null,
         fetching : boolean,
         error: boolean | string
-    }
+    },
+    financialDetailsSavePending: boolean
 }

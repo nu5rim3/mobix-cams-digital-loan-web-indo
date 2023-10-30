@@ -9,7 +9,8 @@ export interface IButtonProps {
     type?: 'primary',
     icon?: React.ReactNode
     shape?: "circle" | "default" | "round" | undefined,
-    className?: any
+    className?: any,
+    disabled?: boolean
 }
 
 export default function ButtonContainer ({
@@ -20,7 +21,8 @@ export default function ButtonContainer ({
     loading,
     icon,
     shape,
-    className
+    className,
+    disabled
 }: IButtonProps) {
   return (
     <Button 
@@ -33,6 +35,7 @@ export default function ButtonContainer ({
         icon={icon}
         shape={shape}
         loading={loading}
+        disabled={disabled}
         >
         {label}
     </Button>
