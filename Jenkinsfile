@@ -8,37 +8,38 @@ pipeline {
         def proxy_server="130.61.33.64"
         def proxy_user="opc"
     }
-    agent none
-      stages {
-          stage('mvn build') {
-          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/maven:3.6.3-jdk-11' } }
-          steps {
-                sh 'mvn --version'
-                sh 'mvn clean install'
-                sh 'ls -lrt target/'
- 
+  agent none
+  stages {
+    stage('mvn build') {
+      agent {
+        docker {
+          image 'fra.ocir.io/lolctech/fxapiuser/node:latest'
+        }
+      }
+      steps {
+        sh 'ls -la'
       }
     }
-        stage('Build docker image'){
-            agent {
-              label "local"
-            }
-        steps {
-            sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
-               }
-            } 
-        stage('Push to OCIR') {
-            agent {
-              label "local"
-            }
-            steps {
-                script {
-                    docker.withRegistry( 'https://fra.ocir.io', 'OCIR-JEN' ) {
-                    sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
-                    }
-                }
-            }
+    stage('Build docker image') {
+      agent {
+        label "local"
+      }
+      steps {
+        sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
+      }
+    }
+    stage('Push to OCIR') {
+      agent {
+        label "local"
+      }
+      steps {
+        script {
+          docker.withRegistry('https://fra.ocir.io', 'OCIR-JEN') {
+            sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
+          }
         }
+      }
+    }
         stage('Deploy') {
             agent any
             steps {
