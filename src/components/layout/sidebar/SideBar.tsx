@@ -35,7 +35,7 @@ export default function SideBar ({
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const navigate = useNavigate();
-    // const roles = userData.roles.map((role:any) => role.code)
+    const roles = userData.roles.map((role:any) => role.code)
 
     const {
         token: { colorBgContainer, boxShadow},
@@ -49,10 +49,10 @@ export default function SideBar ({
       // roles,permission check can be done here if needed
       const menu = params
       .filter(({visibleInMenu}) => visibleInMenu)
-      // .filter((routes) => {
-      //   if(!routes.allowedRoles) return true
-      //   return routes.allowedRoles.some(element => roles.includes(element));
-      // })
+      .filter((routes) => {
+        if(!routes.allowedRoles) return true
+        return routes.allowedRoles.some(element => roles.includes(element));
+      })
       .map((row, index) => {
         return {
             key: row.key,

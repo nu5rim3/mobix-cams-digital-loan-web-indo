@@ -7,7 +7,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: "/indo-digital-loan",
+    // base: "/indo-digital-loan",
     server: {
       cors: {
         origin : true
@@ -17,6 +17,11 @@ export default defineConfig(({ command, mode }) => {
           target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,
           secure: true,
+        },
+        '/token': {
+          target: env.VITE_INDO_BASE_URL,
+          changeOrigin: true,
+          secure: false,
         },
         '/mobixCamsCommon': {
           target: env.VITE_INDO_BASE_URL,

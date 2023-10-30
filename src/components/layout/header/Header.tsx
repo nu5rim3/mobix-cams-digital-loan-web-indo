@@ -1,11 +1,14 @@
 import React, {useContext, useState} from 'react';
-import { Button, Layout, theme } from 'antd';
+import { Button, Dropdown, Layout, MenuProps, theme } from 'antd';
 import { MenuUnfoldOutlined, 
     MenuFoldOutlined,
     SettingOutlined,
+    UserOutlined,
+    LogoutOutlined
   } from '@ant-design/icons';
 import ThemeSettingModel from './ThemeSettingModel';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
+import { useSelector } from 'react-redux';
 
 const { Header} = Layout;
 
@@ -38,6 +41,37 @@ export default function HeaderContainer({
 
     const {logOut,login} = useContext<IAuthContext>(AuthContext)
 
+    const handleMenuClick: MenuProps['onClick'] = (e) => {
+     
+    };
+    
+    const items:  (data: any) => MenuProps['items'] = (data) => [
+      {
+        label: <>{data?.fullName}</>,
+        key: '1',
+        icon: <UserOutlined />,
+        disabled: true
+      },
+      {
+        label: 'Log Out',
+        key: '2',
+        icon: <LogoutOutlined />,
+        onClick: () => {
+          logOut('', '/logout')
+          login()
+        }
+      }
+    ];
+
+    const menuProps = {
+      items,
+      onClick: handleMenuClick,
+    };
+
+    const {
+      customerData
+  } = useSelector((state: any) => state.Application)
+
 
   return (
     <Header 
@@ -63,7 +97,7 @@ export default function HeaderContainer({
             margin: 0,
             }}
         />
-        <Button
+        {/* <Button
             type="text"
             icon={<SettingOutlined/>}
             onClick={() => {
@@ -73,7 +107,11 @@ export default function HeaderContainer({
             style={{
             margin: 0,
             }}
-        />
+        /> */}
+        {/* <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}></Dropdown.Button> */}
+        <Dropdown menu={{ items: customerData.data? items(customerData.data): [] }} placement="bottomLeft">
+          <Button  icon={<UserOutlined/>}></Button>
+        </Dropdown>
     </Header>
   );
 }
