@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
         origin : true
       },
       proxy: {
-        '/oauth2/token': {
+        '/redirect': {
           target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,
           secure: true,
