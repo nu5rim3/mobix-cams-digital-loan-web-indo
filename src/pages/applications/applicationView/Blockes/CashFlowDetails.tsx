@@ -467,76 +467,91 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
         <Title 
             level={5}
             title='Sales/Operations Revenue'
+            style={{color: '#7C3626'}} 
         />
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.salesOperatingRevenueDto
-                ? itemsSalesOperation(cashFlowDetails.data?.salesOperatingRevenueDto): []} 
-            size='small'
-        />  
+        <div className='mt-4'>
+            <Descriptions 
+                column={
+                3
+                }
+                items={cashFlowDetails.data?.salesOperatingRevenueDto
+                    ? itemsSalesOperation(cashFlowDetails.data?.salesOperatingRevenueDto): []} 
+                size='small'
+            />  
+        </div>
 
         <Divider/>
 
         <Title 
             level={5}
             title='Sales Revenue (3 Days Cross Check)'
+            style={{color: '#7C3626'}} 
         />
-
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto
-                ? itemsSalesRevenue3Day(cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto): []} 
-            size='small'
-        />  
+        <div className='mt-4'>
+            <Descriptions 
+                column={
+                3
+                }
+                items={cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto
+                    ? itemsSalesRevenue3Day(cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto): []} 
+                size='small'
+            />  
+        </div>
 
         <Divider/>
 
         <Title 
             level={5}
             title='Sales Revenue (Cash Cross Check)'
+            style={{color: '#7C3626'}} 
         />
-
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
-                ? itemsSalesRevenueCash(cashFlowDetails.data?.salesCashCroscheckRevenueDto): []} 
-            size='small'
-        />  
+        <div className='mt-4'>
+            <Descriptions 
+                column={
+                3
+                }
+                items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
+                    ? itemsSalesRevenueCash(cashFlowDetails.data?.salesCashCroscheckRevenueDto): []} 
+                size='small'
+            />  
+        </div>
 
         <Divider/>
 
         <Title 
             level={5}
             title='Gross Revenue per month'
+            style={{color: '#7C3626'}} 
         />
 
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
-                ? itemsGrossRevenue({
-                    ...cashFlowDetails.data?.cashFlowFinalSummaryDto,
-                    ...cashFlowDetails.data?.otherIncomeWrapperDto
-                }): []} 
-            size='small'
-        />  
+        <div className='mt-4'>
+            <Descriptions 
+                column={
+                3
+                }
+                items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
+                    ? itemsGrossRevenue({
+                        ...cashFlowDetails.data?.cashFlowFinalSummaryDto,
+                        ...cashFlowDetails.data?.otherIncomeWrapperDto
+                    }): []} 
+                size='small'
+            />     
+        </div>
 
         <Divider/>
 
         <Title 
             level={5}
             title='Total Expenses per month'
+            style={{color: '#7C3626'}} 
         />
 
         {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
-            return  <div className='py-4' key={index}>
+            return  <div 
+                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                    className='p-5 rounded-md  font-sans my-4'
+                    key={index}
+                >
                 <Descriptions 
                 key={index}
                 column={
@@ -554,6 +569,7 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
         <Title 
             level={5}
             title='Total Expenses per month'
+            style={{color: '#7C3626'}} 
         />
         <Paragraph className='font-bold'  type="secondary">Business Expences</Paragraph>
         <Descriptions 
@@ -581,10 +597,12 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
 
         <Divider/>
 
-        <div className='bg-slate-200	 p-3 rounded'>
+        <div className='bg-slate-200
+         p-3 rounded'>
             <Title 
                 level={5}
                 title='Cash Flow Final Summary'
+                style={{color: '#7C3626'}} 
             />
             <Descriptions 
             column={

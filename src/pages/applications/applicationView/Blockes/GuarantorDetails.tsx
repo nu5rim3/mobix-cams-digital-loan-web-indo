@@ -107,7 +107,11 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
         }} 
     >
         {guarantorDetails?.data?.map((guarantor:any, index: any) => {
-            return  <div key={index}>
+            return  <div 
+                key={index}
+                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                className='p-5 rounded-md  font-sans mb-5' 
+            >
                 <Descriptions 
                 key={index}
                 column={
@@ -117,7 +121,7 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
                 size='small'
             />  
 
-            <Divider/>
+            {/* <Divider/> */}
             </div>
         })}
         

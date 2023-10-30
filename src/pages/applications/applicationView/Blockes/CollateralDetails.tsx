@@ -241,11 +241,17 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
         <Title 
             level={5}
             title='Collateral Type: Gold'
+            style={{color: '#7C3626'}} 
         />
 
 
         {data?.goldDtoList?.map((guarantor:any, index: any) => {
-                    return  <div className='py-4' key={index}>
+                    return  <div 
+                        // className='py-4' 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans my-4' 
+                        key={index}
+                        >
                         <Descriptions 
                         key={index}
                         column={
@@ -263,17 +269,22 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
         <Title 
             level={5}
             title='Collateral Type: Land'
+            style={{color: '#7C3626'}} 
         />
 
         {data?.landDtoList?.map((guarantor:any, index: any) => {
-                    return  <div className='py-4' key={index}>
-                        <Descriptions 
+                    return  <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans my-4'
                         key={index}
-                        column={
-                        3
-                        }
-                        items={guarantor? itemsLand(guarantor): []} 
-                        size='small'
+                        >
+                        <Descriptions 
+                            key={index}
+                            column={
+                            3
+                            }
+                            items={guarantor? itemsLand(guarantor): []} 
+                            size='small'
                     />  
                     </div>
         })}
@@ -283,18 +294,23 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
         <Title 
             level={5}
             title='Collateral Type: Vehical'
+            style={{color: '#7C3626'}} 
         />
 
 
         {data?.vehicleDtoList?.map((guarantor:any, index: any) => {
-                    return  <div className='py-4' key={index}>
-                        <Descriptions 
+                    return  <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans my-4'
                         key={index}
-                        column={
-                        3
-                        }
-                        items={guarantor? itemsVehicle(guarantor): []} 
-                        size='small'
+                        >
+                        <Descriptions 
+                            key={index}
+                            column={
+                            3
+                            }
+                            items={guarantor? itemsVehicle(guarantor): []} 
+                            size='small'
                     />  
                     </div>
         })}
@@ -304,17 +320,22 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
         <Title 
             level={5}
             title='Collateral Type: Other'
+            style={{color: '#7C3626'}} 
         />
 
         {data?.otherDtoList?.map((guarantor:any, index: any) => {
-                    return  <div className='py-4' key={index}>
-                        <Descriptions 
+                    return  <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans my-4'
                         key={index}
-                        column={
-                        3
-                        }
-                        items={guarantor? itemsOther(guarantor): []} 
-                        size='small'
+                        >
+                        <Descriptions 
+                            key={index}
+                            column={
+                            3
+                            }
+                            items={guarantor? itemsOther(guarantor): []} 
+                            size='small'
                     />  
                     </div>
         })}
