@@ -7,17 +7,18 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    base: "/indo-digital-loan",
     server: {
-      // cors: {
-      //   origin : false
-      // },
+      cors: {
+        origin : true
+      },
       proxy: {
-        '/token':  {
-          target: env.VITE_INDO_BASE_URL,
+        '/redirect': {
+          target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,
-          secure: false,
+          secure: true,
         },
-        '/mobixCamsCommon':  {
+        '/mobixCamsCommon': {
           target: env.VITE_INDO_BASE_URL,
           changeOrigin: true,
           secure: false,
@@ -50,6 +51,13 @@ export default defineConfig(({ command, mode }) => {
         }
       },
       port: 3000,
+      strictPort: true,
+      host: true,
+    },
+    //  host: true,
+    preview: {
+      port: 3000,
+      strictPort: true,
     },
     plugins: [react()],
   }
