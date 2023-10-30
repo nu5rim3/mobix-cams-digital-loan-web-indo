@@ -11,9 +11,11 @@ pipeline {
     agent none
       stages {
           stage('mvn build') {
-          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/node:latest' } }
+          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/maven:3.6.3-jdk-11' } }
           steps {
-               sh 'ls -la'
+                sh 'mvn --version'
+                sh 'mvn clean install'
+                sh 'ls -lrt target/'
  
       }
     }
