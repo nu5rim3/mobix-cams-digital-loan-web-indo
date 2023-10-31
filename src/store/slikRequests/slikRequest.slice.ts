@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SlikRequestsStoreType } from "./interface";
 import { API } from "../../services/Services";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
+import { notification } from "antd";
 
 export const initialState: SlikRequestsStoreType = {
     selectedStatus: 'pending',
@@ -41,11 +42,15 @@ export const getSlikRequests = createAsyncThunk(
     async (arg: Parameters<typeof API.slikServices.getSliksByStatus>[0], thunkAPI) => {
         try{
             const response = await API.slikServices.getSliksByStatus(arg)
-            console.log("yyy", response)
             return response.data
         }
         catch(error){
-            const er = error as AxiosError
+            const er = error as any
+            notification.error({message : 
+                er?.response?.data?.message?? 
+                er.message?? 
+                'Data Fetching Error'
+            })
             return er?.response 
             ? thunkAPI.rejectWithValue(er?.response.data)
             : thunkAPI.rejectWithValue(er.message)
@@ -58,11 +63,16 @@ export const getSlikRequestData = createAsyncThunk(
     async (id: Parameters<typeof API.slikServices.getSlikRequestById>[0] , thunkAPI) => {
         try{
             const response = await API.slikServices.getSlikRequestById(id)
-            console.log("res", response)
             return response.data
         }
         catch(error){
-            const er = error as AxiosError
+            const er = error as any
+            notification.error({message : 
+                er?.response?.data?.message?? 
+                er.message?? 
+                'Data Fetching Error'
+            })
+
             return er?.response 
             ? thunkAPI.rejectWithValue(er?.response.data)
             : thunkAPI.rejectWithValue(er.message)
@@ -77,12 +87,17 @@ export const getSlikRequestData = createAsyncThunk(
             const response = await API.slikServices.getSliksByBranchAndType(arg)
 
             // Your data
-            const data = response.data.filter((row: any) => row.status === 'P')
-            return data
-            // return response.data
+            // const data = response.data.filter((row: any) => row.status === 'P')
+            // return data
+            return response.data
         }
         catch(error){
-            const er = error as AxiosError
+            const er = error as any
+            notification.error({message : 
+                er?.response?.data?.message?? 
+                er.message?? 
+                'Data Fetching Error'
+            })
             return er?.response 
             ? thunkAPI.rejectWithValue(er?.response.data)
             : thunkAPI.rejectWithValue(er.message)
@@ -93,7 +108,6 @@ export const getSlikRequestData = createAsyncThunk(
   export const getSlikByGroup = createAsyncThunk(
     'SlickRequestsDetails/fetchByGroup',
     async (arg:  Parameters<typeof API.slikServices.getSliksByBranchAndType>[0], thunkAPI) => {
-        console.log("status", arg)
         try{
             const response = await API.slikServices.getSliksByBranchAndType(arg)
 
@@ -138,7 +152,13 @@ export const getSlikRequestData = createAsyncThunk(
         
     }
         catch(error){
-            const er = error as AxiosError
+            const er = error as any
+            notification.error({message : 
+                er?.response?.data?.message?? 
+                er.message?? 
+                'Data Fetching Error'
+            })
+
             return er?.response 
             ? thunkAPI.rejectWithValue(er?.response.data)
             : thunkAPI.rejectWithValue(er.message)
@@ -185,6 +205,9 @@ export const SlikRequestsSlice = createSlice({
             state.slikRequestsData.fetching = false
             state.slikRequestsData.data = action.payload
         }),
+        builder.addCase(getSlikRequests.rejected , (state, action) => {
+            state.slikRequestsData.fetching = false
+        }),
         builder.addCase(getSlikRequestData.pending , (state, action) => {
             state.slikUpdateUserData.selectedUser = action.meta.arg
             state.slikUpdateUserData.fetching = true
@@ -193,25 +216,31 @@ export const SlikRequestsSlice = createSlice({
             state.slikUpdateUserData.fetching = false
             state.slikUpdateUserData.initialData = action.payload
         }),
+        builder.addCase(getSlikRequestData.rejected , (state, action) => {
+            state.slikUpdateUserData.fetching = false
+        }),
         builder.addCase(getSlikByGroup.pending , (state, action) => {
             state.slikRequestsGroupData.fetching = true
             state.slikRequestsGroupData.initialData = []
         }),
         builder.addCase(getSlikByGroup.fulfilled , (state, action) => {
-            console.log("tt", action)
             state.slikRequestsGroupData.fetching = false
             state.slikRequestsGroupData.data = action.payload.newData
             state.slikRequestsGroupData.initialData = action.payload.data
         }),
+        builder.addCase(getSlikByGroup.rejected , (state, action) => {
+            state.slikRequestsGroupData.fetching = false
+        }),
         builder.addCase(getSlikByIndividual.pending , (state, action) => {
-            console.log("on pending", action)
             state.slikRequestsIndividualData.data = []
             state.slikRequestsIndividualData.fetching = true
         }),
         builder.addCase(getSlikByIndividual.fulfilled , (state, action) => {
-            console.log("tt", action)
             state.slikRequestsIndividualData.fetching = false
             state.slikRequestsIndividualData.data = action.payload
+        })
+        builder.addCase(getSlikByIndividual.rejected , (state, action) => {
+            state.slikRequestsIndividualData.fetching = false
         })
     }
 });

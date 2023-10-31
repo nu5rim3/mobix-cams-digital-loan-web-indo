@@ -108,7 +108,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
 
     useEffect(() => {
         if(id){
-            actions.getCustomerData('APP00000000234')
+            actions.getCustomerData('APP000000000000706')
             actions.getCustomerContactData(id)
             actions.getCustomerAddressData(id)
             actions.getBusinessData(id)

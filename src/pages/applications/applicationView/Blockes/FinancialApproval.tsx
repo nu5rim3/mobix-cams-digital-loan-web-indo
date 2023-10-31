@@ -80,7 +80,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
             message: 'An Error occured while updating TC details'
           })
         }
-
+        actions.financialDSavePendingUpdate(false)
         notification.success({
           message: 'TC details updated successfullly'
         })

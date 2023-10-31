@@ -13,6 +13,11 @@ export default defineConfig(({ command, mode }) => {
         origin : true
       },
       proxy: {
+        '/oauth2': {
+          target: 'https://indoauthdev.lolc.com',
+          changeOrigin: true,
+          secure: true,
+        },
         '/redirect': {
           target: env.VITE_INDO_BASE_AUTH_URL,
           changeOrigin: true,

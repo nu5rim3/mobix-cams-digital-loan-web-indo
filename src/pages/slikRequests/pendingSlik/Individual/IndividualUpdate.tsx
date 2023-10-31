@@ -22,16 +22,16 @@ export default function IndividualUpdate ({
   const [loading, setLoading] = useState<boolean>(false)
 
   const columns: ColumnsType<any> = [
-    {
-      title: 'Center',
-      dataIndex: 'centerCode',
-      key: 'center',
-    },
-    {
-      title: 'Group No',
-      dataIndex: 'groupIdx',
-      key: 'groupIdx',
-    },
+    // {
+    //   title: 'Center',
+    //   dataIndex: 'centerCode',
+    //   key: 'center',
+    // },
+    // {
+    //   title: 'Group No',
+    //   dataIndex: 'groupIdx',
+    //   key: 'groupIdx',
+    // },
     {
       title: 'Customer Name',
       dataIndex: 'customerName',
@@ -110,7 +110,7 @@ export default function IndividualUpdate ({
   const getIndividualData = () => {
       actions.getSlikByIndividual({
         userId: userData.data?.idx,
-        branchCode: userData.data?.branches[0]?.code,
+        branchCode: 'TJP', //userData.data?.branches[0]?.code,
         status: 'P',
         type: "IL"
       })

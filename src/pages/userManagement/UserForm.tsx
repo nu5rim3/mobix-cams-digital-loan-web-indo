@@ -23,27 +23,34 @@ export default function UserForm (props: IUserFormProps) {
     const navigate = useNavigate();
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
+    const [userDataLoading, setUserDataLoading] = useState(false)
 
     const [form] = Form.useForm();
 
     const getValues = async () => {
-      const branches = await API.branchServices.getAllBranches()
-      setBranch(branches.data)
-
-      const roles = await API.roleServices.getAllRoles()
-      setRole(roles.data)
-
-      if(id){
-        const user = await API.userServices.getUserById(id)
-        const roleCodes = user.data.roles?.map((role:any) => role.code)
-        form.setFieldsValue({
-          ...user.data,
-          branch: user.data.branches?.[0].code,
-          roles: roleCodes,
-        })
-        if(roleCodes?.includes('MFO' || roleCodes?.includes('CSA'))){
-          setShowMeCode(true)
+      try{
+        const branches = await API.branchServices.getAllBranches()
+        setBranch(branches.data)
+  
+        const roles = await API.roleServices.getAllRoles()
+        setRole(roles.data)
+  
+        if(id){
+          setUserDataLoading(true)
+          const user = await API.userServices.getUserById(id)
+          const roleCodes = user.data.roles?.map((role:any) => role.code)
+          form.setFieldsValue({
+            ...user.data,
+            branch: user.data.branches?.[0].code,
+            roles: roleCodes,
+          })
+          if(roleCodes?.includes('MFO' || roleCodes?.includes('CSA'))){
+            setShowMeCode(true)
+          }
+          setUserDataLoading(false)
         }
+      }catch(err){
+        console.log("err", err)
       }
     }
 
@@ -481,7 +488,11 @@ export default function UserForm (props: IUserFormProps) {
                   loading={addLoading}
                 //   icon={<PlusOutlined/>}
                 >
-                  Create User
+                  {id?
+                    'Update User'
+                  : 'Create User'
+                  }
+                  
                 </Button>
 
              </div>

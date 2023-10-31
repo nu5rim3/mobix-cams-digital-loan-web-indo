@@ -165,7 +165,7 @@ export default function GroupUpdate ({
   const getGroupData = () => {
       actions.getSlikByGroup({
         userId: userData.data?.idx,
-        branchCode: userData.data?.branches[0]?.code,
+        branchCode: 'TJP',//userData.data?.branches[0]?.code,
         status: 'P',
         type: 'GRPL'
       })

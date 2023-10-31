@@ -109,7 +109,7 @@ export default function HeaderContainer({
             }}
         /> */}
         {/* <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}></Dropdown.Button> */}
-        <Dropdown menu={{ items: customerData.data? items(customerData.data): [] }} placement="bottomLeft">
+        <Dropdown menu={{ items: customerData? items(customerData): [] }} placement="bottomLeft">
           <Button  icon={<UserOutlined/>}></Button>
         </Dropdown>
     </Header>

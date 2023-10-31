@@ -4,6 +4,9 @@ import { API } from '../../../../services/Services';
 import ImageDisplay from '../../../../components/Image/ImageViewerByHash';
 import Title from '../../../../components/Typography/Tytle';
 import GoogleMapReact from 'google-map-react';
+import Google from '../../../../components/GoogleMap/Google';
+import ImageZoom from '../../../../test/ImageTest';
+
 
 export interface IImagesProps {
 }
@@ -106,13 +109,13 @@ function createMapOptions(maps: any) {
         })
         ?.map((image: any, index: any) => {
                 return <div 
-                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'
+                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
                     key={index}
                 >
                     {/* <div 
                     // style={{ height: '400px', width: '400px' }}
                     > */}
-                    <GoogleMapReact
+                    {/* <GoogleMapReact
                             bootstrapURLKeys={{ key: import.meta.env.REACT_APP_GOOGLE_MAP_API_KEY }}
                             defaultCenter={{
                                 lat: 6.89147314241435,
@@ -120,19 +123,39 @@ function createMapOptions(maps: any) {
                             }}
                             defaultZoom={7}
                             options={createMapOptions}
-                        >
+                        > */}
                             {/* {locations.length > 0 && locations.map((l, i) =>  */}
-                            <AnyReactComponent
+                            {/* <AnyReactComponent
                                 lat={6.89147314241435}
                                 lng={79.87585501722411}
                                 text="My Marker"
-                            />
+                            /> */}
                             {/* // )} */}
-                        </GoogleMapReact>
+                        {/* </GoogleMapReact> */}
                     {/* </div> */}
+                    <div style={{
+                        width: '100%',
+                        height: '100%',
+                        position:'relative',
+                    }}>
+                        <Google
+                            lat = { 6.89147314241435}
+                            lng={79.87585501722411}
+                        />
+                    </div>
                     <h4>{image.imgOriginalName}</h4>
                 </div>
         })}
+        {/* <div style={{
+            width: '400px',
+            height: '400px',
+            position: 'relative'
+        }}>
+            <Google
+
+            />
+        </div> */}
+        {/* <ImageZoom/> */}
         </div>
     </div>
   );
