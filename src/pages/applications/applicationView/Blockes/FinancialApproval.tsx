@@ -1,4 +1,4 @@
-import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space, notification } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space, Spin, notification } from 'antd';
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
@@ -93,75 +93,82 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       }
     }
 
-  console.log("financialDetails.data?.pTrhdLocCost", financialDetails.data?.pTrhdLocCost)
   return (
     <div  
     style={{
         fontWeight: 300
     }}
     >
-      <Descriptions 
-        column={
-          3
-        }
-        items={financialDetails.data? items(financialDetails.data): []} 
-        size='small'
-    />  
-    <div className='grid grid-cols-3 gap-0 pt-2'>
-        <div className='pr-6'>
-            <Space.Compact style={{ width: '100%' }}>
-            <InputNumber 
-                addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Loan Amount</p>} 
-                value={financialDetails.data?.pTrhdLocCost}
-                readOnly={!editLoan}
-                onChange={(e) => {
-                    console.log("e", e)
-                    actions.updateLoan(e)
-                }}
-            />
-            <Button type="primary" 
-              onClick={() => {
-                setEditLoan(!editLoan)
-                if(editLoan){
-                  actions.financialDSavePendingUpdate(true)
-                }
-              }}
-            >
-              {editLoan? 'Done' :'Edit' }
-            </Button>
-            </Space.Compact>
+      {financialDetails.fetching?
+        <div className='w-full h-32 flex justify-center'>
+          <Spin/>
         </div>
-        <div className='pr-6'>
-            <Space.Compact style={{ width: '100%' }}>
-            <InputNumber
-                addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
-                value={financialDetails.data?.pTrhdTerm}
-                readOnly={!editTerm}
-                onChange={(e) => {
-                    actions.updateTerm(e)
-                }}
-            />
-            <Button type="primary" onClick={
-              () => {
-                setEditTerm(!editTerm)
-                if(editTerm){
-                  actions.financialDSavePendingUpdate(true)
-                }
-              }}
-            >
-              {editTerm? 'Done' :'Edit'}
-            </Button>
-            </Space.Compact>
-        </div>
+      :
         <div>
-            <Button 
-                disabled = {!financialDetailsSavePending}
-                type='primary' onClick={() => {
-                  updateFinancialDetails()
-                }}
-            >Save Financial Approval</Button>
+          <Descriptions 
+            column={
+              3
+            }
+            items={financialDetails.data? items(financialDetails.data): []} 
+            size='small'
+          />  
+          <div className='grid grid-cols-3 gap-0 pt-2'>
+              <div className='pr-6'>
+                  <Space.Compact style={{ width: '100%' }}>
+                  <InputNumber 
+                      addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Loan Amount</p>} 
+                      value={financialDetails.data?.pTrhdLocCost}
+                      readOnly={!editLoan}
+                      onChange={(e) => {
+                          console.log("e", e)
+                          actions.updateLoan(e)
+                      }}
+                  />
+                  <Button type="primary" 
+                    onClick={() => {
+                      setEditLoan(!editLoan)
+                      if(editLoan){
+                        actions.financialDSavePendingUpdate(true)
+                      }
+                    }}
+                  >
+                    {editLoan? 'Done' :'Edit' }
+                  </Button>
+                  </Space.Compact>
+              </div>
+              <div className='pr-6'>
+                  <Space.Compact style={{ width: '100%' }}>
+                  <InputNumber
+                      addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
+                      value={financialDetails.data?.pTrhdTerm}
+                      readOnly={!editTerm}
+                      onChange={(e) => {
+                          actions.updateTerm(e)
+                      }}
+                  />
+                  <Button type="primary" onClick={
+                    () => {
+                      setEditTerm(!editTerm)
+                      if(editTerm){
+                        actions.financialDSavePendingUpdate(true)
+                      }
+                    }}
+                  >
+                    {editTerm? 'Done' :'Edit'}
+                  </Button>
+                  </Space.Compact>
+              </div>
+              <div>
+                  <Button 
+                      disabled = {!financialDetailsSavePending}
+                      type='primary' onClick={() => {
+                        updateFinancialDetails()
+                      }}
+                  >Save Financial Approval</Button>
+              </div>
+          </div>
         </div>
-    </div>
+      }
     </div>
   );
 }

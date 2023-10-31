@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
-import { Descriptions, DescriptionsProps, Divider } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 
 export interface ICollateralDetailsProps {
@@ -229,7 +229,7 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
 
     const {
         collateralDetails : {
-            data }
+            data, fetching }
     } = useSelector((state: any) => state.Application)
     
   return (
@@ -238,107 +238,115 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
             fontWeight: 300
         }} 
     >
-        <Title 
-            level={5}
-            title='Collateral Type: Gold'
-            style={{color: '#7C3626'}} 
-        />
+        {fetching?
+            <div className='w-full h-32 flex justify-center'>
+                <Spin/>
+            </div>
+        :
+            <div>
+                <Title 
+                    level={5}
+                    title='Collateral Type: Gold'
+                    style={{color: '#7C3626'}} 
+                />
 
 
-        {data?.goldDtoList?.map((guarantor:any, index: any) => {
-                    return  <div 
-                        // className='py-4' 
-                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                        className='p-5 rounded-md  font-sans my-4' 
-                        key={index}
-                        >
-                        <Descriptions 
-                        key={index}
-                        column={
-                        3
-                        }
-                        items={guarantor? itemsGold(guarantor): []} 
-                        size='small'
-                    />  
+                {data?.goldDtoList?.map((guarantor:any, index: any) => {
+                            return  <div 
+                                // className='py-4' 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='p-5 rounded-md  font-sans my-4' 
+                                key={index}
+                                >
+                                <Descriptions 
+                                key={index}
+                                column={
+                                3
+                                }
+                                items={guarantor? itemsGold(guarantor): []} 
+                                size='small'
+                            />  
 
-                    </div>
-        })}
+                            </div>
+                })}
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Collateral Type: Land'
-            style={{color: '#7C3626'}} 
-        />
+                <Title 
+                    level={5}
+                    title='Collateral Type: Land'
+                    style={{color: '#7C3626'}} 
+                />
 
-        {data?.landDtoList?.map((guarantor:any, index: any) => {
-                    return  <div 
-                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                        className='p-5 rounded-md  font-sans my-4'
-                        key={index}
-                        >
-                        <Descriptions 
-                            key={index}
-                            column={
-                            3
-                            }
-                            items={guarantor? itemsLand(guarantor): []} 
-                            size='small'
-                    />  
-                    </div>
-        })}
+                {data?.landDtoList?.map((guarantor:any, index: any) => {
+                            return  <div 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='p-5 rounded-md  font-sans my-4'
+                                key={index}
+                                >
+                                <Descriptions 
+                                    key={index}
+                                    column={
+                                    3
+                                    }
+                                    items={guarantor? itemsLand(guarantor): []} 
+                                    size='small'
+                            />  
+                            </div>
+                })}
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Collateral Type: Vehical'
-            style={{color: '#7C3626'}} 
-        />
+                <Title 
+                    level={5}
+                    title='Collateral Type: Vehical'
+                    style={{color: '#7C3626'}} 
+                />
 
 
-        {data?.vehicleDtoList?.map((guarantor:any, index: any) => {
-                    return  <div 
-                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                        className='p-5 rounded-md  font-sans my-4'
-                        key={index}
-                        >
-                        <Descriptions 
-                            key={index}
-                            column={
-                            3
-                            }
-                            items={guarantor? itemsVehicle(guarantor): []} 
-                            size='small'
-                    />  
-                    </div>
-        })}
+                {data?.vehicleDtoList?.map((guarantor:any, index: any) => {
+                            return  <div 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='p-5 rounded-md  font-sans my-4'
+                                key={index}
+                                >
+                                <Descriptions 
+                                    key={index}
+                                    column={
+                                    3
+                                    }
+                                    items={guarantor? itemsVehicle(guarantor): []} 
+                                    size='small'
+                            />  
+                            </div>
+                })}
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Collateral Type: Other'
-            style={{color: '#7C3626'}} 
-        />
+                <Title 
+                    level={5}
+                    title='Collateral Type: Other'
+                    style={{color: '#7C3626'}} 
+                />
 
-        {data?.otherDtoList?.map((guarantor:any, index: any) => {
-                    return  <div 
-                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                        className='p-5 rounded-md  font-sans my-4'
-                        key={index}
-                        >
-                        <Descriptions 
-                            key={index}
-                            column={
-                            3
-                            }
-                            items={guarantor? itemsOther(guarantor): []} 
-                            size='small'
-                    />  
-                    </div>
-        })}
+                {data?.otherDtoList?.map((guarantor:any, index: any) => {
+                            return  <div 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='p-5 rounded-md  font-sans my-4'
+                                key={index}
+                                >
+                                <Descriptions 
+                                    key={index}
+                                    column={
+                                    3
+                                    }
+                                    items={guarantor? itemsOther(guarantor): []} 
+                                    size='small'
+                            />  
+                            </div>
+                })}
+            </div>
+        }
     </div>
   );
 }

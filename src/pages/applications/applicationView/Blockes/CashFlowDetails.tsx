@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
-import { Descriptions, DescriptionsProps, Divider } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 import Paragraph from 'antd/es/typography/Paragraph';
 
@@ -464,157 +464,167 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
             fontWeight: 300
         }}
     >
-        <Title 
-            level={5}
-            title='Sales/Operations Revenue'
-            style={{color: '#7C3626'}} 
-        />
-        <div className='mt-4'>
-            <Descriptions 
-                column={
-                3
-                }
-                items={cashFlowDetails.data?.salesOperatingRevenueDto
-                    ? itemsSalesOperation(cashFlowDetails.data?.salesOperatingRevenueDto): []} 
-                size='small'
-            />  
-        </div>
+        {
+            cashFlowDetails.fetching?
+                <div className='w-full h-32 flex justify-center'>
+                    <Spin/>
+                </div>
+            :
+            <div>
+                <Title 
+                    level={5}
+                    title='Sales/Operations Revenue'
+                    style={{color: '#7C3626'}} 
+                />
+                <div className='mt-4'>
+                    <Descriptions 
+                        column={
+                        3
+                        }
+                        items={cashFlowDetails.data?.salesOperatingRevenueDto
+                            ? itemsSalesOperation(cashFlowDetails.data?.salesOperatingRevenueDto): []} 
+                        size='small'
+                    />  
+                </div>
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Sales Revenue (3 Days Cross Check)'
-            style={{color: '#7C3626'}} 
-        />
-        <div className='mt-4'>
-            <Descriptions 
-                column={
-                3
-                }
-                items={cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto
-                    ? itemsSalesRevenue3Day(cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto): []} 
-                size='small'
-            />  
-        </div>
+                <Title 
+                    level={5}
+                    title='Sales Revenue (3 Days Cross Check)'
+                    style={{color: '#7C3626'}} 
+                />
+                <div className='mt-4'>
+                    <Descriptions 
+                        column={
+                        3
+                        }
+                        items={cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto
+                            ? itemsSalesRevenue3Day(cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto): []} 
+                        size='small'
+                    />  
+                </div>
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Sales Revenue (Cash Cross Check)'
-            style={{color: '#7C3626'}} 
-        />
-        <div className='mt-4'>
-            <Descriptions 
-                column={
-                3
-                }
-                items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
-                    ? itemsSalesRevenueCash(cashFlowDetails.data?.salesCashCroscheckRevenueDto): []} 
-                size='small'
-            />  
-        </div>
+                <Title 
+                    level={5}
+                    title='Sales Revenue (Cash Cross Check)'
+                    style={{color: '#7C3626'}} 
+                />
+                <div className='mt-4'>
+                    <Descriptions 
+                        column={
+                        3
+                        }
+                        items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
+                            ? itemsSalesRevenueCash(cashFlowDetails.data?.salesCashCroscheckRevenueDto): []} 
+                        size='small'
+                    />  
+                </div>
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Gross Revenue per month'
-            style={{color: '#7C3626'}} 
-        />
+                <Title 
+                    level={5}
+                    title='Gross Revenue per month'
+                    style={{color: '#7C3626'}} 
+                />
 
-        <div className='mt-4'>
-            <Descriptions 
-                column={
-                3
-                }
-                items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
-                    ? itemsGrossRevenue({
-                        ...cashFlowDetails.data?.cashFlowFinalSummaryDto,
-                        ...cashFlowDetails.data?.otherIncomeWrapperDto
-                    }): []} 
-                size='small'
-            />     
-        </div>
+                <div className='mt-4'>
+                    <Descriptions 
+                        column={
+                        3
+                        }
+                        items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
+                            ? itemsGrossRevenue({
+                                ...cashFlowDetails.data?.cashFlowFinalSummaryDto,
+                                ...cashFlowDetails.data?.otherIncomeWrapperDto
+                            }): []} 
+                        size='small'
+                    />     
+                </div>
 
-        <Divider/>
+                <Divider/>
 
-        <Title 
-            level={5}
-            title='Total Expenses per month'
-            style={{color: '#7C3626'}} 
-        />
+                <Title 
+                    level={5}
+                    title='Total Expenses per month'
+                    style={{color: '#7C3626'}} 
+                />
 
-        {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
-            return  <div 
-                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                    className='p-5 rounded-md  font-sans my-4'
-                    key={index}
-                >
+                {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
+                    return  <div 
+                            style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                            className='p-5 rounded-md  font-sans my-4'
+                            key={index}
+                        >
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={stock? itemsBusinussStock(stock): []} 
+                        size='small'
+                    />  
+
+                    </div>
+                })}
+
+                <Divider/>
+
+                <Title 
+                    level={5}
+                    title='Total Expenses per month'
+                    style={{color: '#7C3626'}} 
+                />
+                <Paragraph className='font-bold'  type="secondary">Business Expences</Paragraph>
                 <Descriptions 
-                key={index}
-                column={
-                3
-                }
-                items={stock? itemsBusinussStock(stock): []} 
-                size='small'
-            />  
+                    column={
+                    3
+                    }
+                    items={cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
+                        ? itemsTotalExpenseB(
+                            cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
+                        ): []} 
+                    size='small'
+                />  
 
+                <Paragraph className='mt-5 font-bold'  type="secondary">Household Expences</Paragraph>
+                <Descriptions 
+                    column={
+                    3
+                    }
+                    items={cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
+                        ? itemsTotalExpenseH(
+                            cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
+                        ): []} 
+                    size='small'
+                />  
+
+                <Divider/>
+
+                <div className='bg-slate-200
+                p-3 rounded'>
+                    <Title 
+                        level={5}
+                        title='Cash Flow Final Summary'
+                        style={{color: '#7C3626'}} 
+                    />
+                    <Descriptions 
+                    column={
+                    3
+                    }
+                    items={cashFlowDetails.data?.cashFlowFinalSummaryDto
+                        ? itemsSummary(
+                            cashFlowDetails.data?.cashFlowFinalSummaryDto
+                        ): []} 
+                    size='small'
+                />  
+                </div>
             </div>
-        })}
 
-        <Divider/>
-
-        <Title 
-            level={5}
-            title='Total Expenses per month'
-            style={{color: '#7C3626'}} 
-        />
-        <Paragraph className='font-bold'  type="secondary">Business Expences</Paragraph>
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
-                ? itemsTotalExpenseB(
-                    cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
-                ): []} 
-            size='small'
-        />  
-
-        <Paragraph className='mt-5 font-bold'  type="secondary">Household Expences</Paragraph>
-        <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
-                ? itemsTotalExpenseH(
-                    cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
-                ): []} 
-            size='small'
-        />  
-
-        <Divider/>
-
-        <div className='bg-slate-200
-         p-3 rounded'>
-            <Title 
-                level={5}
-                title='Cash Flow Final Summary'
-                style={{color: '#7C3626'}} 
-            />
-            <Descriptions 
-            column={
-            3
-            }
-            items={cashFlowDetails.data?.cashFlowFinalSummaryDto
-                ? itemsSummary(
-                    cashFlowDetails.data?.cashFlowFinalSummaryDto
-                ): []} 
-            size='small'
-        />  
-        </div>
+        }
     </div>
   );
 }

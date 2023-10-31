@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Input, Tag } from 'antd';
+import { Descriptions, DescriptionsProps, Input, Spin, Tag } from 'antd';
 import * as React from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
@@ -40,6 +40,11 @@ export default function OnboardingView (props: IOnboardingViewProps) {
     const customerData = useSelector((state: any) => state.Application.customerData)
 
   return (
+    customerData.fetching?
+      <div className='w-full h-32 flex justify-center'>
+        <Spin/>
+      </div>
+    :
     <div
         style={{
             fontWeight: 300

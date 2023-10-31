@@ -12,8 +12,6 @@ export default function ApprovalEnd (props: IApprovalEndProps) {
 
     const [fileList, setFileList] = useState<UploadFile[]>([])
 
-    console.log("hitting app end") 
-
   return (
     <div>
         <CollapseContainer

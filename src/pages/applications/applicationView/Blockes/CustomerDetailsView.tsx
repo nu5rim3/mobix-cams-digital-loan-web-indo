@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Divider } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
 import * as React from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
@@ -379,110 +379,116 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         fontWeight: 300
     }} 
 >
-    <Descriptions 
-        title={
-          <Title 
-              level={5}
-              title='Personal Details'
-              style={{color: '#7C3626'}} 
-          /> 
-        }
-        column={
-          3
-        }
-        items={customerData.data? items(customerData.data): []} 
-        size='small'
-    />  
-
-    <Divider/>
-
-
-    <Title 
-        level={5}
-        title='Contact Details'
-        style={{color: '#7C3626'}} 
-    /> 
-
-    <div className='grid grid-cols-3 gap-5 pt-2 '>
-        {contactDetails?.data?.map((contact:any, index: any) => {
-            return <div 
-                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                className='p-5 rounded-md  font-sans' 
-                key={index}
-                >
+    {customerData.fetching?
+        <div className='w-full h-32 flex justify-center'><Spin/></div>
+    :
+        <div>
             <Descriptions 
-                key={index}
-                column={
-                1
+                title={
+                <Title 
+                    level={5}
+                    title='Personal Details'
+                    style={{color: '#7C3626'}} 
+                /> 
                 }
-                items={contact? itemsContact(contact): []} 
+                column={
+                3
+                }
+                items={customerData.data? items(customerData.data): []} 
                 size='small'
-            />
+            />  
+
+            <Divider/>
+
+
+            <Title 
+                level={5}
+                title='Contact Details'
+                style={{color: '#7C3626'}} 
+            /> 
+
+            <div className='grid grid-cols-3 gap-5 pt-2 '>
+                {contactDetails?.data?.map((contact:any, index: any) => {
+                    return <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans' 
+                        key={index}
+                        >
+                    <Descriptions 
+                        key={index}
+                        column={
+                        1
+                        }
+                        items={contact? itemsContact(contact): []} 
+                        size='small'
+                    />
+                    </div>
+
+                })}
             </div>
 
-        })}
-    </div>
+            <Divider/>
 
-    <Divider/>
+            <Title 
+                level={5}
+                title='Address Details'
+                style={{color: '#7C3626'}} 
+            /> 
 
-    <Title 
-        level={5}
-        title='Address Details'
-        style={{color: '#7C3626'}} 
-    /> 
-
-    <div className='grid grid-cols-3 gap-5 pt-2'>
-        {addressDetails?.data?.map((address:any, index: any) => {
-            return  <div 
-                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                className='p-5 rounded-md  font-sans' 
-                key={index}
-                > 
-            <Descriptions 
-                key={index}
-                column={
-                1
-                }
-                items={address? itemsAddress(address): []} 
-                size='small'
-            />
+            <div className='grid grid-cols-3 gap-5 pt-2'>
+                {addressDetails?.data?.map((address:any, index: any) => {
+                    return  <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans' 
+                        key={index}
+                        > 
+                    <Descriptions 
+                        key={index}
+                        column={
+                        1
+                        }
+                        items={address? itemsAddress(address): []} 
+                        size='small'
+                    />
+                    </div>
+                })}
             </div>
-        })}
-    </div>
 
-    <Divider/>
+            <Divider/>
 
-    <Descriptions 
-        title={
-          <Title 
-              level={5}
-              title='Bussiness Details'
-              style={{color: '#7C3626'}} 
-          /> 
-        }
-        column={
-          3
-        }
-        items={businessDetails.data? businessItems(businessDetails.data): []} 
-        size='small'
-    />  
+            <Descriptions 
+                title={
+                <Title 
+                    level={5}
+                    title='Bussiness Details'
+                    style={{color: '#7C3626'}} 
+                /> 
+                }
+                column={
+                3
+                }
+                items={businessDetails.data? businessItems(businessDetails.data): []} 
+                size='small'
+            />  
 
-    <Divider/>
+            <Divider/>
 
-    <Descriptions 
-        title={
-        <Title 
-            level={5}
-            title='Spouse Details'
-            style={{color: '#7C3626'}} 
-        /> 
-        }
-        column={
-        3
-        }
-        items={spouseDetails.data? spouseItems(spouseDetails.data): []} 
-        size='small'
-    />  
+            <Descriptions 
+                title={
+                <Title 
+                    level={5}
+                    title='Spouse Details'
+                    style={{color: '#7C3626'}} 
+                /> 
+                }
+                column={
+                3
+                }
+                items={spouseDetails.data? spouseItems(spouseDetails.data): []} 
+                size='small'
+            />  
+        </div>
+    }
 </div>
   );
 }

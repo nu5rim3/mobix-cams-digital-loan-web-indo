@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Divider } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
@@ -106,24 +106,32 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
             fontWeight: 300
         }} 
     >
-        {guarantorDetails?.data?.map((guarantor:any, index: any) => {
-            return  <div 
-                key={index}
-                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                className='p-5 rounded-md  font-sans mb-5' 
-            >
-                <Descriptions 
-                key={index}
-                column={
-                3
-                }
-                items={guarantor? items(guarantor): []} 
-                size='small'
-            />  
-
-            {/* <Divider/> */}
+        {guarantorDetails.fetching?
+            <div className='w-full h-32 flex justify-center'>
+             <Spin/>
             </div>
-        })}
+        :
+            <div>
+                {guarantorDetails?.data?.map((guarantor:any, index: any) => {
+                    return  <div 
+                        key={index}
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans mb-5' 
+                    >
+                        <Descriptions 
+                        key={index}
+                        column={
+                        3
+                        }
+                        items={guarantor? items(guarantor): []} 
+                        size='small'
+                    />  
+
+                    {/* <Divider/> */}
+                    </div>
+                })}
+            </div>
+        }
         
 
     </div>
