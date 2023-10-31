@@ -4,7 +4,7 @@ WORKDIR /mobix-cams-digital-loan-web-indo
  
 COPY package.json .
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
