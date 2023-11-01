@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 app.use(express.static(path.join(__dirname, 'build')));
  
 app.use('/indo-digital-loan/robots.txt', function (req, res, next) {
-    res.redirect(`${MIDDLEWARE_BASE_URL}/pakoman-digital-loan`);
+    res.redirect(`${MIDDLEWARE_BASE_URL}/indo-digital-loan`);
 });
  
 app.all("/indo-digital-loan/token", function (req, res) {

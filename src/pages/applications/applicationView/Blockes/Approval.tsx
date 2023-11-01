@@ -1,10 +1,11 @@
 import { Divider, Form, Table, Tag, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import * as React from 'react';
+import React, {useState} from 'react';
 import ButtonContainer from '../../../../components/Buttons/Button';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
+import { API } from '../../../../services/Services';
 
 export interface IApprovalProps {
   fileList: any
@@ -16,9 +17,12 @@ export default function Approval ({
     // approvalSteps
 
     const {
+      customerData,
       approvalSteps,
-      financialDetailsSavePending
+      financialDetailsSavePending,
+      financialDetails
     } = useSelector((state: any) => state.Application)
+    const [addingData, setAddingData] = useState('')
 
     const [form] = Form.useForm();
     const columns: ColumnsType<any> = [
@@ -69,7 +73,33 @@ export default function Approval ({
       }
       form.validateFields(['comment'])
       .then(() => {
-        
+        setAddingData(type)
+        const data = {
+          appraisalIdx: customerData.data.appraisalId,
+          secondMeetingStepAction: type,
+          secondMeetingStepStatus: type,
+          appraisalType: customerData.data.appraisalType,
+          loanProduct: financialDetails.data.pTrhdLType,
+          loanAmount: financialDetails.data.pTrhdLocCost,
+          loanTerm: financialDetails.data.pTrhdTerm,
+          comment: form.getFieldValue('comment'),
+          document: fileList?.map((file: any) => {
+            
+           return { 
+            stkIdx: "",
+            cltIdx: "",
+            centerIdx: "",
+            appraisalIdx: customerData.data.appraisalType,
+            imgMasterCategory: "SECOND_MEETING_APPROVAL",
+            imgSubCategory: "BM_LEVEL",
+            imgOriginalName: "IMG_8789.jpg",
+            imgContentType: "JPG",
+            image: ''
+          }
+          })
+        }
+        console.log("data", fileList)
+        // API.approvalServices.createScondMeetingStep(data)
       })
       
     }
@@ -115,7 +145,7 @@ export default function Approval ({
               label='Approve' 
               loading={false} 
               size='large' 
-              onClick={() => handleSubmit('approve')} 
+              onClick={() => handleSubmit('APPROVED')} 
               className='mr-1 w-28' 
               shape='round'
             />
