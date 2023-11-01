@@ -29,33 +29,33 @@ export default defineConfig(({ command, mode }) => {
           secure: false,
         },
         '/mobixCamsCommon': {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         },
         '/mobixCamsCredit':  {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         },
         '/mobixCamsLoan':  {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         },
         '/mobixCamsStakeholder':  {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         },
         '/mobixCamsDocument':  {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         }
         ,
         '/mobixCamsApproval':  {
-          target: env.VITE_INDO_BASE_URL,
+          target: env.VITE_INDO_BASE_API_URL,
           changeOrigin: true,
           secure: false,
         }
