@@ -18,6 +18,7 @@ export default function Images (props: IImagesProps) {
     const {
         imageDetails
     } = useSelector((state: any) => state.Application)
+    const [openMapModal, setOpenModal] = useState(false)
 
   return (
     <div  

@@ -20,8 +20,7 @@ export default function Approval ({
       financialDetailsSavePending
     } = useSelector((state: any) => state.Application)
 
-    console.log("approvalSteps", approvalSteps)
-
+    const [form] = Form.useForm();
     const columns: ColumnsType<any> = [
       {
         title: 'Status',
@@ -68,20 +67,29 @@ export default function Approval ({
           message: 'Please save the updated Financial Approval to countinue.'
         })
       }
+      form.validateFields(['comment'])
+      .then(() => {
+        
+      })
       
     }
     
   return (
     <div>
         <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 26 }}
-        layout="vertical"
-        // disabled={componentDisabled}
-        // style={{ maxWidth: 600 }}
+          form={form}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 26 }}
+          layout="vertical"
+          // disabled={componentDisabled}
+          // style={{ maxWidth: 600 }}
       >
-        <Form.Item label="Comment">
-          <TextArea rows={4} placeholder='Add Comment here'/>
+         <Form.Item label="Comment" name='comment' rules={[
+            {
+              required: true,
+            },
+          ]}>
+          <TextArea rows={4} placeholder='Add Comment here' />
         </Form.Item>
         <div className='flex justify-center'>
             <ButtonContainer 
@@ -93,8 +101,24 @@ export default function Approval ({
               className='mr-1 w-28' 
               shape='round'
             />
-            <ButtonContainer type='primary' label='Return' loading={false} size='large' onClick={() => console.log("hello")} className='mr-1 w-28' shape='round'/>
-            <ButtonContainer type='primary' label='Approve' loading={false} size='large' onClick={() => console.log("hello")} className='mr-1 w-28' shape='round'/>
+            <ButtonContainer 
+              type='primary' 
+              label='Return' 
+              loading={false} 
+              size='large' 
+              onClick={() => handleSubmit('return')} 
+              className='mr-1 w-28' 
+              shape='round'
+              />
+            <ButtonContainer 
+              type='primary' 
+              label='Approve' 
+              loading={false} 
+              size='large' 
+              onClick={() => handleSubmit('approve')} 
+              className='mr-1 w-28' 
+              shape='round'
+            />
         </div>
       </Form>
       <Divider/>

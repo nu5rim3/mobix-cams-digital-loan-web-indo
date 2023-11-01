@@ -37,9 +37,9 @@ export default function IndividualUpdate ({
       dataIndex: 'customerName',
       key: 'customerName',
       filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
-      }
+      // onFilter: (value, record) => {
+      //   return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      // }
     },
     {
       title: 'NIK',
@@ -58,13 +58,13 @@ export default function IndividualUpdate ({
     },
     {
       title: 'BR Name and Relationship',
-      dataIndex: 'BrName',
-      key: 'BrName',
+      dataIndex: 'brName',
+      key: 'brName',
     },
     {
       title: 'Contact No',
-      dataIndex: 'contactNo',
-      key: 'contactNo',
+      dataIndex: 'cltContact1',
+      key: 'cltContact1',
     },
     {
       title: 'Batch No',
