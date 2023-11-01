@@ -51,7 +51,7 @@ COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module
 
 COPY --from=build-step /mobix-cams-digital-loan-web-indo/build /usr/share/nginx/html/indo-digital-loan
 COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-step /mobix-cams-digital-loan-web-indop/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
