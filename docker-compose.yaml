@@ -1,10 +1,7 @@
 version: '3.9'
 services:
   mobix-cams-digital-loan-web-indo:
-    build:
-      context: .
-      args:
-        DOCKER_BUILDKIT: 1
+    build: .
     command: npm run preview
     container_name: mobix-cams-digital-loan-web-indo
     image: mobix-cams-digital-loan-web-indo:dev
