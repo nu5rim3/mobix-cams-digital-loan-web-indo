@@ -44,7 +44,7 @@ RUN HEADERSMOREDIR="/usr/src/headers-more-nginx-module-0.33" && \
   ./configure --without-http_autoindex_module --with-compat $CONFARGS --add-dynamic-module=$HEADERSMOREDIR && \
   make && make install
 
-FROM mobix-cams-digital-loan-web-indo/nginx:1.21.6-alpine
+FROM nginx:1.21.6-alpine
 
 # Extract the dynamic module "headers more" from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
