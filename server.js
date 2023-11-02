@@ -53,11 +53,11 @@ app.all("/indo-digital-loan/oauth2*", function (req, res) {
 });
  
 app.get('/indo-digital-loan/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
  
 app.get('/indo-digital-loan/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
  
 app.listen(3000);
