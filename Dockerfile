@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 # proxy server environment
-FROM mobix-cams-digital-loan-web-indo/nginx:1.21.6-alpine AS builder
+FROM nginx:1.21.6-alpine AS builder
 
 RUN wget "http://nginx.org/download/nginx-1.21.6.tar.gz" -O nginx.tar.gz && \
     wget "https://github.com/openresty/headers-more-nginx-module/archive/v0.33.tar.gz" -O headers-more.tar.gz
