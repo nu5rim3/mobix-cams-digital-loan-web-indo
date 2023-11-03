@@ -22,7 +22,7 @@ pipeline {
               label "local"
             }
         steps {
-            sh "docker build -t  fra.ocir.io/lolctech/indo/develop/${con_name}:${tag} ."
+            sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
                }
             } 
         stage('Push to OCIR') {
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry( 'https://fra.ocir.io', 'OCIR-JEN' ) {
-                    sh "docker push fra.ocir.io/lolctech/indo/develop/${con_name}:${tag}"
+                    sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
                     }
                 }
             }
