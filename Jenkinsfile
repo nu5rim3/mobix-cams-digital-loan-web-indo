@@ -1,7 +1,7 @@
 pipeline {  
     environment {
         def con_name="mobix-cams-digital-loan-web-indo"
-        def tag="dev"
+        def tag="uat"
         def dest_server="10.254.160.11"
         def dest_user="loit"
         def tun_port="5540"
