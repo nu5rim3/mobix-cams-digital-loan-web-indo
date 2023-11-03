@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 # proxy server environment
-FROM mobix-cams-digital-loan-web-indo/nginx:1.21.6-alpine AS builder
+FROM nginx:1.21.6-alpine AS builder
 
 RUN wget "http://nginx.org/download/nginx-1.21.6.tar.gz" -O nginx.tar.gz && \
     wget "https://github.com/openresty/headers-more-nginx-module/archive/v0.33.tar.gz" -O headers-more.tar.gz
@@ -44,7 +44,7 @@ RUN HEADERSMOREDIR="/usr/src/headers-more-nginx-module-0.33" && \
   ./configure --without-http_autoindex_module --with-compat $CONFARGS --add-dynamic-module=$HEADERSMOREDIR && \
   make && make install
 
-FROM mobix-cams-digital-loan-web-indo/nginx:1.21.6-alpine
+FROM nginx:1.21.6-alpine
 
 # Extract the dynamic module "headers more" from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
