@@ -2,13 +2,13 @@
 FROM node:18-alpine as build-step
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV PATH /app/node_modules/.bin:$PATH
+#ENV NODE_ENV production
+#ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json ./
 RUN npm cache clean --force
 
-RUN npm install  -no-package-lock --production
+RUN npm install  -no-package-lock 
 
 COPY . ./
 
