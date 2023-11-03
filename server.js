@@ -22,7 +22,7 @@ app.use(function (req, res, next) {
     return next();
 });
  
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'dist')));
  
 app.use('/indo-digital-loan/robots.txt', function (req, res, next) {
     res.redirect(`${MIDDLEWARE_BASE_URL}/indo-digital-loan`);
