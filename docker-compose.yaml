@@ -4,7 +4,7 @@ services:
     build: .
  #  command: npm run preview
     container_name: mobix-cams-digital-loan-web-indo
-    image: mobix-cams-digital-loan-web-indo:dev
+    image: mobix-cams-digital-loan-web-indo:uat
     ports:
       - '3000:3000'
     env_file:
