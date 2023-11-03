@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json ./
 RUN npm cache clean --force
 
-RUN npm install  -no-package-lock 
+RUN npm install --force
 
 COPY . ./
 
