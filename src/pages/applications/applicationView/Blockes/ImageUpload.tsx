@@ -1,0 +1,161 @@
+import Dragger from 'antd/es/upload/Dragger';
+import React, {useState} from 'react';
+import { InboxOutlined , PlusOutlined} from '@ant-design/icons';
+import { Modal, UploadFile, UploadProps, message, Upload } from 'antd';
+import { RcFile } from 'antd/es/upload';
+import { useSelector } from 'react-redux';
+import { actions } from '../../../../store/store';
+
+export interface IImageUploadProps {
+    fileList?: any,
+    setFileList: any
+}
+
+
+  const getBase64 = (file: RcFile): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
+export default function ImageUpload ({
+    fileList,
+    setFileList
+}: IImageUploadProps) {
+
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+
+    // const [fileList, setFileList] = useState<UploadFile[]>([])
+    // const fileListTest = useSelector((state: any) => state.Application.fileList)
+    // console.log("fileListTest", fileListTest)
+    const uploadProps: UploadProps = {
+        // name: 'file',
+        // multiple: true,
+        // action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+        // onChange(info) {
+        //   const { status } = info.file;
+        //   if (status !== 'uploading') {
+        //     console.log(info.file, info.fileList);
+        //   }
+        //   if (status === 'done') {
+        //     message.success(`${info.file.name} file uploaded successfully.`);
+        //   } else if (status === 'error') {
+        //     message.error(`${info.file.name} file upload failed.`);
+        //   }
+        // },
+        // onDrop(e) {
+        //   console.log('Dropped files', e.dataTransfer.files);
+        // },
+        onRemove: (file) => {
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            setFileList(newFileList);
+            // actions.updateApplicationFileUpload(newFileList)
+          },
+        beforeUpload: (file) => {
+            const pdfBlob = new Blob([file], { type: file.type });
+            // Create a Blob URL
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            const obj = {
+                uid: file.uid,
+                name: file.name,
+                type: file.type,
+                originFileObj : file,
+                url: pdfUrl
+            }
+            setFileList([...fileList, obj]);
+            // actions.updateApplicationFileUpload([...fileList, obj])
+      
+            return false;
+          },
+        fileList : fileList.filter((file:any) => {
+            return file.type == 'application/pdf' || 
+            file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+        }),
+        onPreview: (file) => {
+            console.log("file xxx", file)
+            if(file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
+                const downloadLink:any = document.createElement('a');
+                downloadLink.href = file.originFileObj;
+                downloadLink.download = file.name;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }
+            if(file.type == 'application/pdf'){
+                // const pdfBlob = new Blob([file.originFileObj], { type: 'application/pdf' });
+                const newWindow:any = window.open(file.url, '_blank');
+                newWindow.focus();
+            }
+        },
+        disabled: fileList.length >= 5? true : false 
+      };
+
+    const handleCancel = () => setPreviewOpen(false);
+
+    const handlePreview = async (file: UploadFile) => {
+        if (!file.url && !file.preview) {
+          file.preview = await getBase64(file.originFileObj as RcFile);
+        }
+    
+        setPreviewImage(file.url || (file.preview as string));
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+      };
+
+    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>{
+        setFileList(newFileList);
+        // actions.updateApplicationFileUpload(newFileList)
+    }
+
+    const uploadButton = (
+        <div>
+          <PlusOutlined />
+          <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+      );
+
+  return (
+    <div className='grid grid-cols-2 gap-5 pt-2'>
+        <div>
+            <div className=''>
+                <Dragger {...uploadProps}>
+                    <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    <p className="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+                    banned files.
+                    </p>
+                </Dragger>
+
+            </div>
+        </div>
+        <div>
+        <>
+            <Upload
+                listType="picture-card"
+                fileList={fileList.filter((file:any) => {
+                    return file.type == 'image/jpeg' || file.type == 'image/png'
+                })}
+                onPreview={handlePreview}
+                onChange={handleChange}
+            >
+                {/* {fileList.length >= 8 ? null : uploadButton} */}
+            </Upload>
+            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
+        </>
+        </div>
+
+    </div>
+
+  );
+}

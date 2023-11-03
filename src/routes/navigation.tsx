@@ -1,13 +1,18 @@
-import type { MenuProps, MenuTheme } from 'antd/es/menu';
+
 import { 
     DashboardOutlined,
     UserOutlined,
     FileDoneOutlined,
     NotificationOutlined
   } from '@ant-design/icons';
-import UnderConstruction from '../pages/UnderConstruction/UnderConstruction';
+import UnderConstruction from '../pages/underConstruction/UnderConstruction';
 import UserManagement from '../pages/userManagement/UserManagement';
 import UserForm from '../pages/userManagement/UserForm';
+import SlikRequests from '../pages/slikRequests/SlikRequests';
+import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRequest/UpdateSlikRequest';
+import Applications from '../pages/applications/Applications';
+import ApplicationView from '../pages/applications/applicationView/ApplicationView';
+import Applications2ndStep from '../pages/applications/Applications2ndStep';
 
 export interface MenuItem {
     type: "LINK" | "GROUP";
@@ -30,9 +35,9 @@ export interface MenuItem {
 const sidebarMenu: MenuItem[] = [
     {
         type: "LINK",
-        path: "/",
+        path: "/indo-digital-loan",
         label: 'Dashboard',
-        key: '/',
+        key: '/indo-digital-loan',
         icon: <DashboardOutlined/>,
         breadcrumb: {
             title: "Dashboard"
@@ -48,7 +53,7 @@ const sidebarMenu: MenuItem[] = [
         key: '/userManagement',
         icon: <UserOutlined/>,
         visibleInMenu: true,
-        allowedRoles: ['MFO','CA','BM','AM','RM','DIR'],
+        // allowedRoles: ['MFO','CA','BM','AM','RM','DIR'],
         children: [ 
             {
                 type: "LINK",
@@ -74,7 +79,7 @@ const sidebarMenu: MenuItem[] = [
         ],
     },
     {
-        type: "GROUP",
+        type: "LINK",
         label: 'Applications',
         path:'/applications',
         key: '/applications',
@@ -83,34 +88,82 @@ const sidebarMenu: MenuItem[] = [
         children: [ {
             type: "LINK",
             path:'/applications',
-            label: 'Test Sub 1',
-            key: 'est Sub 1',
-            visibleInMenu: true,
-            component: UnderConstruction,
+            key: '/applications',
+            visibleInMenu: false,
+            component: Applications,
         },
         {
             type: "LINK",
-            path:'/applications/test2',
-            label: 'Test Sub 2',
-            key: 'Test Sub 2',
+            path:'/applications/viewApplication/:id',
+            // label: 'Test Sub 2',
+            key: '/applications/viewApplication/:id',
+            visibleInMenu: false,
+            component: ApplicationView,
+        },],
+    },
+    {
+        type: "GROUP",
+        label: 'Applications',
+        path:'/applications',
+        key: '/applications/BM',
+        icon: <FileDoneOutlined/>,
+        visibleInMenu: true,
+        children: [ {
+            type: "LINK",
+            path:'/applications/BM',
+            key: '/applications/BM',
             visibleInMenu: true,
-            component: UnderConstruction,
+            label: 'Approval Pending',
+            component: Applications,
+        },
+        {
+            type: "LINK",
+            path:'/applications/BM/2ndStep',
+            key: '/applications/BM/2ndStep',
+            visibleInMenu: true,
+            label: 'Second Meeting Pending',
+            component: Applications2ndStep,
+        },
+        {
+            type: "LINK",
+            path:'/applications/viewApplication/:id',
+            // label: 'Test Sub 2',
+            key: '/applications/viewApplication/:id',
+            visibleInMenu: false,
+            component: ApplicationView,
         },],
     },
     {
         type: "LINK",
-        path: "/slickRequest",
-        label: 'Slick Requests',
-        key: 'slickRequest',
+        path: "/slikRequest",
+        label: 'SLIK Requests',
+        key: '/slikRequest',
         icon: <DashboardOutlined/>,
         visibleInMenu: true,
-        component: UnderConstruction,
+        // component: SlikRequests,
+        children: [ 
+            {
+                type: "LINK",
+                path:'/slikRequest',
+                key: '/slikRequest',
+                visibleInMenu: false,
+                component: SlikRequests,
+            },
+            {
+                type: "LINK",
+                path:'/slikRequest/updateSlik/:id',
+                key: '/updateSlik/:id',
+                visibleInMenu: false,
+                component: UpdateSlikRequest,
+            },
+        ],
     },
     {
         type: "LINK",
         path:'/test',
         label: 'Reports',
         key: 'Reports',
+        visibleInMenu: true,
         icon: <NotificationOutlined/>,
     }
 

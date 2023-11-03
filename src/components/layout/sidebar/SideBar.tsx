@@ -1,18 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import digitalMe from '../../../assets/digitalMe.png'
-import { Button, 
-    ColorPicker, ConfigProvider, Divider, Grid, Layout, Menu, Modal, Space, Switch, 
+import { Button, Grid, Layout, Menu,
     theme,
     MenuProps
  } from 'antd';
-import { 
-    LaptopOutlined, 
-    NotificationOutlined, UserOutlined, MenuUnfoldOutlined, 
+import { MenuUnfoldOutlined, 
     MenuFoldOutlined,
-    SettingOutlined,
-    HomeOutlined
   } from '@ant-design/icons';
-import sidebarMenu, { MenuItem } from '../../../routes/navigation';
+import { MenuItem } from '../../../routes/navigation';
 import navigation from '../../../routes/navigation';
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -64,11 +59,24 @@ export default function SideBar ({
             icon: row.icon,
             label: row.label,
             children: row.type === "GROUP"? menuItems(row.children): null,
-            onClick: () =>  row.type === "LINK"? navigate(row.path): null
+            onClick: () => {
+              if(row.type === "LINK"){
+                navigate(row.path)
+                if(screens.xs){
+                  setCollapsed(!collapsed)
+                }
+              }
+            }
         }
         })
       return menu
     }(navigation);
+
+    useEffect(() => {
+      if(screens.xs){
+        setCollapsed(true)
+      }
+    },[])
   
     return (
         <Sider 
@@ -83,23 +91,19 @@ export default function SideBar ({
                 boxShadow: boxShadow,
                 zIndex: 2
             }}
-            // onBreakpoint={(b) => {
-            //   return console.log("b", b)
-            // }}
-            // style={siderStyle}
             >
               {screens.xs?
-                <Button
-                  type="text"
-                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                  onClick={() => 
-                    setCollapsed(!collapsed)
-                    // logOut('', '/logout')
-                  }
-                  style={{
-                    margin: 0,
-                  }}
-                />
+                <div className='pt-3'>
+                  <Button
+                    type="text"
+                    icon={collapsed ? <MenuUnfoldOutlined size={20}/> : <MenuFoldOutlined size={25}/>}
+                    onClick={() => 
+                      setCollapsed(!collapsed)
+                      // logOut('', '/logout')
+                    }
+                    size='large'
+                  />
+                </div>
               : null}
 
                 {

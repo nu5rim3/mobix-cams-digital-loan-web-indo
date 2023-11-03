@@ -1,25 +1,22 @@
 import React, {useContext, useState} from 'react';
-import { Button, Layout, theme } from 'antd';
-import { 
-    LaptopOutlined, 
-    NotificationOutlined, UserOutlined, MenuUnfoldOutlined, 
+import { Button, Dropdown, Layout, MenuProps, theme } from 'antd';
+import { MenuUnfoldOutlined, 
     MenuFoldOutlined,
     SettingOutlined,
-    HomeOutlined
+    UserOutlined,
+    LogoutOutlined
   } from '@ant-design/icons';
 import ThemeSettingModel from './ThemeSettingModel';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
+import { useSelector } from 'react-redux';
+import { actions } from '../../../store/store';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header} = Layout;
 
 const headerStyle: React.CSSProperties = {
     textAlign: 'left',
-  //   color: '#fff',
     paddingInline: 8,
     lineHeight: 4,
-    // backgroundColor: '#fff',
-  //   padding: '5px',
-    // boxShadow: '0px 5px 12px -10px rgba(0,0,0,0.89)',
     height: 50
   };
 
@@ -44,6 +41,39 @@ export default function HeaderContainer({
     const [showSettings, setShowSettings] = useState(false)
 
     const {logOut,login} = useContext<IAuthContext>(AuthContext)
+
+    const handleMenuClick: MenuProps['onClick'] = (e) => {
+     
+    };
+    
+    const items:  (data: any) => MenuProps['items'] = (data) => [
+      {
+        label: <>{data?.fullName}</>,
+        key: '1',
+        icon: <UserOutlined />,
+        disabled: true
+      },
+      {
+        label: 'Log Out',
+        key: '2',
+        icon: <LogoutOutlined />,
+        onClick: () => {
+          localStorage.removeItem('selectedRole')
+          actions.restAppData()
+          logOut('', '/logout')
+          login()
+        }
+      }
+    ];
+
+    const menuProps = {
+      items,
+      onClick: handleMenuClick,
+    };
+
+    const {
+      customerData
+  } = useSelector((state: any) => state.Application)
 
 
   return (
@@ -70,7 +100,7 @@ export default function HeaderContainer({
             margin: 0,
             }}
         />
-        <Button
+        {/* <Button
             type="text"
             icon={<SettingOutlined/>}
             onClick={() => {
@@ -80,7 +110,11 @@ export default function HeaderContainer({
             style={{
             margin: 0,
             }}
-        />
+        /> */}
+        {/* <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}></Dropdown.Button> */}
+        <Dropdown menu={{ items: customerData? items(customerData): [] }} placement="bottomLeft">
+          <Button  icon={<UserOutlined/>}></Button>
+        </Dropdown>
     </Header>
   );
 }

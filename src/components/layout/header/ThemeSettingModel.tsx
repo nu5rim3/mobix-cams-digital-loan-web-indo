@@ -27,11 +27,9 @@ export default function ThemeSettingModel ({
       checkedChildren={'Light'}
       unCheckedChildren={'Dark'}
       onChange={(value) => {
-        console.log("v", value)
         return value? handleTheme('light'): handleTheme('dark')
       
     }}
-      // checked = {}
     />
       <Divider />
       <ColorPicker showText value={primary} onChangeComplete={(color) => setPrimary(color.toHexString())} />

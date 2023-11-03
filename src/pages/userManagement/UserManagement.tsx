@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Input, Space, Table, Tag, theme, Typography } from 'antd';
+import {Grid, Input, Space, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {PlusOutlined, SearchOutlined} from '@ant-design/icons' 
 import Paragraph from 'antd/es/typography/Paragraph';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../../services/Services';
+import Title from '../../components/Typography/Tytle';
+import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
+import ContentContainer from '../../components/Containers/ContentContainer';
+import Search from '../../components/Search/Search';
+import Button from '../../components/Buttons/Button';
+import FPaginatedTable from '../../components/tables/FPaginatedTable';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
 
 const UserManagement: React.FC = () =>{
 
-  const {
-    token: { colorBgContainer, boxShadow, colorBgLayout, colorBgElevated , borderRadiusOuter},
-  } = theme.useToken();
   const navigate = useNavigate();
   const [users, setUsers] = useState<[]>([])
   const [usersLoading, setUsersLoading] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
-  const { Title } = Typography;
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
   useEffect(() => {
     getCall()
   }, [])
@@ -113,38 +106,38 @@ const UserManagement: React.FC = () =>{
 
   return (
     <div>
-      <div className='h-12'>
-        Testing Round
-      </div>
+      <BreadCrumbContainer>
+        <Paragraph className='m-0 p-0 ' style={{margin: 0, padding:0}}  type="secondary">Home</Paragraph>
+        <Title 
+          level={4}
+          title='User Management'
+        />
+      </BreadCrumbContainer>
 
-      <div 
-        style={{
-          width: '100%',
-          overflow: 'auto',
-          backgroundColor: colorBgContainer,
-          borderRadius: borderRadiusOuter
-        }}
-        className={screens.xs? 'p-2': 'p-3'}
-      >
-        <Title className='m-0 p-0 ' style={{margin: 0}} level={screens.xs? 4 : 3}>User Details</Title>
-        <Paragraph className='m-0 p-0 ' type="secondary">Select an exsisting details</Paragraph>
-          <Title className='m-0 p-0 ' style={{margin: 1}} level={5}>Search Items</Title>
-          <div className={
-            screens.xs
-            ? 'pb-3 flex w-3/4'
-            : 'pb-3 flex w-1/4'
-            }> 
-            <Input size="large" placeholder=" Search" prefix={<SearchOutlined />} onChange={(e) => setSearchText(e.target.value)}/>
-          </div>
+
+      <ContentContainer >
+        <Title 
+          style={{color: '#374957'}} 
+          level={4}
+          title='User Details'
+        /> 
+        <Title 
+          style={{margin: 1}} 
+          level={5}
+          title='Search Items'
+        />
+        <Search
+          onChange={(value:any) => setSearchText(value)}
+        />
+
         <div
          className='border-l-current border-r-current'
         >
-          <Table 
+          <FPaginatedTable 
             loading={usersLoading}
             rowKey={'idx'}
             columns={columns} 
             dataSource={users || []}
-            size={screens.xs? 'small' :'middle'}
           />
         </div>
 
@@ -157,11 +150,10 @@ const UserManagement: React.FC = () =>{
             shape="round"
             size='large'
             icon={<PlusOutlined/>}
-          >
-            Create New User
-          </Button>
+            label="Create New User"
+          />
         </div>
-      </div>
+      </ContentContainer>
     </div>
   )
 } 
