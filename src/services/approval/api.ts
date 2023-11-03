@@ -7,7 +7,7 @@ const getAllCombinedStepsByAppraisalId = (id: string) => {
 }
 
 const createScondMeetingStep = (data: any) => {
-    return api.get(`/mobixCamsApproval/v1/approvals/second-meeting-steps`, data)
+    return api.post(`/mobixCamsApproval/v1/approvals/second-meeting-steps`, data)
 }
 
 export default {

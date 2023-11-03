@@ -9,6 +9,7 @@ import { MenuUnfoldOutlined,
 import ThemeSettingModel from './ThemeSettingModel';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
 import { useSelector } from 'react-redux';
+import { actions } from '../../../store/store';
 
 const { Header} = Layout;
 
@@ -57,6 +58,8 @@ export default function HeaderContainer({
         key: '2',
         icon: <LogoutOutlined />,
         onClick: () => {
+          localStorage.removeItem('selectedRole')
+          actions.restAppData()
           logOut('', '/logout')
           login()
         }

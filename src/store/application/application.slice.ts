@@ -70,10 +70,10 @@ export const initialState: AppDataStoreType = {
 }; 
 export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchAllApplications',
-    async (id, thunkAPI) => {
+    async (data: Parameters<typeof API.appraisalsServices.getAllAppraisals>[0], thunkAPI) => {
         try{
             console.log("im in")
-            const response = await API.appraisalsServices.getAllAppraisals()
+            const response = await API.appraisalsServices.getAllAppraisals(data)
             console.log("daya", response)
             return response.data
         }

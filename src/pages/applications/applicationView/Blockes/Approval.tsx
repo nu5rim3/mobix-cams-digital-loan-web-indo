@@ -6,6 +6,7 @@ import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
 import { API } from '../../../../services/Services';
+import { useNavigate } from 'react-router-dom';
 
 export interface IApprovalProps {
   fileList: any
@@ -20,9 +21,11 @@ export default function Approval ({
       customerData,
       approvalSteps,
       financialDetailsSavePending,
-      financialDetails
+      financialDetails,
+      
     } = useSelector((state: any) => state.Application)
     const [addingData, setAddingData] = useState('')
+    const navigate = useNavigate();
 
     const [form] = Form.useForm();
     const columns: ColumnsType<any> = [
@@ -72,36 +75,50 @@ export default function Approval ({
         })
       }
       form.validateFields(['comment'])
-      .then(() => {
-        setAddingData(type)
-        const data = {
-          appraisalIdx: customerData.data.appraisalId,
-          secondMeetingStepAction: type,
-          secondMeetingStepStatus: type,
-          appraisalType: customerData.data.appraisalType,
-          loanProduct: financialDetails.data.pTrhdLType,
-          loanAmount: financialDetails.data.pTrhdLocCost,
-          loanTerm: financialDetails.data.pTrhdTerm,
-          comment: form.getFieldValue('comment'),
-          document: fileList?.map((file: any) => {
-            
-           return { 
-            stkIdx: "",
-            cltIdx: "",
-            centerIdx: "",
-            appraisalIdx: customerData.data.appraisalType,
-            imgMasterCategory: "SECOND_MEETING_APPROVAL",
-            imgSubCategory: "BM_LEVEL",
-            imgOriginalName: "IMG_8789.jpg",
-            imgContentType: "JPG",
-            image: ''
+      .then(async () => {
+        try{
+          setAddingData(type)
+          const data = {
+            appraisalIdx: customerData.data.appraisalId,
+            secondMeetingStepAction: type,
+            secondMeetingStepStatus: type,
+            appraisalType: customerData.data.appraisalType,
+            loanProduct: financialDetails.data.pTrhdLType,
+            loanAmount: financialDetails.data.pTrhdLocCost,
+            loanTerm: financialDetails.data.pTrhdTerm,
+            comment: form.getFieldValue('comment'),
+            document: fileList?.map((file: any) => {
+              
+             return { 
+              stkIdx: customerData.data.cusIdx,
+              cltIdx: customerData.data.cltIdx,
+              centerIdx: customerData.data.centerIdx,
+              appraisalIdx: customerData.data.appraisalType,
+              imgMasterCategory: "SECOND_MEETING_APPROVAL",
+              imgSubCategory: "BM_LEVEL",
+              imgOriginalName: file.name,
+              imgContentType: file.type,
+              image: file.originFileObj
+            }
+            })
           }
+          // console.log("data", fileList)
+          const save = await API.approvalServices.createScondMeetingStep(data)
+
+          notification.success({
+            message: 'Application Updated Successfully.'
+          })
+          navigate('/applications')
+        }
+        catch(err){
+          notification.error({
+            message: 'Application update failed'
           })
         }
-        console.log("data", fileList)
-        // API.approvalServices.createScondMeetingStep(data)
+        finally{
+          setAddingData(type)
+        }
       })
-      
     }
     
   return (

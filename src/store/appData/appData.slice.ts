@@ -8,13 +8,13 @@ export const initialState: AppDataStoreType = {
         fetching: false,
         error: false,
         data: null
-    }
+    },
+    selectedRole: null
 };
 
 export const getUserDataById = createAsyncThunk(
     'AppDataDetails/fetchUserData',
     async (userId: string, thunkAPI) => {
-        console.log("status", userId)
         try{
             const response = await API.userServices.getUserById(userId)
             return response.data
@@ -31,7 +31,18 @@ export const getUserDataById = createAsyncThunk(
 export const SlikRequestsSlice = createSlice({
     name: "AppDataDetails",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        setRole: (state, action: PayloadAction<any>) => {
+            state = { 
+                ...state, 
+                selectedRole : action.payload
+            };
+            return state;
+        },
+        restAppData: () => {
+            return initialState
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getUserDataById.pending , (state, action) => {
             state.userData.fetching = true

@@ -3,7 +3,7 @@ import * as React from 'react';
 
 export interface IButtonProps {
     label: string
-    size: 'small' | 'large',
+    size?: 'small' | 'large',
     onClick: Function,
     loading?: boolean;
     type?: 'primary',

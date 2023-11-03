@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 import { actions } from '../../store/store';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import SelectUserRole from '../../pages/SelectUserRole/SelectUserRole';
 
 const {Content } = Layout;
 
@@ -33,6 +34,8 @@ export default function LayoutContainer (props: ILayoutProps) {
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const userData = useSelector((state: any) => state.AppData.userData.data)
+    const selectedRoleStore = useSelector((state: any) => state.AppData.selectedRole)
+    const selectedRole = localStorage.getItem('selectedRole')
 
     const routes = function menuItems(params: MenuItem[] | undefined) : any  {
         if(!params || !userData) return
@@ -71,6 +74,12 @@ export default function LayoutContainer (props: ILayoutProps) {
 
       }, [loginInProgress])
 
+      useEffect(() => {
+        if(selectedRole){
+            actions.setRole(selectedRole)
+        }
+      }, [])
+
     // useEffect(() => {
     //     axios.post('/token','',{
     //         headers:{
@@ -93,7 +102,9 @@ export default function LayoutContainer (props: ILayoutProps) {
                         <h2 className='p-8 font-sans text-6xl antialiased'>Digital-Me</h2>
                         <DotWave/>
                 </div>
-           
+        : !selectedRole
+        ?
+            <SelectUserRole/>
         : 
             <Layout
                 style={{

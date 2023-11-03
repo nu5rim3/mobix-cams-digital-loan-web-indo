@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../../services/Services';
 import { ColumnsType } from 'antd/es/table';
-import { DatePicker, Input, Select, Space, Tag, theme } from 'antd';
+import { DatePicker, Input, Modal, Select, Space, Tag, theme } from 'antd';
 import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
 import Title from '../../components/Typography/Tytle';
 import Paragraph from 'antd/es/typography/Paragraph';
@@ -14,12 +14,13 @@ import { useSelector } from 'react-redux';
 import { actions } from '../../store/store';
 import moment from 'moment';
 import ButtonContainer from '../../components/Buttons/Button';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
 export interface IApplicationsProps {
 
 }
 
-export default function Applications (props: IApplicationsProps) {
+export default function Applications2ndStep (props: IApplicationsProps) {
     const navigate = useNavigate();
   const [users, setUsers] = useState<[]>([])
   const [searchStatus, setSearchStatus] = useState<string>('')
@@ -43,6 +44,8 @@ export default function Applications (props: IApplicationsProps) {
       role: selectedRole
     })
   }, [])
+
+  const { confirm } = Modal;
 
   const handleFromDateFilterChange = (date:any) => {
     if(date){
@@ -69,6 +72,20 @@ export default function Applications (props: IApplicationsProps) {
       status: searchStatus
     })
   }
+
+  const showPromiseConfirm = (type:string) => {
+    confirm({
+      title: 'Second Meeting Confirmation',
+      icon: <ExclamationCircleFilled />,
+      content: `Do you confirm and ${type} second meeting of this customer ?`,
+      onOk() {
+        return new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        }).catch(() => console.log('Oops errors!'));
+      },
+      onCancel() {},
+    })
+  };
 
   const columns: ColumnsType<any> = [
     {
@@ -144,9 +161,17 @@ export default function Applications (props: IApplicationsProps) {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Space size="middle">
-          <a onClick={() => navigate(`/applications/viewApplication/APP00000000123`)}>View</a>
-        </Space>
+        <>
+          <Space size="middle" className='mr-3'>
+            <a onClick={() => navigate(`/applications/viewApplication/APP00000000123`)}>View</a>
+          </Space>
+            <Space size="middle" className='mr-3'>
+            <a onClick={() => showPromiseConfirm('Approve')}>Approve</a>
+          </Space>
+          <Space size="middle" className='mr-3'>
+            <a onClick={() => showPromiseConfirm('Reject')}>Reject</a>
+          </Space>
+        </>
       ),
     },
   ];

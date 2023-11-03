@@ -12,6 +12,7 @@ import SlikRequests from '../pages/slikRequests/SlikRequests';
 import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRequest/UpdateSlikRequest';
 import Applications from '../pages/applications/Applications';
 import ApplicationView from '../pages/applications/applicationView/ApplicationView';
+import Applications2ndStep from '../pages/applications/Applications2ndStep';
 
 export interface MenuItem {
     type: "LINK" | "GROUP";
@@ -52,7 +53,7 @@ const sidebarMenu: MenuItem[] = [
         key: '/userManagement',
         icon: <UserOutlined/>,
         visibleInMenu: true,
-        allowedRoles: ['MFO','CA','BM','AM','RM','DIR'],
+        // allowedRoles: ['MFO','CA','BM','AM','RM','DIR'],
         children: [ 
             {
                 type: "LINK",
@@ -90,6 +91,38 @@ const sidebarMenu: MenuItem[] = [
             key: '/applications',
             visibleInMenu: false,
             component: Applications,
+        },
+        {
+            type: "LINK",
+            path:'/applications/viewApplication/:id',
+            // label: 'Test Sub 2',
+            key: '/applications/viewApplication/:id',
+            visibleInMenu: false,
+            component: ApplicationView,
+        },],
+    },
+    {
+        type: "GROUP",
+        label: 'Applications',
+        path:'/applications',
+        key: '/applications/BM',
+        icon: <FileDoneOutlined/>,
+        visibleInMenu: true,
+        children: [ {
+            type: "LINK",
+            path:'/applications/BM',
+            key: '/applications/BM',
+            visibleInMenu: true,
+            label: 'Approval Pending',
+            component: Applications,
+        },
+        {
+            type: "LINK",
+            path:'/applications/BM/2ndStep',
+            key: '/applications/BM/2ndStep',
+            visibleInMenu: true,
+            label: 'Second Meeting Pending',
+            component: Applications2ndStep,
         },
         {
             type: "LINK",

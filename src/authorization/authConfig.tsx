@@ -12,7 +12,11 @@ extraTokenParameters: {
   grant_type : import.meta.env.VITE_GRANT_TYPE,
   "Access-Control-Allow-Origin" : "*" 
 },
-  onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => window.confirm('Session expired. Refresh page to continue using the site?') && event.login(),
+  onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => {
+    localStorage.removeItem('selectedRole')
+    return window.confirm('Session expired. Refresh page to continue using the site?') && 
+    event.login()
+  },
 }
 
 

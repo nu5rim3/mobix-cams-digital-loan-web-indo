@@ -4,4 +4,5 @@ export interface AppDataStoreType {
         fetching : boolean,
         error: boolean | string
     }
+    selectedRole: null | {}
 }
