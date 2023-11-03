@@ -3,40 +3,43 @@ pipeline {
         def con_name="mobix-cams-digital-loan-web-indo"
         def tag="uat"
         def dest_server="10.254.160.11"
-        def dest_user="loit"
+        def dest_user="root"
         def tun_port="5540"
         def proxy_server="130.61.33.64"
         def proxy_user="opc"
     }
-    agent none
-      stages {
-          stage('mvn build') {
-          agent { docker { image 'fra.ocir.io/lolctech/fxapiuser/node:latest' } }
-          steps {
-               sh 'ls -la'
- 
+  agent none
+  stages {
+    stage('mvn build') {
+      agent {
+        docker {
+          image 'fra.ocir.io/lolctech/fxapiuser/node:latest'
+        }
+      }
+      steps {
+        sh 'ls -la'
       }
     }
-        stage('Build docker image'){
-            agent {
-              label "local"
-            }
-        steps {
-            sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
-               }
-            } 
-        stage('Push to OCIR') {
-            agent {
-              label "local"
-            }
-            steps {
-                script {
-                    docker.withRegistry( 'https://fra.ocir.io', 'OCIR-JEN' ) {
-                    sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
-                    }
-                }
-            }
+    stage('Build docker image') {
+      agent {
+        label "local"
+      }
+      steps {
+        sh "docker build -t  fra.ocir.io/lolctech/indo/release/${con_name}:${tag} ."
+      }
+    }
+    stage('Push to OCIR') {
+      agent {
+        label "local"
+      }
+      steps {
+        script {
+          docker.withRegistry('https://fra.ocir.io', 'OCIR-JEN') {
+            sh "docker push fra.ocir.io/lolctech/indo/release/${con_name}:${tag}"
+          }
         }
+      }
+    }
         stage('Deploy') {
             agent any
             steps {
