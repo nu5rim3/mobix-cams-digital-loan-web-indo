@@ -1,13 +1,16 @@
 # build environment
 FROM node:18-alpine as build-step
-WORKDIR /mobix-cams-digital-loan-web-indo
- 
-COPY package.json .
+WORKDIR /app
 
+ENV NODE_ENV production
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY package.json ./
+RUN npm cache clean --force
 
 RUN npm install --force
 
-COPY . .
+COPY . ./
 
 RUN npm run build
 
@@ -50,9 +53,9 @@ FROM nginx:1.21.6-alpine
 # Extract the dynamic module "headers more" from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
 
-COPY --from=build-step /mobix-cams-digital-loan-web-indo/dist /usr/share/nginx/html/indo-digital-loan
-COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-step /app/dist /usr/share/nginx/html/indo-digital-loan
+COPY --from=build-step /app/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build-step /app/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
