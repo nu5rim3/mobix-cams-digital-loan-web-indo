@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  mobix-cams-digital-loan-web-indo:
+    build: .
+ #  command: npm run preview
+    container_name: mobix-cams-digital-loan-web-indo
+    image: mobix-cams-digital-loan-web-indo:dev
+    ports:
+      - '3000:3000'
+    env_file:
+      - /app/.env
+    restart: always
