@@ -80,6 +80,7 @@ export default defineConfig(({ command, mode }) => {
       host: true,
     },
     //  host: true,
+    host: 'https://indodigitalmeuat.lolc.com',
     preview: {
       port: 3000,
       strictPort: true,
