@@ -80,10 +80,17 @@ export default defineConfig(({ command, mode }) => {
       host: true,
     },
     //  host: true,
-    host: 'https://indodigitalmeuat.lolc.com',
+    host: 'indodigitalmeuat.lolc.com',
+    strictPort: true,
+    cors: {
+      origin: 'https://apiuatindo.lolc.com',
+    },
     preview: {
       port: 3000,
       strictPort: true,
+      cors: {
+        origin: 'https://apiuatindo.lolc.com',
+      },
     },
     plugins: [react()],
   }
