@@ -20,6 +20,7 @@ export default defineConfig(({ command, mode }) => {
           secure: true,
           agent: new http.Agent(),
           rewrite: (path) => {
+            console.log("oauth2");
             return path.replace(/^\/indo-digital-loan/, '')
           },
         },
@@ -29,6 +30,7 @@ export default defineConfig(({ command, mode }) => {
           secure: false,
           agent: new http.Agent(),
           rewrite: (path) => {
+            console.log("token");
             return path.replace(/^\/indo-digital-loan/, '')
           }
         },
@@ -37,6 +39,7 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
           secure: false,
           rewrite: (path) => {
+            console.log("mobixCamsCommon");
             return path.replace(/^\/indo-digital-loan/, '')
           },
         },
