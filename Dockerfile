@@ -49,7 +49,7 @@ FROM nginx:1.21.6-alpine
 # Extract the dynamic module "headers more" from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
 
-COPY --from=build-step /mobix-cams-digital-loan-web-indo/dist /usr/share/nginx/html/indo-digital-loan
+COPY --from=build-step /mobix-cams-digital-loan-web-indo/dist/* /usr/share/nginx/html/indo-digital-loan/
 COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-step /mobix-cams-digital-loan-web-indo/nginx/default.conf /etc/nginx/conf.d/default.conf
 

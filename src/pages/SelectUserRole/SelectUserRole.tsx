@@ -15,7 +15,6 @@ export default function SelectUserRole (props: ISelectUserRoleProps) {
         userData,
         selectedRole
     } = useSelector((state: any) => state.AppData)
-      console.log(userData)
   return (
     <Layout
     style={{

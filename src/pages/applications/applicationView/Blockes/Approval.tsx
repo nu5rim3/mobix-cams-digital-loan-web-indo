@@ -1,6 +1,6 @@
 import { Divider, Form, Table, Tag, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ButtonContainer from '../../../../components/Buttons/Button';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
@@ -22,8 +22,42 @@ export default function Approval ({
       approvalSteps,
       financialDetailsSavePending,
       financialDetails,
-      
     } = useSelector((state: any) => state.Application)
+    const {
+      selectedRole
+  } = useSelector((state: any) => state.AppData)
+
+    const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([])
+
+    useEffect(() => {
+      if(selectedRole){
+        if(selectedRole === 'CSA'){
+          return setRoleWiseApproval(['Return', 'Recommend'])
+        }
+        if(selectedRole === 'CA'){
+          return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
+        }
+        if(selectedRole === 'ADMIN'){
+          return setRoleWiseApproval(['Return', 'Reject', 'Approve'])
+        }
+        if(selectedRole === 'AM'
+        || selectedRole === 'RM'
+        || selectedRole === 'DIR'
+        || selectedRole === 'BOD1'
+        || selectedRole === 'BOD2'
+        || selectedRole === 'BOD3'
+        ){
+          return setRoleWiseApproval(['Reject', 'Approve'])
+        }
+        if(selectedRole === 'ADMIN'){
+          return setRoleWiseApproval([])
+        }else{
+          return setRoleWiseApproval([])
+        }
+      }
+    },[selectedRole])
+
+
     const [addingData, setAddingData] = useState('')
     const navigate = useNavigate();
 
@@ -108,6 +142,7 @@ export default function Approval ({
           notification.success({
             message: 'Application Updated Successfully.'
           })
+          // if()
           navigate('/applications')
         }
         catch(err){
@@ -131,41 +166,31 @@ export default function Approval ({
           // disabled={componentDisabled}
           // style={{ maxWidth: 600 }}
       >
-         <Form.Item label="Comment" name='comment' rules={[
-            {
-              required: true,
-            },
-          ]}>
-          <TextArea rows={4} placeholder='Add Comment here' />
-        </Form.Item>
+        {roleWiseApproval.length
+          ?
+          <Form.Item label="Comment" name='comment' rules={[
+              {
+                required: true,
+              },
+            ]}>
+            <TextArea rows={4} placeholder='Add Comment here' />
+          </Form.Item>
+        : null}
+
         <div className='flex justify-center'>
-            <ButtonContainer 
-              type='primary' 
-              label='Reject' 
-              loading={false} 
-              size='large' 
-              onClick={() => handleSubmit('reject')}
-              className='mr-1 w-28' 
-              shape='round'
-            />
-            <ButtonContainer 
-              type='primary' 
-              label='Return' 
-              loading={false} 
-              size='large' 
-              onClick={() => handleSubmit('return')} 
-              className='mr-1 w-28' 
-              shape='round'
-              />
-            <ButtonContainer 
-              type='primary' 
-              label='Approve' 
-              loading={false} 
-              size='large' 
-              onClick={() => handleSubmit('APPROVED')} 
-              className='mr-1 w-28' 
-              shape='round'
-            />
+            {roleWiseApproval.map((type: any) => {
+              return (
+                <ButtonContainer 
+                  type='primary' 
+                  label={type}
+                  loading={false} 
+                  size='large' 
+                  onClick={() => handleSubmit(type)}
+                  className='mr-1 ' 
+                  shape='round'
+                />
+              )
+            })}
         </div>
       </Form>
       <Divider/>

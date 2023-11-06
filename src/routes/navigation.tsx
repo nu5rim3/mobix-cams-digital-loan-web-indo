@@ -85,6 +85,7 @@ const sidebarMenu: MenuItem[] = [
         key: '/applications',
         icon: <FileDoneOutlined/>,
         visibleInMenu: true,
+        allowedRoles: ['MFO','CA','AM','RM','DIR'],
         children: [ {
             type: "LINK",
             path:'/applications',
@@ -107,6 +108,7 @@ const sidebarMenu: MenuItem[] = [
         path:'/applications',
         key: '/applications/BM',
         icon: <FileDoneOutlined/>,
+        allowedRoles: ['BM', 'ADMIN'],
         visibleInMenu: true,
         children: [ {
             type: "LINK",

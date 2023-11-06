@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../../services/Services';
 import { ColumnsType } from 'antd/es/table';
-import { DatePicker, Input, Modal, Select, Space, Tag, theme } from 'antd';
+import { DatePicker, Input, Modal, Select, Space, Tag, notification, theme } from 'antd';
 import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
 import Title from '../../components/Typography/Tytle';
 import Paragraph from 'antd/es/typography/Paragraph';
@@ -30,6 +30,10 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   const {
     token: {colorTextHeading},
   } = theme.useToken();
+//   const {
+//     customerData,
+//     financialDetails
+// } = useSelector((state: any) => state.Application)
 
   const {
     applications
@@ -73,14 +77,37 @@ export default function Applications2ndStep (props: IApplicationsProps) {
     })
   }
 
-  const showPromiseConfirm = (type:string) => {
+  const showPromiseConfirm = (type:string, record: any) => {
+    console.log('record', record)
     confirm({
       title: 'Second Meeting Confirmation',
       icon: <ExclamationCircleFilled />,
       content: `Do you confirm and ${type} second meeting of this customer ?`,
-      onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      onOk:  async() =>  {
+        new Promise(async (resolve, reject) => {
+          try{
+            const data = {
+              appraisalIdx: record.idx,
+              secondMeetingStepAction: type,
+              secondMeetingStepStatus: type,
+              appraisalType: record.appraisalType,
+              loanProduct: record.loanProduct,
+              loanAmount: record.loanAmount,
+              loanTerm: record.loanTerm
+            }
+  
+            const save = await API.approvalServices.createScondMeetingStep(data)
+  
+            notification.success({
+              message: 'Application Updated Successfully.'
+            })
+  
+            return resolve
+          }
+          catch{
+            // return reject
+          }
+          // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
         }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
@@ -166,10 +193,10 @@ export default function Applications2ndStep (props: IApplicationsProps) {
             <a onClick={() => navigate(`/applications/viewApplication/APP00000000123`)}>View</a>
           </Space>
             <Space size="middle" className='mr-3'>
-            <a onClick={() => showPromiseConfirm('Approve')}>Approve</a>
+            <a onClick={() => showPromiseConfirm('Approve', record)}>Approve</a>
           </Space>
           <Space size="middle" className='mr-3'>
-            <a onClick={() => showPromiseConfirm('Reject')}>Reject</a>
+            <a onClick={() => showPromiseConfirm('Reject', record)}>Reject</a>
           </Space>
         </>
       ),
