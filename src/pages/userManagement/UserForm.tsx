@@ -73,6 +73,7 @@ export default function UserForm (props: IUserFormProps) {
               code: e.branch
             }
           ],
+           loginType: "IDS",
           roles: e.roles.map((role:string) => ({code : role})),
 
           // idx:"testing",
