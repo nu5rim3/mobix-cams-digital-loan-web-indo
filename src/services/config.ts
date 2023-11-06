@@ -10,10 +10,12 @@ export const axiosFileInstance = axios.create({
         baseURL: '/indo-digital-loan'
 });
 
-export const setAxiosToken = async (token:string) => {
+export const setAxiosToken = async (token:string, idx: any) => {
     if (token) {
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         axiosFileInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axiosInstance.defaults.headers.common['X-Auth-Token'] = btoa(idx);
+        axiosFileInstance.defaults.headers.common['X-Auth-Token'] = btoa(idx);
     }
   };
 
