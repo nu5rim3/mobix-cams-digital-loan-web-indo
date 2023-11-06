@@ -14,8 +14,10 @@ extraTokenParameters: {
 },
   onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => {
     localStorage.removeItem('selectedRole')
-    return window.confirm('Session expired. Refresh page to continue using the site?') && 
-    event.login()
+    return (
+      window.confirm('Session expired. Refresh page to continue using the site?') &&
+      event.login()
+    ) 
   },
 }
 
