@@ -51,7 +51,7 @@ export default function SideBar ({
       .filter(({visibleInMenu}) => visibleInMenu)
       .filter((routes) => {
         if(!routes.allowedRoles) return true
-        return routes.allowedRoles.some(element => roles.includes(element));
+        return routes.allowedRoles?.some(element => roles.includes(element));
       })
       .map((row, index) => {
         return {

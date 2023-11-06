@@ -106,7 +106,7 @@ const sidebarMenu: MenuItem[] = [
         type: "GROUP",
         label: 'Applications',
         path:'/applications',
-        key: '/applications/BM',
+        key: '/applications/',
         icon: <FileDoneOutlined/>,
         allowedRoles: ['BM', 'ADMIN'],
         visibleInMenu: true,
@@ -126,14 +126,15 @@ const sidebarMenu: MenuItem[] = [
             label: 'Second Meeting Pending',
             component: Applications2ndStep,
         },
-        {
-            type: "LINK",
-            path:'/applications/viewApplication/:id',
-            // label: 'Test Sub 2',
-            key: '/applications/viewApplication/:id',
-            visibleInMenu: false,
-            component: ApplicationView,
-        },],
+        // {
+        //     type: "LINK",
+        //     path:'/applications/viewApplication/:id',
+        //     // label: 'Test Sub 2',
+        //     key: '/applications/viewApplication/:id',
+        //     visibleInMenu: false,
+        //     component: ApplicationView,
+        // },
+        ],
     },
     {
         type: "LINK",
@@ -166,6 +167,7 @@ const sidebarMenu: MenuItem[] = [
         label: 'Reports',
         key: 'Reports',
         visibleInMenu: true,
+        allowedRoles: ['MFO','CA','AM','RM','DIR'],
         icon: <NotificationOutlined/>,
     }
 

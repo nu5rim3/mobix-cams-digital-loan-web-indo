@@ -251,7 +251,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
                 placeholder='Select A Status'
                 options={[
                     {
-                        value: null,
+                        value: '',
                         label: 'All'
                     },
                     {
