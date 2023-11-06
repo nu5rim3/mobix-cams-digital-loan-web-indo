@@ -69,7 +69,6 @@ export default function LayoutContainer (props: ILayoutProps) {
         if(token){
             const decoded = jwt_decode(token) as any;
             setAxiosToken(token, decoded.sub)
-            console.log("yest", decoded)
             actions.getUserDataById(decoded.sub)
         }
 

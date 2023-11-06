@@ -72,16 +72,14 @@ export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchAllApplications',
     async (data: Parameters<typeof API.appraisalsServices.getAllAppraisals>[0], thunkAPI) => {
         try{
-            console.log("im in")
             const response = await API.appraisalsServices.getAllAppraisals(data)
-            console.log("daya", response)
-            return response.data
+            return response?.data
         }
         catch(error){
             const er = error as AxiosError
             return er?.response 
-            ? thunkAPI.rejectWithValue(er?.response.data)
-            : thunkAPI.rejectWithValue(er.message)
+            ? thunkAPI.rejectWithValue(er?.response?.data)
+            : thunkAPI.rejectWithValue(er?.message)
         }
     }
   )
@@ -314,6 +312,10 @@ export const ApplicationDataSlice = createSlice({
         builder.addCase(getAllApplications.fulfilled , (state, action) => {
             state.applications.fetching = false
             state.applications.data = action.payload
+        })
+        builder.addCase(getAllApplications.rejected , (state, action) => {
+            state.applications.fetching = false
+            state.applications.data = []
         })
 
         builder.addCase(getCustomerData.pending , (state, action) => {
