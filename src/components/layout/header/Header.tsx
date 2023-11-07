@@ -64,8 +64,8 @@ export default function HeaderContainer({
         onClick: () => {
           localStorage.removeItem('selectedRole')
           actions.restAppData()
-          logOut('', '/logout')
-          window.location.replace(`${import.meta.env.VITE_AUTHORIZATION_SERVER}/oidc/logout?id_token_hint=${token}&post_logout_redirect_uri=${import.meta.env.VITE_REDIRECT_BACK_CHANEL_LOGOUT_URL}`)
+          logOut() 
+          // window.location.replace(`${import.meta.env.VITE_AUTHORIZATION_SERVER}/logout?id_token_hint=${token}&post_logout_redirect_uri=${import.meta.env.VITE_REDIRECT_BACK_CHANEL_LOGOUT_URL}`)
           login()
         }
       }

@@ -53,7 +53,7 @@ const updateSlik = ({
     data
 }: {
     slikId: string,
-    data: SlickUpdate
+    data: any //SlickUpdate
 } ) => { // this API provides status inprogress and completed sliks (this is status not slik status)
     return api.put(
         `/mobixCamsCredit/v1/sliks/${slikId}`,

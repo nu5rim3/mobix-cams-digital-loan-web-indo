@@ -4,6 +4,7 @@ import ImageUpload from './ImageUpload';
 import Achnowledgement from './Achnowledgement';
 import Approval from './Approval';
 import { UploadFile } from 'antd';
+import { useSelector } from 'react-redux';
 
 export interface IApprovalEndProps {
 }
@@ -11,14 +12,22 @@ export interface IApprovalEndProps {
 export default function ApprovalEnd (props: IApprovalEndProps) {
 
     const [fileList, setFileList] = useState<UploadFile[]>([])
+    const {
+        selectedRole
+    } = useSelector((state: any) => state.AppData)
 
   return (
     <div>
-        <CollapseContainer
-            key={'imageUpload'}
-            label={'Image Upload'}
-            children={<ImageUpload setFileList={setFileList} fileList={fileList}/>}
-        /> 
+        {
+            selectedRole === 'CSA'?
+                null
+            :
+            <CollapseContainer
+                key={'imageUpload'}
+                label={'Image Upload'}
+                children={<ImageUpload setFileList={setFileList} fileList={fileList}/>}
+            /> 
+        }
 
         <CollapseContainer
             key={'Achnowledgement'}

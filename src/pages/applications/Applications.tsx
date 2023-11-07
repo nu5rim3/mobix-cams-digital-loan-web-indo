@@ -118,13 +118,19 @@ export default function Applications (props: IApplicationsProps) {
     },
     {
       title: 'Customer NIK',
-      dataIndex: 'tcNo',
-      key: 'tcNo',
+      dataIndex: 'ktp',
+      key: 'ktp',
+      render: (_, record) => {
+        return record.clienteles?.ktp
+      }
     },
     {
       title: 'Customer Name',
-      key: 'tags',
-      dataIndex: 'tags',
+      key: 'fullName',
+      dataIndex: 'fullName',
+      render: (_, record) => {
+        return record.clienteles?.fullName
+      }
     },
     {
         title: 'Created At',
@@ -136,17 +142,17 @@ export default function Applications (props: IApplicationsProps) {
         dataIndex: 'createdBy',
         key: 'createdBy',
       },
-      {
-        title: 'Branch Name',
-        dataIndex: 'branchName',
-        key: 'branchName',
-      },
+      // {
+      //   title: 'Branch Name',
+      //   dataIndex: 'branchName',
+      //   key: 'branchName',
+      // },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => navigate(`/applications/viewApplication/APP00000000123`)}>View</a>
+          <a onClick={() => navigate(`/applications/viewApplication/${record.idx}`)}>View</a>
         </Space>
       ),
     },

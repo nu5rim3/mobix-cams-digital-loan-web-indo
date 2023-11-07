@@ -66,6 +66,10 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         financialDetailsSavePending
     } = useSelector((state: any) => state.Application)
 
+    const {
+      selectedRole
+  } = useSelector((state: any) => state.AppData)
+
     const updateFinancialDetails = async() => {
       try{
         setTCSaveLoading(true)
@@ -92,6 +96,8 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         setTCSaveLoading(false)
       }
     }
+
+
 
   return (
     <div  
@@ -131,6 +137,9 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                         actions.financialDSavePendingUpdate(true)
                       }
                     }}
+                    disabled={
+                      selectedRole === 'CSA'? true: false
+                    }
                   >
                     {editLoan? 'Done' :'Edit' }
                   </Button>
@@ -153,6 +162,9 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                         actions.financialDSavePendingUpdate(true)
                       }
                     }}
+                    disabled={
+                      selectedRole === 'CSA'? true: false
+                    }
                   >
                     {editTerm? 'Done' :'Edit'}
                   </Button>

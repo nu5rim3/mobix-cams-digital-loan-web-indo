@@ -1,14 +1,16 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import BreadCrumbContainer from '../../../../components/Containers/BreadCrumbContainer';
 import Title from '../../../../components/Typography/Tytle';
 import ContentContainer from '../../../../components/Containers/ContentContainer';
 import Paragraph from 'antd/es/typography/Paragraph';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { actions } from '../../../../store/store';
-import { Button, Descriptions, Form, Grid, Input, Select, Space } from 'antd';
+import { Button, Descriptions, Form, Grid, Input, Select, Space, notification } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { useSelector } from 'react-redux';
+import { API } from '../../../../services/Services';
+import axios from 'axios';
 
 export interface IUpdateSlikRequestProps {
 }
@@ -19,9 +21,12 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
   const [form] = Form.useForm();
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
+  const [addLoading, setAllLoading] = useState(false)
   const {
     initialData
   } = useSelector((state: any) => state.SlikRequest.slikUpdateUserData)
+
+  const navigate = useNavigate();
 
   const getSlikRequestData = () => {
     if(id){
@@ -134,6 +139,69 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
   ];
+
+  const saveSlickRequest = async (e:any) => {
+    try{
+      setAllLoading(true)
+      const data = {
+        slkIdx: id,
+        appraisalId: "APP00000000112",
+        batchNumber: "BTN12345678",
+        customerName: "Terance 4234234",
+        customerKTP: "CUS84384823",
+        slkStatus: e.status,
+        callVerStatus: "F",
+        status: "A",
+        appraisalType: "GRPL",
+        centerCode:"testc",
+        fusionCenterCode:"testfc",
+        groupIdx:"testG",
+        kol1: e.kol1,
+        kol2_5:e['kol-2-5'],
+        otherFacilityCount:e.otherFacilityCount,
+        totalLoanAmounts:e.totalLoanAmounts,
+        writeOff: e.writeOff,
+        totalOutstanding:e.totalOutstanding,
+        lovi: e.lovi
+      }
+  
+      if(id){
+        const user = await API.slikServices.updateSlik({slikId: id, data: data})
+        notification.success({
+          message: 'Slick request updated successfully'
+        })
+        navigate('/slikRequest')
+      }
+    }
+    catch(error){
+      console.log("e",error)
+      if (axios.isAxiosError(error)) {
+        const axiosError = error;
+        // You can access error.response for details about the HTTP response, e.g., status code and data
+        if (axiosError.response) {
+          const { status, data } = axiosError.response;
+          notification.error({
+            message: data.message || 'An error occurred during the request.'
+          })
+        } else {
+           // Set a generic network error message
+          notification.error({
+            message: 'An error occurred. Please try again later.'
+          })  
+        }
+      } 
+      else {
+        // Handle non-Axios errors
+        notification.error({
+          message: 'There was an error processing your request.'
+        })
+      }
+    }
+    finally{
+      setAllLoading(false)
+    }
+    
+  }
   
   return (
     <div>
@@ -176,7 +244,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
               name="slikUpdate"
               layout='vertical'
               scrollToFirstError
-              // onFinish={(e)=> handleAddUser(e)}
+              onFinish={(e)=> saveSlickRequest(e)}
               // onFieldsChange={(e:any)=> {
               //   if(e[0]?.name[0] == "roles"){
               //     if((e[0]?.value.includes('MFO') || e[0]?.value.includes('CSA'))){
@@ -237,6 +305,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
             <Form.Item
               className={screens.xs? 'w-full' :'w-1/2'}
               label="KOL 1"
+              name='kol1'
               style={{
                 fontWeight: 600,
               }}
@@ -253,7 +322,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
             }>
             <Form.Item
               className={screens.xs? 'w-full' :'w-1/2'}
-              name="other"
+              name="otherFacilityCount"
               label="Other Active Facilities Count"
               style={{
                 fontWeight: 600,
@@ -281,7 +350,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
             }>
             <Form.Item
               className={screens.xs? 'w-full' :'w-1/2'}
-              name="profileUser"
+              name="totalLoanAmounts"
               label="Total Plafon/ Total Loan Amounts"
               style={{
                 fontWeight: 600,
@@ -292,7 +361,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
 
             <Form.Item
               className={screens.xs? 'w-full' :'w-1/2'}
-              name="mobileNo"
+              name="writeOff"
               label="Write Off"
               style={{
                 fontWeight: 600,
@@ -309,7 +378,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
             }>
             <Form.Item
                 className={screens.xs? 'w-full' :'w-1/2'}
-                name="totalout"
+                name="totalOutstanding"
                 label="Total Outstanding"
                 style={{
                   fontWeight: 600,
@@ -337,16 +406,16 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
                 className='mr-3'
                 >Reset</Button>
               <Button 
-                onClick={() => {
-                  // console.log("cli")
-                  // navigate('/userManagement/createUser')
-                  
-                }} 
+                // onClick={() => {
+                //   // console.log("cli")
+                //   // navigate('/userManagement/createUser')
+                //   saveSlickRequest()
+                // }} 
                 htmlType="submit"
                 type='primary'
                 shape="round"
                 size='large'
-                // loading={addLoading}
+                loading={addLoading}
               //   icon={<PlusOutlined/>}
               >
                 Save

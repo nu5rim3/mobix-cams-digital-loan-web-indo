@@ -30,7 +30,7 @@ export default function Achnowledgement (props: IAchnowledgementProps) {
         <div className='text-justify flex flex-col justify-center'>
             <p>I {customerData?.data?.fullName},</p>
             <br/>
-            <p>Accept the all conditions and terms hereby mentioned by the {customerData?.data?.groupIdx} for the loan application {customerData?.data?.appraisalId} and agree to repay the according to the agreement.</p>
+            <p>Saya / kami dengan ini menyatakan bahwa informasi di atas adalah benar dan dengan ini saya / kami memohon pembiayaan dengan jumlah yang tersebut di atas untuk memenuhi maksud dan tujuan permohonan pembiayaan. Saya menyetujui data dan informasi tersebut diatas didaftarkan pada SLIK OJK, dan saya setuju / tidak setuju* data saya diberikan kepada pihak ketiga untuk tujuan komersial atau untuk tujuan lain yang dinilai wajar dan diperlukan. Saya juga setuju untuk mengikuti seluruh ketentuan pembiayaan yang berlaku di PT LOLC Ventura Indonesia serta mematuhi kewajiban tanggung renteng.</p>
 
         </div>
         <div className='flex justify-center '>
