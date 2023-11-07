@@ -127,14 +127,14 @@ const sidebarMenu: MenuItem[] = [
             label: 'Second Meeting Pending',
             component: Applications2ndStep,
         },
-        // {
-        //     type: "LINK",
-        //     path:'/applications/viewApplication/:id',
-        //     // label: 'Test Sub 2',
-        //     key: '/applications/viewApplication/:id',
-        //     visibleInMenu: false,
-        //     component: ApplicationView,
-        // },
+        {
+            type: "LINK",
+            path:'/applications/viewApplication/:id',
+            // label: 'Test Sub 2',
+            key: '/applications/viewApplication/:id',
+            visibleInMenu: false,
+            component: ApplicationView,
+        },
         ],
     },
     {

@@ -24,7 +24,6 @@ export default function Dashboard (props: IDashboardProps) {
         getData()
     },[])
       
-    console.log("usersdata", data)
   return (
     <div>
         <div 
