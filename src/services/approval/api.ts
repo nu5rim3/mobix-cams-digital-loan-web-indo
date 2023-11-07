@@ -10,7 +10,12 @@ const createScondMeetingStep = (data: any) => {
     return api.post(`/mobixCamsApproval/v1/approvals/second-meeting-steps`, data)
 }
 
+const createStep = (data: any) => {
+    return api.post(`/mobixCamsApproval/v1/approvals/steps`, data)
+}
+
 export default {
     getAllCombinedStepsByAppraisalId,
-    createScondMeetingStep
+    createScondMeetingStep,
+    createStep
 }

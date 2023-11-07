@@ -137,7 +137,8 @@ export default function Approval ({
             })
           }
           // console.log("data", fileList)
-          const save = await API.approvalServices.createScondMeetingStep(data)
+          // const save = await API.approvalServices.createScondMeetingStep(data)
+          const save = await API.approvalServices.createStep(data)
 
           notification.success({
             message: 'Application Updated Successfully.'
@@ -183,7 +184,7 @@ export default function Approval ({
                 <ButtonContainer 
                   type='primary' 
                   label={type}
-                  loading={false} 
+                  loading={addingData? true: false} 
                   size='large' 
                   onClick={() => handleSubmit(type)}
                   className='mr-1 ' 
