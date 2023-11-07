@@ -89,7 +89,15 @@ export const getAllApplications = createAsyncThunk(
     async (arg: Parameters<typeof API.personServices.getPersonByIdAppraisalId>[0], thunkAPI) => {
         try{
             const response = await API.personServices.getPersonByIdAppraisalId(arg)
-            return response.data?.[0]
+            const maritalStatus = response.data?.[0].maritalStatus
+            let maritalData:any
+            if(maritalStatus){
+                maritalData = await API.productServices.getMaritalStatusByCode(maritalStatus)
+            }
+            return {
+                ...response.data?.[0],
+                ...maritalData.maritalDesc
+            }
         }
         catch(error){
             const er = error as AxiosError
