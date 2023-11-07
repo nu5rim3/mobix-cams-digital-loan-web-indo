@@ -13,6 +13,7 @@ import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRe
 import Applications from '../pages/applications/Applications';
 import ApplicationView from '../pages/applications/applicationView/ApplicationView';
 import Applications2ndStep from '../pages/applications/Applications2ndStep';
+import Dashboard from '../pages/dashboard/Dashboard';
 
 export interface MenuItem {
     type: "LINK" | "GROUP";
@@ -35,14 +36,14 @@ export interface MenuItem {
 const sidebarMenu: MenuItem[] = [
     {
         type: "LINK",
-        path: "/indo-digital-loan",
+        path: "/indo-digital-loan/",
         label: 'Dashboard',
-        key: '/indo-digital-loan',
+        key: '/indo-digital-loan/',
         icon: <DashboardOutlined/>,
         breadcrumb: {
             title: "Dashboard"
         },
-        component: UnderConstruction,
+        component: Dashboard,
         visibleInMenu: true,
         
     },

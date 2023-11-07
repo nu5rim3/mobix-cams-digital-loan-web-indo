@@ -104,7 +104,7 @@ export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchCustomerContactData',
     async (arg: Parameters<typeof API.stakeholderContact.getPersonContactByIdAppraisalId>[0], thunkAPI) => {
         try{
-            const response = await  API.stakeholderContact.getPersonContactByIdAppraisalId('APP00000000124')
+            const response = await  API.stakeholderContact.getPersonContactByIdAppraisalId(arg)
             return response.data
         }
         catch(error){
