@@ -235,7 +235,7 @@ export default function UserForm (props: IUserFormProps) {
                 <Form.Item
                   name="userName"
                   noStyle
-                  rules={[{ required: true, message: 'Province is required' }]}
+                  rules={[{ required: true, message: 'Username is required' }]}
                 >
                   <Input/>
                 </Form.Item>
@@ -358,6 +358,8 @@ export default function UserForm (props: IUserFormProps) {
             rules={[
               {
                 required: true,
+                max: 12,
+                min: 11
               },
             ]}
             style={{

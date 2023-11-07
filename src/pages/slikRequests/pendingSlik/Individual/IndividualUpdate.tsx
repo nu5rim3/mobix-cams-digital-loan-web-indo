@@ -110,7 +110,7 @@ export default function IndividualUpdate ({
   const getIndividualData = () => {
       actions.getSlikByIndividual({
         userId: userData.data?.idx,
-        branchCode: 'TJP', //userData.data?.branches[0]?.code,
+        branchCode: userData.data?.branches[0]?.code,
         status: 'P',
         type: "IL"
       })

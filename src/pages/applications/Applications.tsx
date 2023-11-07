@@ -22,7 +22,7 @@ export interface IApplicationsProps {
 export default function Applications (props: IApplicationsProps) {
     const navigate = useNavigate();
   const [users, setUsers] = useState<[]>([])
-  const [searchStatus, setSearchStatus] = useState<string>('')
+  const [searchStatus, setSearchStatus] = useState<string>('APPROVAL_PENDING')
   const [searchAppraisal, setSearchAppraisal] = useState<string | null>(null)
   const [fromDateFilter, setFromDateFilter] = useState(null);
   const [toDateFilter, setToDateFilter] = useState(null);
@@ -40,7 +40,8 @@ export default function Applications (props: IApplicationsProps) {
   
   useEffect(() => {
     actions.getAllApplications({
-      role: selectedRole
+      role: selectedRole,
+      status: searchStatus
     })
   }, [])
 
@@ -196,15 +197,16 @@ export default function Applications (props: IApplicationsProps) {
                     setSearchStatus(value)
                 }}
                 style={{ width: 200 }}
+                defaultValue='AP'
                 placeholder='Select A Status'
                 options={[
+                    // {
+                    //     value: '',
+                    //     label: 'All'
+                    // },
                     {
-                        value: '',
-                        label: 'All'
-                    },
-                    {
-                        value: 'PENDING',
-                        label: 'Pending'
+                        value: 'AP',
+                        label: 'Approval Pending'
                     },
                     {
                       value: 'RETURNED',

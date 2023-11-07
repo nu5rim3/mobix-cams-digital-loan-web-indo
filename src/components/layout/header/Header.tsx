@@ -37,6 +37,10 @@ export default function HeaderContainer({
     const {
         token: { colorBgContainer, boxShadow, colorBgLayout, colorBgElevated },
       } = theme.useToken();
+
+    const {
+      token
+    } = useSelector((state:any) => state.AppData)
     
     const [showSettings, setShowSettings] = useState(false)
 
@@ -61,6 +65,7 @@ export default function HeaderContainer({
           localStorage.removeItem('selectedRole')
           actions.restAppData()
           logOut('', '/logout')
+          window.location.replace(`${import.meta.env.VITE_AUTHORIZATION_SERVER}/oidc/logout?id_token_hint=${token}&post_logout_redirect_uri=${import.meta.env.VITE_REDIRECT_BACK_CHANEL_LOGOUT_URL}`)
           login()
         }
       }

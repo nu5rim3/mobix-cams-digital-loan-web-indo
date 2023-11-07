@@ -54,7 +54,7 @@ const sidebarMenu: MenuItem[] = [
         key: '/userManagement',
         icon: <UserOutlined/>,
         visibleInMenu: true,
-        // allowedRoles: ['MFO','CA','BM','AM','RM','DIR'],
+        allowedRoles: ['ADMIN'],
         children: [ 
             {
                 type: "LINK",

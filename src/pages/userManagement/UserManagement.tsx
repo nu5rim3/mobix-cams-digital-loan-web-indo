@@ -116,19 +116,36 @@ const UserManagement: React.FC = () =>{
 
 
       <ContentContainer >
-        <Title 
-          style={{color: '#374957'}} 
-          level={4}
-          title='User Details'
-        /> 
-        <Title 
-          style={{margin: 1}} 
-          level={5}
-          title='Search Items'
-        />
-        <Search
-          onChange={(value:any) => setSearchText(value)}
-        />
+            <Title 
+              style={{color: '#374957'}} 
+              level={4}
+              title='User Details'
+            /> 
+          <div className='flex items-center justify-between'>
+            <div className=' w-1/2'>
+            <Title 
+              style={{margin: 1}} 
+              level={5}
+              title='Search Items'
+            />
+            <Search
+              onChange={(value:any) => setSearchText(value)}
+              className='w-full pb-3'
+            />
+          </div>
+          <div>
+            <Button 
+              onClick={() => {
+                navigate('/userManagement/createUser')
+              }} 
+              type='primary'
+              shape="round"
+              size='large'
+              // icon={<PlusOutlined/>}
+              label="Create New User"
+            />
+          </div>
+        </div>
 
         <div
          className='border-l-current border-r-current'
@@ -142,16 +159,7 @@ const UserManagement: React.FC = () =>{
         </div>
 
         <div className='flex justify-center p-10'>
-          <Button 
-            onClick={() => {
-              navigate('/userManagement/createUser')
-            }} 
-            type='primary'
-            shape="round"
-            size='large'
-            icon={<PlusOutlined/>}
-            label="Create New User"
-          />
+         
         </div>
       </ContentContainer>
     </div>
