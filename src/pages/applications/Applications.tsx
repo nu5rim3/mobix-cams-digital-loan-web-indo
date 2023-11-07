@@ -121,7 +121,7 @@ export default function Applications (props: IApplicationsProps) {
       dataIndex: 'ktp',
       key: 'ktp',
       render: (_, record) => {
-        return record.clienteles?.ktp
+        return <>{record.clienteles[0]?.ktp || ''}</>
       }
     },
     {
@@ -129,7 +129,7 @@ export default function Applications (props: IApplicationsProps) {
       key: 'fullName',
       dataIndex: 'fullName',
       render: (_, record) => {
-        return record.clienteles?.fullName
+        return <>{record.clienteles[0]?.fullName || ''}</>
       }
     },
     {
