@@ -11,7 +11,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
       key: 'Product',
       label: 'Product',
-      children: data.pTrhdLType, //initialData?.centerCode,
+      children: data?.pTrhdLType, //initialData?.centerCode,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -21,7 +21,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'fundingPurpose',
         label: 'Funding Purpose',
-        children: data.fundingPurpose, //initialData?.centerCode,
+        children: data?.fundingPurpose, //initialData?.centerCode,
         labelStyle: {
           color: '#102C57',
           fontWeight: 600,
@@ -31,7 +31,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'subProduct',
         label: 'Sub Product',
-        children: data.pTrhdBus, //initialData?.centerCode,
+        children: data?.pTrhdBus, //initialData?.centerCode,
         labelStyle: {
           color: '#102C57',
           fontWeight: 600,
@@ -41,7 +41,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'pTrhdTr',
         label: 'Rate',
-        children: data.pTrhdTr, //initialData?.centerCode,
+        children: data?.pTrhdTr, //initialData?.centerCode,
         labelStyle: {
           color: '#102C57',
           fontWeight: 600,
@@ -72,7 +72,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         const save = await API.financialServices.saveTCByAppraisal(
           customerData?.data?.appraisalId,
           customerData?.data?.cltIdx,
-          financialDetails.data
+          financialDetails?.data
         )
 
         if(save.data.code == "ERROR"){
@@ -109,7 +109,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
             column={
               3
             }
-            items={financialDetails.data? items(financialDetails.data): []} 
+            items={financialDetails.data? items(financialDetails?.data): []} 
             size='small'
           />  
           <div className='grid grid-cols-3 gap-0 pt-2'>
