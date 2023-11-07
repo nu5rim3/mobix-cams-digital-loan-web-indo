@@ -21,6 +21,7 @@ export default function IndividualUpdate ({
   } = useSelector((state: any) => state.SlikRequest)
   const userData = useSelector((state: any) => state.AppData.userData)
   const [loading, setLoading] = useState<boolean>(false)
+  const [ableUpdate, setAbleData] = useState(false)
 
   const columns: ColumnsType<any> = [
     // {
@@ -90,10 +91,10 @@ export default function IndividualUpdate ({
           onChange={(e) => {
             // Handle input changes here and update your data
             // e.target.value contains the new value of the input field
-            console.log("recc**", record)
+            setAbleData(true)
             const newValue = e.target.value;
             const newData = slikRequestsIndividualData.data?.map((row:any) => {
-              if(record.slkIdx == row.slkIdx){
+              if(record.slikDto.slkIdx == row.slikDto.slkIdx){
                 console.log("in")
                 return {
                   ...row,
@@ -169,6 +170,7 @@ export default function IndividualUpdate ({
             shape="round"
             size='large'
             label='Update Batch'
+            disabled={ableUpdate}
           />
       </div>
     </div>
