@@ -138,7 +138,15 @@ export default function IndividualUpdate ({
   const uploadData = async () => {
     try{
       setLoading(true)
-      const response = await API.slikServices.updateSlikBulck(slikRequestsIndividualData?.data?.filter((row:any) => row.batchNumber))
+      const data = slikRequestsIndividualData?.data
+        ?.filter((row:any) => row.batchNumber)
+        ?.map((row:any) => {
+          return {
+            ...row.slikDto,
+            batchNumber : row.batchNumber
+          }
+        })
+      const response = await API.slikServices.updateSlikBulck(data)
       notification.success({
           message: 'Batches Updated Successfully'
       })
