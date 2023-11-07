@@ -24,7 +24,8 @@ export default function Approval ({
       financialDetails,
     } = useSelector((state: any) => state.Application)
     const {
-      selectedRole
+      selectedRole,
+      userData
   } = useSelector((state: any) => state.AppData)
 
     const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([])
@@ -121,6 +122,8 @@ export default function Approval ({
             loanAmount: financialDetails.data.pTrhdLocCost,
             loanTerm: financialDetails.data.pTrhdTerm,
             comment: form.getFieldValue('comment'),
+            lastModifiedBy: userData.data.idx,
+
             document: fileList?.map((file: any) => {
               
              return { 
@@ -208,7 +211,7 @@ export default function Approval ({
           columns={columns}
           pagination={false}
           dataSource={
-            approvalSteps.data?.secondMeetingApprovalStepDtoList?? []}
+            approvalSteps.data?.approvalStepDtoList?? []}
         />
       </div>
     </div>

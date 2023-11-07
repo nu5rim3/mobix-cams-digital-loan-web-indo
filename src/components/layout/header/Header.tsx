@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Button, Dropdown, Layout, MenuProps, theme } from 'antd';
+import { Button, Dropdown, Layout, MenuProps, Tag, theme } from 'antd';
 import { MenuUnfoldOutlined, 
     MenuFoldOutlined,
     SettingOutlined,
@@ -39,7 +39,9 @@ export default function HeaderContainer({
       } = theme.useToken();
 
     const {
-      token
+      token,
+      userData,
+      selectedRole
     } = useSelector((state:any) => state.AppData)
     
     const [showSettings, setShowSettings] = useState(false)
@@ -117,6 +119,7 @@ export default function HeaderContainer({
             }}
         /> */}
         {/* <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}></Dropdown.Button> */}
+        <Tag color='geekblue'>{userData.data.idx} - {selectedRole}</Tag>
         <Dropdown menu={{ items: customerData? items(customerData): [] }} placement="bottomLeft">
           <Button  icon={<UserOutlined/>}></Button>
         </Dropdown>
