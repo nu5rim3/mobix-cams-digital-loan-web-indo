@@ -76,14 +76,19 @@ export default function Approval ({
       ),
       },
       {
+        title: 'Role',
+        dataIndex: 'roleDescription',
+        key: 'roleDescription',
+      },
+      {
         title: 'Comment',
         dataIndex: 'comment',
         key: 'comment',
       },
       {
-        title: 'createdBy',
-        dataIndex: 'createdBy',
-        key: 'createdBy',
+        title: 'created By',
+        dataIndex: 'lastModifiedBy',
+        key: 'lastModifiedBy',
       },
       {
         title: 'lastModifiedDate',
@@ -165,42 +170,48 @@ export default function Approval ({
     
   return (
     <div>
-        <Form
-          form={form}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 26 }}
-          layout="vertical"
-          // disabled={componentDisabled}
-          // style={{ maxWidth: 600 }}
-      >
-        {roleWiseApproval.length
-          ?
-          <Form.Item label="Comment" name='comment' rules={[
-              {
-                required: true,
-              },
-            ]}>
-            <TextArea rows={4} placeholder='Add Comment here' />
-          </Form.Item>
-        : null}
+      {
+        approvalSteps.data?.approvalStepDtoList?.find((row: any) => row?.stepAction === 'PENDING')?.roleCode === selectedRole?
+          <>
+            <Form
+              form={form}
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 26 }}
+              layout="vertical"
+              // disabled={componentDisabled}
+              // style={{ maxWidth: 600 }}
+          >
+            {
+            roleWiseApproval.length ?
+              <Form.Item label="Comment" name='comment' rules={[
+                  {
+                    required: true,
+                  },
+                ]}>
+                <TextArea rows={4} placeholder='Add Comment here' />
+              </Form.Item>
+            : null}
 
-        <div className='flex justify-center'>
-            {roleWiseApproval.map((type: any) => {
-              return (
-                <ButtonContainer 
-                  type='primary' 
-                  label={type}
-                  loading={addingData? true: false} 
-                  size='large' 
-                  onClick={() => handleSubmit(type)}
-                  className='mr-1 ' 
-                  shape='round'
-                />
-              )
-            })}
-        </div>
-      </Form>
-      <Divider/>
+            <div className='flex justify-center'>
+                {roleWiseApproval.map((type: any) => {
+                  return (
+                    <ButtonContainer 
+                      type='primary' 
+                      label={type}
+                      loading={addingData? true: false} 
+                      size='large' 
+                      onClick={() => handleSubmit(type)}
+                      className='mr-1 ' 
+                      shape='round'
+                    />
+                  )
+                })}
+            </div>
+            </Form>
+            <Divider/>
+          </>
+        : null
+      }
       <div className='mt-5'>
         <Title 
                 level={5}
@@ -208,7 +219,7 @@ export default function Approval ({
           /> 
 
         <Table
-          className='w-1/2'
+          className='w-3/4'
           showHeader={false}
           bordered={false}
           columns={columns}
