@@ -23,6 +23,7 @@ const SlikRequests: React.FC = () =>{
 
   const selectedType = useSelector((state: any) => state.SlikRequest.selectedType)
   const selectedStatus = useSelector((state: any) => state.SlikRequest.selectedStatus)
+  const {selectedRole} = useSelector((state: any) => state.AppData)
 
   const columns: ColumnsType<any> = [
     {
@@ -91,7 +92,33 @@ const SlikRequests: React.FC = () =>{
     },
   ];
 
-  const items: TabsProps['items'] = [
+  const itemsOne: TabsProps['items'] = [
+    {
+      key: 'inprogress',
+      label: 'Requests In-Progress',
+      children: '',
+    },
+    {
+      key: 'completed',
+      label: 'Requests Completed',
+      children: '',
+    },
+  ];
+
+  const itemsTwo: TabsProps['items'] = [
+    {
+      key: 'pending',
+      label: 'Requests Pending',
+      children: '',
+    },
+    {
+      key: 'completed',
+      label: 'Requests Completed',
+      children: '',
+    },
+  ];
+
+  const itemsThree: TabsProps['items'] = [
     {
       key: 'pending',
       label: 'Requests Pending',
@@ -108,6 +135,7 @@ const SlikRequests: React.FC = () =>{
       children: '',
     },
   ];
+
 
   const plainOptions = [
      { label: 'Group Loan', value: 'group' },
@@ -128,10 +156,17 @@ const SlikRequests: React.FC = () =>{
         <Tabs 
           activeKey={selectedStatus} 
           defaultActiveKey="pending" 
-          items={items} 
+          items={selectedRole.includes('ADMIN')? 
+            itemsThree
+          : selectedRole.includes('CSA')?
+            itemsTwo
+          : selectedRole.includes('SLIKU')?
+            itemsOne
+          : itemsOne
+          } 
           onChange={(value:any) => actions.SRchangeStatus(value)}/>
           {selectedStatus == "pending"?
-             <PendingSlik/>
+            <PendingSlik/>
           : 
             <NonPendingSlik/>
           }

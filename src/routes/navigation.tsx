@@ -144,6 +144,7 @@ const sidebarMenu: MenuItem[] = [
         key: '/slikRequest',
         icon: <DashboardOutlined/>,
         visibleInMenu: true,
+        allowedRoles: ['CSA','ADMIN','SLIKU'],
         // component: SlikRequests,
         children: [ 
             {

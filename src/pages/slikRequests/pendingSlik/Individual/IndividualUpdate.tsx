@@ -6,6 +6,7 @@ import { ColumnsType } from 'antd/es/table';
 import { Input, notification } from 'antd';
 import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
+import formatAddress from '../../../../utils/getAddressByObjects';
 
 export interface IIndividualUpdateProps {
   searchText: string
@@ -37,6 +38,9 @@ export default function IndividualUpdate ({
       dataIndex: 'customerName',
       key: 'customerName',
       filteredValue: [searchText],
+      render: (text, record) => (
+        <>{record.slikDto?.customerName}</>
+      )
       // onFilter: (value, record) => {
       //   return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
       // }
@@ -45,19 +49,29 @@ export default function IndividualUpdate ({
       title: 'NIK',
       dataIndex: 'customerKTP',
       key: 'customecustomerKTPrName',
+      render: (text, record) => (
+        <>{record.slikDto?.customerKTP}</>
+      )
     },
     {
       title: 'Family C.NO',
-      dataIndex: 'clienteleIdx',
-      key: 'clienteleIdx',
+      dataIndex: 'familyCard',
+      key: 'familyCard',
     },
     {
       title: 'Residential Address',
       dataIndex: 'address',
       key: 'address',
+      render: (text, record) => (
+        <>{ formatAddress({
+          address1 :record.addLine1,
+          address2: record.addLine2,
+          address3: record.addLine3
+      })}</>
+      )
     },
     {
-      title: 'BR Name and Relationship',
+      title: 'BR Name',
       dataIndex: 'brName',
       key: 'brName',
     },

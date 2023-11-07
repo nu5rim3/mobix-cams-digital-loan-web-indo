@@ -66,18 +66,12 @@ export default function Approval ({
     const columns: ColumnsType<any> = [
       {
         title: 'Status',
-        dataIndex: 'secondMeetingStepStatus',
-        key: 'secondMeetingStepStatus',
-        render: (_, { secondMeetingStepStatus }) => (
-          <>
-            {secondMeetingStepStatus === "A" 
-            ? <Tag color='green' key={secondMeetingStepStatus}>
-                {secondMeetingStepStatus}
-              </Tag>
-            :<Tag color='green' key={secondMeetingStepStatus}>
-              {secondMeetingStepStatus}
+        dataIndex: 'stepStatus',
+        key: 'stepStatus',
+        render: (_, { stepStatus }) => (
+          <><Tag color='green' key={stepStatus}>
+              {stepStatus}
             </Tag>
-            }
           </>
       ),
       },
@@ -92,16 +86,25 @@ export default function Approval ({
         key: 'createdBy',
       },
       {
-        title: 'lastModifiedBy',
-        dataIndex: 'lastModifiedBy',
-        key: 'lastModifiedBy',
-      },
-      {
         title: 'lastModifiedDate',
         key: 'lastModifiedDate',
         dataIndex: 'lastModifiedDate',
+        render: (_, { lastModifiedDate }) => {
+          const date = new Date(lastModifiedDate);
+
+          const localDate = date.toLocaleDateString();
+          const localTime = date.toLocaleTimeString();
+
+          return <>{localDate} - {localTime}</>
+        }
       },
     ];
+
+    const genarateType = (type: string) => {
+      if(type == 'Recommend'){
+        return 'PROCEED'
+      }
+    }
 
     const handleSubmit = (type: string) => {
       if(financialDetailsSavePending){
@@ -115,8 +118,8 @@ export default function Approval ({
           setAddingData(type)
           const data = {
             appraisalIdx: customerData.data.appraisalId,
-            secondMeetingStepAction: type,
-            secondMeetingStepStatus: type,
+            stepStatus: type,
+            stepAction: genarateType(type),
             appraisalType: customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
             loanAmount: financialDetails.data.pTrhdLocCost,
