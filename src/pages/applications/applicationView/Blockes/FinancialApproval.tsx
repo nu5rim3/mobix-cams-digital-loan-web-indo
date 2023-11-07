@@ -11,7 +11,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
       key: 'Product',
       label: 'Product',
-      children: data?.pTrhdLType, //initialData?.centerCode,
+      children: data?.data?.productName || data?.pTrhdLType, //initialData?.centerCode,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,

@@ -37,7 +37,7 @@ export default function Approval ({
         if(selectedRole === 'CA'){
           return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
         }
-        if(selectedRole === 'ADMIN'){
+        if(selectedRole === 'BM'){
           return setRoleWiseApproval(['Return', 'Reject', 'Approve'])
         }
         if(selectedRole === 'AM'

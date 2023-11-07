@@ -19,14 +19,14 @@ export default function ApprovalEnd (props: IApprovalEndProps) {
   return (
     <div>
         {
-            selectedRole === 'CSA'?
-                null
+            selectedRole === 'CA' || selectedRole === 'BM'?
+                <CollapseContainer
+                    key={'imageUpload'}
+                    label={'Image Upload'}
+                    children={<ImageUpload setFileList={setFileList} fileList={fileList}/>}
+                /> 
             :
-            <CollapseContainer
-                key={'imageUpload'}
-                label={'Image Upload'}
-                children={<ImageUpload setFileList={setFileList} fileList={fileList}/>}
-            /> 
+                null
         }
 
         <CollapseContainer

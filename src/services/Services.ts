@@ -15,6 +15,7 @@ import incomeExpencesServices from './credit/IncomeExpense/api'
 import documentServices from './document/api'
 import approvalServices from './approval/api'
 import financialServices from './credit/FinanceApproval/api'
+import productServices from './common/product/api'
 
 export const API = {
     userServices,
@@ -33,5 +34,6 @@ export const API = {
     incomeExpencesServices,
     documentServices,
     approvalServices,
-    financialServices
+    financialServices,
+    productServices
 }

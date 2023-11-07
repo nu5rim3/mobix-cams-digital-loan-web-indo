@@ -248,8 +248,19 @@ export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchFinanceData',
     async (arg: Parameters<typeof API.financialServices.getTcByAppraisals>[0], thunkAPI) => {
         try{
-            const response = await API.financialServices.getTcByAppraisals(arg)
-            return response.data
+            const response:any = await API.financialServices.getTcByAppraisals(arg)
+
+            const productCode = response.data.pTrhdLType
+            let product
+            if(productCode){
+                product = await API.productServices.getProductByCode(productCode)
+
+                console.log("pro name", product)
+            }
+            return {
+                ...response.data,
+                ...product
+            }
         }
         catch(error){
             const er = error as AxiosError
