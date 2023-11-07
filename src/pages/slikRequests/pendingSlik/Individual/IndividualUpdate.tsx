@@ -21,7 +21,7 @@ export default function IndividualUpdate ({
   } = useSelector((state: any) => state.SlikRequest)
   const userData = useSelector((state: any) => state.AppData.userData)
   const [loading, setLoading] = useState<boolean>(false)
-  const [ableUpdate, setAbleData] = useState(false)
+  const [ableUpdate, setAbleData] = useState(true)
 
   const columns: ColumnsType<any> = [
     // {
@@ -91,7 +91,7 @@ export default function IndividualUpdate ({
           onChange={(e) => {
             // Handle input changes here and update your data
             // e.target.value contains the new value of the input field
-            setAbleData(true)
+            setAbleData(false)
             const newValue = e.target.value;
             const newData = slikRequestsIndividualData.data?.map((row:any) => {
               if(record.slikDto.slkIdx == row.slikDto.slkIdx){
