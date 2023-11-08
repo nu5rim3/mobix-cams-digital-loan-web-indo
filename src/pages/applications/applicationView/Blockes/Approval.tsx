@@ -33,7 +33,7 @@ export default function Approval ({
     useEffect(() => {
       if(selectedRole){
         if(selectedRole === 'CSA'){
-          return setRoleWiseApproval(['Return', 'Recommend'])
+          return setRoleWiseApproval(['Return', 'Verifed'])
         }
         if(selectedRole === 'CA'){
           return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
@@ -109,8 +109,21 @@ export default function Approval ({
     ];
 
     const genarateType = (type: string) => {
-      if(type == 'Recommend'){
+      if(type == 'Recommend' 
+      || type == 'Verifed'
+      || type == 'Not Recommend'
+      || type == 'Recommend'
+      ){
         return 'PROCEED'
+      }
+      if(type == 'Return'){
+        return 'RETURNED'
+      }
+      if(type == 'Reject'){
+        return 'REJECTED'
+      }
+      if(type == 'Approve'){
+        return 'AP'
       }
     }
 

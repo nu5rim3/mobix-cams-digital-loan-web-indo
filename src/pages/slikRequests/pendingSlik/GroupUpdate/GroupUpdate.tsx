@@ -137,12 +137,10 @@ export default function GroupUpdate ({
             onChange={(e) => {
               // Handle input changes here and update your data
               // e.target.value contains the new value of the input field
-              console.log("recc**", record)
               const newValue = e.target.value;
               setSelectedGroup((prev: any) => {
                 const newData = prev.map((row:any) => {
                   if(record.slkIdx == row.slkIdx){
-                    console.log("in")
                     return {
                       ...row,
                       batchNumber : newValue
@@ -151,7 +149,6 @@ export default function GroupUpdate ({
                     return row
                   }
                 })
-                console.log("meme", newData)
                 return newData
               })
               // You can update the data array or state here
@@ -186,7 +183,7 @@ export default function GroupUpdate ({
     const uploadData = async () => {
       try{
         setLoading(true)
-        const response = await API.slikServices.updateSlikBulck(slikRequestsGroupData?.data
+        const response = await API.slikServices.updateSlikBulck(selectedGroup
           ?.filter((row:any) => row.batchNumber)
           ?.map((row:any) => {
             return {
