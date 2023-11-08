@@ -169,7 +169,7 @@ const SlikRequests: React.FC = () =>{
           defaultActiveKey={roleViseItems()[0]?.key}
           items={roleViseItems()} 
           onChange={(value:any) => actions.SRchangeStatus(value)}/>
-          {selectedStatus == "pending"?
+          {roleViseItems()[0]?.key ==='pending' && selectedStatus == "pending"?
             <PendingSlik/>
           : 
             <NonPendingSlik/>

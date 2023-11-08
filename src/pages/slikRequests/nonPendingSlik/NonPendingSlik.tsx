@@ -17,7 +17,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
-  const columns: ColumnsType<any> = [
+  const columnsInProgress: ColumnsType<any> = [
     {
       title: 'Center',
       dataIndex: 'centerCode',
@@ -81,6 +81,61 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       ),
     },
   ];
+  const columnsCompleted: ColumnsType<any> = [
+    {
+      title: 'Center',
+      dataIndex: 'centerCode',
+      key: 'center',
+      filteredValue: [searchText],
+      // onFilter: (value, record) => {
+      //   return record?.centerCode?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      // }
+    },
+    {
+      title: 'Group No',
+      dataIndex: 'groupIdx',
+      key: 'groupIdx',
+    },
+    {
+      title: 'Customer Name',
+      dataIndex: 'customerName',
+      key: 'customerName',
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      }
+    },
+    {
+      title: 'NIK',
+      dataIndex: 'customerKTP',
+      key: 'customecustomerKTPrName',
+    },
+    {
+      title: 'Family C.NO',
+      dataIndex: 'clienteleIdx',
+      key: 'clienteleIdx',
+    },
+    {
+      title: 'Residential Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'BR Name and Relationship',
+      dataIndex: 'BrName',
+      key: 'BrName',
+    },
+    {
+      title: 'Contact No',
+      dataIndex: 'contactNo',
+      key: 'contactNo',
+    },
+    {
+      title: 'Batch No',
+      dataIndex: 'batchNumber',
+      key: 'batchNumber',
+    },
+  ];
 
   const {
     selectedStatus,
@@ -116,7 +171,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
           <FPaginatedTable 
             loading={slikRequestsData.fetching}
             rowKey={'slkIdx'}
-            columns={columns} 
+            columns={selectedStatus === 'inprogress'? columnsInProgress : columnsCompleted} 
             dataSource={
               selectedStatus === 'inprogress'
               ? slikRequestsData.data.filter((data:any) => data.status == "INPG")
