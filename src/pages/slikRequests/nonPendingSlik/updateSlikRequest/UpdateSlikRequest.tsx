@@ -35,6 +35,14 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
   } 
 
   useEffect(() => {
+    if(initialData){
+      form.setFieldsValue({
+        ...initialData
+      })
+    }
+  },[initialData])
+
+  useEffect(() => {
     getSlikRequestData()
   },[id])
 
