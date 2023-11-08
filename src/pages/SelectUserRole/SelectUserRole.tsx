@@ -36,7 +36,15 @@ export default function SelectUserRole (props: ISelectUserRoleProps) {
                 setClickedRole(role.code)
             }}
         >
-            <Title title={role.description} level={5}/>
+            <Title title={
+                // role.description
+                'Customer Service Assistence'
+                } 
+                level={5}
+                style={{
+                    textAlign:'center'
+                }}
+            />
         </div>
     })}
     <div className='m-5' onClick={() => {
