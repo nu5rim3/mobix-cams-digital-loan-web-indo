@@ -376,7 +376,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'gender',
             label: 'Gender',
-            children: data.gender?? '-',
+            children: data.gender == "M"? "Male" : "Female",
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,

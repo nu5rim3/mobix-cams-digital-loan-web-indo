@@ -94,9 +94,15 @@ export const getSlikRequestData = createAsyncThunk(
             const response = await API.slikServices.getSliksByBranchAndType(arg)
 
             // Your data
-            // const data = response.data.filter((row: any) => row.status === 'P')
-            // return data
-            return response.data
+            const modifyData = response.data.map((row:any) => {
+                return({
+                    ...row,
+                    ...row.slikDto
+                })
+            })
+            const data = modifyData.filter((row: any) => row.status === 'P')
+            return data
+            // return response.data
         }
         catch(error){
             const er = error as any
@@ -118,8 +124,15 @@ export const getSlikRequestData = createAsyncThunk(
         try{
             const response = await API.slikServices.getSliksByBranchAndType(arg)
 
+            const modifyData = response.data.map((row:any) => {
+                return({
+                    ...row,
+                    ...row.slikDto
+                })
+            })
+
             // Your data
-        const data = response.data.filter((row: any) => row.status === 'P')
+            const data = modifyData.filter((row: any) => row.status === 'P')
   
   // Create an object to store the counts for each group
         const groupCounts:any = {};
