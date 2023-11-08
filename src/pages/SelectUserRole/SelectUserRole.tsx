@@ -37,8 +37,8 @@ export default function SelectUserRole (props: ISelectUserRoleProps) {
             }}
         >
             <Title title={
-                // role.description
-                'Customer Service Assistence'
+                role.description
+                // 'Customer Service Assistence'
                 } 
                 level={5}
                 style={{
