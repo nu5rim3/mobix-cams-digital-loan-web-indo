@@ -49,7 +49,7 @@ export const getSlikRequests = createAsyncThunk(
                     ...row.slikDto
                 }
             })
-            return response.data
+            return modify
         }
         catch(error){
             const er = error as any
