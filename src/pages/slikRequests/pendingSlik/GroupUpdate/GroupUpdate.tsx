@@ -65,7 +65,7 @@ export default function GroupUpdate ({
             {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}> */}
             <a onClick={() => {
               console.log("recored", record)
-              const select = slikRequestsGroupData.initialData.filter((row: any) => (row.center == record.center) && (row.groupIdx == record.groupIdx))
+              const select = slikRequestsGroupData.initialData.filter((row: any) => (row.centerCode == record.centerCode) && (row.groupIdx == record.groupIdx))
               console.log("oyoy", select)
               setSelectedGroup(select)
               }}>View</a>  
@@ -186,7 +186,15 @@ export default function GroupUpdate ({
     const uploadData = async () => {
       try{
         setLoading(true)
-        const response = await API.slikServices.updateSlikBulck(slikRequestsGroupData?.data?.filter((row:any) => row.batchNumber))
+        const response = await API.slikServices.updateSlikBulck(slikRequestsGroupData?.data
+          ?.filter((row:any) => row.batchNumber)
+          ?.map((row:any) => {
+            return {
+              ...row.slikDto,
+              batchNumber : row.batchNumber
+            }
+          })
+          )
         notification.success({
             message: 'Batches Updated Successfully'
         })

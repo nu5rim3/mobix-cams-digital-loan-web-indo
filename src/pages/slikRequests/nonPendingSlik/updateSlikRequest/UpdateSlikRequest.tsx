@@ -6,7 +6,7 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { actions } from '../../../../store/store';
-import { Button, Descriptions, Form, Grid, Input, Select, Space, notification } from 'antd';
+import { Button, Descriptions, Form, Grid, Input, InputNumber, Select, Space, notification } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { useSelector } from 'react-redux';
 import { API } from '../../../../services/Services';
@@ -363,8 +363,13 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
               style={{
                 fontWeight: 600,
               }}
+              
             >
-              <Input style={{margin: 0}} type='number'/>
+              <InputNumber
+                style={{margin: 0}} 
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                className='w-full'
+              />
             </Form.Item>
 
             <Form.Item
@@ -391,7 +396,12 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
                 style={{
                   fontWeight: 600,
                 }} >
-                <Input style={{margin: 0}}/>
+                <InputNumber
+                  className='w-full'
+                  // width={200}
+                  style={{margin: 0}}
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                />
               </Form.Item>
 
             <Form.Item
