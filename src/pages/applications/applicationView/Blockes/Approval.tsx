@@ -69,10 +69,13 @@ export default function Approval ({
         dataIndex: 'stepStatus',
         key: 'stepStatus',
         render: (_, { stepStatus }) => (
-          <><Tag color='green' key={stepStatus}>
+          stepStatus === 'PENDING'?
+          <Tag color='yellow' key={stepStatus}>
               {stepStatus}
-            </Tag>
-          </>
+          </Tag>
+          :<Tag color='green' key={stepStatus}>
+              {stepStatus}
+          </Tag>
       ),
       },
       {
@@ -125,7 +128,7 @@ export default function Approval ({
             appraisalIdx: customerData.data.appraisalId,
             stepStatus: type,
             stepAction: genarateType(type),
-            appraisalType: customerData.data.appraisalType,
+            appraisalType: approvalSteps[approvalSteps.length - 1]?.appraisalType, //customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
             loanAmount: financialDetails.data.pTrhdLocCost,
             loanTerm: financialDetails.data.pTrhdTerm,

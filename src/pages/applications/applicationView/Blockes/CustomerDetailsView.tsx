@@ -22,7 +22,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         },
         {
             key: 'ktp',
-            label: 'ID Number',
+            label: 'NIK',
             children: data.ktp, //initialData?.centerCode,
             labelStyle: {
                 color: '#102C57',
@@ -63,7 +63,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'maritalStatus',
             label: 'Marital Status',
-            children: data.maritalStatus, //initialData?.centerCode,
+            children: data.maritalDesc, //initialData?.centerCode,
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -169,7 +169,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'addressType',
             label: 'Address Type',
-            children: data.addressType,
+            children: data.addressType == 'TEMPORARY'? 'RESIDENTIAL' : data.addressType,
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -202,6 +202,16 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             }
         },
         {
+            key: 'creationDate',
+            label: 'Creation Date',
+            children: data.creationDate,
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+        {
             key: 'lengthOfStay',
             label: 'Length Of Stay',
             children: data.lengthOfStay?? '-',
@@ -212,9 +222,19 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             }
         },
         {
-            key: 'creationDate',
-            label: 'Creation Date',
-            children: data.creationDate,
+            key: 'statusOfResidence',
+            label: 'Status Of Residence',
+            children: data.statusOfResidence?? '-',
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+        {
+            key: 'proofOfPropertyOwnership',
+            label: 'Proof Of Property Ownership',
+            children: data.proofOfPropertyOwnership?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -227,7 +247,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'sector',
             label: 'Sector',
-            children: data.sector?? '-',
+            children: data.sectorDes?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -304,8 +324,8 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
 
     const spouseItems: (data: any) => DescriptionsProps['items'] = (data) => [
         {
-            key: 'Spouse Name',
-            label: 'spouseName',
+            key: 'spouseName',
+            label: 'Spouse Name',
             children: data.spouseName?? '-',
             labelStyle: {
                 color: '#102C57',
@@ -345,7 +365,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         },
         {
             key: 'spouseKtp',
-            label: 'Spouse ID No',
+            label: 'Spouse NIK',
             children: data.spouseKtp?? '-',
             labelStyle: {
                 color: '#102C57',
@@ -460,7 +480,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 title={
                 <Title 
                     level={5}
-                    title='Bussiness Details'
+                    title='Business Details'
                     style={{color: '#7C3626'}} 
                 /> 
                 }

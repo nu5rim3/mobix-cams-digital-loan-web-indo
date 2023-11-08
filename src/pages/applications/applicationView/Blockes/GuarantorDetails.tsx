@@ -21,7 +21,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'gender',
         label: 'Gender',
-        children: data.gender,
+        children: data.gender == "M"? "Male" : "Female",
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -60,7 +60,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     },
     {
         key: 'ktp',
-        label: 'ID Number',
+        label: 'NIK Number',
         children: data.ktp,
         labelStyle: {
             color: '#102C57',

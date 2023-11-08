@@ -142,6 +142,17 @@ const SlikRequests: React.FC = () =>{
      { label: 'Individual', value: 'individual' },
   ];
 
+  const roleViseItems = () => {
+    return selectedRole.includes('ADMIN')? 
+            itemsThree
+          : selectedRole.includes('CSA')?
+            itemsTwo
+          : selectedRole.includes('SLIKU')?
+            itemsOne
+          : itemsOne
+          
+  }
+
   return (
     <div>
       <BreadCrumbContainer>
@@ -155,15 +166,8 @@ const SlikRequests: React.FC = () =>{
       <ContentContainer>
         <Tabs 
           activeKey={selectedStatus} 
-          defaultActiveKey="pending" 
-          items={selectedRole.includes('ADMIN')? 
-            itemsThree
-          : selectedRole.includes('CSA')?
-            itemsTwo
-          : selectedRole.includes('SLIKU')?
-            itemsOne
-          : itemsOne
-          } 
+          defaultActiveKey={roleViseItems()[0]?.key}
+          items={roleViseItems()} 
           onChange={(value:any) => actions.SRchangeStatus(value)}/>
           {selectedStatus == "pending"?
             <PendingSlik/>

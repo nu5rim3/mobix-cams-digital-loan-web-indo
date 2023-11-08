@@ -96,7 +96,7 @@ export const getAllApplications = createAsyncThunk(
             }
             return {
                 ...response.data?.[0],
-                ...maritalData.maritalDesc
+                ...maritalData.data
             }
         }
         catch(error){
@@ -144,8 +144,22 @@ export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchCustomerBusinessData',
     async (arg: Parameters<typeof API.stakeholderBussiness.getPersonBusinessByIdAppraisalId>[0], thunkAPI) => {
         try{
+
             const response = await API.stakeholderBussiness.getPersonBusinessByIdAppraisalId(arg)
-            return response.data
+            let sectorData:any
+            let subSectorData: any
+            const sector = response.data?.sector
+            const subSector = response.data?.subSector
+            if(sector){
+                sectorData = await API.sectorServices.getSectorByCode(sector)
+            }
+            // if(subSector){
+            //     subSectorData = await API.sectorServices.getSectorByCode(sector)
+            // }
+            return {
+                ...response.data,
+                sectorDes : sectorData.data.description
+            }
         }
         catch(error){
             const er = error as AxiosError
