@@ -13,10 +13,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const iconStyle: React.CSSProperties = {
     display: 'flex',
-    justifyContent:'center',
+    // justifyContent:'center',
     alignItems: 'center',
     lineHeight: 4,
     height: 70,
+    overflow:'hidden',
+    marginTop: '10px',
+    marginLeft:'10px'
   };
 
 export interface ISideBarProps {
@@ -109,7 +112,10 @@ export default function SideBar ({
                 {
                   !collapsed ?
                     <div style={iconStyle}>
-                      <img src={digitalMe} />
+                      <img style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%'
+                      }} src={digitalMe} />
                     </div>
                   : null
                 }

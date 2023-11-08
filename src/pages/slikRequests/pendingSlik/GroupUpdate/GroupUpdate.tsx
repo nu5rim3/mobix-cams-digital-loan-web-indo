@@ -5,6 +5,7 @@ import { ColumnsType } from 'antd/es/table';
 import { actions } from '../../../../store/store';
 import { Button, Input, Space, notification } from 'antd';
 import { API } from '../../../../services/Services';
+import formatAddress from '../../../../utils/getAddressByObjects';
 
 export interface IGroupUpdateProps {
   searchText: string
@@ -97,27 +98,34 @@ export default function GroupUpdate ({
       {
         title: 'NIK',
         dataIndex: 'customerKTP',
-        key: 'customecustomerKTPrName',
+        key: 'customerKTP',
       },
       {
         title: 'Family C.NO',
-        dataIndex: 'clienteleIdx',
-        key: 'clienteleIdx',
+        dataIndex: 'familyCard',
+        key: 'familyCard',
       },
       {
         title: 'Residential Address',
         dataIndex: 'address',
         key: 'address',
+        render: (text, record) => {
+          return  formatAddress({
+            address1 :record.addLine1,
+            address2: record.addLine2,
+            address3: record.addLine3
+        })
+        }
       },
       {
-        title: 'BR Name and Relationship',
-        dataIndex: 'BrName',
-        key: 'BrName',
+        title: 'BR Name',
+        dataIndex: 'brName',
+        key: 'brName',
       },
       {
         title: 'Contact No',
-        dataIndex: 'contactNo',
-        key: 'contactNo',
+        dataIndex: 'cltContact1',
+        key: 'cltContact1',
       },
       {
         title: 'Batch No',
@@ -182,6 +190,7 @@ export default function GroupUpdate ({
         notification.success({
             message: 'Batches Updated Successfully'
         })
+        setSelectedGroup(null)
         getGroupData()
       }
       catch(err){
