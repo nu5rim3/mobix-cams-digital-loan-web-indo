@@ -149,7 +149,7 @@ export const getSlikRequestData = createAsyncThunk(
                 count : 1,
                 centerCode: centerCode,
                 groupIdx : groupIdx,
-                customerName : item.customerName,
+                createdBy : item.createdBy,
                 creationDate : item.creationDate,
                 key: key
             };
@@ -158,7 +158,7 @@ export const getSlikRequestData = createAsyncThunk(
                     count : groupCounts[key].count + 1,
                     centerCode: centerCode,
                     groupIdx : groupIdx,
-                    customerName : item.customerName,
+                    createdBy : item.createdBy,
                     creationDate : item.creationDate,
                     key: key
                 };

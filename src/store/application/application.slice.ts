@@ -153,14 +153,17 @@ export const getAllApplications = createAsyncThunk(
 
             const sector = response.data?.sector
             const subSector = response.data?.subSector
-            const area = response.data?.subSector
+            const area = response.data?.busArea
             
             if(sector){
-                areaData = await API.productServices.getAreaStatusByCode(area)
+                sectorData = await API.sectorServices.getSectorByCode(sector)
             }
             // if(subSector){
             //     subSectorData = await API.sectorServices.getSectorByCode(sector)
             // }
+            if(area){
+                areaData = await API.productServices.getAreaStatusByCode(area)
+            }
 
             return {
                 ...response.data,
@@ -185,7 +188,7 @@ export const getAllApplications = createAsyncThunk(
 
             let relationshipData:any
 
-            const relation = response.data?.sector
+            const relation = response.data?.relationship
             
             if(relation){
                 relationshipData = await API.productServices.getRelationByCode(relation)

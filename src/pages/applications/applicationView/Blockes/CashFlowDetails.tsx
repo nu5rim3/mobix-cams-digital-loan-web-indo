@@ -438,7 +438,7 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },{
         key: 'netIncomePerMonth',
-        label: 'Net Income Per Month',
+        label: 'Net Income per Month',
         children: getCurrency(data.netIncomePerMonth),
         labelStyle: {
             color: '#102C57',
@@ -447,7 +447,7 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },{
         key: 'netIncomePerWeek',
-        label: 'Net Income Per Week',
+        label: 'Net Income per Week',
         children: getCurrency(data.netIncomePerWeek),
         labelStyle: {
             color: '#102C57',
@@ -456,7 +456,7 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },{
         key: 'totalExpensesPerMonth',
-        label: 'Total Expenses Per Month',
+        label: 'Total Expenses per Month',
         children: getCurrency(data.totalExpensesPerMonth),
         labelStyle: {
             color: '#102C57',
@@ -663,7 +663,7 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                         items={[
                             {
                                 key: 'totalPurchasingPerMonth',
-                                label: 'Total Purchasing Per Month',
+                                label: 'Total Purchasing per Month',
                                 children: <div className='font-bold'>
                                     {getCurrency(cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.totalPurchasingPerMonth)}
                                 </div>,

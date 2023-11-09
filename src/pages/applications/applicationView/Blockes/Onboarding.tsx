@@ -1,5 +1,5 @@
 import { Descriptions, DescriptionsProps, Input, Spin, Tag } from 'antd';
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 
@@ -26,7 +26,14 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: '2',
         label: 'Call Verification Status',
-        children: <Tag color='yellow'>{data.status}</Tag>,
+        children: <>
+          {data.status === 'PENDING'?
+            <Tag color='yellow'>{data.status}</Tag>
+          : data.status === 'PROCEED'?
+            <Tag color='green'>VERIFIED</Tag>
+          : <Tag color='green'>{data.status}</Tag>
+          }
+        </> ,
         labelStyle: {
           color: '#102C57',
           fontWeight: 600,
@@ -37,7 +44,19 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
 
 export default function OnboardingView (props: IOnboardingViewProps) {
     
-    const customerData = useSelector((state: any) => state.Application.customerData)
+    const {
+      customerData,
+      approvalSteps
+    } = useSelector((state: any) => state.Application)
+    const [callVerification, setCallVerification] = useState<any>({})
+
+    useEffect(() => {
+      const getCallVerification =approvalSteps?.data?.approvalStepDtoList?.find((row: any) => {
+        row.roleCode === 'CSA'
+      })
+      setCallVerification(getCallVerification? getCallVerification : {})
+    },[approvalSteps.data])
+
 
   return (
     customerData.fetching?
@@ -53,11 +72,14 @@ export default function OnboardingView (props: IOnboardingViewProps) {
     >
         <Descriptions 
             column={1}
-            items={customerData.data? items(customerData.data): []} 
+            items={customerData?.data && callVerification?  items({
+              ...customerData.data,
+              ...callVerification
+            }): []} 
             size='small'
         /> 
 
-        <Input value={''} readOnly/>
+        <Input value={callVerification?.comment} readOnly/>
     </div>
   );
 }

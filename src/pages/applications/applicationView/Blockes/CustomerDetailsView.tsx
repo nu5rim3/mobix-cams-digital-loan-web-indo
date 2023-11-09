@@ -438,7 +438,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         contactDetails,
         addressDetails,
         businessDetails,
-        spouseDetails
+        spouseDetails,
     } = useSelector((state: any) => state.Application)
     
   return (
@@ -517,14 +517,12 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                         column={
                         1
                         }
-                        items={address? itemsAddressType1(address): []} 
+                        items={address? itemsAddressType2(address): []} 
                         size='small'
                     />
                     </div>
                 })}
-            </div>
 
-            <div className='grid grid-cols-3 gap-5 pt-2'>
                 {addressDetails?.data?.
                 filter((row:any) => row.addressType != 'TEMPORARY')?.
                 map((address:any, index: any) => {
@@ -538,7 +536,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                         column={
                         1
                         }
-                        items={address? itemsAddressType2(address): []} 
+                        items={address? itemsAddressType1(address): []} 
                         size='small'
                     />
                     </div>
