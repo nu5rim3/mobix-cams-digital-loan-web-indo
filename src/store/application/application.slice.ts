@@ -146,19 +146,26 @@ export const getAllApplications = createAsyncThunk(
         try{
 
             const response = await API.stakeholderBussiness.getPersonBusinessByIdAppraisalId(arg)
+
             let sectorData:any
             let subSectorData: any
+            let areaData: any
+
             const sector = response.data?.sector
             const subSector = response.data?.subSector
+            const area = response.data?.subSector
+            
             if(sector){
-                sectorData = await API.sectorServices.getSectorByCode(sector)
+                areaData = await API.productServices.getAreaStatusByCode(area)
             }
             // if(subSector){
             //     subSectorData = await API.sectorServices.getSectorByCode(sector)
             // }
+
             return {
                 ...response.data,
-                sectorDes : sectorData.data.description
+                sectorDes : sectorData.data.description,
+                bussAreaDes: area.data.description,
             }
         }
         catch(error){
@@ -175,7 +182,22 @@ export const getAllApplications = createAsyncThunk(
     async (arg: Parameters<typeof API.stakeholderSpouse.getPersonSpouseByIdAppraisalId>[0], thunkAPI) => {
         try{
             const response = await API.stakeholderSpouse.getPersonSpouseByIdAppraisalId(arg)
-            return response.data
+
+            let relationshipData:any
+
+            const relation = response.data?.sector
+            
+            if(relation){
+                relationshipData = await API.productServices.getRelationByCode(relation)
+            }
+            // if(subSector){
+            //     subSectorData = await API.sectorServices.getSectorByCode(sector)
+            // }
+
+            return {
+                ...response.data,
+                relationDesc :  relationshipData.data.relationDesc
+            }
         }
         catch(error){
             const er = error as AxiosError

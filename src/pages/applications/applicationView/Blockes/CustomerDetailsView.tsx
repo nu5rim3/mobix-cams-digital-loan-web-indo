@@ -165,7 +165,55 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         },
     ]
 
-    const itemsAddress: (data: any) => DescriptionsProps['items'] = (data) => [
+    const itemsAddressType1: (data: any) => DescriptionsProps['items'] = (data) => [
+        {
+            key: 'addressType',
+            label: 'Address Type',
+            children: data.addressType == 'TEMPORARY'? 'RESIDENTIAL' : data.addressType,
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+        {
+            key: 'address',
+            label: 'Address',
+            children: formatAddress({
+                address1 :data.address1,
+                address2: data.address2,
+                address3: data.address3,
+                address4 :data.address4
+            }),
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+        {
+            key: 'postalCode',
+            label: 'Postal Code',
+            children: data.postalCode?? '-',
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+        {
+            key: 'creationDate',
+            label: 'Creation Date',
+            children: data.creationDate,
+            labelStyle: {
+                color: '#102C57',
+                fontWeight: 600,
+                width: '40%'
+            }
+        },
+    ]
+
+    const itemsAddressType2: (data: any) => DescriptionsProps['items'] = (data) => [
         {
             key: 'addressType',
             label: 'Address Type',
@@ -277,7 +325,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'busArea',
             label: 'Business Area',
-            children: data.busArea?? '-',
+            children: data.bussAreaDes?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -336,7 +384,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'relationship',
             label: 'Relationship',
-            children: data.relationship?? '-',
+            children: data.relationDesc?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -441,7 +489,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                         }
                         items={contact? itemsContact(contact): []} 
                         size='small'
-                    />
+                    />  
                     </div>
 
                 })}
@@ -456,7 +504,9 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             /> 
 
             <div className='grid grid-cols-3 gap-5 pt-2'>
-                {addressDetails?.data?.map((address:any, index: any) => {
+                {addressDetails?.data?.
+                filter((row:any) => row.addressType == 'TEMPORARY')?.
+                map((address:any, index: any) => {
                     return  <div 
                         style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
                         className='p-5 rounded-md  font-sans' 
@@ -467,7 +517,28 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                         column={
                         1
                         }
-                        items={address? itemsAddress(address): []} 
+                        items={address? itemsAddressType1(address): []} 
+                        size='small'
+                    />
+                    </div>
+                })}
+            </div>
+
+            <div className='grid grid-cols-3 gap-5 pt-2'>
+                {addressDetails?.data?.
+                filter((row:any) => row.addressType != 'TEMPORARY')?.
+                map((address:any, index: any) => {
+                    return  <div 
+                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                        className='p-5 rounded-md  font-sans' 
+                        key={index}
+                        > 
+                    <Descriptions 
+                        key={index}
+                        column={
+                        1
+                        }
+                        items={address? itemsAddressType2(address): []} 
                         size='small'
                     />
                     </div>

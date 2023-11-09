@@ -48,16 +48,16 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
             width: '40%'
         }
     },
-    {
-        key: 'callVerificationStatus',
-        label: 'Call Verification Status',
-        children: data.callVerificationStatus?? '-',
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
+    // {
+    //     key: 'callVerificationStatus',
+    //     label: 'Call Verification Status',
+    //     children: data.callVerificationStatus?? '-',
+    //     labelStyle: {
+    //         color: '#102C57',
+    //         fontWeight: 600,
+    //         width: '40%'
+    //     }
+    // },
     {
         key: 'ktp',
         label: 'NIK Number',
@@ -112,7 +112,9 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
             </div>
         :
             <div>
-                {guarantorDetails?.data?.map((guarantor:any, index: any) => {
+                {guarantorDetails?.data?.
+                filter((guarantor:any) => guarantor.cltType === 'G').
+                map((guarantor:any, index: any) => {
                     return  <div 
                         key={index}
                         style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}

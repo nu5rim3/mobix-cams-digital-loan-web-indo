@@ -11,9 +11,20 @@ const getMaritalStatusByCode = (code: string) => {
     return api.get(`/mobixCamsCommon/v1/marital-statuses/${code}`)
 }
 
+const getAreaStatusByCode = (code: string) => {
+    return api.get(`/mobixCamsCommon/v1/areas/${code}`)
+}
+
+const getRelationByCode = (code: string) => {
+    return api.get(`/mobixCamsCommon/v1/relations/${code}`)
+}
+
+
 
 export default {
     getProductByCode,
-    getMaritalStatusByCode
+    getMaritalStatusByCode,
+    getAreaStatusByCode,
+    getRelationByCode
 }
 

@@ -11,7 +11,7 @@ export interface ICashFlowDetailsProps {
 const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'businessDayPerMonth',
-        label: 'Business Day Per Month',
+        label: 'Business Day per Month',
         children: (data.businessDayPerMonth),
         labelStyle: {
             color: '#102C57',
@@ -21,7 +21,7 @@ const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) =>
     },
     {
         key: 'revenueInLowSessionDay',
-        label: 'Revenue In Low Session Day',
+        label: 'Revenue in Low Session Day',
         children: getCurrency(data.revenueInLowSessionDay),
         labelStyle: {
             color: '#102C57',
@@ -31,7 +31,7 @@ const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) =>
     },
     {
         key: 'revenuePerMonth',
-        label: 'Revenue Per Month',
+        label: 'Revenue per Month',
         children: getCurrency(data.revenuePerMonth),
         labelStyle: {
             color: '#102C57',
@@ -41,7 +41,7 @@ const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) =>
     },
     {
         key: 'revenueInBusyDay',
-        label: 'Revenue In Busy Day',
+        label: 'Revenue in Busy Day',
         children: data.revenueInBusyDay,
         labelStyle: {
             color: '#102C57',
@@ -89,7 +89,7 @@ const itemsSalesRevenue3Day: (data: any) => DescriptionsProps['items'] = (data) 
     },
     {
         key: 'averagePerDay',
-        label: 'Average Per Day',
+        label: 'Average per Day',
         children: getCurrency(data.averagePerDay),
         labelStyle: {
             color: '#102C57',
@@ -107,7 +107,7 @@ const itemsSalesRevenue3Day: (data: any) => DescriptionsProps['items'] = (data) 
 const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'numberOfBusinessHoursPerDay',
-        label: 'Business hours per day',
+        label: 'Business Hours per Day',
         children: data.numberOfBusinessHoursPerDay,
         labelStyle: {
             color: '#102C57',
@@ -116,7 +116,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
         }
     },{
         key: 'currentTime',
-        label: 'Current time',
+        label: 'Current Time',
         children: data.currentTime,
         labelStyle: {
             color: '#102C57',
@@ -125,7 +125,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
         }
     },{
         key: 'hoursAlreadyOpenToday',
-        label: 'Hours already spent',
+        label: 'Hours Already Spent',
         children: data.hoursAlreadyOpenToday,
         labelStyle: {
             color: '#102C57',
@@ -134,7 +134,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
         }
     },{
         key: 'cashWhenOpenToday',
-        label: 'Opening amount',
+        label: 'Opening Amount',
         children: getCurrency(data.cashWhenOpenToday),
         labelStyle: {
             color: '#102C57',
@@ -152,7 +152,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
         }
     },{
         key: 'moneyForPurchasingToday',
-        label: 'Purchase amount',
+        label: 'Purchase Amount',
         children: getCurrency(data.moneyForPurchasingToday),
         labelStyle: {
             color: '#102C57',
@@ -162,7 +162,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
     },
     {
         key: 'incomeToday',
-        label: 'Today income',
+        label: 'Today Income',
         children: getCurrency(data.incomeToday),
         labelStyle: {
             color: '#102C57',
@@ -172,7 +172,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
     },
     {
         key: 'incomePerBusinessHour',
-        label: 'Income per business hour',
+        label: 'Income per Business Hour',
         children: getCurrency(data.incomePerBusinessHour),
         labelStyle: {
             color: '#102C57',
@@ -182,7 +182,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
     },
     {
         key: 'estimatedIncomePerDay',
-        label: 'Estimated income per day',
+        label: 'Estimated Income per Day',
         children: getCurrency(data.estimatedIncomePerDay),
         labelStyle: {
             color: '#102C57',
@@ -192,7 +192,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
     },
     {
         key: 'estimatedIncomePerMonth',
-        label: 'Estimated income per month',
+        label: 'Estimated Income per Month',
         children: getCurrency(data.estimatedIncomePerMonth),
         labelStyle: {
             color: '#102C57',
@@ -211,7 +211,7 @@ const itemsSalesRevenueCash: (data: any) => DescriptionsProps['items'] = (data) 
 const itemsGrossRevenue: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'grossRevenuePerMonth',
-        label: 'Total sales revenue',
+        label: 'Total Sales Revenue',
         children: getCurrency(data.grossRevenuePerMonth),
         labelStyle: {
             color: '#102C57',
@@ -253,16 +253,34 @@ const itemsBusinussStock: (data: any) => DescriptionsProps['items'] = (data) => 
             fontWeight: 600,
             width: '50%'
         }
-    },{
-        key: 'purchaseTotalPerMonth',
-        label: 'Purchase Total Per Month',
-        children: getCurrency(data.purchaseTotalPerMonth),
+    }
+    ,{
+        key: 'ex1',
+        label: '',
+        children:''
+    }
+]
+
+const itemsOtherIncome: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'source',
+        label: 'Source',
+        children: data.source,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
             width: '50%'
         }
-    },
+    },{
+        key: 'amount',
+        label: 'Amount',
+        children: getCurrency(data.amount),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '50%'
+        }
+    }
 ]
 
 const itemsTotalExpenseB: (data: any) => DescriptionsProps['items'] = (data) => [
@@ -525,6 +543,69 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
 
                 <Divider/>
 
+                {/* other incomes */}
+                <Title 
+                    level={5}
+                    title='Total Other Income'
+                    style={{color: '#7C3626'}} 
+                />
+
+                <div className='grid grid-cols-4 gap-5 pt-2'>
+                    {cashFlowDetails.data?.otherIncomeWrapperDto?.otherIncomeDtoList?.map((stock:any, index: any) => {
+                        return  <div 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='px-5 pt-5 rounded-md  font-sans my-4'
+                                key={index}
+                            >
+                            <Descriptions 
+                            key={index}
+                            column={
+                            1
+                            }
+                            items={stock? itemsOtherIncome(stock): []} 
+                            size='small'
+                        />  
+
+                        </div>
+                    })}
+                </div>
+
+                <div className='mt-5'>
+                    <Descriptions 
+                        key={'totalOtherIncome'}
+                        column={
+                        3
+                        }
+                        items={[
+                            {
+                                key: 'totalOtherIncome',
+                                label: 'Total Other Income',
+                                children: <div className='font-bold'>
+                                    {getCurrency(cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.totalPurchasingPerMonth)}
+                                </div>,
+                                labelStyle: {
+                                    color: '#102C57',
+                                    fontWeight: 600,
+                                    width: '50%'
+                                }
+                            },
+                            {
+                                key: 'ex1',
+                                label: '',
+                                children:''
+                            },
+                            {
+                                key: 'ex1',
+                                label: '',
+                                children:''
+                            }
+                        ]} 
+                        size='small'
+                    />  
+                </div>
+
+                <Divider/>
+
                 <Title 
                     level={5}
                     title='Gross Revenue per month'
@@ -553,23 +634,59 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                     style={{color: '#7C3626'}} 
                 />
 
-                {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
-                    return  <div 
-                            style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                            className='p-5 rounded-md  font-sans my-4'
+                <div className='grid grid-cols-4 gap-5 pt-2'>
+                    {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
+                        return  <div 
+                                style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                className='px-5 pt-5 rounded-md  font-sans my-4'
+                                key={index}
+                            >
+                            <Descriptions 
                             key={index}
-                        >
-                        <Descriptions 
-                        key={index}
+                            column={
+                            1
+                            }
+                            items={stock? itemsBusinussStock(stock): []} 
+                            size='small'
+                        />  
+
+                        </div>
+                    })}
+                </div>
+
+                <div className='mt-5'>
+                    <Descriptions 
+                        key={'totalPurchasingPerMonth'}
                         column={
                         3
                         }
-                        items={stock? itemsBusinussStock(stock): []} 
+                        items={[
+                            {
+                                key: 'totalPurchasingPerMonth',
+                                label: 'Total Purchasing Per Month',
+                                children: <div className='font-bold'>
+                                    {getCurrency(cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.totalPurchasingPerMonth)}
+                                </div>,
+                                labelStyle: {
+                                    color: '#102C57',
+                                    fontWeight: 600,
+                                    width: '50%'
+                                }
+                            },
+                            {
+                                key: 'ex1',
+                                label: '',
+                                children:''
+                            },
+                            {
+                                key: 'ex1',
+                                label: '',
+                                children:''
+                            }
+                        ]} 
                         size='small'
                     />  
-
-                    </div>
-                })}
+                </div>
 
                 <Divider/>
 

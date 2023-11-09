@@ -150,7 +150,7 @@ export default function Approval ({
             lastModifiedBy: userData.data.idx,
             createdBy: userData.data.idx,
             creationDate: moment().toISOString(),
-            document: fileList?.map((file: any) => {
+            documents: fileList?.map((file: any) => {
               
              return { 
               stkIdx: customerData.data.cusIdx,

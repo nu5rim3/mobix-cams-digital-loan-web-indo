@@ -40,11 +40,11 @@ export default function GroupUpdate ({
       },
       {
         title: 'MFO Username',
-        dataIndex: 'customerName',
-        key: 'customerName',
+        dataIndex: 'createdBy',
+        key: 'createdBy',
         filteredValue: [searchText],
         onFilter: (value, record) => {
-          return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+          return record?.createdBy?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
         }
       },
       {

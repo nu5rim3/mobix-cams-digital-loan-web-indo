@@ -337,7 +337,7 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                 :null
                 }
 
-                {data?.vehicleDtoList?.length?
+                {data?.otherDtoList?.length?
                     <>
                     <Title 
                         level={5}
