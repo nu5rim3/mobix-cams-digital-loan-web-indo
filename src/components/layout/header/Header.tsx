@@ -91,8 +91,10 @@ export default function HeaderContainer({
         boxShadow: boxShadow,
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        // borderBottom: '0.5px solid gray'
         }}
+        // className='border-zinc-500'
     >
         <ThemeSettingModel
             showSettings={showSettings}

@@ -10,7 +10,7 @@ import { MenuUnfoldOutlined,
 import { MenuItem } from '../../../routes/navigation';
 import navigation from '../../../routes/navigation';
 import { useLocation, useNavigate } from "react-router-dom";
-import lolcTech from '../../../assets/lolcTech.jpeg'
+import lolcTech from '../../../assets/lolcTechPng.png'
 
 const iconStyle: React.CSSProperties = {
     display: 'flex',
@@ -143,21 +143,21 @@ export default function SideBar ({
                 {
                 !collapsed ?
                   <div 
-                    className='mt-auto p-3 flex flex-col justify-center items-center text-xs text-white font-bold'
+                    className='mt-auto p-3 flex flex-col justify-center items-center text-xs  font-bold'
                     style={{
-                      backgroundColor:'#123161'
+                      backgroundColor:'white'
                     }}
                   >
                     <div className='flex justify-center items-center'>
                       <div>
                         Powered By 
                       </div>
-                      <div className='w-20 ml-3'>
+                      <div className='w-24 ml-3'>
                         <img className='w-full' src={lolcTech}/>
                       </div>
                     </div>
                     <div className='flex justify-center items-center'>
-                      ©2023 Made with &#128153;
+                      {/* ©2023 Made with &#128153; */}
                     </div>
                   </div>
                 : null

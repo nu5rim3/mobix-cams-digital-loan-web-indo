@@ -143,7 +143,7 @@ export default function Approval ({
           setAddingData(type)
           const data = {
             appraisalIdx: customerData.data.appraisalId,
-            stepStatus: type,
+            stepStatus: type.toUpperCase(),
             stepAction: genarateType(type),
             appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
@@ -159,9 +159,9 @@ export default function Approval ({
               stkIdx: customerData.data.cusIdx,
               cltIdx: customerData.data.cltIdx,
               centerIdx: customerData.data.centerIdx,
-              appraisalIdx: customerData.data.appraisalType,
-              imgMasterCategory: "SECOND_MEETING_APPROVAL",
-              imgSubCategory: "BM_LEVEL",
+              appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+              imgMasterCategory: "APPROVAL_FLOW",
+              imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
               imgOriginalName: file.name,
               imgContentType: file.type,
               image: file.originFileObj,
