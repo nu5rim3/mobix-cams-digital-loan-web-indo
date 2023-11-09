@@ -147,7 +147,6 @@ export default function Approval ({
             loanTerm: financialDetails.data.pTrhdTerm,
             comment: form.getFieldValue('comment'),
             lastModifiedBy: userData.data.idx,
-
             document: fileList?.map((file: any) => {
               
              return { 

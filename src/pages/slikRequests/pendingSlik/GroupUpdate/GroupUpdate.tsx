@@ -64,9 +64,7 @@ export default function GroupUpdate ({
           <Space size="middle">
             {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}> */}
             <a onClick={() => {
-              console.log("recored", record)
               const select = slikRequestsGroupData.initialData.filter((row: any) => (row.centerCode == record.centerCode) && (row.groupIdx == record.groupIdx))
-              console.log("oyoy", select)
               setSelectedGroup(select)
               }}>View</a>  
             {/* </a> */}
@@ -75,97 +73,97 @@ export default function GroupUpdate ({
       },
     ];
 
-    const columnsNew: ColumnsType<any> = [
-      {
-        title: 'Center',
-        dataIndex: 'centerCode',
-        key: 'center',
-        // filteredValue: [searchText],
-        // onFilter: (value, record) => {
-        //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
-        // }
-      },
-      {
-        title: 'Group No',
-        dataIndex: 'groupIdx',
-        key: 'groupIdx',
-      },
-      {
-        title: 'Customer Name',
-        dataIndex: 'customerName',
-        key: 'customerName',
-      },
-      {
-        title: 'NIK',
-        dataIndex: 'customerKTP',
-        key: 'customerKTP',
-      },
-      {
-        title: 'Family C.NO',
-        dataIndex: 'familyCard',
-        key: 'familyCard',
-      },
-      {
-        title: 'Residential Address',
-        dataIndex: 'address',
-        key: 'address',
-        render: (text, record) => {
-          return  formatAddress({
-            address1 :record.addLine1,
-            address2: record.addLine2,
-            address3: record.addLine3
-        })
-        }
-      },
-      {
-        title: 'BR Name',
-        dataIndex: 'brName',
-        key: 'brName',
-      },
-      {
-        title: 'Contact No',
-        dataIndex: 'cltContact1',
-        key: 'cltContact1',
-      },
-      {
-        title: 'Batch No',
-        dataIndex: 'batchNumber',
-        key: 'batchNumber',
-        render: (text, record) => (
-          <Input
-            // value={text} // This value should be connected to your data
-            onChange={(e) => {
-              // Handle input changes here and update your data
-              // e.target.value contains the new value of the input field
-              const newValue = e.target.value;
-              setSelectedGroup((prev: any) => {
-                const newData = prev.map((row:any) => {
-                  if(record.slkIdx == row.slkIdx){
-                    return {
-                      ...row,
-                      batchNumber : newValue
-                    }
-                  }else{
-                    return row
+  const columnsNew: ColumnsType<any> = [
+    {
+      title: 'Center',
+      dataIndex: 'centerCode',
+      key: 'center',
+      // filteredValue: [searchText],
+      // onFilter: (value, record) => {
+      //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      // }
+    },
+    {
+      title: 'Group No',
+      dataIndex: 'groupIdx',
+      key: 'groupIdx',
+    },
+    {
+      title: 'Customer Name',
+      dataIndex: 'customerName',
+      key: 'customerName',
+    },
+    {
+      title: 'NIK',
+      dataIndex: 'customerKTP',
+      key: 'customerKTP',
+    },
+    {
+      title: 'Family C.NO',
+      dataIndex: 'familyCard',
+      key: 'familyCard',
+    },
+    {
+      title: 'Residential Address',
+      dataIndex: 'address',
+      key: 'address',
+      render: (text, record) => {
+        return  formatAddress({
+          address1 :record.addLine1,
+          address2: record.addLine2,
+          address3: record.addLine3
+      })
+      }
+    },
+    {
+      title: 'BR Name',
+      dataIndex: 'brName',
+      key: 'brName',
+    },
+    {
+      title: 'Contact No',
+      dataIndex: 'cltContact1',
+      key: 'cltContact1',
+    },
+    {
+      title: 'Batch No',
+      dataIndex: 'batchNumber',
+      key: 'batchNumber',
+      render: (text, record) => (
+        <Input
+          // value={text} // This value should be connected to your data
+          onChange={(e) => {
+            // Handle input changes here and update your data
+            // e.target.value contains the new value of the input field
+            const newValue = e.target.value;
+            setSelectedGroup((prev: any) => {
+              const newData = prev.map((row:any) => {
+                if(record.slkIdx == row.slkIdx){
+                  return {
+                    ...row,
+                    batchNumber : newValue
                   }
-                })
-                return newData
+                }else{
+                  return row
+                }
               })
-              // You can update the data array or state here
-            }}
-          />
-        ),
-      },
-      // {
-      //   title: 'Action',
-      //   key: 'action',
-      //   render: (_, record) => (
-      //     <Space size="middle">
-      //       {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}>Update {record.name}</a> */}
-      //     </Space>
-      //   ),
-      // },
-    ];
+              return newData
+            })
+            // You can update the data array or state here
+          }}
+        />
+      ),
+    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (_, record) => (
+    //     <Space size="middle">
+    //       {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}>Update {record.name}</a> */}
+    //     </Space>
+    //   ),
+    // },
+  ];
 
   const getGroupData = () => {
       actions.getSlikByGroup({
@@ -179,6 +177,9 @@ export default function GroupUpdate ({
     useEffect(() => {
         getGroupData()
     },[])
+
+    console.log("selectedGroup", selectedGroup)
+    console.log("slikRequestsGroupData.data", slikRequestsGroupData.data)
 
     const uploadData = async () => {
       try{
@@ -212,7 +213,7 @@ export default function GroupUpdate ({
       {!selectedGroup
       ? <FPaginatedTable 
           loading={slikRequestsGroupData.fetching}
-          rowKey={'idx'}
+          rowKey={'slkIdx'}
           columns={columns} 
           dataSource={slikRequestsGroupData.data|| []}
         />
@@ -220,7 +221,7 @@ export default function GroupUpdate ({
       <>
         <FPaginatedTable 
           loading={slikRequestsGroupData.fetching}
-          rowKey={'centerCode'}
+          rowKey={'key'}
           columns={columnsNew} 
           dataSource={selectedGroup|| []}
         />

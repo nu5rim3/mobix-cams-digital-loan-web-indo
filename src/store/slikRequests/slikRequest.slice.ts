@@ -150,7 +150,8 @@ export const getSlikRequestData = createAsyncThunk(
                 centerCode: centerCode,
                 groupIdx : groupIdx,
                 customerName : item.customerName,
-                creationDate : item.creationDate
+                creationDate : item.creationDate,
+                key: key
             };
             }else{
                 groupCounts[key] = {
@@ -158,7 +159,8 @@ export const getSlikRequestData = createAsyncThunk(
                     centerCode: centerCode,
                     groupIdx : groupIdx,
                     customerName : item.customerName,
-                    creationDate : item.creationDate
+                    creationDate : item.creationDate,
+                    key: key
                 };
             }
         });

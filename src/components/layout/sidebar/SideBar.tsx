@@ -10,17 +10,24 @@ import { MenuUnfoldOutlined,
 import { MenuItem } from '../../../routes/navigation';
 import navigation from '../../../routes/navigation';
 import { useLocation, useNavigate } from "react-router-dom";
+import lolcTech from '../../../assets/lolcTech.jpeg'
 
 const iconStyle: React.CSSProperties = {
     display: 'flex',
-    // justifyContent:'center',
+    justifyContent:'center',
     alignItems: 'center',
     lineHeight: 4,
-    height: 70,
+    height: 75,
     overflow:'hidden',
-    marginTop: '10px',
-    marginLeft:'10px'
+    padding:'10px 5px',
+    // marginTop: '10px',
+    // marginLeft:'10px',
+    backgroundColor: 'white'
   };
+
+const headerBoady: React.CSSProperties = {
+  height: 'calc(100% - 75px)'
+};
 
 export interface ISideBarProps {
     collapsed : boolean,
@@ -109,16 +116,20 @@ export default function SideBar ({
                 </div>
               : null}
 
-                {
-                  !collapsed ?
-                    <div style={iconStyle}>
-                      <img style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%'
-                      }} src={digitalMe} />
-                    </div>
-                  : null
-                }
+              {
+                !collapsed ?
+                  <div style={iconStyle}>
+                    <img style={{
+                      maxWidth: '100%',
+                      maxHeight: '100%'
+                    }} src={digitalMe} />
+                  </div>
+                : null
+              }
+              <div 
+                className='flex flex-col pt-3' 
+                style={headerBoady}
+              >
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={[location.pathname]}
@@ -128,6 +139,30 @@ export default function SideBar ({
                     }}
                     items={menu}
                 />
+
+                {
+                !collapsed ?
+                  <div 
+                    className='mt-auto p-3 flex flex-col justify-center items-center text-xs text-white font-bold'
+                    style={{
+                      backgroundColor:'#123161'
+                    }}
+                  >
+                    <div className='flex justify-center items-center'>
+                      <div>
+                        Powered By 
+                      </div>
+                      <div className='w-20 ml-3'>
+                        <img className='w-full' src={lolcTech}/>
+                      </div>
+                    </div>
+                    <div className='flex justify-center items-center'>
+                      ©2023 Made with &#128153;
+                    </div>
+                  </div>
+                : null
+                }
+              </div>
         </Sider>
   );
 }

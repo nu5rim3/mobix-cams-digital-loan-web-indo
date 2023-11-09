@@ -1,7 +1,7 @@
 .dot-wave {
-    --uib-size: 80px;
+    --uib-size: 60px;
     --uib-speed: 1s;
-    --uib-color: black;
+    --uib-color: #102C57;
   
     display: flex;
     flex-flow: row nowrap;

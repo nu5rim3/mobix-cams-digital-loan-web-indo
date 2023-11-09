@@ -14,6 +14,7 @@ import { actions } from '../../store/store';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import SelectUserRole from '../../pages/SelectUserRole/SelectUserRole';
+import MainLoading from '../../pages/MainLoading/MainLoading';
 
 const {Content } = Layout;
 
@@ -97,12 +98,8 @@ export default function LayoutContainer (props: ILayoutProps) {
   return (
     <>
         {
-            loginInProgress || !token || !userData?
-                <div className='w-screen h-screen bg-white flex flex-col justify-center items-center'>
-                        {/* <img src={digitalMe} className='w-2/12 p-6'/> */}
-                        <h2 className='p-8 font-sans text-6xl antialiased'>Digital-Me</h2>
-                        <DotWave/>
-                </div>
+        loginInProgress || !token || !userData?
+                <MainLoading/>
         : !selectedRole
         ?
             <SelectUserRole/>
