@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
 import { API } from '../../../../services/Services';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 export interface IApprovalProps {
   fileList: any
@@ -147,6 +148,8 @@ export default function Approval ({
             loanTerm: financialDetails.data.pTrhdTerm,
             comment: form.getFieldValue('comment'),
             lastModifiedBy: userData.data.idx,
+            createdBy: userData.data.idx,
+            creationDate: moment().toISOString(),
             document: fileList?.map((file: any) => {
               
              return { 
@@ -158,7 +161,8 @@ export default function Approval ({
               imgSubCategory: "BM_LEVEL",
               imgOriginalName: file.name,
               imgContentType: file.type,
-              image: file.originFileObj
+              image: file.originFileObj,
+             
             }
             })
           }
