@@ -1,13 +1,16 @@
 import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
-import * as React from 'react';
+import React, {useState} from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 import formatAddress from '../../../../utils/getAddressByObjects';
+import PopupImage from '../../../../components/PopupImage/PopupImage';
 
 export interface ICustomerDetailsViewProps {
 }
 
 export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
+
+    const [openImage, setOpenImage] = useState(false)
 
     const items: (data: any) => DescriptionsProps['items'] = (data) => [
         {
@@ -23,7 +26,12 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'ktp',
             label: 'NIK',
-            children: data.ktp, //initialData?.centerCode,
+            children: data?.ktp,
+            // <div className='flex justify-between w-full'>
+            //     <div >{data.ktp}</div>
+            //     <div className='pr-7 cursor-pointer text-sky-600' onClick={() => setOpenImage(true)}>View Image</div>
+            // </div>, 
+            
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -451,6 +459,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         <div className='w-full h-32 flex justify-center'><Spin/></div>
     :
         <div>
+            <PopupImage open={openImage} setOpen={setOpenImage}/>
             <Descriptions 
                 title={
                 <Title 

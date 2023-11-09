@@ -211,7 +211,7 @@ export default function Applications (props: IApplicationsProps) {
                     //     label: 'All'
                     // },
                     {
-                        value: 'AP',
+                        value: 'APPROVAL_PENDING',
                         label: 'Approval Pending'
                     },
                     {

@@ -131,6 +131,23 @@ export default function Approval ({
       }
     }
 
+    function fileToBase64Async(file:any) {
+      return new Promise((resolve, reject) => {
+        const reader:any = new FileReader();
+    
+        reader.onload = function () {
+          const base64String = btoa(reader?.result);
+          resolve(base64String);
+        };
+    
+        reader.onerror = function (error:any) {
+          reject(error);
+        };
+    
+        reader.readAsBinaryString(file);
+      });
+    }
+
     const handleSubmit = (type: string) => {
       if(financialDetailsSavePending){
         return notification.warning({
@@ -153,24 +170,27 @@ export default function Approval ({
             lastModifiedBy: userData.data.idx,
             createdBy: userData.data.idx,
             creationDate: moment().toISOString(),
-            documents: fileList?.map((file: any) => {
+            documents: fileList?.map(async (file: any) => {
+
+              const base64 = await fileToBase64Async(file.originFileObj)
+
+              return { 
+                stkIdx: customerData.data.cusIdx,
+                cltIdx: customerData.data.cltIdx,
+                centerIdx: customerData.data.centerIdx,
+                appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+                imgMasterCategory: "APPROVAL_FLOW",
+                imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
+                imgOriginalName: file.name,
+                imgContentType: file.type,
+                image: base64,
               
-             return { 
-              stkIdx: customerData.data.cusIdx,
-              cltIdx: customerData.data.cltIdx,
-              centerIdx: customerData.data.centerIdx,
-              appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
-              imgMasterCategory: "APPROVAL_FLOW",
-              imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
-              imgOriginalName: file.name,
-              imgContentType: file.type,
-              image: file.originFileObj,
-             
-            }
+              }
             })
           }
           // console.log("data", fileList)
           // const save = await API.approvalServices.createScondMeetingStep(data)
+          console.log("yeye", data)
           const save = await API.approvalServices.createStep(data)
 
           notification.success({
@@ -192,7 +212,7 @@ export default function Approval ({
         }
       })
     }
-    
+    console.log("fileList", fileList)
   return (
     <div>
       {
@@ -239,8 +259,8 @@ export default function Approval ({
             </Form>
             <Divider/>
           </>
-        : null
-      }
+      : null
+      } 
       <div className='mt-5'>
         <Title 
                 level={5}
