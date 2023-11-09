@@ -459,7 +459,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         <div className='w-full h-32 flex justify-center'><Spin/></div>
     :
         <div>
-            <PopupImage open={openImage} setOpen={setOpenImage}/>
+            {/* <PopupImage open={openImage} setOpen={setOpenImage}/> */}
             <Descriptions 
                 title={
                 <Title 

@@ -199,7 +199,7 @@ export default function Approval ({
               cltIdx: customerData.data.cltIdx,
               centerIdx: customerData.data.centerIdx,
               appraisalIdx:
-                approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+                customerData.data.appraisalId,
               imgMasterCategory: "APPROVAL_FLOW",
               imgSubCategory: selectedRole === 'CA' ? "CA_LEVEL" : "BM_LEVEL",
               imgOriginalName: file.name,
