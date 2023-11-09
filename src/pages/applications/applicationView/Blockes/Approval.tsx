@@ -182,7 +182,7 @@ export default function Approval ({
           })
         }
         finally{
-          setAddingData(type)
+          setAddingData('')
         }
       })
     }
@@ -217,7 +217,11 @@ export default function Approval ({
                     <ButtonContainer 
                       type='primary' 
                       label={type}
-                      loading={addingData? true: false} 
+                      loading={addingData === type ? true: false}
+                      disabled={
+                        addingData? true
+                        : false
+                      } 
                       size='large' 
                       onClick={() => handleSubmit(type)}
                       className='mr-1 ' 
