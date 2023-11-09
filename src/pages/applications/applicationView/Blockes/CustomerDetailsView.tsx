@@ -112,7 +112,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         },
         {
             key: 'adult',
-            label: 'Adults',
+            label: 'Number of Adult Dependents',
             children: data.adult?? '-', //initialData?.centerCode,
             labelStyle: {
                 color: '#102C57',
@@ -122,7 +122,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         },
         {
             key: 'stillStudying',
-            label: 'Still Studing',
+            label: 'Still Studying',
             children: data.stillStudying?? '-', //initialData?.centerCode,
             labelStyle: {
                 color: '#102C57',

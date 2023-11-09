@@ -123,8 +123,11 @@ export default function Approval ({
       if(type == 'Reject'){
         return 'REJECTED'
       }
-      if(type == 'Approve'){
+      if(type == 'Approve' && selectedRole === 'BM'){
         return 'AP'
+      }
+      if(type == 'Approve'){
+        return 'APPROVED'
       }
     }
 
@@ -173,8 +176,11 @@ export default function Approval ({
           notification.success({
             message: 'Application Updated Successfully.'
           })
-          // if()
-          navigate('/applications')
+          if(selectedRole === 'BM'){
+            return navigate('/applications/BM')
+          }else{
+            return navigate('/applications')
+          }
         }
         catch(err){
           notification.error({
