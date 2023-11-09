@@ -142,7 +142,7 @@ export default function Approval ({
             appraisalIdx: customerData.data.appraisalId,
             stepStatus: type,
             stepAction: genarateType(type),
-            appraisalType: approvalSteps[approvalSteps.length - 1]?.appraisalType, //customerData.data.appraisalType,
+            appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
             loanAmount: financialDetails.data.pTrhdLocCost,
             loanTerm: financialDetails.data.pTrhdTerm,

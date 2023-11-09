@@ -581,7 +581,7 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                                 key: 'totalOtherIncome',
                                 label: 'Total Other Income',
                                 children: <div className='font-bold'>
-                                    {getCurrency(cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.totalPurchasingPerMonth)}
+                                    {getCurrency(cashFlowDetails.data?.otherIncomeWrapperDto?.totalOtherIncome)}
                                 </div>,
                                 labelStyle: {
                                     color: '#102C57',

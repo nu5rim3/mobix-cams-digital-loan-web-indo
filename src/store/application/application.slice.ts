@@ -91,12 +91,12 @@ export const getAllApplications = createAsyncThunk(
             const response = await API.personServices.getPersonByIdAppraisalId(arg)
             const maritalStatus = response.data?.[0].maritalStatus
             let maritalData:any
-            if(maritalStatus){
-                maritalData = await API.productServices.getMaritalStatusByCode(maritalStatus)
-            }
+            // if(maritalStatus){
+            //     maritalData = await API.productServices.getMaritalStatusByCode(maritalStatus)
+            // }
             return {
                 ...response.data?.[0],
-                ...maritalData.data
+                // ...maritalData.data
             }
         }
         catch(error){

@@ -52,7 +52,7 @@ export default function OnboardingView (props: IOnboardingViewProps) {
 
     useEffect(() => {
       const getCallVerification =approvalSteps?.data?.approvalStepDtoList?.find((row: any) => {
-        row.roleCode === 'CSA'
+        return row.roleCode === 'CSA'
       })
       setCallVerification(getCallVerification? getCallVerification : {})
     },[approvalSteps.data])
