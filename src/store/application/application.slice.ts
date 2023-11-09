@@ -168,7 +168,7 @@ export const getAllApplications = createAsyncThunk(
             return {
                 ...response.data,
                 sectorDes : sectorData.data.description,
-                bussAreaDes: area.data.description,
+                bussAreaDes: areaData.data.description,
             }
         }
         catch(error){

@@ -27,9 +27,9 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
         key: '2',
         label: 'Call Verification Status',
         children: <>
-          {data.status === 'PENDING'?
-            <Tag color='yellow'>{data.status}</Tag>
-          : data.status === 'PROCEED'?
+          {data.stepAction === 'PENDING'?
+            <Tag color='yellow'>{data.stepStatus}</Tag>
+          : data.stepAction === 'PROCEED'?
             <Tag color='green'>VERIFIED</Tag>
           : <Tag color='green'>{data.status}</Tag>
           }
