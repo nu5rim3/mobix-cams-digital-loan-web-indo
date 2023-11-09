@@ -170,28 +170,54 @@ export default function Approval ({
             lastModifiedBy: userData.data.idx,
             createdBy: userData.data.idx,
             creationDate: moment().toISOString(),
-            documents: fileList?.map(async (file: any) => {
+            // documents: fileList?.map(async (file: any) => {
 
-              const base64 = await fileToBase64Async(file.originFileObj)
+            //   const base64 = await fileToBase64Async(file.originFileObj)
 
-              return { 
-                stkIdx: customerData.data.cusIdx,
-                cltIdx: customerData.data.cltIdx,
-                centerIdx: customerData.data.centerIdx,
-                appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
-                imgMasterCategory: "APPROVAL_FLOW",
-                imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
-                imgOriginalName: file.name,
-                imgContentType: file.type,
-                image: base64,
+            //   return { 
+            //     stkIdx: customerData.data.cusIdx,
+            //     cltIdx: customerData.data.cltIdx,
+            //     centerIdx: customerData.data.centerIdx,
+            //     appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+            //     imgMasterCategory: "APPROVAL_FLOW",
+            //     imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
+            //     imgOriginalName: file.name,
+            //     imgContentType: file.type,
+            //     image: base64,
               
-              }
-            })
+            //   }
+            // })
+          }
+
+          const processedFiles = [];
+
+          for (const file of fileList) {
+            const base64 = await fileToBase64Async(file.originFileObj);
+        
+            const processedFile = {
+              stkIdx: customerData.data.cusIdx,
+              cltIdx: customerData.data.cltIdx,
+              centerIdx: customerData.data.centerIdx,
+              appraisalIdx:
+                approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+              imgMasterCategory: "APPROVAL_FLOW",
+              imgSubCategory: selectedRole === 'CA' ? "CA_LEVEL" : "BM_LEVEL",
+              imgOriginalName: file.name,
+              imgContentType: file.type,
+              image: base64,
+            };
+        
+            processedFiles.push(processedFile);
+          }
+
+          const newData = {
+            ...data,
+            documents: processedFiles
           }
           // console.log("data", fileList)
           // const save = await API.approvalServices.createScondMeetingStep(data)
           console.log("yeye", data)
-          const save = await API.approvalServices.createStep(data)
+          const save = await API.approvalServices.createStep(newData)
 
           notification.success({
             message: 'Application Updated Successfully.'
