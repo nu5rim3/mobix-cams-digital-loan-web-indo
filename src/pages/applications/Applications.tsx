@@ -203,7 +203,7 @@ export default function Applications (props: IApplicationsProps) {
                     setSearchStatus(value)
                 }}
                 style={{ width: 200 }}
-                defaultValue='AP'
+                defaultValue='APPROVAL_PENDING'
                 placeholder='Select A Status'
                 options={[
                     // {

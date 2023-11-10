@@ -336,7 +336,7 @@ export default function Images (props: IImagesProps) {
                                         hashValue={image.hashIdentifier}
                                         data={image}
                                     />
-                                    <h4>{image.imgOriginalName}</h4>
+                                    <h4>Collateral Image {index + 1}</h4>
                                 </div>
                         })}
                         {/* {imageDetails.data
@@ -387,7 +387,105 @@ export default function Images (props: IImagesProps) {
                                         hashValue={image.hashIdentifier}
                                         data={image}
                                     />
+                                    <h4>Other Image {index + 1}</h4>
+                                </div>
+                        })}
+                        {/* {imageDetails.data
+                        ?.filter((row: any) => {
+                            return row.imgSubCategory == "SIGN"
+                        })
+                        ?.map((image: any, index: any) => {
+                                return <div 
+                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
+                                    key={index}
+                                >
+                                    <div style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        position:'relative',
+                                    }}>
+                                        <Google
+                                            lat = { 6.89147314241435}
+                                            lng={79.87585501722411}
+                                        />
+                                    </div>
                                     <h4>{image.imgOriginalName}</h4>
+                                </div>
+                        })} */}
+                        </div>
+                    </div>
+                :null}
+
+                {imageDetails.data?.
+                        filter((image:any) => image.imgSubCategory === 'CA_LEVEL')?.length?
+                    <div className='mb-4'>
+                        <Title 
+                                level={5}
+                                title='CA Level Images'
+                        />
+                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        {imageDetails.data?.
+                            filter((image:any) => image.imgSubCategory === 'CA_LEVEL')?.        
+                            map((image: any, index: any) => {
+                                return <div 
+                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'
+                                    key={index}
+                                >
+                                    <ImageDisplay
+                                        key={index}
+                                        hashValue={image.hashIdentifier}
+                                        data={image}
+                                    />
+                                    <h4>CA Level Image {index + 1}</h4>
+                                </div>
+                        })}
+                        {/* {imageDetails.data
+                        ?.filter((row: any) => {
+                            return row.imgSubCategory == "SIGN"
+                        })
+                        ?.map((image: any, index: any) => {
+                                return <div 
+                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
+                                    key={index}
+                                >
+                                    <div style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        position:'relative',
+                                    }}>
+                                        <Google
+                                            lat = { 6.89147314241435}
+                                            lng={79.87585501722411}
+                                        />
+                                    </div>
+                                    <h4>{image.imgOriginalName}</h4>
+                                </div>
+                        })} */}
+                        </div>
+                    </div>
+                :null}
+
+                {imageDetails.data?.
+                        filter((image:any) => image.imgSubCategory === 'BM_LEVEL')?.length?
+                    <div className='mb-4'>
+                        <Title 
+                                level={5}
+                                title='CA Level Images'
+                        />
+                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        {imageDetails.data?.
+                            filter((image:any) => image.imgSubCategory === 'BM_LEVEL')?.        
+                            map((image: any, index: any) => {
+                                return <div 
+                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'
+                                    key={index}
+                                >
+                                    <ImageDisplay
+                                        key={index}
+                                        hashValue={image.hashIdentifier}
+                                        data={image}
+                                    />
+                                    <h4>BM Level Image {index + 1}</h4>
                                 </div>
                         })}
                         {/* {imageDetails.data

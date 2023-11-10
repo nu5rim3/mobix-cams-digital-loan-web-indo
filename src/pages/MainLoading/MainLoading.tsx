@@ -12,7 +12,7 @@ export default function MainLoading (props: IMainLoadingProps) {
       <div 
         className='w-screen h-screen flex flex-col justify-center items-center'
         style={{
-          background: 'linear-gradient(90deg, rgba(77,129,210,1) 0%, rgba(255,255,255,1) 84%)'
+          // background: 'linear-gradient(90deg, rgba(77,129,210,1) 0%, rgba(255,255,255,1) 84%)'
         }}    
       >
               <div className=' h-full flex flex-col'>
