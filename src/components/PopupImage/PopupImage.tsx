@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import { Button, Modal } from 'antd';
+import { useSelector } from 'react-redux';
+import ImageDisplay from '../Image/ImageViewerByHash';
 
 interface IProps {
     open: any;
@@ -16,6 +18,14 @@ const PopupImage: React.FC<IProps> = ({
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
+
+  const {
+    imageDetails
+} = useSelector((state: any) => state.Application)
+
+  const signImage = imageDetails.data?.find((row: any) => {
+    return row.imgSubCategory == "CUSTOMER_ID"
+  })
 
   const showModal = () => {
     setOpen(true);
@@ -47,7 +57,7 @@ const PopupImage: React.FC<IProps> = ({
 
   return (
     <>
-      <Button onClick={showModal}>Open Draggable Modal</Button>
+      {/* <Button onClick={showModal}>Open Draggable Modal</Button> */}
       <Modal
         title={
           <div
@@ -69,7 +79,7 @@ const PopupImage: React.FC<IProps> = ({
             onBlur={() => {}}
             // end
           >
-            Draggable Modal
+            Image Viewer
           </div>
         }
         open={open}
@@ -86,11 +96,17 @@ const PopupImage: React.FC<IProps> = ({
           </Draggable>
         )}
       >
-        <p>
-          Just don&apos;t learn physics at school and your life will be full of magic and miracles.
-        </p>
-        <br />
-        <p>Day before yesterday I saw a rabbit, and yesterday a deer, and today, you.</p>
+       <div className='flex justify-center mx-12'>
+            <div className=' flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'>
+                <ImageDisplay
+                    hashValue={signImage?.hashIdentifier}
+                    data={{
+
+                    }}
+                />
+                <p>Customer Signature</p>
+            </div>
+        </div>
       </Modal>
     </>
   );

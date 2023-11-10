@@ -26,11 +26,11 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         {
             key: 'ktp',
             label: 'NIK',
-            children: data?.ktp,
-            // <div className='flex justify-between w-full'>
-            //     <div >{data.ktp}</div>
-            //     <div className='pr-7 cursor-pointer text-sky-600' onClick={() => setOpenImage(true)}>View Image</div>
-            // </div>, 
+            children: //data?.ktp,
+            <div className='flex justify-between w-full'>
+                <div >{data.ktp}</div>
+                <div className='pl-2 pr-5 cursor-pointer text-sky-600' onClick={() => setOpenImage(true)}>View Image</div>
+            </div>, 
             
             labelStyle: {
                 color: '#102C57',
@@ -459,7 +459,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
         <div className='w-full h-32 flex justify-center'><Spin/></div>
     :
         <div>
-            {/* <PopupImage open={openImage} setOpen={setOpenImage}/> */}
+            <PopupImage open={openImage} setOpen={setOpenImage}/>
             <Descriptions 
                 title={
                 <Title 
