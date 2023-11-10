@@ -167,7 +167,7 @@ export default function IndividualUpdate ({
             loading={slikRequestsIndividualData.fetching}
             rowKey={'slkIdx'}
             columns={columns} 
-            dataSource={slikRequestsIndividualData.data|| []}
+            dataSource={slikRequestsIndividualData.data || []}
         />
         
         <div className='flex justify-center p-10 w-full'>

@@ -25,9 +25,9 @@ export default function GroupUpdate ({
   
   const columns: ColumnsType<any> = [
       {
-        title: 'Center',
-        dataIndex: 'centerCode',
-        key: 'center',
+        title: 'Centre',
+        dataIndex: 'fusionCenterCode',
+        key: 'fusionCenterCode',
         // filteredValue: [searchText],
         // onFilter: (value, record) => {
         //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
@@ -75,9 +75,9 @@ export default function GroupUpdate ({
 
   const columnsNew: ColumnsType<any> = [
     {
-      title: 'Center',
-      dataIndex: 'centerCode',
-      key: 'center',
+      title: 'Centre',
+      dataIndex: 'fusionCenterCode,',
+      key: 'fusionCenterCode',
       // filteredValue: [searchText],
       // onFilter: (value, record) => {
       //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)

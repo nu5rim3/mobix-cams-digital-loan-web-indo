@@ -65,7 +65,7 @@ export default function Images (props: IImagesProps) {
                         })}
                         {imageDetails.data
                         ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
+                            return (row.imgMasterCategory === 'CLIENT_IDENTIFICATION' && row.latitude && row.longitude)
                         })
                         ?.map((image: any, index: any) => {
                                 return <div 
@@ -82,7 +82,11 @@ export default function Images (props: IImagesProps) {
                                             lng={image.longitude}
                                         />
                                     </div>
-                                    <h4>Customer Signed Location</h4>
+                                    <h4>{
+                                        image.imgSubCategory == "SIGN"?
+                                            'Customer Signed Location'
+                                        : image.imgSubCategory
+                                        }</h4>
                                 </div>
                         })}
                         </div>
@@ -291,9 +295,9 @@ export default function Images (props: IImagesProps) {
                                     </h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
+                        {imageDetails.data
                         ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
+                            return (row.imgMasterCategory === 'GUARANTOR' && row.latitude && row.longitude)
                         })
                         ?.map((image: any, index: any) => {
                                 return <div 
@@ -306,13 +310,17 @@ export default function Images (props: IImagesProps) {
                                         position:'relative',
                                     }}>
                                         <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
+                                             lat = {image.latitude}
+                                             lng={image.longitude}
                                         />
                                     </div>
-                                    <h4>{image.imgOriginalName}</h4>
+                                    <h4>{
+                                        image.imgSubCategory == "SIGN"?
+                                            'Guarantor Signed Location'
+                                        : image.imgSubCategory
+                                        }</h4>
                                 </div>
-                        })} */}
+                        })}
                         </div>
                     </div>
                 :null}

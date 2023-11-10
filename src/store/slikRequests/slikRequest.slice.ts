@@ -100,7 +100,7 @@ export const getSlikRequestData = createAsyncThunk(
                     ...row.slikDto
                 })
             })
-            const data = modifyData.filter((row: any) => row.status === 'P')
+            const data = modifyData.filter((row: any) => row.status === 'P' && row.clienteleType === 'C')
             return data
             // return response.data
         }
@@ -132,7 +132,7 @@ export const getSlikRequestData = createAsyncThunk(
             })
 
             // Your data
-            const data = modifyData.filter((row: any) => row.status === 'P')
+            const data = modifyData.filter((row: any) => row.status === 'P' && row.clienteleType === 'C' )
   
   // Create an object to store the counts for each group
         const groupCounts:any = {};
@@ -151,6 +151,7 @@ export const getSlikRequestData = createAsyncThunk(
                 groupIdx : groupIdx,
                 createdBy : item.createdBy,
                 creationDate : item.creationDate,
+                fusionCenterCode: item.fusionCenterCode,
                 key: key
             };
             }else{
@@ -160,6 +161,7 @@ export const getSlikRequestData = createAsyncThunk(
                     groupIdx : groupIdx,
                     createdBy : item.createdBy,
                     creationDate : item.creationDate,
+                    fusionCenterCode: item.fusionCenterCode,
                     key: key
                 };
             }
