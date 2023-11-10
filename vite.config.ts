@@ -36,6 +36,16 @@ export default defineConfig(({ command, mode }) => {
             return path.replace(/^\/indo-digital-loan/, '')
           }
         },
+        '/logout': {
+          target: 'https://indoauthdev.lolc.com/oidc',
+          changeOrigin: true,
+          secure: false,
+          agent: new http.Agent(),
+          rewrite: (path) => {
+            console.log("token");
+            return path.replace(/^\/indo-digital-loan/, '')
+          }
+        },
         '/indo-digital-loan/mobixCamsCommon': {
           target: env.VITE_INDO_BASE_URL,
           changeOrigin: true,

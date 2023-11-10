@@ -3,11 +3,11 @@ import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 
 const data = [
-  { name: "MFO", value: 72 },
-  { name: "CSA", value: 54 },
-  { name: "CA", value: 38 },
-  { name: "BM", value: 21 },
-  { name: "AM", value: 9 }
+  { name: "MFO", value: 10 },
+  { name: "CSA", value: 11 },
+  { name: "CA", value: 5 },
+  { name: "BM", value: 4 },
+  { name: "AM", value: 2 }
 ];
 
 const renderActiveShape = (props: any) => {
@@ -77,7 +77,7 @@ const renderActiveShape = (props: any) => {
         textAnchor={textAnchor}
         fill="#999"
       >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        {`(${(percent * 100).toFixed(2)}%)`}
       </text>
     </g>
   );

@@ -111,7 +111,7 @@ export default function LineCharts() {
       </LineChart> */}
       <h4 className="p-4">Annual Trend of Approved Applications</h4>
       <LineChart
-        width={670}
+        width={500}
         height={295}
         data={data}
         syncId="anyId"

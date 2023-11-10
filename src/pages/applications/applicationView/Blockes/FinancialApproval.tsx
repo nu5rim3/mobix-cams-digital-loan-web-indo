@@ -126,9 +126,9 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       value={financialDetails.data?.pTrhdLocCost}
                       readOnly={!editLoan}
                       onChange={(e) => {
-                          console.log("e", e)
                           actions.updateLoan(e)
                       }}
+                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   />
                   <Button type="primary" 
                     onClick={() => {
@@ -154,6 +154,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       onChange={(e) => {
                           actions.updateTerm(e)
                       }}
+                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   />
                   <Button type="primary" onClick={
                     () => {

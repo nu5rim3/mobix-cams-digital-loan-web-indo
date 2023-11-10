@@ -63,7 +63,7 @@ export default function Images (props: IImagesProps) {
                                     </h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
+                        {imageDetails.data
                         ?.filter((row: any) => {
                             return row.imgSubCategory == "SIGN"
                         })
@@ -78,13 +78,13 @@ export default function Images (props: IImagesProps) {
                                         position:'relative',
                                     }}>
                                         <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
+                                            lat = {image.latitude}
+                                            lng={image.longitude}
                                         />
                                     </div>
-                                    <h4>{image.imgOriginalName}</h4>
+                                    <h4>Customer Signed Location</h4>
                                 </div>
-                        })} */}
+                        })}
                         </div>
                     :
                         <p className='p-1'> No Data Found</p>
@@ -172,6 +172,7 @@ export default function Images (props: IImagesProps) {
                                         {
                                             image.imgSubCategory === 'RESIDENCE_IMAGE'? 'Residence Image'
                                             : image.imgSubCategory === 'RESIDENCE_OWNERSHIP_PROOF'? 'Residence Ownership Proof'
+                                            : image.imgSubCategory === 'RESIDENCE_LOCATION_TAGGING'? 'Residence Location'
                                             : image.imgSubCategory
                                         }
                                     </h4>
@@ -179,7 +180,7 @@ export default function Images (props: IImagesProps) {
                         })}
                         {imageDetails.data
                         ?.filter((row: any) => {
-                            return row.imgSubCategory == "RESIDENCE_LOCATION_TAGING"
+                            return row.imgSubCategory == "RESIDENCE_LOCATION_TAGGING"
                         })
                         ?.map((image: any, index: any) => {
                                 return <div 
@@ -235,7 +236,7 @@ export default function Images (props: IImagesProps) {
                             })}
                             {imageDetails.data
                             ?.filter((row: any) => {
-                                return row.imgSubCategory == "BUSINESS_LOCATION_TAGING"
+                                return row.imgSubCategory == "BUSINESS_LOCATION_TAGGING"
                             })
                             ?.map((image: any, index: any) => {
                                     return <div 
@@ -421,7 +422,7 @@ export default function Images (props: IImagesProps) {
                     <div className='mb-4'>
                         <Title 
                                 level={5}
-                                title='CA Level Images'
+                                title='Credit Analyst Attached Images'
                         />
                         <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
                         {imageDetails.data?.
@@ -470,7 +471,7 @@ export default function Images (props: IImagesProps) {
                     <div className='mb-4'>
                         <Title 
                                 level={5}
-                                title='CA Level Images'
+                                title='Branch Manager Attached Images'
                         />
                         <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
                         {imageDetails.data?.
