@@ -8,11 +8,15 @@ import ImageDisplay from '../Image/ImageViewerByHash';
 interface IProps {
     open: any;
     setOpen: any;
+    subCategory: string
+    mainCategory?: string;
   }
 
 const PopupImage: React.FC<IProps> = ({
     open,
-    setOpen
+    setOpen,
+    mainCategory,
+    subCategory
 }) => {
 //   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -24,7 +28,14 @@ const PopupImage: React.FC<IProps> = ({
 } = useSelector((state: any) => state.Application)
 
   const signImage = imageDetails.data?.find((row: any) => {
-    return row.imgSubCategory == "CUSTOMER_ID"
+    if(mainCategory){
+      if(row.imgMasterCategory === mainCategory && row.imgSubCategory == subCategory){
+        return true
+      }else{
+        return false
+      }
+    }
+    return row.imgSubCategory == subCategory
   })
 
   const showModal = () => {

@@ -34,4 +34,5 @@ export interface SlikRequestsStoreType {
         uploadSuccess: boolean,
         uploadError: boolean
     }
+    selectedBranch: string
 }

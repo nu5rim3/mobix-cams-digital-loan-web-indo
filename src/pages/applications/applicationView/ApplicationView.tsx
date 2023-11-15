@@ -122,9 +122,6 @@ export default function ApplicationView (props: IApplicationViewProps) {
         }
     },[])
 
-  
-      
-
   return (
     <div>
       <BreadCrumbContainer>

@@ -19,11 +19,13 @@ export default function UserForm (props: IUserFormProps) {
     let { id } = useParams();
     const [addLoading, setAllLoading] = useState(false)
     const [verifyLoading, setVerifyLoading] = useState<boolean>(false)
-    const [showMeCode, setShowMeCode] = useState<boolean>(true)
+    const [showMeCode, setShowMeCode] = useState<boolean>(false)
     const navigate = useNavigate();
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const [userDataLoading, setUserDataLoading] = useState(false)
+    const [showDaLimit, setShowDaLimit] = useState(false)
+    
 
     const [form] = Form.useForm();
 
@@ -44,8 +46,11 @@ export default function UserForm (props: IUserFormProps) {
             branch: user.data.branches?.[0].code,
             roles: roleCodes,
           })
-          if(roleCodes?.includes('MFO' || roleCodes?.includes('CSA'))){
+          if(roleCodes?.includes('MFO')){
             setShowMeCode(true)
+          }
+          if(user.data.daLimit){
+            setShowDaLimit(true)
           }
           setUserDataLoading(false)
         }
@@ -62,7 +67,7 @@ export default function UserForm (props: IUserFormProps) {
       setAllLoading(true)
       try{
         const data = {
-          idx: e.userName,
+          idx: id || e.userName,
           email: e.email,
           meCode: e.meCode,
           mobileNo: e.mobileNo,
@@ -147,6 +152,9 @@ export default function UserForm (props: IUserFormProps) {
             meCode: getMarketeer.data.mkexCode,
             email: getMarketeer.data.syusMailO
           })
+          if(getMarketeer.data.daLimit){
+            setShowDaLimit(true)
+          }
         }catch(error){
           // Check if the error is an AxiosError
           if (axios.isAxiosError(error)) {
@@ -204,7 +212,7 @@ export default function UserForm (props: IUserFormProps) {
             onFinish={(e)=> handleAddUser(e)}
             onFieldsChange={(e:any)=> {
               if(e[0]?.name[0] == "roles"){
-                if((e[0]?.value.includes('MFO') || e[0]?.value.includes('CSA'))){
+                if((e[0]?.value.includes('MFO'))){
                   setShowMeCode(true)
                 }else{
                   setShowMeCode(false)
@@ -312,16 +320,36 @@ export default function UserForm (props: IUserFormProps) {
             className={screens.xs? 'w-full' :'w-1/2'}
             name="email"
             label="Email"
-            rules={[
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ]}
+            required
+            rules={
+              [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                ({ getFieldValue }: any) => ({
+                  async validator(_: any, value: any) {
+                    const roles = getFieldValue('roles')
+                    const isMFO = roles?.includes('MFO')
+
+                    if(isMFO && roles.length == 1){
+                      return Promise.resolve();
+                    }else if(!value){
+                      return Promise.reject(
+                        new Error("Please input your E-mail!")
+                      )
+                    }
+                  },
+              })
+              ]
+              // [
+              // {
+              //   type: 'email',
+              //   message: 'The input is not valid E-mail!',
+              // },
+              
+              // ]
+          }
             style={{
               fontWeight: 600,
             }}
@@ -436,12 +464,12 @@ export default function UserForm (props: IUserFormProps) {
             </div>
           }
 
-          {showMeCode &&
             <div className={
               screens.xs
               ? 'px-2'
               :'flex justify-between px-12'
-              }>
+            }>
+              {showMeCode &&
               <Form.Item
                 // hidden={form.getFieldValue('roles')? true : false}
                 className={screens.xs? 'w-full' :'w-1/2'}
@@ -459,8 +487,23 @@ export default function UserForm (props: IUserFormProps) {
               >
                 <Input style={{margin: 0}}/>
               </Form.Item>
+              }
+
+              {showDaLimit &&
+                <Form.Item
+                  // hidden={form.getFieldValue('roles')? true : false}
+                  className={screens.xs? 'w-full' :'w-1/2'}
+                  name="daLimit"
+                  label="DA Limit"
+                  style={{
+                    fontWeight: 600,
+                    // height: 20
+                  }}
+                >
+                  <Input style={{margin: 0}} readOnly/>
+                </Form.Item>
+              }
             </div>
-          }
           
          {/* </Col> */}
 

@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import FPaginatedTable from '../../../components/tables/FPaginatedTable';
 import { actions } from '../../../store/store';
-import { Space } from 'antd';
+import { Input, Select, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useNavigate } from 'react-router-dom';
+import ButtonContainer from '../../../components/Buttons/Button';
+import { act } from 'react-dom/test-utils';
 
 
 export interface INonPendingSlikProps {
@@ -17,11 +19,24 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
+  const [searchBranch, setSearchBrach] = useState<string>('')
+
+  
+  const {
+    selectedStatus,
+    slikRequestsData,
+    selectedBranch
+  } = useSelector((state: any) => state.SlikRequest)
+  const {
+    userData,
+    selectedRole
+  } = useSelector((state: any) => state.AppData)
+  
   const columnsInProgress: ColumnsType<any> = [
     {
       title: 'Center',
-      dataIndex: 'centerCode',
-      key: 'center',
+      dataIndex: 'fusionCenterCode',
+      key: 'fusionCenterCode',
       filteredValue: [searchText],
       // onFilter: (value, record) => {
       //   return record?.centerCode?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
@@ -52,19 +67,18 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'clienteleIdx',
     },
     {
-      title: 'Residential Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'BR Name and Relationship',
-      dataIndex: 'BrName',
-      key: 'BrName',
-    },
-    {
-      title: 'Contact No',
-      dataIndex: 'contactNo',
-      key: 'contactNo',
+      title: 'Branch',
+      dataIndex: 'branch',
+      key: 'branch',
+      render: (_, record) => (
+        <Space size="middle">
+          {
+            userData.data?.branches.find((branch:any) => {
+              return branch.code == selectedBranch
+            })?.description || userData.data?.branches[0]?.description
+          }
+        </Space>
+      )
     },
     {
       title: 'Batch No',
@@ -84,8 +98,8 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   const columnsCompleted: ColumnsType<any> = [
     {
       title: 'Center',
-      dataIndex: 'centerCode',
-      key: 'center',
+      dataIndex: 'fusionCenterCode',
+      key: 'fusionCenterCode',
       filteredValue: [searchText],
       // onFilter: (value, record) => {
       //   return record?.centerCode?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
@@ -116,19 +130,18 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'clienteleIdx',
     },
     {
-      title: 'Residential Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'BR Name and Relationship',
-      dataIndex: 'BrName',
-      key: 'BrName',
-    },
-    {
-      title: 'Contact No',
-      dataIndex: 'contactNo',
-      key: 'contactNo',
+      title: 'Branch',
+      dataIndex: 'branch',
+      key: 'branch',
+      render: (_, record) => (
+        <Space size="middle">
+          {
+            userData.data?.branches.find((branch:any) => {
+              return branch.code == selectedBranch
+            })?.description || userData.data?.branches[0]?.description
+          }
+        </Space>
+      )
     },
     {
       title: 'Batch No',
@@ -137,17 +150,18 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
     },
   ];
 
-  const {
-    selectedStatus,
-    slikRequestsData
-  } = useSelector((state: any) => state.SlikRequest)
-  const userData = useSelector((state: any) => state.AppData.userData)
-
   const getRequestData = () => {
-    actions.getSlikRequests({
-      userId: userData.data?.idx,
-      branchCode: userData.data?.branches[0]?.code,
-    })
+    if(!(selectedRole == 'ADMIN')){
+      return actions.getSlikRequests({
+        userId: userData.data?.idx,
+        branchCode: userData.data?.branches[0]?.code,
+      })
+    }else if(selectedBranch){
+      return actions.getSlikRequests({
+        userId: userData.data?.idx,
+        branchCode: selectedBranch,
+      })
+    }
   }
 
   useEffect(() => {
@@ -161,9 +175,47 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
           level={5}
           title='Search Items'
         />
+
+      <div className='flex mt-1 mb-3 items-center '>
         <Search
           onChange={(value:any) => setSearchText(value)}
+          className={'pb-0'}
         />
+        {selectedRole == 'ADMIN'?
+          <>
+          <Select
+              className='ml-2 '
+              size={'large'}
+              // allowClear
+              onChange={(value) => {
+                // setSearchBrach(value)
+                actions.SRSetBranch(value)
+              }}
+              value={selectedBranch}
+              style={{ width: 200 }}
+              placeholder='Select A Branch'
+              options={
+                userData.data?.branches?
+                userData.data?.branches?.map((branch:any) =>{
+                  return ({
+                    value: branch.code,
+                    label: branch.description
+                  })
+                })
+                : []
+            }
+          />
+          <ButtonContainer 
+            type='primary' 
+            label='Search' 
+            size='large' 
+            className='ml-3'
+            onClick={() => {
+              getRequestData()
+          }}/>
+          </>
+        : null}
+      </div>
 
         <div
          className='border-l-current border-r-current'

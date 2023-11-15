@@ -16,7 +16,7 @@ const addUser = (data:any) => {
 }
 
 const updateUser = (data:any, id: string) => {
-    return api.put(`/mobixCamsCommon/v1/users`, data)
+    return api.put(`/mobixCamsCommon/v1/users/${id}`, data)
 }
 
 

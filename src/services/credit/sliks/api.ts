@@ -5,7 +5,7 @@ import { SlickUpdate } from "./types";
 const api = axiosInstance
 
 const getSlikRequestById = (id: string) => {
-    return api.get(`/mobixCamsCredit/v1/sliks/${id}`)
+    return api.get(`/mobixCamsCredit/v1/sliks/slkIdx/${id}`)
 }
 
 const getSliksByBranchAndType = ({

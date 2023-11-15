@@ -33,7 +33,8 @@ export const initialState: SlikRequestsStoreType = {
         uploadLoading: false,
         uploadSuccess: false,
         uploadError: false
-    }
+    },
+    selectedBranch: ''
 
 };
 
@@ -70,7 +71,10 @@ export const getSlikRequestData = createAsyncThunk(
     async (id: Parameters<typeof API.slikServices.getSlikRequestById>[0] , thunkAPI) => {
         try{
             const response = await API.slikServices.getSlikRequestById(id)
-            return response.data
+            return {
+                ...response.data,
+                ...response.data.slikDto
+            }
         }
         catch(error){
             const er = error as any
@@ -220,6 +224,13 @@ export const SlikRequestsSlice = createSlice({
             return state;
         },
         resetSlikRequestsStore: () => initialState,
+        SRSetBranch: (state, action: PayloadAction<string>) => {
+            state = { 
+                ...state, 
+                selectedBranch : action.payload
+            };
+            return state;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getSlikRequests.pending , (state, action) => {

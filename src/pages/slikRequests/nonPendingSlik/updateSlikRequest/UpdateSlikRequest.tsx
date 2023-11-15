@@ -11,6 +11,7 @@ import type { DescriptionsProps } from 'antd';
 import { useSelector } from 'react-redux';
 import { API } from '../../../../services/Services';
 import axios from 'axios';
+import formatAddress from '../../../../utils/getAddressByObjects';
 
 export interface IUpdateSlikRequestProps {
 }
@@ -50,17 +51,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
     {
       key: '1',
       label: 'Center',
-      children: initialData?.centerCode,
-      labelStyle: {
-        color: '#102C57',
-        fontWeight: 600,
-        width: '40%'
-      }
-    },
-    {
-      key: '2',
-      label: 'Residence Address',
-      children: '-',
+      children: initialData?.fusionCenterCode,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -78,29 +69,9 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '4',
-      label: 'DP Name & Relathionship',
-      children: '-',
-      labelStyle: {
-        color: '#102C57',
-        fontWeight: 600,
-        width: '40%'
-      }
-    },
-    {
       key: '5',
       label: 'Customer Name',
       children: initialData?.customerName,
-      labelStyle: {
-        color: '#102C57',
-        fontWeight: 600,
-        width: '40%'
-      }
-    },
-    {
-      key: '6',
-      label: 'Contact Number',
-      children: '-',
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -128,15 +99,51 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     },
     {
-      key: '9',
-      label: 'Family Contact Number',
-      children: '-',
+      key: '2',
+      label: 'Residence Address',
+      children: formatAddress({
+        address1 :initialData.addLine1,
+        address2: initialData.addLine2,
+        address3: initialData.addLine3,
+        // address4 :initialData.address4
+    }),
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
         width: '40%'
       }
-    },{
+    },
+    // {
+    //   key: '4',
+    //   label: 'DP Name & Relathionship',
+    //   children: '-',
+    //   labelStyle: {
+    //     color: '#102C57',
+    //     fontWeight: 600,
+    //     width: '40%'
+    //   }
+    // },
+    {
+      key: '6',
+      label: 'Contact Number',
+      children: initialData?.cltContact1,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    // {
+    //   key: '9',
+    //   label: 'Family Contact Number',
+    //   children: '-',
+    //   labelStyle: {
+    //     color: '#102C57',
+    //     fontWeight: 600,
+    //     width: '40%'
+    //   }
+    // },
+    {
       key: '10',
       label: '',
       children: '',
