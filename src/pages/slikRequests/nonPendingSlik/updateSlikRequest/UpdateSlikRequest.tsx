@@ -102,9 +102,9 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       key: '2',
       label: 'Residence Address',
       children: formatAddress({
-        address1 :initialData.addLine1,
-        address2: initialData.addLine2,
-        address3: initialData.addLine3,
+        address1 :initialData?.addLine1,
+        address2: initialData?.addLine2,
+        address3: initialData?.addLine3,
         // address4 :initialData.address4
     }),
       labelStyle: {
