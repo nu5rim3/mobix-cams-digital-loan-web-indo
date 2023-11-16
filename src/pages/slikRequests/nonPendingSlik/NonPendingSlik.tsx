@@ -10,6 +10,7 @@ import { ColumnsType } from 'antd/es/table';
 import { useNavigate } from 'react-router-dom';
 import ButtonContainer from '../../../components/Buttons/Button';
 import { act } from 'react-dom/test-utils';
+import { API } from '../../../services/Services';
 
 
 export interface INonPendingSlikProps {
@@ -20,6 +21,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
   const [searchBranch, setSearchBrach] = useState<string>('')
+  const [branch, setBranch] = useState([])
 
   
   const {
@@ -151,7 +153,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   ];
 
   const getRequestData = () => {
-    if(!(selectedRole == 'ADMIN')){
+    if(!(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')){
       return actions.getSlikRequests({
         userId: userData.data?.idx,
         branchCode: userData.data?.branches[0]?.code,
@@ -164,8 +166,14 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
     }
   }
 
+  const getBranchData = async () => {
+    const branches = await API.branchServices.getAllBranches()
+    setBranch(branches.data)
+  }
+
   useEffect(() => {
     getRequestData()
+    getBranchData()
   },[selectedStatus])  
 
   return (
@@ -181,7 +189,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
           onChange={(value:any) => setSearchText(value)}
           className={'pb-0'}
         />
-        {selectedRole == 'ADMIN'?
+        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
           <>
           <Select
               className='ml-2 '
@@ -191,12 +199,13 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
                 // setSearchBrach(value)
                 actions.SRSetBranch(value)
               }}
+              showSearch
               value={selectedBranch}
               style={{ width: 200 }}
               placeholder='Select A Branch'
               options={
-                userData.data?.branches?
-                userData.data?.branches?.map((branch:any) =>{
+                branch.length?
+                branch?.map((branch:any) =>{
                   return ({
                     value: branch.code,
                     label: branch.description
