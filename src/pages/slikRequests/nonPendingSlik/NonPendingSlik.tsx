@@ -21,7 +21,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
   const [searchBranch, setSearchBrach] = useState<string>('')
-  const [branch, setBranch] = useState([])
+  const [branch, setBranch] = useState<any[]>([])
 
   
   const {
@@ -75,7 +75,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       render: (_, record) => (
         <Space size="middle">
           {
-            userData.data?.branches.find((branch:any) => {
+            branch.find((branch:any) => {
               return branch.code == selectedBranch
             })?.description || userData.data?.branches[0]?.description
           }
@@ -138,7 +138,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       render: (_, record) => (
         <Space size="middle">
           {
-            userData.data?.branches.find((branch:any) => {
+            branch.find((branch:any) => {
               return branch.code == selectedBranch
             })?.description || userData.data?.branches[0]?.description
           }

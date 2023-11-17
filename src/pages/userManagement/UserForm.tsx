@@ -1,4 +1,4 @@
-import { Button, Form, Grid, Input, Select, Space,  notification } from 'antd';
+import { Button, Form, Grid, Input, InputNumber, Select, Space,  notification } from 'antd';
 import React, {useEffect, useState} from 'react';
 import Paragraph from 'antd/es/typography/Paragraph';
 import axios from 'axios';
@@ -24,7 +24,7 @@ export default function UserForm (props: IUserFormProps) {
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const [userDataLoading, setUserDataLoading] = useState(false)
-    const [showDaLimit, setShowDaLimit] = useState(false)
+    const [showDaLimit, setShowDaLimit] = useState<boolean>(false)
     
 
     const [form] = Form.useForm();
@@ -50,7 +50,7 @@ export default function UserForm (props: IUserFormProps) {
             setShowMeCode(true)
           }
           if(user.data.daLimit){
-            setShowDaLimit(true)
+            setShowDaLimit(true)//user.data.daLimit
           }
           setUserDataLoading(false)
         }
@@ -150,7 +150,8 @@ export default function UserForm (props: IUserFormProps) {
             branch: getMarketeer.data.mkexMeBranch,
             profileUser : getMarketeer.data.mkexName,
             meCode: getMarketeer.data.mkexCode,
-            email: getMarketeer.data.syusMailO
+            email: getMarketeer.data.syusMailO,
+            daLimit: getMarketeer.data.daLimit
           })
           if(getMarketeer.data.daLimit){
             setShowDaLimit(true)
@@ -489,7 +490,7 @@ export default function UserForm (props: IUserFormProps) {
               </Form.Item>
               }
 
-              {showDaLimit &&
+              {showDaLimit?
                 <Form.Item
                   // hidden={form.getFieldValue('roles')? true : false}
                   className={screens.xs? 'w-full' :'w-1/2'}
@@ -500,9 +501,12 @@ export default function UserForm (props: IUserFormProps) {
                     // height: 20
                   }}
                 >
-                  <Input style={{margin: 0}} readOnly/>
+                  <InputNumber style={{margin: 0}} readOnly 
+                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 
+                    className='w-full'
+                  />
                 </Form.Item>
-              }
+              : null}
             </div>
           
          {/* </Col> */}
