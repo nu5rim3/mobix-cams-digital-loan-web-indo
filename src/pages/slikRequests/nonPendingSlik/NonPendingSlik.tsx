@@ -22,6 +22,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   const [searchText, setSearchText] = useState<string>('')
   const [searchBranch, setSearchBrach] = useState<string>('')
   const [branch, setBranch] = useState<any[]>([])
+  const [showBranch, setShowBranch] = useState()
 
   
   const {
@@ -74,11 +75,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'branch',
       render: (_, record) => (
         <Space size="middle">
-          {
-            branch.find((branch:any) => {
-              return branch.code == selectedBranch
-            })?.description || userData.data?.branches[0]?.description
-          }
+          {showBranch}
         </Space>
       )
     },
@@ -137,11 +134,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'branch',
       render: (_, record) => (
         <Space size="middle">
-          {
-            branch.find((branch:any) => {
-              return branch.code == selectedBranch
-            })?.description || userData.data?.branches[0]?.description
-          }
+          {showBranch}
         </Space>
       )
     },
@@ -159,6 +152,9 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
         branchCode: userData.data?.branches[0]?.code,
       })
     }else if(selectedBranch){
+      setShowBranch( branch.find((branch:any) => {
+        return branch.code == selectedBranch
+      })?.description || userData.data?.branches[0]?.description)
       return actions.getSlikRequests({
         userId: userData.data?.idx,
         branchCode: selectedBranch,

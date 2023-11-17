@@ -106,7 +106,10 @@ export default function UserForm (props: IUserFormProps) {
           })
           navigate('/userManagement')
         }else{
-          const user = await API.userServices.updateUser(data, id)
+          const user = await API.userServices.updateUser({
+            ...data,
+            status: "A",
+            }, id)
             notification.success({
               message: 'User has been updated successfully'
             })
