@@ -1,4 +1,4 @@
-import { Button, Form, Grid, Input, InputNumber, Select, Space,  notification } from 'antd';
+import { Button, Form, Grid, Input, InputNumber, Select, Space,  Switch,  notification } from 'antd';
 import React, {useEffect, useState} from 'react';
 import Paragraph from 'antd/es/typography/Paragraph';
 import axios from 'axios';
@@ -45,6 +45,7 @@ export default function UserForm (props: IUserFormProps) {
             ...user.data,
             branch: user.data.branches?.[0].code,
             roles: roleCodes,
+            status: user.data.status === "A"? true: false
           })
           if(roleCodes?.includes('MFO')){
             setShowMeCode(true)
@@ -80,7 +81,7 @@ export default function UserForm (props: IUserFormProps) {
           ],
            loginType: "IDS",
           roles: e.roles.map((role:string) => ({code : role})),
-
+          status: e.status? "A" : "I",
           // idx:"testing",
           // companyCode: "050",
           // isMobileRegistered: "Y",
@@ -108,7 +109,6 @@ export default function UserForm (props: IUserFormProps) {
         }else{
           const user = await API.userServices.updateUser({
             ...data,
-            status: "A",
             }, id)
             notification.success({
               message: 'User has been updated successfully'
@@ -511,6 +511,31 @@ export default function UserForm (props: IUserFormProps) {
                 </Form.Item>
               : null}
             </div>
+
+            {id && 
+            <div className={
+              screens.xs
+              ? 'px-2'
+              :'flex justify-between px-12'
+              }>
+              <Form.Item
+                  className={screens.xs? 'w-full' :'w-1/2'}
+                  name="status"
+                  label="Status"
+                  rules={[
+                    {
+                      required: true,
+                    }
+                  ]}
+                  style={{
+                    fontWeight: 600,
+                    // height: 20
+                  }}
+                >
+                  <Switch defaultChecked />
+                </Form.Item>
+            </div>
+          }
           
          {/* </Col> */}
 

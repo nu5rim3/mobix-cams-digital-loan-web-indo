@@ -151,7 +151,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
                         key: 'appraisalId',
                     },
                     {
-                        title: 'User Name',
+                        title: 'Customer Name',
                         dataIndex: 'fullName',
                         key: 'fullName',
                     },{

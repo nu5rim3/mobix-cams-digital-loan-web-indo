@@ -79,13 +79,12 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   }
 
   const showPromiseConfirm = (type:string, record: any) => {
-    console.log('record', record)
     confirm({
       title: 'Second Meeting Confirmation',
       icon: <ExclamationCircleFilled />,
       content: `Do you confirm and ${type} second meeting of this customer ?`,
-      onOk:  async() =>  {
-        new Promise(async (resolve, reject) => {
+      onOk: async () =>  {
+        //return new Promise(async (resolve, reject) => {
           try{
             const data = {
               appraisalIdx: record.idx,
@@ -94,7 +93,8 @@ export default function Applications2ndStep (props: IApplicationsProps) {
               appraisalType: record.appraisalType,
               loanProduct: record.loanProduct,
               loanAmount: record.loanAmount,
-              loanTerm: record.loanTerm
+              loanTerm: record.loanTerm,
+              documents: []
             }
   
             const save = await API.approvalServices.createScondMeetingStep(data)
@@ -102,16 +102,19 @@ export default function Applications2ndStep (props: IApplicationsProps) {
             notification.success({
               message: 'Application Updated Successfully.'
             })
+
+            searchData()
   
-            return resolve
+            return true
           }
           catch{
-            // return reject
+            return false
           }
-          // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        //   return setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        // }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
+      okText:'Yes '
     })
   };
 

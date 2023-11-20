@@ -11,6 +11,7 @@ import ContentContainer from '../../components/Containers/ContentContainer';
 import Search from '../../components/Search/Search';
 import Button from '../../components/Buttons/Button';
 import FPaginatedTable from '../../components/tables/FPaginatedTable';
+import ResetPassword from './ResetPassword';
 
 
 const UserManagement: React.FC = () =>{
@@ -19,6 +20,8 @@ const UserManagement: React.FC = () =>{
   const [users, setUsers] = useState<[]>([])
   const [usersLoading, setUsersLoading] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
+  const [openPasswordModal, setOpenPasswordModal] = useState<boolean>(false)
+
   useEffect(() => {
     getCall()
   }, [])
@@ -97,9 +100,15 @@ const UserManagement: React.FC = () =>{
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Space size="middle">
-          <a onClick={() => navigate(`/userManagement/updateUser/${record.idx}`)}>Update {record.name}</a>
-        </Space>
+        <>
+          <Space size="middle" className='mr-5'>
+            <a onClick={() => navigate(`/userManagement/updateUser/${record.idx}`)}>Update {record.name}</a>
+          </Space>
+          
+          <Space size="middle">
+            <a onClick={() => setOpenPasswordModal(true)}>Change Password {record.name}</a>
+          </Space>
+        </>
       ),
     },
   ];
@@ -113,7 +122,7 @@ const UserManagement: React.FC = () =>{
           title='User Management'
         />
       </BreadCrumbContainer>
-
+      <ResetPassword open={openPasswordModal} setOpen={setOpenPasswordModal}/>
 
       <ContentContainer >
             <Title 
