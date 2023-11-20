@@ -115,7 +115,7 @@ const PopupImage: React.FC<IProps> = ({
 
                     }}
                 />
-                <p>Customer Signature</p>
+                <p>Customer ID</p>
             </div>
         </div>
       </Modal>

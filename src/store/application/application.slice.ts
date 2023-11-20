@@ -129,7 +129,15 @@ export const getAllApplications = createAsyncThunk(
     async (arg: Parameters<typeof API.stakeholderAddress.getPersonAddressByIdAppraisalId>[0], thunkAPI) => {
         try{
             const response = await API.stakeholderAddress.getPersonAddressByIdAppraisalId(arg)
-            return response.data
+            const areasResponse  = await API.productServices.getAllAreas()
+            const areas = areasResponse.data
+            return response.data?.map((address:any) => {
+                const setArea = areas?.find((area:any) => address?.postalCode == area?.code)?.description
+                return {
+                    ...address,
+                    area : setArea
+                }
+            })
         }
         catch(error){
             const er = error as AxiosError

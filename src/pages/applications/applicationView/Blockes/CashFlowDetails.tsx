@@ -42,7 +42,7 @@ const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) =>
     {
         key: 'revenueInBusyDay',
         label: 'Revenue in Busy Day',
-        children: data.revenueInBusyDay,
+        children: getCurrency(data.revenueInBusyDay),
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,

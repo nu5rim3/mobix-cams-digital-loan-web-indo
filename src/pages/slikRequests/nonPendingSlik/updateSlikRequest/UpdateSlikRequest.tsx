@@ -38,7 +38,8 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
   useEffect(() => {
     if(initialData){
       form.setFieldsValue({
-        ...initialData
+        ...initialData,
+        status : initialData.status === 'INPG'? null : initialData.status
       })
     }
   },[initialData])

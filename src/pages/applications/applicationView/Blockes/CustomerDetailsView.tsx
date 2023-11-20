@@ -200,9 +200,9 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             }
         },
         {
-            key: 'postalCode',
-            label: 'Postal Code',
-            children: data.postalCode?? '-',
+            key: 'area',
+            label: 'Area',
+            children: data.area?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -248,9 +248,9 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             }
         },
         {
-            key: 'postalCode',
-            label: 'Postal Code',
-            children: data.postalCode?? '-',
+            key: 'area',
+            label: 'Area',
+            children: data.area?? '-',
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,

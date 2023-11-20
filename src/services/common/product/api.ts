@@ -19,12 +19,19 @@ const getRelationByCode = (code: string) => {
     return api.get(`/mobixCamsCommon/v1/relations/${code}`)
 }
 
+const getAllAreas = () => {
+    return api.get(`/mobixCamsCommon/v1/areas`)
+}
+
+
+
 
 
 export default {
     getProductByCode,
     getMaritalStatusByCode,
     getAreaStatusByCode,
-    getRelationByCode
+    getRelationByCode,
+    getAllAreas
 }
 
