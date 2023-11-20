@@ -78,6 +78,28 @@ export default function Applications2ndStep (props: IApplicationsProps) {
     })
   }
 
+  const genarateType = (type: string) => {
+    // if(type == 'Recommend' 
+    // || type == 'Verifed'
+    // || type == 'Not Recommend'
+    // || type == 'Recommend'
+    // ){
+    //   return 'PROCEED'
+    // }
+    // if(type == 'Return'){
+    //   return 'RETURNED'
+    // }
+    if(type == 'Reject'){
+      return 'REJECTED'
+    }
+    // if(type == 'Approve' && selectedRole === 'BM'){
+    //   return 'AP'
+    // }
+    if(type == 'Approve'){
+      return 'APPROVED'
+    }
+  }
+
   const showPromiseConfirm = (type:string, record: any) => {
     confirm({
       title: 'Second Meeting Confirmation',
@@ -88,8 +110,8 @@ export default function Applications2ndStep (props: IApplicationsProps) {
           try{
             const data = {
               appraisalIdx: record.idx,
-              secondMeetingStepAction: type,
-              secondMeetingStepStatus: type,
+              secondMeetingStepAction: genarateType(type) ,
+              secondMeetingStepStatus: type.toUpperCase(),
               appraisalType: record.appraisalType,
               loanProduct: record.loanProduct,
               loanAmount: record.loanAmount,
