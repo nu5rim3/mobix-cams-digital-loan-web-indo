@@ -452,7 +452,7 @@ export default function UserForm (props: IUserFormProps) {
                       if (!value || getFieldValue('password') === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error('The new password that you entered do not match!'));
+                      return Promise.reject(new Error('Password and Confirm Password does not match'));
                     },
                   }),
                 ]}
