@@ -216,7 +216,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       render: (_, record) => (
         <>
           <Space size="middle" className='mr-3'>
-            <a onClick={() => navigate(`/applications/viewApplication/APP00000000123`)}>View</a>
+            <a onClick={() => navigate(`/applications/viewApplication/${record.idx}`)}>View</a>
           </Space>
             <Space size="middle" className='mr-3'>
             <a onClick={() => showPromiseConfirm('Approve', record)}>Approve</a>
