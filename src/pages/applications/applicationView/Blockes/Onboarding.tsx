@@ -10,11 +10,19 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
       key: '1',
       label: 'SLIK Status',
-      children:  data?.slikStatus === "A" 
-      ? <Tag color='green' key={data?.slikStatus}>
-          Active
+      children:  data?.slikStatus === "C" 
+      ? <Tag color='yellow' key={data?.slikStatus}>
+          CLAIMABLE
       </Tag>
-      :<Tag color='yellow' key={data?.slikStatus}>
+      :data?.slikStatus === "OK" ?
+        <Tag color='green' key={data?.slikStatus}>
+            OK
+        </Tag>
+      :data?.slikStatus === "NOT_OK" ?
+        <Tag color='red' key={data?.slikStatus}>
+          NOT OK
+      </Tag>
+      :<Tag key={data?.slikStatus}>
         {data?.slikStatus}
         </Tag>,
       labelStyle: {
