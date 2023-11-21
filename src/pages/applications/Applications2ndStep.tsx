@@ -81,6 +81,18 @@ export default function Applications2ndStep (props: IApplicationsProps) {
     })
   }
 
+  const genarateStepA = (type: string) => {
+    if(type == 'Return'){
+      return 'RETURNED'
+    }
+    if(type == 'Reject'){
+      return 'REJECTED'
+    }
+    if(type == 'Approve'){
+      return 'APPROVED'
+    }
+  }
+
   const showPromiseConfirm = (type:string, record: any) => {
     confirm({
       title: 'Second Meeting Confirmation',
@@ -91,7 +103,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
           try{
             const data = {
               appraisalIdx: record.idx,
-              secondMeetingStepAction: genarateStepAction(type, selectedRole) ,
+              secondMeetingStepAction: genarateStepA(type) ,
               secondMeetingStepStatus: genarateStepStatus(type, selectedRole),
               appraisalType: record.appraisalType,
               loanProduct: record.loanProduct,

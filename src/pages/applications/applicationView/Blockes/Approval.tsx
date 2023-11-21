@@ -31,6 +31,7 @@ export default function Approval ({
   } = useSelector((state: any) => state.AppData)
 
     const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([])
+    const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false)
 
     useEffect(() => {
       if(selectedRole){
@@ -195,7 +196,11 @@ export default function Approval ({
           }
           // console.log("data", fileList)
           // const save = await API.approvalServices.createScondMeetingStep(data)
-          const save = await API.approvalServices.createStep(newData)
+          if(isSecondMeeting){
+            const save = await API.approvalServices.createScondMeetingStep(newData)
+          }else{
+            const save = await API.approvalServices.createStep(newData)
+          }
 
           notification.success({
             message: 'Application Updated Successfully.'
@@ -216,6 +221,15 @@ export default function Approval ({
         }
       })
     }
+
+    useEffect(() => {
+      const BMStatus = approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+      find((row:any) => row.secondMeetingCurrentRole == "BM")?.secondMeetingStepStatus
+
+      if(BMStatus === 'PENDING'){
+        setIsSecondMeeting(true)
+      }
+    },[approvalSteps.data?.secondMeetingApprovalStepDtoList])
     // console.log("fileList", fileList)
   return (
     <div>
