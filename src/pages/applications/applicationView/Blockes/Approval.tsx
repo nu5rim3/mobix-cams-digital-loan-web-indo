@@ -138,35 +138,33 @@ export default function Approval ({
       .then(async () => {
         try{
           setAddingData(type)
-          const data = {
-            appraisalIdx: customerData.data.appraisalId,
-            stepStatus: genarateStepStatus(type, selectedRole),
-            stepAction: genarateStepAction(type, selectedRole, isSecondMeeting),
-            appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
-            loanProduct: financialDetails.data.pTrhdLType,
-            loanAmount: financialDetails.data.pTrhdLocCost,
-            loanTerm: financialDetails.data.pTrhdTerm,
-            comment: form.getFieldValue('comment'),
-            lastModifiedBy: userData.data.idx,
-            createdBy: userData.data.idx,
-            creationDate: moment().toISOString(),
-            // documents: fileList?.map(async (file: any) => {
+          let data
 
-            //   const base64 = await fileToBase64Async(file.originFileObj)
-
-            //   return { 
-            //     stkIdx: customerData.data.cusIdx,
-            //     cltIdx: customerData.data.cltIdx,
-            //     centerIdx: customerData.data.centerIdx,
-            //     appraisalIdx: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
-            //     imgMasterCategory: "APPROVAL_FLOW",
-            //     imgSubCategory: selectedRole === 'CA'? "CA_LEVEL" : "BM_LEVEL",
-            //     imgOriginalName: file.name,
-            //     imgContentType: file.type,
-            //     image: base64,
-              
-            //   }
-            // })
+          if(isSecondMeeting){
+            data = { 
+              appraisalIdx: customerData.data.appraisalId,
+              secondMeetingStepAction: genarateStepStatus(type, selectedRole),
+              secondMeetingStepStatus: genarateStepAction(type, selectedRole, isSecondMeeting),
+              appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+              loanProduct: financialDetails.data.pTrhdLType,
+              loanAmount: financialDetails.data.pTrhdLocCost,
+              loanTerm: financialDetails.data.pTrhdTerm,
+              comment: form.getFieldValue('comment')
+            }
+          }else{
+            data = {
+              appraisalIdx: customerData.data.appraisalId,
+              stepStatus: genarateStepStatus(type, selectedRole),
+              stepAction: genarateStepAction(type, selectedRole, isSecondMeeting),
+              appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
+              loanProduct: financialDetails.data.pTrhdLType,
+              loanAmount: financialDetails.data.pTrhdLocCost,
+              loanTerm: financialDetails.data.pTrhdTerm,
+              comment: form.getFieldValue('comment'),
+              lastModifiedBy: userData.data.idx,
+              createdBy: userData.data.idx,
+              creationDate: moment().toISOString(),
+            }
           }
 
           const processedFiles = [];
