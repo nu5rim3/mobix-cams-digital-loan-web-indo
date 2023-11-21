@@ -15,6 +15,7 @@ import { actions } from '../../store/store';
 import moment from 'moment';
 import ButtonContainer from '../../components/Buttons/Button';
 import { ExclamationCircleFilled } from '@ant-design/icons';
+import { genarateStepAction, genarateStepStatus } from '../../utils/setpsGenaration';
 
 export interface IApplicationsProps {
 
@@ -27,6 +28,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   const [searchAppraisal, setSearchAppraisal] = useState<string | null>(null)
   const [fromDateFilter, setFromDateFilter] = useState(null);
   const [toDateFilter, setToDateFilter] = useState(null);
+  const [searchedStatus, setSearchedStatus] = useState('APPROVAL_PENDING')
   const {
     token: {colorTextHeading},
   } = theme.useToken();
@@ -69,6 +71,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   };
 
   const searchData = () => {
+    setSearchedStatus(searchStatus)
     actions.getSecondMeetingAppraisals({
       role: selectedRole,
       appraisalId: searchAppraisal,
@@ -76,28 +79,6 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       toDate: toDateFilter,
       status: searchStatus
     })
-  }
-
-  const genarateType = (type: string) => {
-    // if(type == 'Recommend' 
-    // || type == 'Verifed'
-    // || type == 'Not Recommend'
-    // || type == 'Recommend'
-    // ){
-    //   return 'PROCEED'
-    // }
-    // if(type == 'Return'){
-    //   return 'RETURNED'
-    // }
-    if(type == 'Reject'){
-      return 'REJECTED'
-    }
-    // if(type == 'Approve' && selectedRole === 'BM'){
-    //   return 'AP'
-    // }
-    if(type == 'Approve'){
-      return 'APPROVED'
-    }
   }
 
   const showPromiseConfirm = (type:string, record: any) => {
@@ -110,8 +91,8 @@ export default function Applications2ndStep (props: IApplicationsProps) {
           try{
             const data = {
               appraisalIdx: record.idx,
-              secondMeetingStepAction: genarateType(type) ,
-              secondMeetingStepStatus: type.toUpperCase(),
+              secondMeetingStepAction: genarateStepAction(type, selectedRole) ,
+              secondMeetingStepStatus: genarateStepStatus(type, selectedRole),
               appraisalType: record.appraisalType,
               loanProduct: record.loanProduct,
               loanAmount: record.loanAmount,
@@ -218,12 +199,19 @@ export default function Applications2ndStep (props: IApplicationsProps) {
           <Space size="middle" className='mr-3'>
             <a onClick={() => navigate(`/applications/viewApplication/${record.idx}`)}>View</a>
           </Space>
-            <Space size="middle" className='mr-3'>
-            <a onClick={() => showPromiseConfirm('Approve', record)}>Approve</a>
-          </Space>
-          <Space size="middle" className='mr-3'>
-            <a onClick={() => showPromiseConfirm('Reject', record)}>Reject</a>
-          </Space>
+          {
+            searchedStatus != 'APPROVAL_PENDING'
+            ? null
+            :
+            <>
+              <Space size="middle" className='mr-3' >
+                <a hidden={selectedRole != 'BM'} onClick={() => showPromiseConfirm('Approve', record)}>Approve</a>
+              </Space>
+              <Space size="middle" className='mr-3'>
+                <a hidden={selectedRole != 'BM'}  onClick={() => showPromiseConfirm('Reject', record)}>Reject</a>
+              </Space>
+            </>
+          }
         </>
       ),
     },
@@ -323,7 +311,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
             loading={applications.fetching}
             // loading={false}
             rowKey={'idx'}
-            columns={columns} 
+            columns={columns.filter((column:any) => (searchedStatus !== 'APPROVED' && column?.key == 'contractNo')? false : true)} 
             dataSource={applications.data || [] }
           />
         </div>

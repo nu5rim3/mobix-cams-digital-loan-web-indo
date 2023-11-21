@@ -29,6 +29,7 @@ export default function Applications (props: IApplicationsProps) {
   const {
     token: {colorTextHeading},
   } = theme.useToken();
+  const [searchedStatus, setSearchedStatus] = useState('APPROVAL_PENDING')
 
   const {
     applications
@@ -62,6 +63,7 @@ export default function Applications (props: IApplicationsProps) {
   };
 
   const searchData = () => {
+    setSearchedStatus(searchStatus)
     actions.getAllApplications({
       role: selectedRole,
       appraisalId: searchAppraisal,
@@ -260,7 +262,7 @@ export default function Applications (props: IApplicationsProps) {
             loading={applications.fetching}
             // loading={false}
             rowKey={'idx'}
-            columns={columns} 
+            columns={columns.filter((column:any) => (searchedStatus !== 'APPROVED' && column?.key == 'contractNo')? false : true)} 
             dataSource={applications.data || [] }
           />
         </div>

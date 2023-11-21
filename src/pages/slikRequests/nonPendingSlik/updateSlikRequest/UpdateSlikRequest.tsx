@@ -26,6 +26,9 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
   const {
     initialData
   } = useSelector((state: any) => state.SlikRequest.slikUpdateUserData)
+  const {
+    selectedRole
+  } = useSelector((state: any) => state.AppData)
 
   const navigate = useNavigate();
 
@@ -442,6 +445,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
                 shape="round"
                 size='large'
                 loading={addLoading}
+                disabled={selectedRole === 'ADMIN'}
               //   icon={<PlusOutlined/>}
               >
                 Save

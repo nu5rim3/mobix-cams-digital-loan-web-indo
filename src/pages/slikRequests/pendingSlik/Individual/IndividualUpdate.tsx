@@ -22,6 +22,9 @@ export default function IndividualUpdate ({
   const userData = useSelector((state: any) => state.AppData.userData)
   const [loading, setLoading] = useState<boolean>(false)
   const [ableUpdate, setAbleData] = useState(true)
+  const {
+    selectedRole
+  } = useSelector((state: any) => state.AppData)
 
   const columns: ColumnsType<any> = [
     // {
@@ -88,6 +91,7 @@ export default function IndividualUpdate ({
       render: (text, record) => (
         <Input
           // value={text} // This value should be connected to your data
+          disabled={selectedRole === 'ADMIN'}
           onChange={(e) => {
             // Handle input changes here and update your data
             // e.target.value contains the new value of the input field
@@ -178,7 +182,7 @@ export default function IndividualUpdate ({
             shape="round"
             size='large'
             label='Update Batch'
-            disabled={ableUpdate}
+            disabled={ableUpdate ||  selectedRole === 'ADMIN'}
           />
       </div>
     </div>

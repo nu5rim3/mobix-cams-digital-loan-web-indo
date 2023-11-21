@@ -22,6 +22,9 @@ export default function GroupUpdate ({
   const userData = useSelector((state: any) => state.AppData.userData)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const {
+    selectedRole
+  } = useSelector((state: any) => state.AppData)
   
   const columns: ColumnsType<any> = [
       {
@@ -132,6 +135,7 @@ export default function GroupUpdate ({
       render: (text, record) => (
         <Input
           // value={text} // This value should be connected to your data
+          disabled={selectedRole === 'ADMIN'}
           onChange={(e) => {
             // Handle input changes here and update your data
             // e.target.value contains the new value of the input field
@@ -234,6 +238,7 @@ export default function GroupUpdate ({
               type='primary'
               shape="round"
               size='large'
+              disabled={selectedRole === 'ADMIN'}
               // loading={addLoading}
             //   icon={<PlusOutlined/>}
             >

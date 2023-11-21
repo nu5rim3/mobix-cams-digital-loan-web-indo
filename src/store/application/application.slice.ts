@@ -402,6 +402,7 @@ export const ApplicationDataSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getAllApplications.pending , (state, action) => {
             state.applications.fetching = true
+            state.applications.data = []
         }),
         builder.addCase(getAllApplications.fulfilled , (state, action) => {
             state.applications.fetching = false
@@ -414,6 +415,7 @@ export const ApplicationDataSlice = createSlice({
 
         builder.addCase(getSecondMeetingAppraisals.pending , (state, action) => {
             state.applications.fetching = true
+            state.applications.data = []
         }),
         builder.addCase(getSecondMeetingAppraisals.fulfilled , (state, action) => {
             state.applications.fetching = false

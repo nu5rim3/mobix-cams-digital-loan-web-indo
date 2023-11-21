@@ -8,6 +8,7 @@ import { ColumnsType } from 'antd/es/table';
 import { API } from '../../../../services/Services';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { genarateStepAction, genarateStepStatus } from '../../../../utils/setpsGenaration';
 
 export interface IApprovalProps {
   fileList: any
@@ -109,31 +110,6 @@ export default function Approval ({
       },
     ];
 
-    const genarateType = (type: string) => {
-      if(type == 'Recommend' 
-      || type == 'Verifed'
-      || type == 'Not Recommend'
-      || type == 'Recommend'
-      ){
-        return 'PROCEED'
-      }
-      if(type == 'Return'){
-        return 'RETURNED'
-      }
-      if(type == 'Reject'){
-        return 'REJECTED'
-      }
-      if(type == 'Approve' && (selectedRole === 'BOD1' || selectedRole === 'BOD2')){
-        return 'PROCEED'
-      }
-      if(type == 'Approve' && selectedRole === 'BM'){
-        return 'AP'
-      }
-      if(type == 'Approve'){
-        return 'APPROVED'
-      }
-    }
-
     function fileToBase64Async(file:any) {
       return new Promise((resolve, reject) => {
         const reader:any = new FileReader();
@@ -163,8 +139,8 @@ export default function Approval ({
           setAddingData(type)
           const data = {
             appraisalIdx: customerData.data.appraisalId,
-            stepStatus: type.toUpperCase(),
-            stepAction: genarateType(type),
+            stepStatus: genarateStepStatus(type, selectedRole),
+            stepAction: genarateStepAction(type, selectedRole),
             appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
             loanAmount: financialDetails.data.pTrhdLocCost,
@@ -219,7 +195,6 @@ export default function Approval ({
           }
           // console.log("data", fileList)
           // const save = await API.approvalServices.createScondMeetingStep(data)
-          console.log("yeye", data)
           const save = await API.approvalServices.createStep(newData)
 
           notification.success({
