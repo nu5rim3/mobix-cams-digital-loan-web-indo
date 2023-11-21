@@ -281,7 +281,9 @@ export default function Approval ({
           dataSource={
             approvalSteps.data?.approvalStepDtoList
             ? [
-                ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.map((row:any) => ({
+                ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+                filter((row:any) => row.secondMeetingCurrentRole == "BM")?.
+                map((row:any) => ({
                   ...row,
                   stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus}`,
                   roleDescription: row.secondMeetingCurrentRoleDesc
