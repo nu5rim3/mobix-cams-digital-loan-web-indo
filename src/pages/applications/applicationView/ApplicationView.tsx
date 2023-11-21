@@ -56,7 +56,6 @@ export default function ApplicationView (props: IApplicationViewProps) {
     let fileList 
 
     const setFiles = (newData:any) => {
-        console.log("calling", newData)
         fileList = newData
     }
 

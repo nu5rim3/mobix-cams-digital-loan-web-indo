@@ -239,8 +239,20 @@ export const getAllApplications = createAsyncThunk(
     'ApplicationDetails/fetchCustomerGuranterData',
     async (arg: Parameters<typeof API.stakeholderClientEles.getPersonclientelesByAppraisalId>[0], thunkAPI) => {
         try{
+            let centerData:any
+            
             const response = await API.stakeholderClientEles.getPersonclientelesByAppraisalId(arg)
-            return response.data
+
+            const customerCenterCode = response.data?.find((type: any) => type.cltType === "C").fusionCenterCode
+            
+            if(customerCenterCode){
+                centerData = await API.stakeholderClientEles.getCentersByCode(customerCenterCode)
+            }
+
+            return response.data.map((data:any) => (data.cltType === "C")? 
+                {...data, centerName: centerData?.data?.centerName} 
+                : data
+            )
         }
         catch(error){
             const er = error as AxiosError

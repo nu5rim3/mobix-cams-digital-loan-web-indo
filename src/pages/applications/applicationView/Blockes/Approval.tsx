@@ -70,7 +70,7 @@ export default function Approval ({
         dataIndex: 'stepStatus',
         key: 'stepStatus',
         render: (_, { stepStatus }) => (
-          stepStatus === 'PENDING' || stepStatus === 'RETURNED'?
+          stepStatus === 'PENDING' || stepStatus === 'RETURNED' || stepStatus === 'SECOND MEETING - PENDING' ?
           <Tag color='yellow' key={stepStatus}>
               {stepStatus}
           </Tag>
@@ -245,7 +245,8 @@ export default function Approval ({
   return (
     <div>
       {
-        approvalSteps.data?.approvalStepDtoList?.find((row: any) => row?.stepAction === 'PENDING')?.roleCode === selectedRole?
+        (approvalSteps.data?.approvalStepDtoList?.find((row: any) => row?.stepAction === 'PENDING')?.roleCode === selectedRole)
+        || (approvalSteps.data?.secondMeetingApprovalStepDtoList?.find((row: any) => row?.secondMeetingStepAction === 'PENDING')?.secondMeetingCurrentRole === selectedRole)?
           <>
             <Form
               form={form}
@@ -303,7 +304,16 @@ export default function Approval ({
           columns={columns}
           pagination={false}
           dataSource={
-            approvalSteps.data?.approvalStepDtoList?? []}
+            approvalSteps.data?.approvalStepDtoList
+            ? [
+                ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.map((row:any) => ({
+                  ...row,
+                  stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus}`,
+                  roleDescription: row.secondMeetingCurrentRoleDesc
+                })),
+                ...approvalSteps.data?.approvalStepDtoList,
+              ] 
+            :[]}
         />
       </div>
     </div>
