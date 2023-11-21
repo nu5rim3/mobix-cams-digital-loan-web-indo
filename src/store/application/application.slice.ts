@@ -84,6 +84,22 @@ export const getAllApplications = createAsyncThunk(
     }
   )
 
+  export const getSecondMeetingAppraisals = createAsyncThunk(
+    'ApplicationDetails/fetchSecondMeetingApplications',
+    async (data: Parameters<typeof API.appraisalsServices.getSecondMeetingAppraisals>[0], thunkAPI) => {
+        try{
+            const response = await API.appraisalsServices.getSecondMeetingAppraisals(data)
+            return response?.data
+        }
+        catch(error){
+            const er = error as AxiosError
+            return er?.response 
+            ? thunkAPI.rejectWithValue(er?.response?.data)
+            : thunkAPI.rejectWithValue(er?.message)
+        }
+    }
+  )
+
   export const getCustomerData = createAsyncThunk(
     'ApplicationDetails/fetchCustomerData',
     async (arg: Parameters<typeof API.personServices.getPersonByIdAppraisalId>[0], thunkAPI) => {
@@ -384,6 +400,18 @@ export const ApplicationDataSlice = createSlice({
             state.applications.data = []
         })
 
+        builder.addCase(getSecondMeetingAppraisals.pending , (state, action) => {
+            state.applications.fetching = true
+        }),
+        builder.addCase(getSecondMeetingAppraisals.fulfilled , (state, action) => {
+            state.applications.fetching = false
+            state.applications.data = action.payload
+        })
+        builder.addCase(getSecondMeetingAppraisals.rejected , (state, action) => {
+            state.applications.fetching = false
+            state.applications.data = []
+        })
+
         builder.addCase(getCustomerData.pending , (state, action) => {
             state.customerData.fetching = true
         }),
@@ -482,7 +510,8 @@ export const ApplicationActions = {
     getCashFlowDetails,
     getImageDetails,
     getApprovalStepsDetails,
-    getFinanceDetails
+    getFinanceDetails,
+    getSecondMeetingAppraisals
 }
 
 export default ApplicationDataSlice.reducer;

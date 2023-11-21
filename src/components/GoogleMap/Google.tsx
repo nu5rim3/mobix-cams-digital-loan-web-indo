@@ -39,7 +39,7 @@
 //   })(MapContainer);
 
 import React from 'react';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 interface GoogleMapProps {
   google: any;
@@ -49,6 +49,17 @@ interface GoogleMapProps {
 
 class GoogleMap extends React.Component<GoogleMapProps> {
   render() {
+    var points = [
+      { lat: 42.02, lng: -77.01 },
+      { lat: 42.03, lng: -77.02 },
+      { lat: 41.03, lng: -77.04 },
+      { lat: 42.05, lng: -77.02 }
+    ]
+    var bounds = new this.props.google.maps.LatLngBounds();
+    for (var i = 0; i < points.length; i++) {
+      bounds.extend(points[i]);
+    }
+
     return (
       <Map
         google={this.props.google}
@@ -59,6 +70,44 @@ class GoogleMap extends React.Component<GoogleMapProps> {
                 name={'Current location'} />
       </Map>
     );
+
+    // return (
+    //   <Map
+    //       google={this.props.google}
+    //       initialCenter={{
+    //         lat: 37.790000, lng: -122.405640
+    //       }}
+          // bounds={bounds}
+          // >
+             {/* <Marker
+                
+                title='The marker`s title will appear as a tooltip.'
+                name={'SOMA'}
+                position={{lat: 37.778519, lng: -122.405640}} /> */}
+
+            {/* <InfoWindow onClose={this.onInfoWindowClose}>
+                        <div>
+                          <h1>{'Helloo'}</h1>
+                        </div>
+                    </InfoWindow> */}
+
+              {/* <Marker
+                  name={'Dolores park'}
+                  position={{lat: 37.759703, lng: -122.428093}} /> */}
+
+              {/* <Marker
+                  name={'Your position'}
+                  position={{lat: 37.762391, lng: -122.439192}}
+                  icon={{
+                    url: "/path/to/custom_icon.png",
+                    anchor: new google.maps.Point(32,32),
+                    scaledSize: new google.maps.Size(64,64)
+                  }} /> */}
+              {/* <Marker /> */}
+            
+      // </Map>
+  // );
+  
   }
 }
 

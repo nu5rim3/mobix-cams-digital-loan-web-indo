@@ -232,7 +232,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
             dataSource={
               selectedStatus === 'inprogress'
               ? slikRequestsData.data.filter((data:any) => data.status == "INPG")
-              : slikRequestsData.data.filter((data:any) => data.status == "C") || []}
+              : slikRequestsData.data.filter((data:any) => data.status == "C" || data.status == "A") || []}
           />
         </div>
     </div>

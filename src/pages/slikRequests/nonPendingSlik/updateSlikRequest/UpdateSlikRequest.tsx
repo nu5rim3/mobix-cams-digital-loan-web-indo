@@ -184,7 +184,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       if(id){
         const user = await API.slikServices.updateSlik({slikId: id, data: data})
         notification.success({
-          message: 'Slick request updated successfully'
+          message: 'Slik request updated successfully'
         })
         navigate('/slikRequest')
       }

@@ -44,7 +44,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   } = useSelector((state: any) => state.AppData)
   
   useEffect(() => {
-    actions.getAllApplications({
+    actions.getSecondMeetingAppraisals({
       role: selectedRole,
       status: searchStatus
     })
@@ -69,7 +69,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   };
 
   const searchData = () => {
-    actions.getAllApplications({
+    actions.getSecondMeetingAppraisals({
       role: selectedRole,
       appraisalId: searchAppraisal,
       fromDate: fromDateFilter,
@@ -274,16 +274,12 @@ export default function Applications2ndStep (props: IApplicationsProps) {
                     setSearchStatus(value)
                 }}
                 style={{ width: 200 }}
-                defaultValue='AP'
+                defaultValue='APPROVAL_PENDING'
                 placeholder='Select A Status'
                 options={[
                     {
-                        value: 'AP',
+                        value: 'APPROVAL_PENDING',
                         label: 'Approval Pending'
-                    },
-                    {
-                      value: 'RETURNED',
-                      label: 'Returned'
                     },
                     {
                       value: 'APPROVED',

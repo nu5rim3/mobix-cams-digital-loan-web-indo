@@ -22,12 +22,14 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
   };
 
   const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
+    form.validateFields()
+    .then(() => {
+      setConfirmLoading(true);
+    })
+    // setTimeout(() => {
+    //   setOpen(false);
+    //   setConfirmLoading(false);
+    // }, 2000);
   };
 
   const handleCancel = () => {
@@ -65,94 +67,96 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             // wrapperCol={{ span: 20}}
             // size={screens.xs? 'middle' :'large'}
       >
-        <Form.Item
-                  // className={screens.xs? 'w-full' :'w-1/2'}
-                  name="password"
-                  label="Current Password"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    // ({ getFieldValue }) => ({
-                    //   validator(_, value) {
-                    //     var pattern = new RegExp(
-                    //       "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$"
-                    //     );
-
-                    //     if (value && pattern.test(value)) {
-                    //       return Promise.resolve();
-                    //     }
-                    //     return Promise.reject(new Error(''));
-                    //   },
-                    // }),
-                  ]}
-                  style={{
-                    fontWeight: 600,
-                    // height: 20
-                  }}
-                  hasFeedback
-                  // tooltip={{ title: 'Password should contain a digit[0-9], A lower case letter[a-z], An upper case letter[A-Z], one of !@#$%&* characters', icon: <InfoCircleOutlined /> }}
-                >
-                  <Input.Password style={{margin: 0}} autoComplete="off"/>
-                </Form.Item>
-
-                <Form.Item
-                  // className={screens.xs? 'w-full' :'w-1/2'}
-                  name="password"
-                  label="New Password"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    ({ getFieldValue }) => ({
-                      validator(_, value) {
-                        var pattern = new RegExp(
-                          "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$"
-                        );
-
-                        if (value && pattern.test(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(new Error(''));
+        <div className='mt-8 mb-14 '>
+          <Form.Item
+                    // className={screens.xs? 'w-full' :'w-1/2'}
+                    name="password"
+                    label="Current Password"
+                    rules={[
+                      {
+                        required: true,
                       },
-                    }),
-                  ]}
-                  style={{
-                    fontWeight: 600,
-                    // height: 20
-                  }}
-                  hasFeedback
-                  tooltip={{ title: 'Password should contain a digit[0-9], A lower case letter[a-z], An upper case letter[A-Z], one of !@#$%&* characters', icon: <InfoCircleOutlined /> }}
-                >
-                  <Input.Password style={{margin: 0}} autoComplete="off"/>
-                </Form.Item>
+                      // ({ getFieldValue }) => ({
+                      //   validator(_, value) {
+                      //     var pattern = new RegExp(
+                      //       "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$"
+                      //     );
 
-                <Form.Item
-                  // className={screens.xs? 'w-full' :'w-1/2'}
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    ({ getFieldValue }) => ({
-                      validator(_, value) {
-                        if (!value || getFieldValue('password') === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(new Error('The new password that you entered do not match!'));
-                      },
-                    }),
-                  ]}
-                  style={{
-                    fontWeight: 600,
-                    // height: 20
-                  }}
-                  hasFeedback
-                  dependencies={['password']}
-                >
-                  <Input.Password style={{margin: 0}}/>
-                </Form.Item>
+                      //     if (value && pattern.test(value)) {
+                      //       return Promise.resolve();
+                      //     }
+                      //     return Promise.reject(new Error(''));
+                      //   },
+                      // }),
+                    ]}
+                    style={{
+                      fontWeight: 600,
+                      // height: 20
+                    }}
+                    hasFeedback
+                    // tooltip={{ title: 'Password should contain a digit[0-9], A lower case letter[a-z], An upper case letter[A-Z], one of !@#$%&* characters', icon: <InfoCircleOutlined /> }}
+                  >
+                    <Input.Password style={{margin: 0}} autoComplete="off"/>
+          </Form.Item>
+
+          <Form.Item
+            // className={screens.xs? 'w-full' :'w-1/2'}
+            name="password"
+            label="New Password"
+            rules={[
+              {
+                required: true,
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  var pattern = new RegExp(
+                    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$"
+                  );
+
+                  if (value && pattern.test(value)) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error(''));
+                },
+              }),
+            ]}
+            style={{
+              fontWeight: 600,
+              // height: 20
+            }}
+            hasFeedback
+            tooltip={{ title: 'Password should contain a digit[0-9], A lower case letter[a-z], An upper case letter[A-Z], one of !@#$%&* characters', icon: <InfoCircleOutlined /> }}
+          >
+            <Input.Password style={{margin: 0}} autoComplete="off"/>
+          </Form.Item>
+
+          <Form.Item
+            // className={screens.xs? 'w-full' :'w-1/2'}
+            name="confirmPassword"
+            label="Confirm Password"
+            rules={[
+              {
+                required: true,
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('The new password that you entered do not match!'));
+                },
+              }),
+            ]}
+            style={{
+              fontWeight: 600,
+              // height: 20
+            }}
+            hasFeedback
+            dependencies={['password']}
+          >
+            <Input.Password style={{margin: 0}}/>
+          </Form.Item>
+        </div>
       </Form>
       </Modal>
     </>

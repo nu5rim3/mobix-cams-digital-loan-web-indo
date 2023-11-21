@@ -9,7 +9,7 @@ export interface IOnboardingViewProps {
 const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
       key: '1',
-      label: 'SLICK Status',
+      label: 'SLIK Status',
       children:  data?.status === "A" 
       ? <Tag color='green' key={data?.status}>
           Active

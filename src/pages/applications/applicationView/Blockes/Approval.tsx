@@ -70,7 +70,7 @@ export default function Approval ({
         dataIndex: 'stepStatus',
         key: 'stepStatus',
         render: (_, { stepStatus }) => (
-          stepStatus === 'PENDING'?
+          stepStatus === 'PENDING' || stepStatus === 'RETURNED'?
           <Tag color='yellow' key={stepStatus}>
               {stepStatus}
           </Tag>
@@ -122,6 +122,9 @@ export default function Approval ({
       }
       if(type == 'Reject'){
         return 'REJECTED'
+      }
+      if(type == 'Approve' && (selectedRole === 'BOD1' || selectedRole === 'BOD2')){
+        return 'PROCEED'
       }
       if(type == 'Approve' && selectedRole === 'BM'){
         return 'AP'
@@ -238,7 +241,7 @@ export default function Approval ({
         }
       })
     }
-    console.log("fileList", fileList)
+    // console.log("fileList", fileList)
   return (
     <div>
       {
@@ -294,7 +297,7 @@ export default function Approval ({
           /> 
 
         <Table
-          className='w-3/4'
+          className='w-4/4'
           showHeader={false}
           bordered={false}
           columns={columns}
