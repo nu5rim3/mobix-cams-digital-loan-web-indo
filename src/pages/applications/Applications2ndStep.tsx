@@ -281,14 +281,14 @@ export default function Applications2ndStep (props: IApplicationsProps) {
                         value: 'APPROVAL_PENDING',
                         label: 'Approval Pending'
                     },
-                    {
-                      value: 'APPROVED',
-                      label: 'Approved'
-                    },
-                    {
-                      value: 'REJECTED',
-                      label: 'Rejected'
-                    },
+                    // {
+                    //   value: 'APPROVED',
+                    //   label: 'Approved'
+                    // },
+                    // {
+                    //   value: 'REJECTED',
+                    //   label: 'Rejected'
+                    // },
                 ]}
             />
             <Input 

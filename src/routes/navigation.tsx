@@ -116,7 +116,7 @@ const sidebarMenu: MenuItem[] = [
             path:'/applications/BM',
             key: '/applications/BM',
             visibleInMenu: true,
-            label: 'Approval Pending',
+            label: 'Approval Workflow',
             component: Applications,
         },
         {

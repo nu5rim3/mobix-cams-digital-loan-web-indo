@@ -81,7 +81,7 @@ export default function UserForm (props: IUserFormProps) {
           ],
            loginType: "IDS",
           roles: e.roles.map((role:string) => ({code : role})),
-          status: e.status? "A" : "I",
+          status: id? e.status? "A" : "I": "A",
           // idx:"testing",
           // companyCode: "050",
           // isMobileRegistered: "Y",
