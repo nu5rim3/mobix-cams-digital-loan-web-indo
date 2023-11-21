@@ -1,4 +1,4 @@
-export  const genarateStepAction = (type: string, selectedRole: string) => {
+export  const genarateStepAction = (type: string, selectedRole: string, isSecondMeeting: boolean) => {
     if(type == 'Recommend' 
     || type == 'Verifed'
     || type == 'Not Recommend'
@@ -15,7 +15,7 @@ export  const genarateStepAction = (type: string, selectedRole: string) => {
     if(type == 'Approve' && (selectedRole === 'BOD1' || selectedRole === 'BOD2')){
       return 'PROCEED'
     }
-    if(type == 'Approve' && selectedRole === 'BM'){
+    if(type == 'Approve' && (selectedRole === 'BM') && !isSecondMeeting){
       return 'AP'
     }
     if(type == 'Approve'){

@@ -141,7 +141,7 @@ export default function Approval ({
           const data = {
             appraisalIdx: customerData.data.appraisalId,
             stepStatus: genarateStepStatus(type, selectedRole),
-            stepAction: genarateStepAction(type, selectedRole),
+            stepAction: genarateStepAction(type, selectedRole, isSecondMeeting),
             appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
             loanProduct: financialDetails.data.pTrhdLType,
             loanAmount: financialDetails.data.pTrhdLocCost,
