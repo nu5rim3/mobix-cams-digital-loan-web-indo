@@ -107,11 +107,11 @@ export default function Applications (props: IApplicationsProps) {
       title: 'Contract ID',
       dataIndex: 'contractNo',
       key: 'contractNo',
-      // filteredValue: [searchStatus],
-      // onFilter: (value, record) => {
-      //   return value == "All"? true
-      //     : record?.status?.toLowerCase()?.includes(typeof(value) == 'string'? value?.toLowerCase(): value)
-      //   },
+    },
+    {
+      title: 'Voucher No',
+      dataIndex: 'voucherNo',
+      key: 'voucherNo',
     },
     {
       title: 'Product Name',
@@ -262,7 +262,12 @@ export default function Applications (props: IApplicationsProps) {
             loading={applications.fetching}
             // loading={false}
             rowKey={'idx'}
-            columns={columns.filter((column:any) => (searchedStatus !== 'APPROVED' && column?.key == 'contractNo')? false : true)} 
+            columns={columns.filter((column:any) => (
+              searchedStatus !== 'APPROVED' && (
+                column?.key == 'voucherNo' ||
+                column?.key == 'contractNo'
+                ))? false : true
+              )} 
             dataSource={applications.data || [] }
           />
         </div>
