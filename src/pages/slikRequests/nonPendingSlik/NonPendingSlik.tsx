@@ -181,14 +181,10 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
         />
 
       <div className='flex mt-1 mb-3 items-center '>
-        <Search
-          onChange={(value:any) => setSearchText(value)}
-          className={'pb-0'}
-        />
-        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
+      {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
           <>
           <Select
-              className='ml-2 '
+              className='mr-2 '
               size={'large'}
               // allowClear
               onChange={(value) => {
@@ -210,7 +206,16 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
                 : []
             }
           />
+          </>
+        : null}
+        <Search
+          onChange={(value:any) => setSearchText(value)}
+          className={'pb-0'}
+        />
+        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
+          <>
           <ButtonContainer 
+            disabled={!selectedBranch}
             type='primary' 
             label='Search' 
             size='large' 
