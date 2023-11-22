@@ -158,15 +158,6 @@ export default function GroupUpdate ({
         />
       ),
     },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (_, record) => (
-    //     <Space size="middle">
-    //       {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}>Update {record.name}</a> */}
-    //     </Space>
-    //   ),
-    // },
   ];
 
   const getGroupData = () => {

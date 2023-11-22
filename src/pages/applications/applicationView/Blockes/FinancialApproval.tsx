@@ -11,7 +11,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
       key: 'Product',
       label: 'Product',
-      children: data?.data?.productName || data?.pTrhdLType, //initialData?.centerCode,
+      children: data?.productName || data?.pTrhdLType, //initialData?.centerCode,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -73,24 +73,59 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
     const updateFinancialDetails = async() => {
       try{
         setTCSaveLoading(true)
+
+        console.log("test",  customerData?.data?.appraisalId,
+        customerData?.data?.cltIdx,
+        financialDetails?.data)
+
+        const calculateTc = await API.financialServices.calculateTc(
+          {
+            ...financialDetails?.data,
+            tcNo: null
+          }
+        )
+
+        const newTcNo = calculateTc?.data?.object?.tcNo
+
+        console.log("calcu", calculateTc)
+
         const save = await API.financialServices.saveTCByAppraisal(
           customerData?.data?.appraisalId,
           customerData?.data?.cltIdx,
-          financialDetails?.data
+          {
+            ...financialDetails?.data,
+            tcNo: newTcNo
+          }
         )
-
+        
         if(save.data.code == "ERROR"){
           return notification.error({
             message: 'An Error occured while updating TC details'
           })
         }
+
+        const updateFusion = await API.financialServices.saveTCToFusion(
+          {
+            tcNo: newTcNo,
+            mode: "P"
+          }
+        )
+
+        if(updateFusion.data.message == "ERROR"){
+          return notification.error({
+            message: 'An Error occured while updating TC details to Fusion'
+          })
+        }
+
         actions.financialDSavePendingUpdate(false)
         notification.success({
           message: 'TC details updated successfullly'
         })
       }
       catch(err){
-
+        notification.error({
+          message: 'TC details update Failed'
+        })
       }
       finally{
         setTCSaveLoading(false)
@@ -173,6 +208,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
               </div>
               <div>
                   <Button 
+                      loading={tcSaveLoading}
                       disabled = {!financialDetailsSavePending}
                       type='primary' onClick={() => {
                         updateFinancialDetails()

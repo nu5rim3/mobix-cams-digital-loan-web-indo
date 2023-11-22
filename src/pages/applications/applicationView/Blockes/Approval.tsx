@@ -228,7 +228,7 @@ export default function Approval ({
         setIsSecondMeeting(true)
       }
     },[approvalSteps.data?.secondMeetingApprovalStepDtoList])
-    // console.log("fileList", fileList)
+    
   return (
     <div>
       {

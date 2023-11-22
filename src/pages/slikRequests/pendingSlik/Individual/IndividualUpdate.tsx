@@ -44,10 +44,10 @@ export default function IndividualUpdate ({
       filteredValue: [searchText],
       render: (text, record) => (
         <>{record.slikDto?.customerName}</>
-      )
-      // onFilter: (value, record) => {
-      //   return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
-      // }
+      ),
+      onFilter: (value, record) => {
+        return record?.slikDto?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+      }
     },
     {
       title: 'NIK',
