@@ -6,6 +6,7 @@ import { ResponsivePie } from '@nivo/pie'
 import LineChart from './LineChart';
 import PieChart from './PieChart';
 import ContentContainer from '../../components/Containers/ContentContainer';
+import GoogleVis from '../../components/GoogleMap/GoogleVis';
 
 export interface IDashboardProps {
 }

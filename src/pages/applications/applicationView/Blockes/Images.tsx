@@ -7,6 +7,9 @@ import GoogleMapReact from 'google-map-react';
 import Google from '../../../../components/GoogleMap/Google';
 import ImageZoom from '../../../../test/ImageTest';
 import { Spin } from 'antd';
+import GoogleVis from '../../../../components/GoogleMap/GoogleVis';
+import MapModal from '../../../../components/GoogleMap/MapModal';
+import convertImageName from '../../../../utils/convertImageName';
 
 
 export interface IImagesProps {
@@ -20,12 +23,22 @@ export default function Images (props: IImagesProps) {
     } = useSelector((state: any) => state.Application)
     const [openMapModal, setOpenModal] = useState(false)
 
+    const ImageViwingGrid = [
+        {
+            showNoData: true,
+            title: 'Customer Images',
+            imgMasterCategory: 'CLIENT_IDENTIFICATION',
+            showLocations: true
+        }
+    ]
+
   return (
     <div  
         style={{
             fontWeight: 300
         }} 
     >
+        <MapModal open={openMapModal} setOpen={setOpenModal}/>
         {
             imageDetails.loading?
                 <div className='w-full h-32 flex justify-center'>
@@ -54,41 +67,43 @@ export default function Images (props: IImagesProps) {
                                         data={image}
                                     />
                                     <h4>
-                                        {
-                                            image.imgSubCategory === 'CUSTOMER_IMAGE'? 'Customer Image'
-                                            : image.imgSubCategory === 'CUSTOMER_ID'? 'Customer ID'
-                                            : image.imgSubCategory === 'FAMILY_CARD'? 'Family'
-                                            : image.imgSubCategory
-                                        }
+                                        {convertImageName(image.imgSubCategory)}
                                     </h4>
                                 </div>
                         })}
-                        {imageDetails.data
-                        ?.filter((row: any) => {
-                            return (row.imgMasterCategory === 'CLIENT_IDENTIFICATION' && row.latitude && row.longitude)
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
+                        
+                        {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'CLIENT_IDENTIFICATION' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
+                                    key={'customer_images_locations'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
                                 >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = {image.latitude}
-                                            lng={image.longitude}
-                                        />
+                                    <div 
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            minHeight:'250px',
+                                            position:'relative',
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'CLIENT_IDENTIFICATION' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                                    <h4>{
-                                        image.imgSubCategory == "SIGN"?
-                                            'Customer Signed Location'
-                                        : image.imgSubCategory
-                                        }</h4>
+                                    <h4 className='text-center'>Customer Data Captured Locations</h4>
                                 </div>
-                        })}
+                            : null
+                        }
                         </div>
                     :
                         <p className='p-1'> No Data Found</p>
@@ -125,28 +140,38 @@ export default function Images (props: IImagesProps) {
                                     </h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
+                        {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'SPOUSE_IMAGES' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
+                                    key={'SPOUSE_IMAGES'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
                                 >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
-                                        />
+                                    <div 
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            minHeight:'250px',
+                                            position:'relative',
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'SPOUSE_IMAGES' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                                    <h4>{image.imgOriginalName}</h4>
+                                    <h4 className='text-center'>Spouse Data Captured Locations</h4>
                                 </div>
-                        })} */}
+                            : null
+                        }
                         </div>
                     </div>
                 : null}
@@ -182,28 +207,38 @@ export default function Images (props: IImagesProps) {
                                     </h4>
                                 </div>
                         })}
-                        {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "RESIDENCE_LOCATION_TAGGING"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
+                        {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'RESIDENCIAL_IMAGES' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
+                                    key={'RESIDENCIAL_IMAGES'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
                                 >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = {image.latitude}
-                                            lng={image.longitude}
-                                        />
+                                    <div 
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            minHeight:'250px',
+                                            position:'relative',
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'RESIDENCIAL_IMAGES' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                                    <h4>Residence Location</h4>
+                                    <h4 className='text-center'>Residential Data Captured Locations</h4>
                                 </div>
-                        })}
+                            : null
+                        }
                         </div>
                     :
                         <p className='p-1'> No Data Found</p>
@@ -238,28 +273,38 @@ export default function Images (props: IImagesProps) {
                                         </h4>
                                     </div>
                             })}
-                            {imageDetails.data
-                            ?.filter((row: any) => {
-                                return row.imgSubCategory == "BUSINESS_LOCATION_TAGGING"
-                            })
-                            ?.map((image: any, index: any) => {
-                                    return <div 
-                                        className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                        key={index}
-                                    >
-                                        <div style={{
+                                                    {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'BUSINESS_IMAGES' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
+                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
+                                    key={'BUSINESS_IMAGES'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
+                                >
+                                    <div 
+                                        style={{
                                             width: '100%',
                                             height: '100%',
+                                            minHeight:'250px',
                                             position:'relative',
-                                        }}>
-                                            <Google
-                                                lat = {image.latitude}
-                                                lng={image.longitude}
-                                            />
-                                        </div>
-                                        <h4>Business Location</h4>
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'BUSINESS_IMAGES' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                            })}
+                                    <h4 className='text-center'>Business Data Captured Locations</h4>
+                                </div>
+                            : null
+                        }
                         </div>
                     : 
                         <p className='p-1'> No Data Found</p>
@@ -295,32 +340,38 @@ export default function Images (props: IImagesProps) {
                                     </h4>
                                 </div>
                         })}
-                        {imageDetails.data
-                        ?.filter((row: any) => {
-                            return (row.imgMasterCategory === 'GUARANTOR' && row.latitude && row.longitude)
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
+                                                                            {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'GUARANTOR' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
+                                    key={'GUARANTOR'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
                                 >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                             lat = {image.latitude}
-                                             lng={image.longitude}
-                                        />
+                                    <div 
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            minHeight:'250px',
+                                            position:'relative',
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'GUARANTOR' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                                    <h4>{
-                                        image.imgSubCategory == "SIGN"?
-                                            'Guarantor Signed Location'
-                                        : image.imgSubCategory
-                                        }</h4>
+                                    <h4 className='text-center'>Guarantor Data Captured Locations</h4>
                                 </div>
-                        })}
+                            : null
+                        }
                         </div>
                     </div>
                 :null}
@@ -348,28 +399,38 @@ export default function Images (props: IImagesProps) {
                                     <h4>Collateral Image {index + 1}</h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
+                           {
+                            imageDetails.data
+                            ?.find((row: any) => {
+                                return (row.imgMasterCategory === 'COLLATERAL_IMAGES' && row.latitude && row.longitude)
+                            }) ?
+                                <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
+                                    key={'GUARANTOR'}
+                                    // onClick={() => {
+                                    //     setOpenModal(true)
+                                    // }}
                                 >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
-                                        />
+                                    <div 
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            minHeight:'250px',
+                                            position:'relative',
+                                        }}
+                                        
+                                    >
+                                        <GoogleVis locations={
+                                            imageDetails.data
+                                            ?.filter((row: any) => {
+                                                return (row.imgMasterCategory === 'COLLATERAL_IMAGES' && row.latitude && row.longitude)
+                                            })
+                                        }/>
                                     </div>
-                                    <h4>{image.imgOriginalName}</h4>
+                                    <h4 className='text-center'>Collateral Data Captured Locations</h4>
                                 </div>
-                        })} */}
+                            : null
+                        }
                         </div>
                     :
                         <p className='p-1'> No Data Found</p>
@@ -399,28 +460,6 @@ export default function Images (props: IImagesProps) {
                                     <h4>Other Image {index + 1}</h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
-                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
-                                >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
-                                        />
-                                    </div>
-                                    <h4>{image.imgOriginalName}</h4>
-                                </div>
-                        })} */}
                         </div>
                     </div>
                 :null}
@@ -448,28 +487,6 @@ export default function Images (props: IImagesProps) {
                                     <h4>CA Level Image {index + 1}</h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
-                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
-                                >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
-                                        />
-                                    </div>
-                                    <h4>{image.imgOriginalName}</h4>
-                                </div>
-                        })} */}
                         </div>
                     </div>
                 :null}
@@ -497,28 +514,6 @@ export default function Images (props: IImagesProps) {
                                     <h4>BM Level Image {index + 1}</h4>
                                 </div>
                         })}
-                        {/* {imageDetails.data
-                        ?.filter((row: any) => {
-                            return row.imgSubCategory == "SIGN"
-                        })
-                        ?.map((image: any, index: any) => {
-                                return <div 
-                                    className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={index}
-                                >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position:'relative',
-                                    }}>
-                                        <Google
-                                            lat = { 6.89147314241435}
-                                            lng={79.87585501722411}
-                                        />
-                                    </div>
-                                    <h4>{image.imgOriginalName}</h4>
-                                </div>
-                        })} */}
                         </div>
                     </div>
                 :null}

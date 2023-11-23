@@ -285,7 +285,7 @@ const itemsOtherIncome: (data: any) => DescriptionsProps['items'] = (data) => [
 
 const itemsTotalExpenseB: (data: any) => DescriptionsProps['items'] = (data) => [
     {
-        key: 'stockNtransportationExpenseame',
+        key: 'transportationExpense',
         label: 'Transportation',
         children: getCurrency(data.transportationExpense),
         labelStyle: {
@@ -595,7 +595,7 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                                 children:''
                             },
                             {
-                                key: 'ex1',
+                                key: 'ex2',
                                 label: '',
                                 children:''
                             }
@@ -679,7 +679,7 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                                 children:''
                             },
                             {
-                                key: 'ex1',
+                                key: 'ex2',
                                 label: '',
                                 children:''
                             }

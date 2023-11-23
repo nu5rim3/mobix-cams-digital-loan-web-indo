@@ -170,7 +170,10 @@ export default function Approval ({
           const processedFiles = [];
 
           for (const file of fileList) {
-            const base64 = await fileToBase64Async(file.originFileObj);
+            let base64 = file.preview
+            if(!base64){
+              base64 = await fileToBase64Async(file.originFileObj);
+            }
         
             const processedFile = {
               stkIdx: customerData.data.cusIdx,

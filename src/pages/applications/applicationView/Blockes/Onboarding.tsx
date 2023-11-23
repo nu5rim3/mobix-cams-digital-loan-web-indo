@@ -8,7 +8,7 @@ export interface IOnboardingViewProps {
 
 const items: (data: any) => DescriptionsProps['items'] = (data) => [
     {
-      key: '1',
+      key: 'slickStatus',
       label: 'SLIK Status',
       children:  data?.slikStatus === "C" 
       ? <Tag color='yellow' key={data?.slikStatus}>
@@ -32,7 +32,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
       }
     },
     {
-        key: '2',
+        key: 'callStatus',
         label: 'Call Verification Status',
         children: <>
           {data.stepAction === 'PENDING'?
@@ -52,7 +52,7 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
 
 const itemsGroup: (data: any) => DescriptionsProps['items'] = (data) => [
   {
-    key: '1',
+    key: 'fusionCenterCode',
     label: 'Center Code',
     children:  data.fusionCenterCode,
     labelStyle: {
@@ -62,7 +62,7 @@ const itemsGroup: (data: any) => DescriptionsProps['items'] = (data) => [
     }
   },
   {
-      key: '2',
+      key: 'centerName',
       label: 'Center Name',
       children: data.centerName,
       labelStyle: {
@@ -72,7 +72,7 @@ const itemsGroup: (data: any) => DescriptionsProps['items'] = (data) => [
       }
     },
     {
-      key: '2',
+      key: 'groupIdx',
       label: 'Group Number',
       children: data.groupIdx,
       labelStyle: {
@@ -98,8 +98,6 @@ export default function OnboardingView (props: IOnboardingViewProps) {
       })
       setCallVerification(getCallVerification? getCallVerification : {})
     },[approvalSteps.data])
-
-    console.log("guarantorDetails", guarantorDetails)
 
   return (
     customerData.fetching || guarantorDetails.fetching?

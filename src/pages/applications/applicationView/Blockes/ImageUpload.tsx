@@ -1,10 +1,13 @@
 import Dragger from 'antd/es/upload/Dragger';
 import React, {useState} from 'react';
 import { InboxOutlined , PlusOutlined} from '@ant-design/icons';
-import { Modal, UploadFile, UploadProps, message, Upload } from 'antd';
+import { Modal, UploadFile, UploadProps, message, Upload, Button } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
+import WebcamCapture from '../../../../components/Camera/CapturePhoto';
+import {CameraOutlined} from '@ant-design/icons'
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IImageUploadProps {
     fileList?: any,
@@ -28,6 +31,7 @@ export default function ImageUpload ({
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
+    const [openCamera, setOpenCamera] = useState<boolean>(false)
 
     // const [fileList, setFileList] = useState<UploadFile[]>([])
     // const fileListTest = useSelector((state: any) => state.Application.fileList)
@@ -102,8 +106,10 @@ export default function ImageUpload ({
         if (!file.url && !file.preview) {
           file.preview = await getBase64(file.originFileObj as RcFile);
         }
+
+        const url:any = (file.preview as string) || file?.url
     
-        setPreviewImage(file.url || (file.preview as string));
+        setPreviewImage(url);
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
       };
@@ -113,6 +119,27 @@ export default function ImageUpload ({
         // actions.updateApplicationFileUpload(newFileList)
     }
 
+    const captureImage = (image: any) => {
+
+        const blob = new Blob([image], { type: 'image/jpeg' });
+        const name = uuidv4()
+
+        const file = new File([blob], `${name}.${'image/jpeg'}`, { type: 'image/jpeg' });
+        const imageUrl = URL.createObjectURL(blob);
+
+        const imageGen = {
+            uid: uuidv4(),
+            name: name,
+            type: "image/jpeg",
+            originFileObj : file,
+            url: imageUrl,
+            preview: image,
+            thumbUrl: image
+        }
+
+        return setFileList((pre:any) => ([...pre, imageGen]));
+    }
+
     const uploadButton = (
         <div>
           <PlusOutlined />
@@ -120,10 +147,16 @@ export default function ImageUpload ({
         </div>
       );
 
+    console.log("fileList", fileList)
+
   return (
     <div className='grid grid-cols-2 gap-5 pt-2'>
         <div>
             <div className=''>
+                <WebcamCapture open={openCamera} setOpen={setOpenCamera} onCapture={captureImage}/>
+
+                <Button className='w-full mb-2' icon={<CameraOutlined />} onClick={() => setOpenCamera(true)}>Capture Image</Button>
+
                 <Dragger {...uploadProps}>
                     <p className="ant-upload-drag-icon">
                     <InboxOutlined />
@@ -136,6 +169,7 @@ export default function ImageUpload ({
                 </Dragger>
 
             </div>
+            
         </div>
         <div>
         <>

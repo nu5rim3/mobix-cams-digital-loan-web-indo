@@ -501,7 +501,6 @@ export const ApplicationDataSlice = createSlice({
             state.financialDetails.fetching = true
         }),
         builder.addCase(getFinanceDetails.fulfilled , (state, action) => {
-            console.log("yoyo", action.payload)
             state.financialDetails.fetching = false
             state.financialDetails.data = action.payload
         })

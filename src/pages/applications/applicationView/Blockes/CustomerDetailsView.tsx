@@ -360,21 +360,6 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 width: '40%'
             }
         },
-        {
-            key: 'address',
-            label: 'Business Address',
-            children: data. address1? formatAddress({
-                address1 :data.address1,
-                address2: data.address2,
-                address3: data.address3,
-                address4 :data.address4
-            }): '-',
-            labelStyle: {
-                color: '#102C57',
-                fontWeight: 600,
-                width: '40%'
-            }
-        },
        
     ]
 
