@@ -54,6 +54,7 @@ export default function GroupUpdate ({
         title: 'Date',
         dataIndex: 'creationDate',
         key: 'creationDate',
+        sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
       },
       {
         title: 'Customer Count',

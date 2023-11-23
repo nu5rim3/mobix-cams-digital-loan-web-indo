@@ -10,8 +10,6 @@ const saveTCByAppraisal = (id: string , cliId:string , data:any) => {
     return api.post(`/mobixCamsCredit/v1/tc/appraisals/${id}/clienteles/${cliId}`, data)
 }
 
-// /mobixCamsCredit/v1/tc/fusion-details
-
 const calculateTc = (data:any) => {
     return api.post(`/mobixCamsCredit/v1/tc`, data)
 }

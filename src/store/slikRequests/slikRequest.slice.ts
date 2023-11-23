@@ -156,7 +156,8 @@ export const getSlikRequestData = createAsyncThunk(
                 createdBy : item.createdBy,
                 creationDate : item.creationDate,
                 fusionCenterCode: item.fusionCenterCode,
-                key: key
+                key: key,
+                lastModifiedDateMilliSecond: item.lastModifiedDateMilliSecond
             };
             }else{
                 groupCounts[key] = {
@@ -166,7 +167,8 @@ export const getSlikRequestData = createAsyncThunk(
                     createdBy : item.createdBy,
                     creationDate : item.creationDate,
                     fusionCenterCode: item.fusionCenterCode,
-                    key: key
+                    key: key,
+                    lastModifiedDateMilliSecond: item.lastModifiedDateMilliSecond
                 };
             }
         });

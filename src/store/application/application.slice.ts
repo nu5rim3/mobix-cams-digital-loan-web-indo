@@ -337,8 +337,6 @@ export const getAllApplications = createAsyncThunk(
             let product
             if(productCode){
                 product = await API.productServices.getProductByCode(productCode)
-
-                console.log("pro name", product)
             }
             return {
                 ...response.data,

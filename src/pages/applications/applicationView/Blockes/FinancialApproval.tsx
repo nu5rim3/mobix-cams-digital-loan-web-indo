@@ -74,10 +74,6 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       try{
         setTCSaveLoading(true)
 
-        console.log("test",  customerData?.data?.appraisalId,
-        customerData?.data?.cltIdx,
-        financialDetails?.data)
-
         const calculateTc = await API.financialServices.calculateTc(
           {
             ...financialDetails?.data,
@@ -86,8 +82,6 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         )
 
         const newTcNo = calculateTc?.data?.object?.tcNo
-
-        console.log("calcu", calculateTc)
 
         const save = await API.financialServices.saveTCByAppraisal(
           customerData?.data?.appraisalId,

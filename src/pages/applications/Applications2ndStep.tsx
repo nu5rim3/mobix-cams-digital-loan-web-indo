@@ -189,20 +189,21 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       dataIndex: 'tags',
     },
     {
-        title: 'Created At',
-        dataIndex: 'creationDate',
-        key: 'creationDate',
-      },
-      {
-        title: 'Created By',
-        dataIndex: 'createdBy',
-        key: 'createdBy',
-      },
-      {
-        title: 'Branch Name',
-        dataIndex: 'branchName',
-        key: 'branchName',
-      },
+      title: 'Modified At',
+      dataIndex: 'lastModifiedDate',
+      key: 'lastModifiedDate',
+      sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+    },
+    {
+      title: 'Branch Name',
+      dataIndex: 'branchName',
+      key: 'branchName',
+    },
     {
       title: 'Action',
       key: 'action',

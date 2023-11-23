@@ -135,9 +135,10 @@ export default function Applications (props: IApplicationsProps) {
       }
     },
     {
-        title: 'Created At',
-        dataIndex: 'creationDate',
-        key: 'creationDate',
+        title: 'Modified At',
+        dataIndex: 'lastModifiedDate',
+        key: 'lastModifiedDate',
+        sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
       },
       {
         title: 'Created By',
