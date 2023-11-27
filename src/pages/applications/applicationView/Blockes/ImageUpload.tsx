@@ -99,7 +99,7 @@ export default function ImageUpload ({
 
     const captureImage = async (image: any) => {
         const blob = new Blob([image], { type: 'image/jpeg' });
-        const name = uuidv4()
+        const name = `${uuidv4()}.jpeg`
 
         const file = new File([blob], `${name}.${'image/jpeg'}`, { type: 'image/jpeg' });
         const imageUrl = URL.createObjectURL(file);
