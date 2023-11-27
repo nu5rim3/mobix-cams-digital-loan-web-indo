@@ -251,10 +251,10 @@ export default function Images (props: IImagesProps) {
                             title='Business Images'
                     />
                     {imageDetails.data?.
-                        filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGES')?.length?
+                        filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGE')?.length?
                         <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
                             {imageDetails.data?.
-                                filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGES')?.
+                                filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGE')?.
                                 map((image: any, index: any) => {
                                     return <div 
                                         className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'
@@ -276,11 +276,11 @@ export default function Images (props: IImagesProps) {
                                                     {
                             imageDetails.data
                             ?.find((row: any) => {
-                                return (row.imgMasterCategory === 'BUSINESS_IMAGES' && row.latitude && row.longitude)
+                                return (row.imgMasterCategory === 'BUSINESS_IMAGE' && row.latitude && row.longitude)
                             }) ?
                                 <div 
                                     className='flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded overflow-hidden'
-                                    key={'BUSINESS_IMAGES'}
+                                    key={'BUSINESS_IMAGE'}
                                     // onClick={() => {
                                     //     setOpenModal(true)
                                     // }}
@@ -297,7 +297,7 @@ export default function Images (props: IImagesProps) {
                                         <GoogleVis locations={
                                             imageDetails.data
                                             ?.filter((row: any) => {
-                                                return (row.imgMasterCategory === 'BUSINESS_IMAGES' && row.latitude && row.longitude)
+                                                return (row.imgMasterCategory === 'BUSINESS_IMAGE' && row.latitude && row.longitude)
                                             })
                                         }/>
                                     </div>
