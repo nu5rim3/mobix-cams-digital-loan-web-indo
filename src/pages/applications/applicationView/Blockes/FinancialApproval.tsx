@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { API } from '../../../../services/Services';
+import getCurrency from '../../../../utils/getCurrency';
 
 export interface IFinancialApprovalProps {
 }
@@ -47,10 +48,26 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
           fontWeight: 600,
           width: '40%'
         }
-    },{
-        key: 'ex1',
-        label: '',
-        children: ''
+    },
+    {
+      key: 'instalment',
+      label: 'Instalment',
+      children: getCurrency(Number(data?.facilityDetails?.[0]?.instalment)), //initialData?.centerCode,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: 'totalReceivable',
+      label: 'Total Receivable',
+      children: getCurrency(Number(data?.totalReceivable)), //initialData?.centerCode,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
     },
 ]
 

@@ -36,13 +36,15 @@ export default function Applications (props: IApplicationsProps) {
   } = useSelector((state: any) => state.Application)
 
   const {
-    selectedRole
+    selectedRole,
+    userData
   } = useSelector((state: any) => state.AppData)
   
   useEffect(() => {
     actions.getAllApplications({
       role: selectedRole,
-      status: searchStatus
+      status: searchStatus,
+      branch: userData?.data?.branches[0]?.code
     })
   }, [])
 
@@ -69,7 +71,8 @@ export default function Applications (props: IApplicationsProps) {
       appraisalId: searchAppraisal,
       fromDate: fromDateFilter,
       toDate: toDateFilter,
-      status: searchStatus
+      status: searchStatus,
+      branch: userData?.data?.branches[0]?.code
     })
   }
 

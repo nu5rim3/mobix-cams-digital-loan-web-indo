@@ -42,13 +42,15 @@ export default function Applications2ndStep (props: IApplicationsProps) {
   } = useSelector((state: any) => state.Application)
 
   const {
-    selectedRole
+    selectedRole,
+    userData
   } = useSelector((state: any) => state.AppData)
   
   useEffect(() => {
     actions.getSecondMeetingAppraisals({
       role: selectedRole,
-      status: searchStatus
+      status: searchStatus,
+      branch: userData?.data?.branches[0]?.code
     })
   }, [])
 
@@ -77,7 +79,8 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       appraisalId: searchAppraisal,
       fromDate: fromDateFilter,
       toDate: toDateFilter,
-      status: searchStatus
+      status: searchStatus,
+      branch: userData?.data?.branches[0]?.code
     })
   }
 
@@ -182,11 +185,16 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       title: 'Customer NIK',
       dataIndex: 'tcNo',
       key: 'tcNo',
+      render: (_, {clienteles}) => (
+        <>{clienteles[0]?.ktp}</>
+      )
     },
     {
       title: 'Customer Name',
       key: 'tags',
-      dataIndex: 'tags',
+      render: (_, {clienteles}) => (
+        <>{clienteles[0]?.fullName}</>
+      )
     },
     {
       title: 'Modified At',

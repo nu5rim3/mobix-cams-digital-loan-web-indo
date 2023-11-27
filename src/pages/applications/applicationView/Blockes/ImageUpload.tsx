@@ -147,8 +147,6 @@ export default function ImageUpload ({
         </div>
       );
 
-    console.log("fileList", fileList)
-
   return (
     <div className='grid grid-cols-2 gap-5 pt-2'>
         <div>

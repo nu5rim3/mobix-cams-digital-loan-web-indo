@@ -338,9 +338,20 @@ export const getAllApplications = createAsyncThunk(
             if(productCode){
                 product = await API.productServices.getProductByCode(productCode)
             }
+            let tc: any
+            if(response?.data?.tcNo){
+                tc = await API.financialServices.saveTCToFusion(
+                    {
+                      tcNo: response.data.tcNo,
+                      mode: "P"
+                    }
+                    )
+            }
+            console.log("tc", tc.data)
             return {
                 ...response.data,
-                productName: product?.data?.productName
+                productName: product?.data?.productName,
+                ...tc.data?.object
             }
         }
         catch(error){

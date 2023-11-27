@@ -134,6 +134,11 @@ export default function Approval ({
           message: 'Please save the updated Financial Approval to countinue.'
         })
       }
+      if((selectedRole === 'CA' || selectedRole == 'BM') && !fileList.length){
+        return notification.warning({
+          message: 'Please Upload Image to countinue.'
+        })
+      }
       form.validateFields(['comment'])
       .then(async () => {
         try{
