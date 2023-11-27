@@ -18,6 +18,8 @@ const WebcamCapture = ({
   
     const capture = React.useCallback(() => {
       const imageSrc = webcamRef?.current?.getScreenshot();
+      console.log("cure", webcamRef?.current)
+      const imageSrc1 = webcamRef?.current
       // setImgSrc(imageSrc);
       onCapture(imageSrc)
       setOpen(false)

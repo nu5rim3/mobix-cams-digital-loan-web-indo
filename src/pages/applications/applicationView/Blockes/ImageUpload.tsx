@@ -8,7 +8,6 @@ import { actions } from '../../../../store/store';
 import WebcamCapture from '../../../../components/Camera/CapturePhoto';
 import {CameraOutlined} from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid';
-import fileToBase64Async from '../../../../utils/fileToBase64Async';
 
 export interface IImageUploadProps {
     fileList?: any,
@@ -97,22 +96,34 @@ export default function ImageUpload ({
         // actions.updateApplicationFileUpload(newFileList)
     }
 
+    const dataURLtoBlob = (dataURL:any) => {
+      const arr = dataURL.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    };
+
     const captureImage = async (image: any) => {
-        const blob = new Blob([image], { type: 'image/jpeg' });
         const name = `${uuidv4()}.jpeg`
+        const blob = dataURLtoBlob(image);
 
-        const file = new File([blob], `${name}.${'image/jpeg'}`, { type: 'image/jpeg' });
-        const imageUrl = URL.createObjectURL(file);
+        // Create a File object from the Blob
+        const file = new File([blob], name , { type: 'image/jpeg' });
 
-        const base64 = await fileToBase64Async(file);
+        const pdfUrl = URL.createObjectURL(blob);
 
         const imageGen = {
             uid: uuidv4(),
             name: name,
             type: "image/jpeg",
             originFileObj : file,
-            url: imageUrl,
-            preview: base64,
+            url: pdfUrl,
+            // preview: image,
             thumbUrl: image
         }
 
