@@ -99,7 +99,6 @@ export default function IndividualUpdate ({
             const newValue = e.target.value;
             const newData = slikRequestsIndividualData.data?.map((row:any) => {
               if(record.slikDto.slkIdx == row.slikDto.slkIdx){
-                console.log("in")
                 return {
                   ...row,
                   batchNumber : newValue
@@ -108,7 +107,6 @@ export default function IndividualUpdate ({
                 return row
               }
             })
-            console.log("meme", newData)
             actions.editIndividualData(newData)
             // You can update the data array or state here
           }}

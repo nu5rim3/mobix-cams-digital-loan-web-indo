@@ -555,11 +555,6 @@ export default function UserForm (props: IUserFormProps) {
                   className='mr-3'
                   >Reset</Button>
                 <Button 
-                  // onClick={() => {
-                  //   // console.log("cli")
-                  //   // navigate('/userManagement/createUser')
-
-                  // }} 
                   htmlType="submit"
                   type='primary'
                   shape="round"

@@ -43,12 +43,10 @@ const PopupImage: React.FC<IProps> = ({
   };
 
   const handleOk = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
     setOpen(false);
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
     setOpen(false);
   };
 

@@ -14,14 +14,11 @@ export const initialState: AppDataStoreType = {
 export const getAllUsersData = createAsyncThunk(
     'DashboardDataDetails/fetchAllUsersData',
     async ({}, thunkAPI) => {
-        console.log("meme 1")
         try{
-            console.log("innnn")
             const response = await API.userServices.getAllUsers()
             return response.data
         }
         catch(error){
-            console.log("a errr", error)
             const er = error as AxiosError
             return er?.response 
             ? thunkAPI.rejectWithValue(er?.response.data)

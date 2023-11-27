@@ -128,8 +128,6 @@ export default function Applications2ndStep (props: IApplicationsProps) {
           catch{
             return false
           }
-        //   return setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        // }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
       okText:'Yes '

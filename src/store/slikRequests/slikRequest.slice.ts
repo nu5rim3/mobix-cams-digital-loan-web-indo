@@ -43,7 +43,6 @@ export const getSlikRequests = createAsyncThunk(
     async (arg: Parameters<typeof API.slikServices.getSliksByStatus>[0], thunkAPI) => {
         try{
             const response = await API.slikServices.getSliksByStatus(arg)
-            console.log("arg reee", response)
             const modify = response.data.map((row: any) => {
                 return {
                     ...row,

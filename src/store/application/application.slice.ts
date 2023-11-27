@@ -347,7 +347,6 @@ export const getAllApplications = createAsyncThunk(
                     }
                     )
             }
-            console.log("tc", tc.data)
             return {
                 ...response.data,
                 productName: product?.data?.productName,

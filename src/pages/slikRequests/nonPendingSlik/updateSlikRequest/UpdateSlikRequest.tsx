@@ -193,7 +193,6 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
       }
     }
     catch(error){
-      console.log("e",error)
       if (axios.isAxiosError(error)) {
         const axiosError = error;
         // You can access error.response for details about the HTTP response, e.g., status code and data
@@ -435,18 +434,12 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
                 className='mr-3'
                 >Reset</Button>
               <Button 
-                // onClick={() => {
-                //   // console.log("cli")
-                //   // navigate('/userManagement/createUser')
-                //   saveSlickRequest()
-                // }} 
                 htmlType="submit"
                 type='primary'
                 shape="round"
                 size='large'
                 loading={addLoading}
                 disabled={selectedRole === 'ADMIN'}
-              //   icon={<PlusOutlined/>}
               >
                 Save
               </Button>

@@ -174,9 +174,6 @@ export default function GroupUpdate ({
         getGroupData()
     },[])
 
-    // console.log("selectedGroup", selectedGroup)
-    // console.log("slikRequestsGroupData.data", slikRequestsGroupData.data)
-
     const uploadData = async () => {
       try{
         setLoading(true)

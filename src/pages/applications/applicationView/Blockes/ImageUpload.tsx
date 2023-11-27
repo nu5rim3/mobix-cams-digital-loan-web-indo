@@ -8,6 +8,7 @@ import { actions } from '../../../../store/store';
 import WebcamCapture from '../../../../components/Camera/CapturePhoto';
 import {CameraOutlined} from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid';
+import fileToBase64Async from '../../../../utils/fileToBase64Async';
 
 export interface IImageUploadProps {
     fileList?: any,
@@ -33,33 +34,12 @@ export default function ImageUpload ({
     const [previewTitle, setPreviewTitle] = useState('');
     const [openCamera, setOpenCamera] = useState<boolean>(false)
 
-    // const [fileList, setFileList] = useState<UploadFile[]>([])
-    // const fileListTest = useSelector((state: any) => state.Application.fileList)
-    // console.log("fileListTest", fileListTest)
     const uploadProps: UploadProps = {
-        // name: 'file',
-        // multiple: true,
-        // action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-        // onChange(info) {
-        //   const { status } = info.file;
-        //   if (status !== 'uploading') {
-        //     console.log(info.file, info.fileList);
-        //   }
-        //   if (status === 'done') {
-        //     message.success(`${info.file.name} file uploaded successfully.`);
-        //   } else if (status === 'error') {
-        //     message.error(`${info.file.name} file upload failed.`);
-        //   }
-        // },
-        // onDrop(e) {
-        //   console.log('Dropped files', e.dataTransfer.files);
-        // },
         onRemove: (file) => {
             const index = fileList.indexOf(file);
             const newFileList = fileList.slice();
             newFileList.splice(index, 1);
             setFileList(newFileList);
-            // actions.updateApplicationFileUpload(newFileList)
           },
         beforeUpload: (file) => {
             const pdfBlob = new Blob([file], { type: file.type });
@@ -73,7 +53,6 @@ export default function ImageUpload ({
                 url: pdfUrl
             }
             setFileList([...fileList, obj]);
-            // actions.updateApplicationFileUpload([...fileList, obj])
       
             return false;
           },
@@ -82,7 +61,6 @@ export default function ImageUpload ({
             file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
         }),
         onPreview: (file) => {
-            console.log("file xxx", file)
             if(file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
                 const downloadLink:any = document.createElement('a');
                 downloadLink.href = file.originFileObj;
@@ -119,13 +97,14 @@ export default function ImageUpload ({
         // actions.updateApplicationFileUpload(newFileList)
     }
 
-    const captureImage = (image: any) => {
-
+    const captureImage = async (image: any) => {
         const blob = new Blob([image], { type: 'image/jpeg' });
         const name = uuidv4()
 
         const file = new File([blob], `${name}.${'image/jpeg'}`, { type: 'image/jpeg' });
-        const imageUrl = URL.createObjectURL(blob);
+        const imageUrl = URL.createObjectURL(file);
+
+        const base64 = await fileToBase64Async(file);
 
         const imageGen = {
             uid: uuidv4(),
@@ -133,7 +112,7 @@ export default function ImageUpload ({
             type: "image/jpeg",
             originFileObj : file,
             url: imageUrl,
-            preview: image,
+            preview: base64,
             thumbUrl: image
         }
 

@@ -9,6 +9,7 @@ import { API } from '../../../../services/Services';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { genarateStepAction, genarateStepStatus } from '../../../../utils/setpsGenaration';
+import fileToBase64Async from '../../../../utils/fileToBase64Async';
 
 export interface IApprovalProps {
   fileList: any
@@ -111,22 +112,7 @@ export default function Approval ({
       },
     ];
 
-    function fileToBase64Async(file:any) {
-      return new Promise((resolve, reject) => {
-        const reader:any = new FileReader();
-    
-        reader.onload = function () {
-          const base64String = btoa(reader?.result);
-          resolve(base64String);
-        };
-    
-        reader.onerror = function (error:any) {
-          reject(error);
-        };
-    
-        reader.readAsBinaryString(file);
-      });
-    }
+
 
     const handleSubmit = (type: string) => {
       if(financialDetailsSavePending){
@@ -200,8 +186,7 @@ export default function Approval ({
             ...data,
             documents: processedFiles
           }
-          // console.log("data", fileList)
-          // const save = await API.approvalServices.createScondMeetingStep(data)
+          
           if(isSecondMeeting){
             const save = await API.approvalServices.createScondMeetingStep(newData)
           }else{
