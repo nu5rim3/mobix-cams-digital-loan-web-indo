@@ -1,4 +1,5 @@
 // import "./styles.css";
+import { Grid } from "antd";
 import React from "react";
 import {
   LineChart,
@@ -88,6 +89,9 @@ const data = [
 ];
 
 export default function LineCharts() {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+  
   return (
     <div>
       {/* <h4>A demo of synchronized AreaCharts</h4>
@@ -111,7 +115,7 @@ export default function LineCharts() {
       </LineChart> */}
       <h4 className="p-4">Annual Trend of Approved Applications</h4>
       <LineChart
-        width={500}
+        width={screens.sm? 300 : 500}
         height={295}
         data={data}
         syncId="anyId"

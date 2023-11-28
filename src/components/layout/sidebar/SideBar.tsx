@@ -86,7 +86,7 @@ export default function SideBar ({
       if(screens.xs){
         setCollapsed(true)
       }
-    },[])
+    },[screens])
   
     return (
         <Sider 

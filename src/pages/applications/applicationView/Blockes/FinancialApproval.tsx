@@ -75,6 +75,8 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
 
     const [editLoan, setEditLoan] = useState(false)
     const [editTerm, setEditTerm] = useState(false)
+    const [newLoan, setNewLoan] = useState('')
+    const [newTearm, setNewTearm] = useState('')
     const [tcSaveLoading, setTCSaveLoading] = useState(false)
 
     const {
@@ -88,6 +90,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
   } = useSelector((state: any) => state.AppData)
 
     const updateFinancialDetails = async() => {
+
       try{
         setTCSaveLoading(true)
 
@@ -169,10 +172,11 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                   <Space.Compact style={{ width: '100%' }}>
                   <InputNumber 
                       addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Loan Amount</p>} 
-                      value={financialDetails.data?.pTrhdLocCost}
+                      value={newLoan || financialDetails.data?.pTrhdLocCost}
                       readOnly={!editLoan}
                       onChange={(e) => {
-                          actions.updateLoan(e)
+                          // actions.updateLoan(e)
+                          setNewLoan(e)
                       }}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   />
@@ -180,6 +184,19 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                     onClick={() => {
                       setEditLoan(!editLoan)
                       if(editLoan){
+                        if((
+                          selectedRole === 'ADMIN'
+                          || selectedRole === 'RM'
+                          || selectedRole === 'BOD1'
+                          || selectedRole === 'BOD2'
+                          || selectedRole === 'BOD3'
+                          ) && financialDetails?.data?.daLimit < newLoan){
+                          setNewLoan('')
+                          return notification.error({
+                            message: `Loan Amount Cannot be Exceeded Your Approval Limit ${getCurrency(financialDetails?.data?.daLimit)}`
+                          })
+                        }
+                        actions.updateLoan(newLoan)
                         actions.financialDSavePendingUpdate(true)
                       }
                     }}
@@ -198,7 +215,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       value={financialDetails.data?.pTrhdTerm}
                       readOnly={!editTerm}
                       onChange={(e) => {
-                          actions.updateTerm(e)
+                         setNewTearm(e)
                       }}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   />
@@ -206,6 +223,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                     () => {
                       setEditTerm(!editTerm)
                       if(editTerm){
+                        actions.updateTerm(newTearm)
                         actions.financialDSavePendingUpdate(true)
                       }
                     }}

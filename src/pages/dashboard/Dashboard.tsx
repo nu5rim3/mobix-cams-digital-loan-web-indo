@@ -7,6 +7,7 @@ import LineChart from './LineChart';
 import PieChart from './PieChart';
 import ContentContainer from '../../components/Containers/ContentContainer';
 import GoogleVis from '../../components/GoogleMap/GoogleVis';
+import { Grid } from 'antd';
 
 export interface IDashboardProps {
 }
@@ -16,6 +17,8 @@ export default function Dashboard (props: IDashboardProps) {
     const {
         usersData
       } = useSelector((state: any) => state.DashboardData)
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
 
     const [data, setData] = useState<any[] | null>(null)
 
@@ -31,7 +34,7 @@ export default function Dashboard (props: IDashboardProps) {
       
   return (
     <ContentContainer >
-        <div className='grid grid-cols-2 gap-5 pt-2'>
+        <div className={screens.xs? '' : 'grid grid-cols-2 gap-5 pt-2'}>
             <div 
                 className='p-5 rounded-md '
             >
@@ -42,7 +45,7 @@ export default function Dashboard (props: IDashboardProps) {
                     className='w-full rounded-md'
                 >
                     <div
-                        className='p-4 text-xl font-semibold '
+                        className={screens.xs? 'p-4 text-l font-semibold' : 'p-4 text-xl font-semibold'}
                     > Number of Total Pending Applications
                     </div>
 
@@ -62,7 +65,7 @@ export default function Dashboard (props: IDashboardProps) {
                     className='w-full rounded-md'
                 >
                     <div
-                        className='p-4 text-xl font-semibold '
+                        className={screens.xs? 'p-4 text-l font-semibold' : 'p-4 text-xl font-semibold '}
                     > Number of Registered Users 
                     </div>
 

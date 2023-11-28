@@ -329,7 +329,10 @@ export const getAllApplications = createAsyncThunk(
 
   export const getFinanceDetails = createAsyncThunk(
     'ApplicationDetails/fetchFinanceData',
-    async (arg: Parameters<typeof API.financialServices.getTcByAppraisals>[0], thunkAPI) => {
+    async ({arg, idx}: {
+        arg: Parameters<typeof API.financialServices.getTcByAppraisals>[0],
+        idx: any
+    }, thunkAPI) => {
         try{
             const response:any = await API.financialServices.getTcByAppraisals(arg)
 
@@ -347,10 +350,15 @@ export const getAllApplications = createAsyncThunk(
                     }
                     )
             }
+            let userData: any
+            if(idx){
+                userData = await API.userServices.getUserById(idx)
+            }
             return {
                 ...response.data,
                 productName: product?.data?.productName,
-                ...tc.data?.object
+                ...tc.data?.object,
+                ...userData?.data
             }
         }
         catch(error){

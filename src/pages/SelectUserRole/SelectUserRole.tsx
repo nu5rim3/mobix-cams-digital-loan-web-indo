@@ -1,4 +1,4 @@
-import { Button, Layout } from 'antd';
+import { Button, Grid, Layout } from 'antd';
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../components/Typography/Tytle';
@@ -10,8 +10,11 @@ export interface ISelectUserRoleProps {
 }
 
 export default function SelectUserRole (props: ISelectUserRoleProps) {
+
     const {Content} = Layout;
     const [clickedRole, setClickedRole] = useState<null | any>(null)
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
 
     const {
         userData,
@@ -22,14 +25,14 @@ export default function SelectUserRole (props: ISelectUserRoleProps) {
         style={{
             'height': '100vh'
         }}
-        className='flex flex-row '
+        className={screens.xs? '' :'flex flex-row '}
     >
-        <div className='w-1/2 flex justify-center items-center shadow-xl'>
-            <img className='w-80' src={digitalMe}/>
+        <div className={screens.xs? 'w-full flex justify-center items-center' : 'w-1/2 flex justify-center items-center shadow-xl'}>
+            <img className={screens.xs?'w-44 m-10' : 'w-80'} src={digitalMe}/>
         </div>
 
-        <div className='w-1/2 p-20'>
-            <div className='my-7'>
+        <div className={screens.xs? '' : 'w-1/2 p-20'}>
+            <div className={screens.xs? 'text-center': 'my-7'}>
                 <Title title='Select A User Role to Continue' level={3}/>
             </div>
 

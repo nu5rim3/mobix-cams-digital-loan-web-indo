@@ -52,6 +52,7 @@ export const CollapseContainer: React.FC<CollapseContainerProps> = ({
 export default function ApplicationView (props: IApplicationViewProps) {
 
     const customerData = useSelector((state: any) => state.Application.customerData)
+    const {userData} = useSelector((state: any) => state.AppData)
     let { id } = useParams();
     let fileList 
 
@@ -120,7 +121,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
             actions.getCashFlowDetails(id)
             actions.getImageDetails(id)
             actions.getApprovalStepsDetails(id) //'APP000000000000623' APP000000000000780
-            actions.getFinanceDetails(id)
+            actions.getFinanceDetails({arg: id, idx: userData?.data?.idx})
         }
     },[])
 
