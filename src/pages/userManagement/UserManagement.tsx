@@ -149,7 +149,7 @@ const UserManagement: React.FC = () =>{
               }} 
               type='primary'
               shape="round"
-              size='large'
+              size={'large'}
               // icon={<PlusOutlined/>}
               label="Create New User"
             />

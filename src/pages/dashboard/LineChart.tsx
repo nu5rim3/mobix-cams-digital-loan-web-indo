@@ -115,8 +115,8 @@ export default function LineCharts() {
       </LineChart> */}
       <h4 className="p-4">Annual Trend of Approved Applications</h4>
       <LineChart
-        width={screens.sm? 300 : 500}
-        height={295}
+        width={screens.xs? 350: 500}
+        height={screens.xs? 200: 295}
         data={data}
         syncId="anyId"
         margin={{

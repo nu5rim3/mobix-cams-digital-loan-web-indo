@@ -1,3 +1,4 @@
+import { Grid } from "antd";
 import "./styles.css";
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector } from "recharts";
@@ -34,6 +35,8 @@ const renderActiveShape = (props: any) => {
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
   const textAnchor = cos >= 0 ? "start" : "end";
+
+
 
   return (
     <g>
@@ -92,13 +95,16 @@ export default function PieCharts() {
     [setActiveIndex]
   );
 
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
+
   return (
-    <PieChart width={520} height={340} className="">
+    <PieChart width={screens.xs? 300 : 520} height={340} className="">
       <Pie
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={250}
+        cx={screens.xs? 135 :250}
         cy={160}
         innerRadius={90}
         outerRadius={110}

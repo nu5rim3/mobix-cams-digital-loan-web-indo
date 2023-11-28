@@ -78,7 +78,8 @@ export default function Dashboard (props: IDashboardProps) {
             <div className='flex justify-center items-center bg-fuchsia-100 p-2 rounded-md'>
                 <LineChart/>
             </div>
-            <div className='flex justify-center items-center bg-fuchsia-100 rounded-md'>
+            <div className={screens.xs? 'flex justify-center items-center bg-fuchsia-100 rounded-md mt-2' 
+            :'flex justify-center items-center bg-fuchsia-100 rounded-md'}>
                 <PieChart/>
             </div>
         </div>

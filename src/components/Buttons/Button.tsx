@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Grid } from 'antd';
 import * as React from 'react';
 
 export interface IButtonProps {
@@ -24,6 +24,10 @@ export default function ButtonContainer ({
     className,
     disabled
 }: IButtonProps) {
+
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+  
   return (
     <Button 
         className={className}
@@ -31,7 +35,7 @@ export default function ButtonContainer ({
             onClick()
         }} 
         type={type}
-        size={size}
+        size={screens.xs? 'small' : size}
         icon={icon}
         shape={shape}
         loading={loading}
