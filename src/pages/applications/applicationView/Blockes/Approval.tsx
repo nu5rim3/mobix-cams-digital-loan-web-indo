@@ -117,12 +117,12 @@ export default function Approval ({
     const handleSubmit = (type: string) => {
       if(financialDetailsSavePending){
         return notification.warning({
-          message: 'Please save the updated Financial Approval to countinue.'
+          message: 'Please save the updated Financial Approval to continue.'
         })
       }
       if((selectedRole === 'CA' || selectedRole == 'BM') && !fileList.length){
         return notification.warning({
-          message: 'Please Upload Image to countinue.'
+          message: 'Please Upload Image to continue'
         })
       }
       form.validateFields(['comment'])

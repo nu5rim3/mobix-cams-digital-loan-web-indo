@@ -145,7 +145,9 @@ export default function ImageUpload ({
 
                 <Button className='w-full mb-2' icon={<CameraOutlined />} onClick={() => setOpenCamera(true)}>Capture Image</Button>
 
-                <Dragger {...uploadProps}>
+                {/* section for drag ad drop */}
+                
+                {/* <Dragger {...uploadProps}>
                     <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                     </p>
@@ -154,7 +156,7 @@ export default function ImageUpload ({
                     Support for a single or bulk upload. Strictly prohibited from uploading company data or other
                     banned files.
                     </p>
-                </Dragger>
+                </Dragger> */}
 
             </div>
             

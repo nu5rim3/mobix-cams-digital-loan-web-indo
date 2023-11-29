@@ -1,5 +1,5 @@
 import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space, Spin, notification } from 'antd';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { API } from '../../../../services/Services';
@@ -75,16 +75,17 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
 
     const [editLoan, setEditLoan] = useState(false)
     const [editTerm, setEditTerm] = useState(false)
+    const [tcSaveLoading, setTCSaveLoading] = useState(false)
+    
+    const {
+      customerData,
+      financialDetails,
+      financialDetailsSavePending
+    } = useSelector((state: any) => state.Application)
+    
     const [newLoan, setNewLoan] = useState('')
     const [newTearm, setNewTearm] = useState('')
-    const [tcSaveLoading, setTCSaveLoading] = useState(false)
-
-    const {
-        customerData,
-        financialDetails,
-        financialDetailsSavePending
-    } = useSelector((state: any) => state.Application)
-
+    
     const {
       selectedRole
   } = useSelector((state: any) => state.AppData)
@@ -146,6 +147,13 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       }
     }
 
+    useEffect(() => {
+      if(financialDetails.data){
+        setNewTearm(financialDetails.data?.pTrhdTerm)
+        setNewLoan(financialDetails.data?.pTrhdLocCost)
+      }
+    },[financialDetails.data])
+
 
 
   return (
@@ -172,9 +180,9 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                   <Space.Compact style={{ width: '100%' }}>
                   <InputNumber 
                       addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Loan Amount</p>} 
-                      value={newLoan || financialDetails.data?.pTrhdLocCost}
+                      value={newLoan}
                       readOnly={!editLoan}
-                      onChange={(e) => {
+                      onChange={(e:any) => {
                           // actions.updateLoan(e)
                           setNewLoan(e)
                       }}
@@ -185,7 +193,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       setEditLoan(!editLoan)
                       if(editLoan){
                         if((
-                          selectedRole === 'ADMIN'
+                          selectedRole === 'AM'
                           || selectedRole === 'RM'
                           || selectedRole === 'BOD1'
                           || selectedRole === 'BOD2'
@@ -212,9 +220,9 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                   <Space.Compact style={{ width: '100%' }}>
                   <InputNumber
                       addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
-                      value={financialDetails.data?.pTrhdTerm}
+                      value={newTearm}
                       readOnly={!editTerm}
-                      onChange={(e) => {
+                      onChange={(e:any) => {
                          setNewTearm(e)
                       }}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
