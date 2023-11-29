@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { API } from '../../../../services/Services';
 import getCurrency from '../../../../utils/getCurrency';
+import { useParams } from 'react-router-dom';
 
 export interface IFinancialApprovalProps {
 }
@@ -82,9 +83,11 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       financialDetails,
       financialDetailsSavePending
     } = useSelector((state: any) => state.Application)
+    const {userData} = useSelector((state: any) => state.AppData)
     
     const [newLoan, setNewLoan] = useState('')
     const [newTearm, setNewTearm] = useState('')
+    let { id } = useParams();
     
     const {
       selectedRole
@@ -136,6 +139,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         notification.success({
           message: 'TC details updated successfullly'
         })
+        actions.getFinanceDetails({arg: id, idx: userData?.data?.idx})
       }
       catch(err){
         notification.error({
