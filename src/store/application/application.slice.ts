@@ -186,7 +186,7 @@ export const getAllApplications = createAsyncThunk(
             //     subSectorData = await API.sectorServices.getSectorByCode(sector)
             // }
             if(area){
-                areaData = await API.productServices.getAreaStatusByCode(area)
+                areaData = await API.productServices.getBusinessAreaByCode(area)
             }
 
             return {

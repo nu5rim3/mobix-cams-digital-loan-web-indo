@@ -199,7 +199,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                           || selectedRole === 'BOD2'
                           || selectedRole === 'BOD3'
                           ) && financialDetails?.data?.daLimit < newLoan){
-                          setNewLoan('')
+                          setNewLoan(financialDetails.data?.pTrhdLocCost)
                           return notification.error({
                             message: `Loan Amount Cannot be Exceeded Your Approval Limit ${getCurrency(financialDetails?.data?.daLimit)}`
                           })

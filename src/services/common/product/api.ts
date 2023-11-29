@@ -15,6 +15,10 @@ const getAreaStatusByCode = (code: string) => {
     return api.get(`/mobixCamsCommon/v1/areas/${code}`)
 }
 
+const getBusinessAreaByCode = (code: string) => {
+    return api.get(`/mobixCamsCommon/v1/business-areas/${code}`)
+}
+
 const getRelationByCode = (code: string) => {
     return api.get(`/mobixCamsCommon/v1/relations/${code}`)
 }
@@ -32,6 +36,7 @@ export default {
     getMaritalStatusByCode,
     getAreaStatusByCode,
     getRelationByCode,
-    getAllAreas
+    getAllAreas,
+    getBusinessAreaByCode
 }
 
