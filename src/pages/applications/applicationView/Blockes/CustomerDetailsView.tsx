@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import React, {useState} from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,8 @@ export interface ICustomerDetailsViewProps {
 export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
 
     const [openImage, setOpenImage] = useState(false)
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
 
     const items: (data: any) => DescriptionsProps['items'] = (data) => [
         {
@@ -29,7 +31,11 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
             children: //data?.ktp,
             <div className='flex justify-between w-full'>
                 <div >{data.ktp}</div>
-                <div className='pl-2 pr-5 cursor-pointer text-sky-600' onClick={() => setOpenImage(true)}>View Image</div>
+                <div className={
+                    screens.xs
+                    ? 'cursor-pointer text-sky-600'
+                    : 'pl-2 pr-5 cursor-pointer text-sky-600'
+                    } onClick={() => setOpenImage(true)}>View Image</div>
             </div>, 
             
             labelStyle: {
@@ -454,7 +460,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 /> 
                 }
                 column={
-                3
+                    screens.xs? 1 : 3
                 }
                 items={customerData.data? items(customerData.data): []} 
                 size='small'
@@ -469,7 +475,11 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 style={{color: '#7C3626'}} 
             /> 
 
-            <div className='grid grid-cols-3 gap-5 pt-2 '>
+            <div className={
+                screens.xs
+                ? 'grid grid-cols-1 gap-5 pt-2'
+                : 'grid grid-cols-3 gap-5 pt-2'
+                }>
                 {contactDetails?.data?.map((contact:any, index: any) => {
                     return <div 
                         style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
@@ -497,7 +507,11 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 style={{color: '#7C3626'}} 
             /> 
 
-            <div className='grid grid-cols-3 gap-5 pt-2'>
+            <div className={
+                 screens.xs
+                 ? 'grid grid-cols-1 gap-5 pt-2'
+                 :'grid grid-cols-3 gap-5 pt-2'
+                }>
                 {addressDetails?.data?.
                 filter((row:any) => row.addressType == 'TEMPORARY')?.
                 map((address:any, index: any) => {
@@ -547,9 +561,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                     style={{color: '#7C3626'}} 
                 /> 
                 }
-                column={
-                3
-                }
+                column={screens.xs ? 1 :3}
                 items={businessDetails.data? businessItems(businessDetails.data): []} 
                 size='small'
             />  
@@ -565,7 +577,7 @@ export default function CustomerDetailsView (props: ICustomerDetailsViewProps) {
                 /> 
                 }
                 column={
-                3
+                    screens.xs ? 1 :3
                 }
                 items={spouseDetails.data? spouseItems(spouseDetails.data): []} 
                 size='small'

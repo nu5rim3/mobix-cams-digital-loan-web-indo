@@ -456,7 +456,7 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },{
         key: 'totalExpensesPerMonth',
-        label: 'Total Expenses per Month',
+        label: 'Total Purchasing Per Month',
         children: getCurrency(data.totalExpensesPerMonth),
         labelStyle: {
             color: '#102C57',

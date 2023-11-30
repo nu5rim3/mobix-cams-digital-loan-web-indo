@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
-import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 
 export interface ICollateralDetailsProps {
@@ -231,6 +231,9 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
         collateralDetails : {
             data, fetching }
     } = useSelector((state: any) => state.Application)
+
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
     
   return (
     <div

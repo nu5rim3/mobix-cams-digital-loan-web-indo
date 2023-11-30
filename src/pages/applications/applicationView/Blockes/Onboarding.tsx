@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Input, Spin, Tag } from 'antd';
+import { Descriptions, DescriptionsProps, Grid, Input, Spin, Tag } from 'antd';
 import React, {useState, useEffect} from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
@@ -99,6 +99,9 @@ export default function OnboardingView (props: IOnboardingViewProps) {
       setCallVerification(getCallVerification? getCallVerification : {})
     },[approvalSteps.data])
 
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
+
   return (
     customerData.fetching || guarantorDetails.fetching?
       <div className='w-full h-32 flex justify-center'>
@@ -110,7 +113,11 @@ export default function OnboardingView (props: IOnboardingViewProps) {
         style={{
             fontWeight: 300
         }} 
-        className='grid grid-cols-2 gap-5 pt-2'
+        className={
+          screens.xs
+          ? 'grid grid-cols-1 gap-5 pt-2'
+          :'grid grid-cols-2 gap-5 pt-2'
+        }
     >
         <Descriptions 
             column={1}
@@ -134,7 +141,7 @@ export default function OnboardingView (props: IOnboardingViewProps) {
     >
       {guarantorDetails.data?.find((type: any) => type.cltType === "C")?.verificationType === "GRPL" ?
         <Descriptions 
-            column={3}
+            column={screens.xs? 1 : 3}
             items={guarantorDetails.data?  itemsGroup(guarantorDetails.data.find((type: any) => type.cltType === "C")): []} 
             size='small'
         /> 

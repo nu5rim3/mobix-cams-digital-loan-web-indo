@@ -27,7 +27,7 @@ const PopupImage: React.FC<IProps> = ({
     imageDetails
 } = useSelector((state: any) => state.Application)
 
-  const signImage = imageDetails.data?.find((row: any) => {
+  const signImage = imageDetails?.data?.find((row: any) => {
     if(mainCategory){
       if(row.imgMasterCategory === mainCategory && row.imgSubCategory == subCategory){
         return true

@@ -1,4 +1,4 @@
-import { Button, Descriptions, DescriptionsProps, Input, InputNumber, Space, Spin, notification } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Grid, Input, InputNumber, Space, Spin, notification } from 'antd';
 import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
@@ -81,13 +81,17 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
     const {
       customerData,
       financialDetails,
-      financialDetailsSavePending
+      financialDetailsSavePending,
+      approvalSteps
     } = useSelector((state: any) => state.Application)
     const {userData} = useSelector((state: any) => state.AppData)
     
     const [newLoan, setNewLoan] = useState('')
     const [newTearm, setNewTearm] = useState('')
     let { id } = useParams();
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
+    const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false)
     
     const {
       selectedRole
@@ -139,7 +143,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         notification.success({
           message: 'TC details updated successfullly'
         })
-        actions.getFinanceDetails({arg: id, idx: userData?.data?.idx})
+        actions.getFinanceDetails({arg: id?? '', idx: userData?.data?.idx})
       }
       catch(err){
         notification.error({
@@ -158,6 +162,15 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       }
     },[financialDetails.data])
 
+    useEffect(() => {
+      const BMStatus = approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+      find((row:any) => row.secondMeetingCurrentRole == "BM")?.secondMeetingStepStatus
+
+      if(BMStatus === 'PENDING'){
+        setIsSecondMeeting(true)
+      }
+    },[approvalSteps.data?.secondMeetingApprovalStepDtoList])
+
 
 
   return (
@@ -174,12 +187,16 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
         <div>
           <Descriptions 
             column={
-              3
+              screens.xs ? 1 : 3
             }
             items={financialDetails.data? items(financialDetails?.data): []} 
             size='small'
           />  
-          <div className='grid grid-cols-3 gap-0 pt-2'>
+          <div className={
+            screens.xs
+            ? 'grid grid-cols-1 gap-5 pt-2'
+            :'grid grid-cols-3 gap-0 pt-2'
+            }>
               <div className='pr-6'>
                   <Space.Compact style={{ width: '100%' }}>
                   <InputNumber 
@@ -198,6 +215,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       if(editLoan){
                         if((
                           selectedRole === 'AM'
+                          || selectedRole === 'DIR'
                           || selectedRole === 'RM'
                           || selectedRole === 'BOD1'
                           || selectedRole === 'BOD2'
@@ -213,7 +231,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       }
                     }}
                     disabled={
-                      selectedRole === 'CSA'? true: false
+                      (selectedRole === 'CSA' || isSecondMeeting)? true: false
                     }
                   >
                     {editLoan? 'Done' :'Edit' }
@@ -240,7 +258,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                       }
                     }}
                     disabled={
-                      selectedRole === 'CSA'? true: false
+                      (selectedRole === 'CSA' || isSecondMeeting)? true: false
                     }
                   >
                     {editTerm? 'Done' :'Edit'}

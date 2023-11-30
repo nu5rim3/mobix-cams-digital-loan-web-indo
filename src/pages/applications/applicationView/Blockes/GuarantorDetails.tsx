@@ -1,4 +1,4 @@
-import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
@@ -99,6 +99,9 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
     const {
         guarantorDetails
     } = useSelector((state: any) => state.Application)
+
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
     
   return (
     <div
@@ -122,7 +125,7 @@ export default function GuarantorDetails (props:  GuarantorDetailsProps) {
                     >
                         <Descriptions 
                         key={index}
-                        column={
+                        column={ screens.xs ? 1 :
                         3
                         }
                         items={guarantor? items(guarantor): []} 

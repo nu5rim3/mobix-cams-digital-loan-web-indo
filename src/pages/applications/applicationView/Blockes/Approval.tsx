@@ -42,6 +42,9 @@ export default function Approval ({
         if(selectedRole === 'CA'){
           return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
         }
+        if(selectedRole === 'BM' && isSecondMeeting){
+          return setRoleWiseApproval(['Reject', 'Approve'])
+        }
         if(selectedRole === 'BM'){
           return setRoleWiseApproval(['Return', 'Reject', 'Approve'])
         }
@@ -60,7 +63,7 @@ export default function Approval ({
           return setRoleWiseApproval([])
         }
       }
-    },[selectedRole])
+    },[selectedRole, isSecondMeeting])
 
 
     const [addingData, setAddingData] = useState('')
@@ -120,7 +123,7 @@ export default function Approval ({
           message: 'Please save the updated Financial Approval to continue.'
         })
       }
-      if((selectedRole === 'CA' || selectedRole == 'BM') && !fileList.length){
+      if((selectedRole === 'CA' || selectedRole == 'BM') && !fileList.length && (type === 'Recommend' || type === 'Approve') ){
         return notification.warning({
           message: 'Please Upload Image to continue'
         })
