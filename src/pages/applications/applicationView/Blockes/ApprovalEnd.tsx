@@ -16,8 +16,6 @@ export default function ApprovalEnd (props: IApprovalEndProps) {
         selectedRole
     } = useSelector((state: any) => state.AppData)
 
-    console.log("image", fileList)
-
   return (
     <div>
         {

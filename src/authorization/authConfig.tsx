@@ -11,7 +11,7 @@ extraTokenParameters: {
   client_id: import.meta.env.VITE_CLIENT_ID,
   client_secret : import.meta.env.VITE_CLIENT_SECRET,
   grant_type : import.meta.env.VITE_GRANT_TYPE,
-  "Access-Control-Allow-Origin" : "*" 
+  // "Access-Control-Allow-Origin" : "*" 
 },
   onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => {
     localStorage.removeItem('selectedRole')

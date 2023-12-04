@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import ImageDisplay from '../../../../components/Image/ImageViewerByHash';
+import { Grid } from 'antd';
 
 export interface IAchnowledgementProps {
 }
@@ -18,6 +19,9 @@ export default function Achnowledgement (props: IAchnowledgementProps) {
     const signImage = imageDetails.data?.find((row: any) => {
         return row.imgSubCategory == "SIGN"
     })
+
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
     
 
   return (
@@ -25,7 +29,11 @@ export default function Achnowledgement (props: IAchnowledgementProps) {
     style={{
         // fontWeight: 300
     }} 
-    className='flex'
+    className={
+        screens.xs
+        ? 'flex flex-col'
+        : 'flex'
+    }
     >
         <div className='text-justify flex flex-col justify-center  p-10'>
             {/* <p>I {customerData?.data?.fullName},</p> */}

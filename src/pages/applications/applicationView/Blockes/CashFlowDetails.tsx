@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
-import { Descriptions, DescriptionsProps, Divider, Spin } from 'antd';
+import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 import Paragraph from 'antd/es/typography/Paragraph';
 
@@ -475,6 +475,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
     const {
         cashFlowDetails
     } = useSelector((state: any) => state.Application)
+
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
     
   return (
     <div
@@ -496,9 +499,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 />
                 <div className='mt-4'>
                     <Descriptions 
-                        column={
-                        3
-                        }
+                        column={ screens.xs?
+                            1 : 3
+                           }
                         items={cashFlowDetails.data?.salesOperatingRevenueDto
                             ? itemsSalesOperation(cashFlowDetails.data?.salesOperatingRevenueDto): []} 
                         size='small'
@@ -514,9 +517,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 />
                 <div className='mt-4'>
                     <Descriptions 
-                        column={
-                        3
-                        }
+                        column={ screens.xs?
+                            1 : 3
+                           }
                         items={cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto
                             ? itemsSalesRevenue3Day(cashFlowDetails.data?.salesThreeDayCroscheckRevenueDto): []} 
                         size='small'
@@ -532,9 +535,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 />
                 <div className='mt-4'>
                     <Descriptions 
-                        column={
-                        3
-                        }
+                       column={ screens.xs?
+                        1 : 3
+                       }
                         items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
                             ? itemsSalesRevenueCash(cashFlowDetails.data?.salesCashCroscheckRevenueDto): []} 
                         size='small'
@@ -550,7 +553,11 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                     style={{color: '#7C3626'}} 
                 />
 
-                <div className='grid grid-cols-4 gap-5 pt-2'>
+                <div className={
+                    screens.xs
+                    ? 'grid grid-cols-1 gap-5 pt-2'
+                    : 'grid grid-cols-4 gap-5 pt-2'
+                    }>
                     {cashFlowDetails.data?.otherIncomeWrapperDto?.otherIncomeDtoList?.map((stock:any, index: any) => {
                         return  <div 
                                 style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
@@ -573,9 +580,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 <div className='mt-5'>
                     <Descriptions 
                         key={'totalOtherIncome'}
-                        column={
-                        3
-                        }
+                        column={ screens.xs?
+                            1 : 3
+                           }
                         items={[
                             {
                                 key: 'totalOtherIncome',
@@ -614,9 +621,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
 
                 <div className='mt-4'>
                     <Descriptions 
-                        column={
-                        3
-                        }
+                       column={ screens.xs?
+                        1 : 3
+                       }
                         items={cashFlowDetails.data?.salesCashCroscheckRevenueDto
                             ? itemsGrossRevenue({
                                 ...cashFlowDetails.data?.cashFlowFinalSummaryDto,
@@ -634,7 +641,11 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                     style={{color: '#7C3626'}} 
                 />
 
-                <div className='grid grid-cols-4 gap-5 pt-2'>
+                <div className={
+                    screens.xs
+                    ? 'grid grid-cols-1 gap-5 pt-2'
+                    : 'grid grid-cols-4 gap-5 pt-2'
+                    }>
                     {cashFlowDetails.data?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock:any, index: any) => {
                         return  <div 
                                 style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
@@ -657,9 +668,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 <div className='mt-5'>
                     <Descriptions 
                         key={'totalPurchasingPerMonth'}
-                        column={
-                        3
-                        }
+                        column={ screens.xs?
+                            1 : 3
+                           }
                         items={[
                             {
                                 key: 'totalPurchasingPerMonth',
@@ -697,9 +708,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                 />
                 <Paragraph className='font-bold'  type="secondary">Business Expences</Paragraph>
                 <Descriptions 
-                    column={
-                    3
-                    }
+                   column={ screens.xs?
+                    1 : 3
+                   }
                     items={cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
                         ? itemsTotalExpenseB(
                             cashFlowDetails.data?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
@@ -709,9 +720,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
 
                 <Paragraph className='mt-5 font-bold'  type="secondary">Household Expences</Paragraph>
                 <Descriptions 
-                    column={
-                    3
-                    }
+                   column={ screens.xs?
+                    1 : 3
+                   }
                     items={cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
                         ? itemsTotalExpenseH(
                             cashFlowDetails.data?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
@@ -729,9 +740,9 @@ export default function CashFlowDetails (props: ICashFlowDetailsProps) {
                         style={{color: '#7C3626'}} 
                     />
                     <Descriptions 
-                    column={
-                    3
-                    }
+                    column={ screens.xs?
+                        1 : 3
+                       }
                     items={cashFlowDetails.data?.cashFlowFinalSummaryDto
                         ? itemsSummary(
                             cashFlowDetails.data?.cashFlowFinalSummaryDto

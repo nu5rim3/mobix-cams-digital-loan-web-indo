@@ -6,7 +6,7 @@ import Title from '../../../../components/Typography/Tytle';
 import GoogleMapReact from 'google-map-react';
 import Google from '../../../../components/GoogleMap/Google';
 import ImageZoom from '../../../../test/ImageTest';
-import { Spin } from 'antd';
+import { Grid, Spin } from 'antd';
 import GoogleVis from '../../../../components/GoogleMap/GoogleVis';
 import MapModal from '../../../../components/GoogleMap/MapModal';
 import convertImageName from '../../../../utils/convertImageName';
@@ -32,6 +32,9 @@ export default function Images (props: IImagesProps) {
         }
     ]
 
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
+
   return (
     <div  
         style={{
@@ -53,7 +56,11 @@ export default function Images (props: IImagesProps) {
                     />
                     {imageDetails.data?.
                         filter((image:any) => image.imgMasterCategory === 'CLIENT_IDENTIFICATION').length?
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                            screens.xs
+                            ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                            : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                        }>
                         {imageDetails.data?.
                             filter((image:any) => image.imgMasterCategory === 'CLIENT_IDENTIFICATION')?.
                             map((image: any, index: any) => {
@@ -118,7 +125,11 @@ export default function Images (props: IImagesProps) {
                                 level={5}
                                 title='Spouse Images'
                         />
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                             screens.xs
+                             ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                             : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                            }>
                         {imageDetails.data?.
                             filter((image:any) => image.imgMasterCategory === 'SPOUSE_IMAGES')?.
                             map((image: any, index: any) => {
@@ -184,7 +195,11 @@ export default function Images (props: IImagesProps) {
                     {imageDetails.data?.
                         filter((image:any) => image.imgMasterCategory === 'RESIDENCIAL_IMAGES')?.length
                     ?
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                            screens.xs
+                             ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                             : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                            }>
                         {imageDetails.data?.
                             filter((image:any) => image.imgMasterCategory === 'RESIDENCIAL_IMAGES')?.
                             map((image: any, index: any) => {
@@ -252,7 +267,11 @@ export default function Images (props: IImagesProps) {
                     />
                     {imageDetails.data?.
                         filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGE')?.length?
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                            screens.xs
+                             ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                             : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                            }>
                             {imageDetails.data?.
                                 filter((image:any) => image.imgMasterCategory === 'BUSINESS_IMAGE')?.
                                 map((image: any, index: any) => {
@@ -318,7 +337,11 @@ export default function Images (props: IImagesProps) {
                                 level={5}
                                 title='Guarantor Images'
                         />
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                            screens.xs
+                            ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                            : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                            }>
                         {imageDetails.data?.
                             filter((image:any) => image.imgMasterCategory === 'GUARANTOR')?.
                             map((image: any, index: any) => {
@@ -383,7 +406,11 @@ export default function Images (props: IImagesProps) {
                     />
                     {imageDetails.data?.
                         filter((image:any) => image.imgMasterCategory === 'COLLATERAL_IMAGES')?.length?
-                        <div className='grid grid-cols-4 gap-8 pt-2 items-center'>
+                        <div className={
+                            screens.xs
+                             ? 'grid grid-cols-1 gap-8 pt-2 items-center'
+                             : 'grid grid-cols-4 gap-8 pt-2 items-center'
+                            }>
                         {imageDetails.data?.
                             filter((image:any) => image.imgMasterCategory === 'COLLATERAL_IMAGES')?.
                             map((image: any, index: any) => {

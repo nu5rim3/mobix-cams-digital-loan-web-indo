@@ -1,7 +1,7 @@
 import Dragger from 'antd/es/upload/Dragger';
 import React, {useState} from 'react';
 import { InboxOutlined , PlusOutlined} from '@ant-design/icons';
-import { Modal, UploadFile, UploadProps, message, Upload, Button } from 'antd';
+import { Modal, UploadFile, UploadProps, message, Upload, Button, Grid } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
@@ -137,8 +137,15 @@ export default function ImageUpload ({
         </div>
       );
 
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint()
+
   return (
-    <div className='grid grid-cols-2 gap-5 pt-2'>
+    <div className={
+      screens.xs
+      ? 'grid grid-cols-1 gap-5 pt-2'
+      : 'grid grid-cols-2 gap-5 pt-2'
+      }>
         <div>
             <div className=''>
                 <WebcamCapture open={openCamera} setOpen={setOpenCamera} onCapture={captureImage}/>

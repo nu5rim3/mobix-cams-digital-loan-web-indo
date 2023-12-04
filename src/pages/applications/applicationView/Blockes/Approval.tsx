@@ -281,26 +281,30 @@ export default function Approval ({
                 title='Application History'
           /> 
 
-        <Table
-          className='w-4/4'
-          showHeader={false}
-          bordered={false}
-          columns={columns}
-          pagination={false}
-          dataSource={
-            approvalSteps.data?.approvalStepDtoList
-            ? [
-                ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.
-                filter((row:any) => row.secondMeetingCurrentRole == "BM")?.
-                map((row:any) => ({
-                  ...row,
-                  stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus}`,
-                  roleDescription: row.secondMeetingCurrentRoleDesc
-                })),
-                ...approvalSteps.data?.approvalStepDtoList,
-              ] 
-            :[]}
-        />
+        <div
+          className='overflow-x-auto'
+        >
+          <Table
+            className='w-4/4'
+            showHeader={false}
+            bordered={false}
+            columns={columns}
+            pagination={false}
+            dataSource={
+              approvalSteps.data?.approvalStepDtoList
+              ? [
+                  ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+                  filter((row:any) => row.secondMeetingCurrentRole == "BM")?.
+                  map((row:any) => ({
+                    ...row,
+                    stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus}`,
+                    roleDescription: row.secondMeetingCurrentRoleDesc
+                  })),
+                  ...approvalSteps.data?.approvalStepDtoList,
+                ] 
+              :[]}
+          />
+        </div>
       </div>
     </div>
   );

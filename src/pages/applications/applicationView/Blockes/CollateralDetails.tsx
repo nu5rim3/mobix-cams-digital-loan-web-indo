@@ -265,8 +265,8 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                                     >
                                     <Descriptions 
                                     key={index}
-                                    column={
-                                    3
+                                    column={ screens.xs?
+                                     1 : 3
                                     }
                                     items={guarantor? itemsGold(guarantor): []} 
                                     size='small'
@@ -295,9 +295,9 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                                         >
                                         <Descriptions 
                                             key={index}
-                                            column={
-                                            3
-                                            }
+                                            column={ screens.xs?
+                                                1 : 3
+                                               }
                                             items={guarantor? itemsLand(guarantor): []} 
                                             size='small'
                                     />  
@@ -326,9 +326,9 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                                     >
                                     <Descriptions 
                                         key={index}
-                                        column={
-                                        3
-                                        }
+                                        column={ screens.xs?
+                                            1 : 3
+                                           }
                                         items={guarantor? itemsVehicle(guarantor): []} 
                                         size='small'
                                 />  
@@ -356,9 +356,9 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                                     >
                                     <Descriptions 
                                         key={index}
-                                        column={
-                                        3
-                                        }
+                                        column={ screens.xs?
+                                            1 : 3
+                                           }
                                         items={guarantor? itemsOther(guarantor): []} 
                                         size='small'
                                 />  
