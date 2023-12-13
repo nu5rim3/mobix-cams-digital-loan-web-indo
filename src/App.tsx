@@ -6,6 +6,8 @@ import {authConfig} from './authorization/authConfig'
 import LayoutContainer from './components/layout/Layout'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
+import { Route, Routes } from 'react-router-dom'
+import Logout from './pages/logout/Logout'
 
 function App() {
   const [userTheme, setUserTheme] = useState('light')
@@ -78,12 +80,20 @@ function App() {
           }}
         >
           <AuthProvider authConfig={authConfig}>
-            <LayoutContainer
-              handleTheme = {setUserTheme}
-              primary={primary}
-              setPrimary = {setPrimary}
-            />
-          </AuthProvider>
+            <Routes>
+              <Route path='/indo-digital-loan/logout' Component={Logout}></Route>
+            <Route 
+              path='/indo-digital-loan/auth/*' 
+              element={
+                  <LayoutContainer
+                    handleTheme = {setUserTheme}
+                    primary={primary}
+                    setPrimary = {setPrimary}
+                    />
+                  }
+                  />
+          </Routes>
+        </AuthProvider>
       </ConfigProvider>
     </Provider>
     </>

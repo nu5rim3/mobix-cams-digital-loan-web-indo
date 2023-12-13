@@ -10,7 +10,8 @@ export const initialState: AppDataStoreType = {
         data: null
     },
     selectedRole: null,
-    token: null
+    token: null,
+    tokenData: null
 };
 
 export const getUserDataById = createAsyncThunk(
@@ -43,7 +44,8 @@ export const SlikRequestsSlice = createSlice({
         setToken: (state, action: PayloadAction<any>) => {
             state = { 
                 ...state, 
-                token : action.payload
+                token : action.payload.token,
+                tokenData: action.payload.tokenData,
             };
             return state;
         },

@@ -5,7 +5,7 @@ import SideBar from './sidebar/SideBar';
 import HeaderContainer from './header/Header';
 import FooterContainer from './footer/Footer';
 import navigation, { MenuItem } from '../../routes/navigation';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthContext, IAuthContext } from 'react-oauth2-code-pkce';
 import DotWave from '../loaders/DotWave';
 import { setAxiosToken } from '../../services/config';
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import SelectUserRole from '../../pages/SelectUserRole/SelectUserRole';
 import MainLoading from '../../pages/MainLoading/MainLoading';
+import Logout from '../../pages/logout/Logout';
 
 const {Content } = Layout;
 
@@ -37,6 +38,7 @@ export default function LayoutContainer (props: ILayoutProps) {
     const userData = useSelector((state: any) => state.AppData.userData.data)
     const selectedRoleStore = useSelector((state: any) => state.AppData.selectedRole)
     const selectedRole = localStorage.getItem('selectedRole')
+    const navigate = useNavigate();
 
     const routes = function menuItems(params: MenuItem[] | undefined) : any  {
         if(!params || !userData) return
@@ -61,16 +63,23 @@ export default function LayoutContainer (props: ILayoutProps) {
         return route
       }(navigation);
 
-      const {token, loginInProgress, login} = useContext<IAuthContext>(AuthContext)
+      const {token, loginInProgress, login, idToken} = useContext<IAuthContext>(AuthContext)
+
+      console.log("id", idToken)
 
       useEffect(() => {
         if(!loginInProgress && !token){
-            login()
+            // login()
+            navigate('/indo-digital-loan/logout')
+            
         }
         if(token){
             const decoded = jwt_decode(token) as any;
             setAxiosToken(token, decoded.sub)
-            actions.setToken(token)
+            actions.setToken({
+                token,
+                tokenData : idToken
+            })
             actions.getUserDataById(decoded.sub)
         }
 

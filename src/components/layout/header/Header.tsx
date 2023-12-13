@@ -40,6 +40,7 @@ export default function HeaderContainer({
 
     const {
       token,
+      tokenData,
       userData,
       selectedRole
     } = useSelector((state:any) => state.AppData)
@@ -65,10 +66,11 @@ export default function HeaderContainer({
         icon: <LogoutOutlined />,
         onClick: () => {
           localStorage.removeItem('selectedRole')
+          localStorage.clear()
+          sessionStorage.clear()
           actions.restAppData()
           logOut() 
-          window.location.replace(`${import.meta.env.VITE_LOGOUT_URI}/logout?id_token_hint=${token}&post_logout_redirect_uri=${import.meta.env.VITE_REDIRECT_BACK_CHANEL_LOGOUT_URL}`)
-          login()
+          // window.location.replace(`${import.meta.env.VITE_LOGOUT_URI}/logout?id_token_hint=${token}&post_logout_redirect_uri=${import.meta.env.VITE_REDIRECT_BACK_CHANEL_LOGOUT_URL}`)
         }
       }
     ];
@@ -81,7 +83,6 @@ export default function HeaderContainer({
     const {
       customerData
   } = useSelector((state: any) => state.Application)
-
 
   return (
     <Header 

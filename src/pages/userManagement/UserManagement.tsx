@@ -102,7 +102,7 @@ const UserManagement: React.FC = () =>{
       render: (_, record) => (
         <>
           <Space size="middle" className='mr-5'>
-            <a onClick={() => navigate(`/userManagement/updateUser/${record.idx}`)}>Update {record.name}</a>
+            <a onClick={() => navigate(`/indo-digital-loan/userManagement/updateUser/${record.idx}`)}>Update {record.name}</a>
           </Space>
           
           <Space size="middle">
@@ -145,7 +145,7 @@ const UserManagement: React.FC = () =>{
           <div>
             <Button 
               onClick={() => {
-                navigate('/userManagement/createUser')
+                navigate('/indo-digital-loan/userManagement/createUser')
               }} 
               type='primary'
               shape="round"

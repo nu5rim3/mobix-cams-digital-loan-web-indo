@@ -216,7 +216,7 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       render: (_, record) => (
         <>
           <Space size="middle" className='mr-3'>
-            <a onClick={() => navigate(`/applications/viewApplication/${record.idx}`)}>View</a>
+            <a onClick={() => navigate(`/indo-digital-loan/applications/viewApplication/${record.idx}`)}>View</a>
           </Space>
           {
             searchedStatus != 'APPROVAL_PENDING'

@@ -201,9 +201,9 @@ export default function Approval ({
             message: 'Application Updated Successfully.'
           })
           if(selectedRole === 'BM'){
-            return navigate('/applications/BM')
+            return navigate('/indo-digital-loan/applications/BM')
           }else{
-            return navigate('/applications')
+            return navigate('/indo-digital-loan/applications')
           }
         }
         catch(err){
