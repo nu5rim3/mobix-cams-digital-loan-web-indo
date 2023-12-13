@@ -189,7 +189,7 @@ export default function UpdateSlikRequest (props: IUpdateSlikRequestProps) {
         notification.success({
           message: 'Slik request updated successfully'
         })
-        navigate('/indo-digital-loan/slikRequest')
+        navigate('/indo-digital-loan/auth/slikRequest')
       }
     }
     catch(error){

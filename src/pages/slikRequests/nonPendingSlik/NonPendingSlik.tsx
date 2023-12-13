@@ -89,7 +89,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => navigate(`/indo-digital-loan/slikRequest/updateSlik/${record.slkIdx}`)}>Update {record.name}</a>
+          <a onClick={() => navigate(`/indo-digital-loan/auth/slikRequest/updateSlik/${record.slkIdx}`)}>Update {record.name}</a>
         </Space>
       ),
     },

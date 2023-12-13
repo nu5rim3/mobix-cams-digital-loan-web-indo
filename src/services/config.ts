@@ -2,12 +2,12 @@ import axios from "axios";
 import * as React from 'react';
 
 export const axiosInstance = axios.create({
-    baseURL: '/indo-digital-loan'
+    baseURL: '/indo-digital-loan',
 });
 
 export const axiosFileInstance = axios.create({
         responseType: 'arraybuffer' as 'json', // To receive image data as an array buffer
-        baseURL: '/indo-digital-loan'
+        baseURL: '/indo-digital-loan',
 });
 
 export const setAxiosToken = async (token:string, idx: any) => {

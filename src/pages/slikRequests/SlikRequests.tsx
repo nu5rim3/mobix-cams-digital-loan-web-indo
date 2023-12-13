@@ -86,7 +86,7 @@ const SlikRequests: React.FC = () =>{
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => navigate(`/indo-digital-loan/userManagement/updateUser/${record.idx}`)}>View {record.name}</a>
+          <a onClick={() => navigate(`/indo-digital-loan/auth/userManagement/updateUser/${record.idx}`)}>View {record.name}</a>
         </Space>
       ),
     },
