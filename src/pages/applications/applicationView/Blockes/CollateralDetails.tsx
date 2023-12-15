@@ -413,6 +413,308 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },
     {
+        key: 'vehicleYear',
+        label: 'Vehicle Year',
+        children: data.vehicleYear,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'vehicleModelDesc',
+        label: 'Vehicle Model Desc',
+        children: data.vehicleModelDesc,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'vehicleMakeDesc',
+        label: 'Vehicle Make Desc',
+        children: data.vehicleMakeDesc,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'securityCategory',
+        label: 'Security Category',
+        children: data.securityCategory == "M" 
+        ? 'Main Security'
+        : data.securityCategory == "O" 
+        ? 'Other Security'
+        : '-',
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'securityType',
+        label: 'Security Type',
+        children: data.securityType,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'legalBindingType',
+        label: 'Legal Binding Type',
+        children: data.legalBindingType,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'legalBindingDate',
+        label: 'Legal Binding Date',
+        children: data.legalBindingDate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ownership',
+        label: 'Ownership',
+        children: data.ownership == "0" 
+        ? 'Own'
+        : data.ownership == "2" 
+        ? 'Third party'
+        : '-',
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'collateralOwnerName',
+        label: 'Collateral Owner Name',
+        children: data.collateralOwnerName,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'recordOrderNo',
+        label: 'Record Order No',
+        children: data.recordOrderNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'certificateType',
+        label: 'Certificate Type',
+        children: data.certificateType,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'locationDescription',
+        label: 'Location Description',
+        children: data.locationDescription,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'titleInsurance',
+        label: 'Title Insurance',
+        children: data.titleInsurance,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'marketValue',
+        label: 'Market Value',
+        children: getCurrency(data.marketValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'forcedSaleValue',
+        label: 'Forced Sale Value',
+        children: getCurrency(data.forcedSaleValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'condition',
+        label: 'Condition',
+        children: data.condition == "1" 
+        ? 'New/Recondition'
+        : data.condition == "2" 
+        ? '2nd Hand'
+        : '-',
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'engineNo',
+        label: 'Engine No',
+        children: data.engineNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'chassisNo',
+        label: 'Chassis No',
+        children: data.chassisNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'registrationNo',
+        label: 'Registration No',
+        children: data.registrationNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'yearOfManufacture',
+        label: 'Year Of Manufacture',
+        children: data.yearOfManufacture,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'dateOfFirstReg',
+        label: 'Date Of First Reg',
+        children: data.dateOfFirstReg,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'regBookNo',
+        label: 'Reg Book No',
+        children: data.regBookNo,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'bookReceivedDate',
+        label: 'Book Received Date',
+        children: data.bookReceivedDate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'crReleaseDate',
+        label: 'CR Release Date',
+        children: data.crReleaseDate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'morgType',
+        label: 'Morg Type',
+        children: data.morgType,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'createdBy',
+        label: 'Created By',
+        children: data.createdBy,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'creationDate',
+        label: 'Creation Date',
+        children: data.creationDate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'lastModifiedBy',
+        label: 'Last Modified By',
+        children: data.lastModifiedBy,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'lastModifiedDate',
+        label: 'Last Modified Date',
+        children: data.lastModifiedDate,
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
         key: 'ex1',
         label: '',
         children:''
