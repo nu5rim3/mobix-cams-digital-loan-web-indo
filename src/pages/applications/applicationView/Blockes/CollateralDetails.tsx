@@ -1281,6 +1281,268 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
     },
 ]
 
+const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
+    {
+        key: 'buildingIdx',
+        label: 'Building Id',
+        children: (data.buildingIdx),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'securityType',
+        label: 'Security Type',
+        children: (data.securityType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'securityCategory',
+        label: 'Security Category',
+        children: (data.securityCategory),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'legalBindingType',
+        label: 'Legal Binding Type',
+        children: (data.legalBindingType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'legalBindingDate',
+        label: 'Legal Binding Date',
+        children: (data.legalBindingDate),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ownership',
+        label: 'Ownership',
+        children: (data.ownership),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'ownerName',
+        label: 'Owner Name',
+        children: (data.ownerName),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'recordOrderNo',
+        label: 'Record Order No',
+        children: (data.recordOrderNo),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'certificateType',
+        label: 'Certificate Type',
+        children: (data.certificateType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'certificateNo',
+        label: 'Certificate No',
+        children: (data.certificateNo),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'appraisalDate',
+        label: 'Appraisal Date',
+        children: (data.appraisalDate),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'location',
+        label: 'Location',
+        children: (data.location),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'titleInsurance',
+        label: 'Title Insurance',
+        children: (data.titleInsurance),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'marketValue',
+        label: 'Market Value',
+        children: getCurrency(data.marketValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'forcedSaleValue',
+        label: 'Forced Sale Value',
+        children: (data.forcedSaleValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'bondNo',
+        label: 'Bond No',
+        children: (data.bondNo),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'bondDate',
+        label: 'Bond Date',
+        children: (data.bondDate),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'extentOfProperty',
+        label: 'Extent Of Property',
+        children: (data.extentOfProperty),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'bondValue',
+        label: 'Bond Value',
+        children: getCurrency(data.bondValue),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'lawyerName',
+        label: 'Lawyer Name',
+        children: (data.lawyerName),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'insuranceOfBuilding',
+        label: 'Insurance Of Building',
+        children: (data.insuranceOfBuilding),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'description',
+        label: 'Description',
+        children: (data.description),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'powerOfAttorney',
+        label: 'Power Of Attorney',
+        children: (data.powerOfAttorney),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'deedTitleNo',
+        label: 'Deed Title No',
+        children: (data.deedTitleNo),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'morgType',
+        label: 'Morg Type',
+        children: (data.morgType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
+        key: 'createdBy',
+        label: 'Created By',
+        children: (data.createdBy),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+]
 
 export default function CollateralDetails (props: ICollateralDetailsProps) {
 
@@ -1454,7 +1716,7 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                 }
 
 
-{data?.condominiumDtoList?.length? 
+                {data?.condominiumDtoList?.length? 
                     <>
                     <Title 
                         level={5}
@@ -1474,6 +1736,34 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
                                             1 : 3
                                            }
                                         items={guarantor? condominiumDtoList(guarantor): []} 
+                                        size='small'
+                                />  
+                                </div>
+                    })}
+                    </>
+                : null
+                }
+
+                {data?.buildingDtoList?.length? // buildingDtoList
+                    <>
+                    <Title 
+                        level={5}
+                        title='Collateral Type: Building'
+                        style={{color: '#7C3626'}} 
+                    />
+
+                    {data?.buildingDtoList?.map((guarantor:any, index: any) => { //buildingDtoList
+                                return  <div 
+                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                                    className='p-5 rounded-md  font-sans my-4'
+                                    key={index}
+                                    >
+                                    <Descriptions 
+                                        key={index}
+                                        column={ screens.xs?
+                                            1 : 3
+                                           }
+                                        items={guarantor? buildingDtoList(guarantor): []} 
                                         size='small'
                                 />  
                                 </div>
