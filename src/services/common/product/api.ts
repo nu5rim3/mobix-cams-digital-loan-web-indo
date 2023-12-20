@@ -23,6 +23,10 @@ const getRelationByCode = (code: string) => {
     return api.get(`/mobixCamsCommon/v1/relations/${code}`)
 }
 
+const getTearmRatesByCode = (code: string) => {
+    return api.get(`/mobixCamsCommon/v1/products/${code}/rates-terms`)
+}
+
 const getAllAreas = () => {
     return api.get(`/mobixCamsCommon/v1/areas`)
 }
@@ -37,6 +41,7 @@ export default {
     getAreaStatusByCode,
     getRelationByCode,
     getAllAreas,
-    getBusinessAreaByCode
+    getBusinessAreaByCode,
+    getTearmRatesByCode
 }
 

@@ -1553,8 +1553,6 @@ export default function CollateralDetails (props: ICollateralDetailsProps) {
 
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint()
-
-    console.log("colletral", data)
     
   return (
     <div

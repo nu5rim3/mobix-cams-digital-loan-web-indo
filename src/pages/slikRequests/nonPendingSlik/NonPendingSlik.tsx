@@ -186,7 +186,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
           <Select
               className='mr-2 '
               size={'large'}
-              // allowClear
+              allowClear
               onChange={(value) => {
                 // setSearchBrach(value)
                 actions.SRSetBranch(value)
@@ -195,12 +195,13 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
               value={selectedBranch}
               style={{ width: 200 }}
               placeholder='Select A Branch'
+              filterOption={(input, option) => (option?.label?.toLowerCase() ?? '').includes(input)}
               options={
                 branch.length?
                 branch?.map((branch:any) =>{
                   return ({
                     value: branch.code,
-                    label: branch.description
+                    label: branch.description,
                   })
                 })
                 : []

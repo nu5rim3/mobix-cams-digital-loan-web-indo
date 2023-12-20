@@ -1,4 +1,4 @@
-import { Button, Descriptions, DescriptionsProps, Grid, Input, InputNumber, Space, Spin, notification } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Grid, Input, InputNumber, Select, Space, Spin, notification } from 'antd';
 import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
@@ -240,7 +240,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
               </div>
               <div className='pr-6'>
                   <Space.Compact style={{ width: '100%' }}>
-                  <InputNumber
+                  {/* <InputNumber
                       addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
                       value={newTearm}
                       readOnly={!editTerm}
@@ -248,7 +248,25 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
                          setNewTearm(e)
                       }}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  />
+                  /> */}
+                   <Select
+                      showSearch
+                      style={{ width: '100%' }}
+                      disabled={!editTerm}
+                      value={newTearm}
+                      onChange={(e:any) => {
+                        setNewTearm(e)
+                     }}
+                    >
+                      {financialDetails?.termRates?.map((option:any, index:any) => (
+                        <Select.Option
+                            value={option.term}
+                            key={index.toString()}
+                        >
+                            {option.term}
+                        </Select.Option>
+                      ))}
+                    </Select>
                   <Button type="primary" onClick={
                     () => {
                       setEditTerm(!editTerm)

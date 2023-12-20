@@ -60,7 +60,8 @@ export interface AppDataStoreType {
     financialDetails: {
         data: any | null,
         fetching : boolean,
-        error: boolean | string
+        error: boolean | string,
+        termRates: any[]
     },
     financialDetailsSavePending: boolean
 }
