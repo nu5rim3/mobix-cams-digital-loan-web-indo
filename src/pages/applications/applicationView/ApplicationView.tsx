@@ -117,7 +117,7 @@ export default function ApplicationView (props: IApplicationViewProps) {
             actions.getBusinessData(id)
             actions.getSpouseData(id)
             actions.getGuarantorDetails(id)
-            actions.getCollateralDetails(id)
+            actions.getCollateralDetails(id)//
             actions.getCashFlowDetails(id)
             actions.getImageDetails(id)
             actions.getApprovalStepsDetails(id) //'APP000000000000623' APP000000000000780
