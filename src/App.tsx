@@ -6,7 +6,7 @@ import {authConfig} from './authorization/authConfig'
 import LayoutContainer from './components/layout/Layout'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Logout from './pages/logout/Logout'
 
 function App() {
@@ -81,17 +81,18 @@ function App() {
         >
           <AuthProvider authConfig={authConfig}>
             <Routes>
+              <Route path='/indo-digital-loan/' element={<Navigate to='/indo-digital-loan/auth/'/>}></Route>
               <Route path='/indo-digital-loan/logout' Component={Logout}></Route>
-            <Route 
-              path='/indo-digital-loan/auth/*' 
-              element={
-                  <LayoutContainer
-                    handleTheme = {setUserTheme}
-                    primary={primary}
-                    setPrimary = {setPrimary}
+              <Route 
+                path='/indo-digital-loan/auth/*' 
+                element={
+                    <LayoutContainer
+                      handleTheme = {setUserTheme}
+                      primary={primary}
+                      setPrimary = {setPrimary}
+                      />
+                    }
                     />
-                  }
-                  />
           </Routes>
         </AuthProvider>
       </ConfigProvider>
