@@ -107,7 +107,7 @@ const App: React.FC<{
                       ...footerStyle,
                       backgroundColor: colorBgContainer,
                     }}
-                    >v0.0.2</Footer>
+                    >v0.0.3</Footer>
             </Layout>
           </Layout>
     )
