@@ -12,9 +12,9 @@ export default defineConfig(({ command, mode }) => {
   return {
     base: "/indo-digital-loan",
     server: {
-      cors: {
-        origin: true
-      },
+      // cors: {
+      //   origin: true
+      // },
       proxy: {
         '/indo-digital-loan/oauth2': {
           target: env.VITE_AUTHORIZATION_SERVER,
@@ -36,13 +36,13 @@ export default defineConfig(({ command, mode }) => {
             return path.replace(/^\/indo-digital-loan/, '')
           }
         },
-        '/logout': {
-          target: 'https://indoauthdev.lolc.com/oidc',
+        '/indo-digital-loan/oidc': {
+          target: 'https://indoauthdev.lolc.com',
           changeOrigin: true,
           secure: false,
           agent: new http.Agent(),
           rewrite: (path) => {
-            console.log("token");
+            console.log("logout");
             return path.replace(/^\/indo-digital-loan/, '')
           }
         },

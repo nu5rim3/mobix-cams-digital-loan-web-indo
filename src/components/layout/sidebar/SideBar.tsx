@@ -71,7 +71,8 @@ export default function SideBar ({
             children: row.type === "GROUP"? menuItems(row.children): null,
             onClick: () => {
               if(row.type === "LINK"){
-                navigate(row.path)
+                console.log("the path", row.path)
+                navigate(`/indo-digital-loan/auth${row.path}`)
                 if(screens.xs){
                   setCollapsed(!collapsed)
                 }

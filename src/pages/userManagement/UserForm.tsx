@@ -106,7 +106,7 @@ export default function UserForm (props: IUserFormProps) {
           notification.success({
             message: 'User has been created successfully'
           })
-          navigate('/userManagement')
+          navigate('/indo-digital-loan/auth/userManagement')
         }else{
           const user = await API.userServices.updateUser({
             ...data,
@@ -114,7 +114,7 @@ export default function UserForm (props: IUserFormProps) {
             notification.success({
               message: 'User has been updated successfully'
             })
-            navigate('/userManagement')
+            navigate('/indo-digital-loan/auth/userManagement')
         }
       }catch(error){
         if (axios.isAxiosError(error)) {

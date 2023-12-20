@@ -5,5 +5,6 @@ export interface AppDataStoreType {
         error: boolean | string
     }
     selectedRole: null | {},
-    token: null | string
+    token: null | string,
+    tokenData: null | {}
 }

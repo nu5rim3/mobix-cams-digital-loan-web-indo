@@ -158,7 +158,7 @@ export default function Applications (props: IApplicationsProps) {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => navigate(`/applications/viewApplication/${record.idx}`)}>View</a>
+          <a onClick={() => navigate(`/indo-digital-loan/auth/applications/viewApplication/${record.idx}`)}>View</a>
         </Space>
       ),
     },
