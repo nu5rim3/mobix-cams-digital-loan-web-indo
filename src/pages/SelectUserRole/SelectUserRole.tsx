@@ -38,7 +38,6 @@ export default function SelectUserRole (props: ISelectUserRoleProps) {
 
             <div className='h-96  p-5 flex justify-center items-center '>
                 {userData?.data?.roles?.map((role:any) => {
-                    console.log("test role", role)
                     return <div
                         key={role?.description}
                         className={`${clickedRole?.code == role?.code? 'bg-blue-100' :''} w-32 h-32 rounded-md flex justify-center items-center cursor-pointer shadow-md hover:shadow-xl`}

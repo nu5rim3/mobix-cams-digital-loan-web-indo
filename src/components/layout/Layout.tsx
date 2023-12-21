@@ -65,8 +65,6 @@ export default function LayoutContainer (props: ILayoutProps) {
 
       const {token, loginInProgress, login, idToken} = useContext<IAuthContext>(AuthContext)
 
-      console.log("id", idToken)
-
       useEffect(() => {
         if(!loginInProgress && !token){
             // login()

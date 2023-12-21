@@ -179,8 +179,6 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       }
     },[approvalSteps.data?.secondMeetingApprovalStepDtoList])
 
-    console.log("financialDetails", financialDetails)
-
   return (
     <div  
     style={{

@@ -270,6 +270,73 @@ export const getAllApplications = createAsyncThunk(
     async (arg: Parameters<typeof API.collateralServices.getAllCollateralsByAppraisals>[0], thunkAPI) => {
         try{
             const response = await API.collateralServices.getAllCollateralsByAppraisals(arg)
+            if(response.data.landAndBuildingDtoList?.length){
+                const landAndBuilding = response.data.vehicleDtoList
+
+                for(let row of landAndBuilding){
+                    let securityCategory
+                    let legalBindingType
+                    let ownership
+                    let certificateType
+
+                    if(row.securityCategory){
+                        securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
+                    }
+
+                    if(row.legalBindingType){
+                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    }
+
+                    if(row.ownership){
+                        ownership = await API.commnServices.getOwnership(row.ownership)
+                    }
+
+                    if(row.certificateType){
+                        certificateType = await API.commnServices.getCertificateType(row.certificateType)
+                    }
+
+                    row.securityCategory =  securityCategory?.data.description?? '-'
+                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    row.ownership =  ownership?.data.description?? '-'
+                    row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
+                    row.insuranceOfBuilding = row.insuranceOfBuilding == "Y"? "Yes" : row.insuranceOfBuilding == "N"? "No" : '-'
+                    row.powerOfAttorney = row.powerOfAttorney == "Y"? "Yes" : row.powerOfAttorney == "N"? "No" : '-'
+                    row.certificateType =   certificateType?.data.description?? '-'
+                }
+                
+            }
+            if(response.data.vehicleDtoList?.length){
+                const vehice = response.data.vehicleDtoList
+                for(let row of vehice){
+
+                    let vehicleType
+                    let vehicleModel
+                    let morgType
+                    let certificateType
+
+                    if(row.vehicleType){
+                        vehicleType = await API.commnServices.getVehicleType(row.vehicleType)
+                    }
+
+                    if(row.vehicleModel){
+                        vehicleModel = await API.commnServices.getVehicleModel(row.vehicleModel)
+                    }
+
+                    if(row.morgType){
+                        morgType = await API.commnServices.getMorgeType(row.morgType)
+                    }
+
+                    if(row.certificateType){
+                        certificateType = await API.commnServices.getCertificateType(row.certificateType)
+                    }
+
+                    row.vehicleType =  vehicleType?.data.description?? '-'
+                    row.vehicleModel =   vehicleModel?.data.description?? '-'
+                    row.morgType =   morgType?.data.description?? '-'
+                    row.certificateType =   certificateType?.data.description?? '-'
+                   
+                }
+            }
             return response.data
         }
         catch(error){

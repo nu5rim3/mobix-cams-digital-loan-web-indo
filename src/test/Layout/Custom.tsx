@@ -71,14 +71,7 @@ const App: React.FC<{
 
     }
 
-    const {token, tokenData, logOut, error, idToken, idTokenData, loginInProgress, login} = useContext<IAuthContext>(AuthContext)
-
-    console.log("token", token)
-    console.log("tokenData", tokenData)
-    console.log("error", error)
-    console.log("idToken", idToken)
-    console.log("idTokenData", idTokenData)
-    console.log("loginInProgress", loginInProgress)
+    // const {token, tokenData, logOut, error, idToken, idTokenData, loginInProgress, login} = useContext<IAuthContext>(AuthContext)
 
     return (
             <Layout

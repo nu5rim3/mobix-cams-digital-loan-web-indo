@@ -25,7 +25,6 @@ export default function Logout (props: ILogoutProps) {
               <img className='w-80' src={digitalMe}/>
             </div>
             <Button onClick={() => {
-              console.log("log")
               login()
             }} className='w-48'>
               Login 

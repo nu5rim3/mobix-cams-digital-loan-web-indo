@@ -33,7 +33,6 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setOpen(false);
   };
 
