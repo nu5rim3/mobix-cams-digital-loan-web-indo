@@ -102,6 +102,14 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       try{
         setTCSaveLoading(true)
 
+        if(financialDetails?.productDetails?.individualProdYn == "N" ){
+          if(financialDetails.data?.pTrhdTerm > financialDetails.productDetails?.maxTerm || financialDetails.data?.pTrhdTerm < financialDetails.productDetails?.minTerm ){
+            return notification.error({
+              message: `Term need to be between ${financialDetails.productDetails?.minTerm} - ${financialDetails.productDetails?.maxTerm}`
+            })
+          }
+        }
+
         const calculateTc = await API.financialServices.calculateTc(
           {
             ...financialDetails?.data,
@@ -171,7 +179,7 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
       }
     },[approvalSteps.data?.secondMeetingApprovalStepDtoList])
 
-
+    console.log("financialDetails", financialDetails)
 
   return (
     <div  
@@ -240,33 +248,39 @@ export default function FinancialApproval (props: IFinancialApprovalProps) {
               </div>
               <div className='pr-6'>
                   <Space.Compact style={{ width: '100%' }}>
-                  {/* <InputNumber
-                      addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
-                      value={newTearm}
-                      readOnly={!editTerm}
-                      onChange={(e:any) => {
-                         setNewTearm(e)
+                  {
+                    financialDetails?.productDetails?.individualProdYn == "N"?
+                      <InputNumber
+                          addonBefore={<p style={{color:'#102C57', fontWeight: 600}}>Tearm (Tenor)</p>}
+                          value={newTearm}
+                          readOnly={!editTerm}
+                          onChange={(e:any) => {
+                            setNewTearm(e)
+                          }}
+                          formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          
+                      />
+                    :
+                      <Select
+                        showSearch
+                        style={{ width: '100%' }}
+                        disabled={!editTerm}
+                        value={newTearm}
+                        onChange={(e:any) => {
+                          setNewTearm(e)
                       }}
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  /> */}
-                   <Select
-                      showSearch
-                      style={{ width: '100%' }}
-                      disabled={!editTerm}
-                      value={newTearm}
-                      onChange={(e:any) => {
-                        setNewTearm(e)
-                     }}
-                    >
-                      {financialDetails?.termRates?.map((option:any, index:any) => (
-                        <Select.Option
-                            value={option.term}
-                            key={index.toString()}
-                        >
-                            {option.term}
-                        </Select.Option>
-                      ))}
-                    </Select>
+                      >
+                        {financialDetails?.termRates?.map((option:any, index:any) => (
+                          <Select.Option
+                              value={option.term}
+                              key={index.toString()}
+                          >
+                              {option.term}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                  }
+                  
                   <Button type="primary" onClick={
                     () => {
                       setEditTerm(!editTerm)

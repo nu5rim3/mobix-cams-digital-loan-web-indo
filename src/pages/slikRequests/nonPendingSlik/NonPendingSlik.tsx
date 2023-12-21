@@ -188,7 +188,6 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
               size={'large'}
               allowClear
               onChange={(value) => {
-                // setSearchBrach(value)
                 actions.SRSetBranch(value)
               }}
               showSearch

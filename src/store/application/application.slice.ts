@@ -65,7 +65,8 @@ export const initialState: AppDataStoreType = {
         fetching: false,
         error: false,
         data: null,
-        termRates: []
+        termRates: [],
+        productDetails: []
     },
     financialDetailsSavePending : false
 }; 
@@ -364,7 +365,8 @@ export const getAllApplications = createAsyncThunk(
                     ...tc.data?.object,
                     ...userData?.data
                 },
-                termRates: termRates?.data?.terms
+                termRates: termRates?.data?.terms,
+                productDetails: product?.data
             }
         }
         catch(error){
@@ -527,7 +529,8 @@ export const ApplicationDataSlice = createSlice({
         builder.addCase(getFinanceDetails.fulfilled , (state, action) => {
             state.financialDetails.fetching = false
             state.financialDetails.data = action.payload.data
-            state.financialDetails.termRates = action.payload.termRates
+            state.financialDetails.termRates = action.payload.termRates,
+            state.financialDetails.productDetails = action.payload.productDetails
         })
     }
 });
