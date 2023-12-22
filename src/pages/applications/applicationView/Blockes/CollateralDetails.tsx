@@ -920,7 +920,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -930,7 +930,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -940,7 +940,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -950,17 +950,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
-        }
-    },
-    {
-        key: 'condominiumValue',
-        label: 'Condominium Value',
-        children: getCurrency(data.condominiumValue),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -970,17 +960,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
-        }
-    },
-    {
-        key: 'securityType',
-        label: 'Security Type',
-        children: (data.securityType),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -990,7 +970,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1000,7 +980,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1010,7 +990,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1020,7 +1000,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1030,7 +1010,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1040,7 +1020,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1050,7 +1030,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1060,7 +1040,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1070,7 +1050,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1080,7 +1060,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1090,7 +1070,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1100,7 +1080,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1110,7 +1090,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1120,7 +1100,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1130,7 +1110,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1140,7 +1120,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1150,7 +1130,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
     {
@@ -1160,17 +1140,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
-            width: '20%'
-        }
-    },
-    {
-        key: 'createdBy',
-        label: 'Created By',
-        children: (data.createdBy),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '20%'
+            width: '40%'
         }
     },
 ]
