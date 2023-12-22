@@ -28,7 +28,7 @@ export default function FooterContainer (props: IFooterContainerProps) {
         }}
     >
         {/* get this from redux common place */}
-        v0.0.2 
+        v0.0.3 
     </Footer>
   )
 }
