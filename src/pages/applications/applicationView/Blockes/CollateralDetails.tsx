@@ -3,6 +3,7 @@ import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
+import moment from 'moment';
 
 export interface ICollateralDetailsProps {
 }
@@ -1224,16 +1225,6 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },
     {
-        key: 'securityType',
-        label: 'Security Type',
-        children: (data.securityType),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
         key: 'securityCategory',
         label: 'Security Category',
         children: (data.securityCategory),
@@ -1256,7 +1247,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'legalBindingDate',
         label: 'Legal Binding Date',
-        children: (data.legalBindingDate),
+        children: (data.legalBindingDate? moment(data.legalBindingDate)?.format('YYYY-MM-DD'): '-') ,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1316,7 +1307,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'appraisalDate',
         label: 'Appraisal Date',
-        children: (data.appraisalDate),
+        children: (data.appraisalDate? moment(data.appraisalDate)?.format('YYYY-MM-DD'): '-') ,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1376,7 +1367,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'bondDate',
         label: 'Bond Date',
-        children: (data.bondDate),
+        children: (data.bondDate? moment(data.bondDate)?.format('YYYY-MM-DD'): '-') ,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1457,16 +1448,6 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
         key: 'morgType',
         label: 'Morg Type',
         children: (data.morgType),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'createdBy',
-        label: 'Created By',
-        children: (data.createdBy),
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
