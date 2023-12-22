@@ -24,7 +24,7 @@ const getSecurityCat = (code: string) => {
 
 const getSecurityOwnType = (code: string) => {
     // return api.get(`/mobixCamsCommon/v1/vehicle-models/manufacturers/${code}`)
-    return api.get(`/mobixCamsCommon/v1/security-own-types/codes/${code}`)
+    return api.get(`/mobixCamsCommon/v1/security-own-types/${code}`)
 }
 
 const getOwnership = (code: string) => {

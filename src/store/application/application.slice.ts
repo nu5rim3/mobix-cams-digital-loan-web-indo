@@ -278,6 +278,7 @@ export const getAllApplications = createAsyncThunk(
                     let legalBindingType
                     let ownership
                     let certificateType
+                    let morgType
 
                     if(row.securityCategory){
                         securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
@@ -294,13 +295,17 @@ export const getAllApplications = createAsyncThunk(
                     if(row.certificateType){
                         certificateType = await API.commnServices.getCertificateType(row.certificateType)
                     }
+                    if(row.morgType){
+                        morgType = await API.commnServices.getMorgeType(row.morgType)
+                    }
 
                     row.securityCategory =  securityCategory?.data.description?? '-'
                     row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.ownership =  ownership?.data.description?? '-'
+                    row.morgType =   morgType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
-                    row.insuranceOfBuilding = row.insuranceOfBuilding == "Y"? "Yes" : row.insuranceOfBuilding == "N"? "No" : '-'
-                    row.powerOfAttorney = row.powerOfAttorney == "Y"? "Yes" : row.powerOfAttorney == "N"? "No" : '-'
+                    row.insuranceOfBuilding = row.insuranceOfBuilding == "1"? "Yes" : row.insuranceOfBuilding == "0"? "No" : '-'
+                    row.powerOfAttorney = row.powerOfAttorney == "1"? "Yes" : row.powerOfAttorney == "0"? "No" : '-'
                     row.certificateType =   certificateType?.data.description?? '-'
                 }
                 

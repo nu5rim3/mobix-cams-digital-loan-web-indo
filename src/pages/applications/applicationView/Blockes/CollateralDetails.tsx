@@ -938,16 +938,6 @@ const landAndBuildingDtoList: (data: any) => DescriptionsProps['items'] = (data)
         }
     },
     {
-        key: 'createdBy',
-        label: 'Created By',
-        children: (data.createdBy),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
         key: 'ex1',
         label: '',
         children:''
