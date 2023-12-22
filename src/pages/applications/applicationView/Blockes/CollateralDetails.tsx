@@ -78,16 +78,6 @@ const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },
     {
-        key: 'landValue',
-        label: 'Land Value',
-        children: getCurrency(data.landValue),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
         key: 'certificateNo',
         label: 'Certificate No',
         children: data.certificateNo,
@@ -118,23 +108,9 @@ const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },
     {
-        key: 'securityType',
-        label: 'Security Type',
-        children: data.securityType,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
         key: 'securityCategory',
         label: 'Security Category',
-        children: data.securityCategory === "M"
-            ? 'Main Security' 
-            : data.securityCategory === "O"
-            ? 'Other Security'
-            : '-',
+        children: data.securityCategory,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -164,11 +140,7 @@ const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'ownership',
         label: 'Ownership',
-        children: data.ownership == "0"
-            ? 'Own' 
-            : data.ownership == "2"
-            ? 'Third party'
-            : '-',
+        children: data.ownership,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -329,16 +301,6 @@ const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
         key: 'morgType',
         label: 'Morg Type',
         children: data.morgType,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'createdBy',
-        label: 'Created By',
-        children: data.createdBy,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
