@@ -393,16 +393,6 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
         }
     },
     {
-        key: 'currentValue',
-        label: 'Current Value',
-        children: getCurrency(data.currentValue),
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
         key: 'ownerName',
         label: 'Owner Name',
         children: data.ownerName,
@@ -450,16 +440,6 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
         : data.securityCategory == "O" 
         ? 'Other Security'
         : '-',
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'securityType',
-        label: 'Security Type',
-        children: data.securityType,
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -674,46 +654,7 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
             width: '40%'
         }
     },
-    {
-        key: 'createdBy',
-        label: 'Created By',
-        children: data.createdBy,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'creationDate',
-        label: 'Creation Date',
-        children: data.creationDate,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'lastModifiedBy',
-        label: 'Last Modified By',
-        children: data.lastModifiedBy,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
-    {
-        key: 'lastModifiedDate',
-        label: 'Last Modified Date',
-        children: data.lastModifiedDate,
-        labelStyle: {
-            color: '#102C57',
-            fontWeight: 600,
-            width: '40%'
-        }
-    },
+   
     {
         key: 'ex1',
         label: '',
