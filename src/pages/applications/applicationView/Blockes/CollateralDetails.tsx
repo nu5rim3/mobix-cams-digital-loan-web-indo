@@ -691,6 +691,16 @@ const landAndBuildingDtoList: (data: any) => DescriptionsProps['items'] = (data)
         }
     },
     {
+        key: 'certificateType',
+        label: 'Certificate Type',
+        children: (data.certificateType),
+        labelStyle: {
+            color: '#102C57',
+            fontWeight: 600,
+            width: '40%'
+        }
+    },
+    {
         key: 'ownerName',
         label: 'Owner Name',
         children: (data.ownerName),
@@ -955,7 +965,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
     },
     {
         key: 'securityCategory',
-        label: 'securityCategory',
+        label: 'Security Category',
         children: (data.securityCategory),
         labelStyle: {
             color: '#102C57',
