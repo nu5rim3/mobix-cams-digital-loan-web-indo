@@ -275,7 +275,7 @@ export const getAllApplications = createAsyncThunk(
 
                 for(let row of landAndBuilding){
                     let securityCategory
-                    let legalBindingType
+                    // let legalBindingType
                     let ownership
                     let certificateType
                     let morgType
@@ -284,9 +284,9 @@ export const getAllApplications = createAsyncThunk(
                         securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
                     }
 
-                    if(row.legalBindingType){
-                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
-                    }
+                    // if(row.legalBindingType){
+                    //     legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    // }
 
                     if(row.ownership){
                         ownership = await API.commnServices.getOwnership(row.ownership)
@@ -300,7 +300,7 @@ export const getAllApplications = createAsyncThunk(
                     }
 
                     row.securityCategory =  securityCategory?.data.description?? '-'
-                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    // row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.ownership =  ownership?.data.description?? '-'
                     row.morgType =   morgType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
@@ -315,7 +315,7 @@ export const getAllApplications = createAsyncThunk(
 
                 for(let row of landAndBuilding){
                     let securityCategory
-                    let legalBindingType
+                    // let legalBindingType
                     let ownership
                     let certificateType
                     let morgType
@@ -324,9 +324,9 @@ export const getAllApplications = createAsyncThunk(
                         securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
                     }
 
-                    if(row.legalBindingType){
-                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
-                    }
+                    // if(row.legalBindingType){
+                    //     legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    // }
 
                     if(row.ownership){
                         ownership = await API.commnServices.getOwnership(row.ownership)
@@ -340,7 +340,7 @@ export const getAllApplications = createAsyncThunk(
                     }
 
                     row.securityCategory =  securityCategory?.data.description?? '-'
-                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    // row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.ownership =  ownership?.data.description?? '-'
                     row.morgType =   morgType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
@@ -355,7 +355,7 @@ export const getAllApplications = createAsyncThunk(
 
                 for(let row of landAndBuilding){
                     let securityCategory
-                    let legalBindingType
+                    // let legalBindingType
                     let ownership
                     let certificateType
                     let morgType
@@ -364,9 +364,9 @@ export const getAllApplications = createAsyncThunk(
                         securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
                     }
 
-                    if(row.legalBindingType){
-                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
-                    }
+                    // if(row.legalBindingType){
+                    //     legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    // }
 
                     if(row.ownership){
                         ownership = await API.commnServices.getOwnership(row.ownership)
@@ -380,7 +380,7 @@ export const getAllApplications = createAsyncThunk(
                     }
 
                     row.securityCategory =  securityCategory?.data.description?? '-'
-                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    // row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.ownership =  ownership?.data.description?? '-'
                     row.morgType =   morgType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
@@ -395,7 +395,7 @@ export const getAllApplications = createAsyncThunk(
 
                 for(let row of landAndBuilding){
                     let securityCategory
-                    let legalBindingType
+                    // let legalBindingType
                     let ownership
                     let certificateType
                     let morgType
@@ -404,9 +404,9 @@ export const getAllApplications = createAsyncThunk(
                         securityCategory = await API.commnServices.getSecurityCat(row.securityCategory)
                     }
 
-                    if(row.legalBindingType){
-                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
-                    }
+                    // if(row.legalBindingType){
+                    //     legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    // }
 
                     if(row.ownership){
                         ownership = await API.commnServices.getOwnership(row.ownership)
@@ -420,7 +420,7 @@ export const getAllApplications = createAsyncThunk(
                     }
 
                     row.securityCategory =  securityCategory?.data.description?? '-'
-                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    // row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.ownership =  ownership?.data.description?? '-'
                     row.morgType =   morgType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
@@ -438,7 +438,7 @@ export const getAllApplications = createAsyncThunk(
                     let vehicleModel
                     let morgType
                     let certificateType
-                    let legalBindingType
+                    // let legalBindingType
 
                     if(row.vehicleType){
                         vehicleType = await API.commnServices.getVehicleType(row.vehicleType)
@@ -456,15 +456,15 @@ export const getAllApplications = createAsyncThunk(
                         certificateType = await API.commnServices.getCertificateType(row.certificateType)
                     }
 
-                    if(row.legalBindingType){
-                        legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
-                    }
+                    // if(row.legalBindingType){
+                    //     legalBindingType = await API.commnServices.getSecurityOwnType(row.legalBindingType)
+                    // }
 
                     row.vehicleType =  vehicleType?.data.description?? '-'
                     row.vehicleModel =   vehicleModel?.data.description?? '-'
                     row.morgType =   morgType?.data.description?? '-'
                     row.certificateType =   certificateType?.data.description?? '-'
-                    row.legalBindingType =  legalBindingType?.data.description?? '-'
+                    // row.legalBindingType =  legalBindingType?.data.description?? '-'
                     row.titleInsurance = row.titleInsurance == "Y"? "Yes" : row.titleInsurance == "N"? "No" : '-'
                    
                 }

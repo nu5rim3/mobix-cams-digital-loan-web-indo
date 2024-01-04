@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, notification } from 'antd';
 import {InfoCircleOutlined} from '@ant-design/icons'
+import { API } from '../../services/Services';
 
 interface ResetPasswordProps{
     open: boolean,
-    setOpen: any
+    setOpen: any,
+    idx: any
 }
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({
     open,
-    setOpen
+    setOpen,
+    idx
 }) => {
 //   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -23,8 +26,28 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
 
   const handleOk = () => {
     form.validateFields()
-    .then(() => {
-      setConfirmLoading(true);
+    .then(async () => {
+      try{
+        setConfirmLoading(true);
+        const encode = btoa(form.getFieldValue('password'))
+        const save = await API.userServices.resetPassword({
+          "idx": idx,
+          "newPassword": encode,
+          "confirmPassword": encode
+        })
+        notification.success({
+          message: 'Password Reset Successful'
+        })
+        setOpen();
+      }
+      catch(err){
+        notification.error({
+          message: 'Password Reset Failed'
+        })
+      }
+      finally{
+        setConfirmLoading(false);
+      }
     })
     // setTimeout(() => {
     //   setOpen(false);
@@ -33,7 +56,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
   };
 
   const handleCancel = () => {
-    setOpen(false);
+    setOpen();
   };
 
   return (
@@ -67,7 +90,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             // size={screens.xs? 'middle' :'large'}
       >
         <div className='mt-8 mb-14 '>
-          <Form.Item
+          {/* <Form.Item
                     // className={screens.xs? 'w-full' :'w-1/2'}
                     name="password"
                     label="Current Password"
@@ -96,7 +119,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                     // tooltip={{ title: 'Password should contain a digit[0-9], A lower case letter[a-z], An upper case letter[A-Z], one of !@#$%&* characters', icon: <InfoCircleOutlined /> }}
                   >
                     <Input.Password style={{margin: 0}} autoComplete="off"/>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             // className={screens.xs? 'w-full' :'w-1/2'}

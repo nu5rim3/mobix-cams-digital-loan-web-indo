@@ -21,6 +21,7 @@ const UserManagement: React.FC = () =>{
   const [usersLoading, setUsersLoading] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
   const [openPasswordModal, setOpenPasswordModal] = useState<boolean>(false)
+  const [passwordChangeId, setPassswordChangeId] = useState('')
 
   useEffect(() => {
     getCall()
@@ -106,12 +107,20 @@ const UserManagement: React.FC = () =>{
           </Space>
           
           <Space size="middle">
-            <a onClick={() => setOpenPasswordModal(true)}>Change Password {record.name}</a>
+            <a onClick={() => {
+                setOpenPasswordModal(true)
+                setPassswordChangeId(record.userName)
+              }}>Change Password {record.name}</a>
           </Space>
         </>
       ),
     },
   ];
+
+  const closeResetPassword = () => {
+    setOpenPasswordModal(false)
+    setPassswordChangeId('')
+  }
 
   return (
     <div>
@@ -122,7 +131,7 @@ const UserManagement: React.FC = () =>{
           title='User Management'
         />
       </BreadCrumbContainer>
-      <ResetPassword open={openPasswordModal} setOpen={setOpenPasswordModal}/>
+      <ResetPassword key={passwordChangeId} open={openPasswordModal} setOpen={closeResetPassword} idx={passwordChangeId}/>
 
       <ContentContainer >
             <Title 

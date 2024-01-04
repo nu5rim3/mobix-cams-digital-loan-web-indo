@@ -19,12 +19,17 @@ const updateUser = (data:any, id: string) => {
     return api.put(`/mobixCamsCommon/v1/users/${id}`, data)
 }
 
+const resetPassword = (data:any) => {
+    return api.post(`/mobixCamsCommon/v1/users/reset-passwords`, data)
+}
+
 
 
 export default {
     getAllUsers,
     getUserById,
     addUser,
-    updateUser
+    updateUser,
+    resetPassword
 }
 

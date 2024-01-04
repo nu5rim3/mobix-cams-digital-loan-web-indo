@@ -1143,6 +1143,11 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
             width: '40%'
         }
     },
+    {
+        key: 'ex1',
+        label: '',
+        children:''
+    }
 ]
 
 const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
