@@ -8,7 +8,7 @@ const getSectorByCode = (code: string) => {
 }
 
 const getSubSectorByCode = (code: string) => {
-    return api.get(`/mobixCamsCommon/v1/sub-sectors//${code}`)
+    return api.get(`/mobixCamsCommon/v1/sub-sectors/${code}`)
 }
 
 export default {

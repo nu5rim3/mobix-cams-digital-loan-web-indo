@@ -36,7 +36,13 @@ const getCertificateType = (code: string) => {
     // return api.get(`/mobixCamsCommon/v1/vehicle-models/manufacturers/${code}`)
     return api.get(`/mobixCamsCommon/v1/certificate-types/${code}`)
 }
-
+const getAllReasons = () => {
+    return api.get('/mobixCamsCommon/v1/reasons')
+}
+const getReasonByCode = (code: string) => {
+   
+    return api.get(`/mobixCamsCommon/v1/reasons/${code}`)
+}
 
 
 export default {

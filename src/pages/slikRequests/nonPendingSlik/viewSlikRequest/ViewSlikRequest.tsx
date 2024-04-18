@@ -42,7 +42,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     if (initialData) {
       form.setFieldsValue({
         ...initialData,
-        status: initialData.status === 'INPG' ? null : initialData.status
+        status: initialData.status === 'C' ? null : initialData.status
       })
     }
   }, [initialData])
@@ -159,68 +159,108 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     },
   ];
 
-  const saveSlickRequest = async (e: any) => {
-    try {
-      setAllLoading(true)
-      const data = {
-        slkIdx: id,
-        appraisalId: initialData.appraisalId,
-        batchNumber: initialData.batchNumber,
-        customerName: initialData.customerName,
-        customerKTP: initialData.customerKTP,
-        slkStatus: e.status,
-        status: initialData.status,
-        callVerStatus: initialData.callVerStatus,
-        appraisalType: initialData.appraisalType,
-        centerCode: initialData.centerCode,
-        fusionCenterCode: initialData.fusionCenterCode,
-        groupIdx: initialData.groupIdx,
-        kol1: e.kol1,
-        kol2_5: e['kol-2-5'],
-        otherFacilityCount: e.otherFacilityCount,
-        totalLoanAmounts: e.totalLoanAmounts,
-        writeOff: e.writeOff,
-        totalOutstanding: e.totalOutstanding,
-        lovi: e.lovi,
-        comment:e.comment
+  const slikItems: DescriptionsProps['items'] = [
+    {
+      key: '1',
+      label: 'Slik Status',
+      children: initialData ?.fusionCenterCode,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
       }
+    },
+    {
+      key: '2',
+      label: 'KOL 1',
+      children: initialData ?.kol1,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '3',
+      label: 'Other Active Facilities Count',
+      children: initialData ?.otherFacilityCount,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '4',
+      label: 'KOL 2-5',
+      children: initialData ?.kol - 2 - 5,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '5',
+      label: 'Total Plafon/ Total Loan Amounts',
+      children: initialData ?.totalLoanAmounts,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '6',
+      label: 'Write Off',
+      children: initialData ?.writeOff,
+      // children: formatAddress({
+      //   address1: initialData ?.addLine1,
+      //   address2: initialData ?.addLine2,
+      //   address3: initialData ?.addLine3,
+      //   // address4 :initialData.address4
+      // }),
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '7',
+      label: 'Total Outstanding',
+      children: initialData ?.totalOutstanding,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '8',
+      label: 'LOVI',
+      children: initialData ?.lov1,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '9',
+      label: 'Comment',
+      children: initialData ?.comment,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+  ];
 
-      if (id) {
-        const user = await API.slikServices.updateSlik({ slikId: id, data: data })
-        notification.success({
-          message: 'Slik request updated successfully'
-        })
-        navigate('/indo-digital-loan/auth/slikRequest')
-      }
-    }
-    catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error;
-        // You can access error.response for details about the HTTP response, e.g., status code and data
-        if (axiosError.response) {
-          const { status, data } = axiosError.response;
-          notification.error({
-            message: data.message || 'An error occurred during the request.'
-          })
-        } else {
-          // Set a generic network error message
-          notification.error({
-            message: 'An error occurred. Please try again later.'
-          })
-        }
-      }
-      else {
-        // Handle non-Axios errors
-        notification.error({
-          message: 'There was an error processing your request.'
-        })
-      }
-    }
-    finally {
-      setAllLoading(false)
-    }
 
-  }
+
+
 
   return (
     <div>
@@ -251,28 +291,33 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
           />
         </ContentContainer>
         <ContentContainer>
-          <Title
+           <Title
             level={5}
             title='SLIK Request Update'
+          /> 
+          <Descriptions
+            // bordered
+            title={
+              <Title
+                level={5}
+
+              />
+            }
+            column={
+              2
+            }
+            items={slikItems}
+            size='small'
           />
-          <div
+          {/* <div
             className='border-l-current border-r-current mt-5'
-          >
-            <Form
+          > */}
+          {/* <Form
               form={form}
               name="slikUpdate"
               layout='vertical'
               scrollToFirstError
-              onFinish={(e) => saveSlickRequest(e)}
-              // onFieldsChange={(e:any)=> {
-              //   if(e[0]?.name[0] == "roles"){
-              //     if((e[0]?.value.includes('MFO') || e[0]?.value.includes('CSA'))){
-              //       setShowMeCode(true)
-              //     }else{
-              //       setShowMeCode(false)
-              //     }
-              //   }
-              // }}
+         
               wrapperCol={{ span: 20 }}
             // size={screens.xs? 'middle' :'large'}
             >
@@ -329,7 +374,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                     fontWeight: 600,
                   }}
                 >
-                  <Input />
+                  <Input disabled/>
                 </Form.Item>
 
               </div>
@@ -347,7 +392,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                     fontWeight: 600,
                   }}
                 >
-                  <Input type='number' />
+                  <Input type='number' disabled />
                 </Form.Item>
 
                 <Form.Item
@@ -358,7 +403,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                     fontWeight: 600,
                   }}
                 >
-                  <Input />
+                  <Input   disabled/>
                 </Form.Item>
               </div>
 
@@ -376,7 +421,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                   }}
 
                 >
-                  <InputNumber
+                  <InputNumber disabled
                     style={{ margin: 0 }}
                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     className='w-full'
@@ -391,7 +436,10 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                     fontWeight: 600,
                   }}
                 >
-                  <Input />
+                  <Input    style={{
+                    fontWeight: 600,
+                  }}
+                   disabled/>
                 </Form.Item>
               </div>
 
@@ -445,26 +493,9 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
 
 
               </div>
-              <div className='flex justify-center p-10 w-full'>
-                <Button htmlType="reset"
-                  shape="round"
-                  size='large'
-                  className='mr-3'
-                >Reset</Button>
-                <Button
-                  htmlType="submit"
-                  type='primary'
-                  shape="round"
-                  size='large'
-                  loading={addLoading}
-                  disabled={selectedRole === 'ADMIN'}
-                >
-                  Save
-              </Button>
-
-              </div>
-            </Form>
-          </div>
+          
+            </Form> */}
+          {/* </div> */}
         </ContentContainer>
       </Space>
 

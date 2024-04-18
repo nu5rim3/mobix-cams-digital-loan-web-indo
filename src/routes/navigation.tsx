@@ -10,6 +10,7 @@ import UserManagement from '../pages/userManagement/UserManagement';
 import UserForm from '../pages/userManagement/UserForm';
 import SlikRequests from '../pages/slikRequests/SlikRequests';
 import UpdateSlikRequest from '../pages/slikRequests/nonPendingSlik/updateSlikRequest/UpdateSlikRequest';
+import ViewSlikRequest from '../pages/slikRequests/nonPendingSlik/viewSlikRequest/ViewSlikRequest';
 import Applications from '../pages/applications/Applications';
 import ApplicationView from '../pages/applications/applicationView/ApplicationView';
 import Applications2ndStep from '../pages/applications/Applications2ndStep';
@@ -160,6 +161,13 @@ const sidebarMenu: MenuItem[] = [
                 key: '/updateSlik/:id',
                 visibleInMenu: false,
                 component: UpdateSlikRequest,
+            },
+                        {
+                type: "LINK",
+                path:'/slikRequest/viewSlik/:id',
+                key: '/viewSlik/:id',
+                visibleInMenu: false,
+                component: ViewSlikRequest,
             },
         ],
     },

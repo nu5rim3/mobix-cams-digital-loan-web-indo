@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
@@ -12,10 +12,10 @@ export interface IIndividualUpdateProps {
   searchText: string
 }
 
-export default function IndividualUpdate ({
+export default function IndividualUpdate({
   searchText
 }: IIndividualUpdateProps) {
-  
+
   const {
     slikRequestsIndividualData,
   } = useSelector((state: any) => state.SlikRequest)
@@ -43,75 +43,86 @@ export default function IndividualUpdate ({
       key: 'customerName',
       filteredValue: [searchText],
       render: (text, record) => (
-        <>{record.slikDto?.customerName}</>
+        <>{ record.slikDto ?.customerName}</>
       ),
-      onFilter: (value, record) => {
-        return record?.slikDto?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+  onFilter: (value, record) => {
+    return record ?.slikDto ?.customerName ?.toLowerCase() ?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       }
-    },
-    {
-      title: 'NIK',
-      dataIndex: 'customerKTP',
+},
+{
+  title: 'NIK',
+    dataIndex: 'customerKTP',
       key: 'customecustomerKTPrName',
-      render: (text, record) => (
-        <>{record.slikDto?.customerKTP}</>
+        render: (text, record) => (
+        <>{ record.slikDto ?.customerKTP}</>
       )
-    },
-    {
-      title: 'Family C.NO',
-      dataIndex: 'familyCard',
+},
+{
+  title: 'Family C.NO',
+    dataIndex: 'familyCard',
       key: 'familyCard',
     },
-    {
-      title: 'Residential Address',
-      dataIndex: 'address',
+{
+  title: 'Customer Type',
+    dataIndex: 'clienteleType',
+      key: 'clienteleType'
+},
+{
+  title: 'Residential Address',
+    dataIndex: 'address',
       key: 'address',
-      render: (text, record) => (
-        <>{ formatAddress({
-          address1 :record.addLine1,
-          address2: record.addLine2,
-          address3: record.addLine3
-      })}</>
+        render: (text, record) => (
+        <>{
+            formatAddress({
+          address1: record.addLine1,
+              address2: record.addLine2,
+              address3: record.addLine3
+      })
+          }</>
       )
-    },
-    {
-      title: 'BR Name',
-      dataIndex: 'brName',
+},
+{
+  title: 'BR Name',
+    dataIndex: 'brName',
       key: 'brName',
     },
-    {
-      title: 'Contact No',
-      dataIndex: 'cltContact1',
+{
+  title: 'Contact No',
+    dataIndex: 'cltContact1',
       key: 'cltContact1',
     },
-    {
-      title: 'Batch No',
-      dataIndex: 'batchNumber',
+{
+  title: 'Batch No',
+    dataIndex: 'batchNumber',
       key: 'batchNumber',
-      render: (text, record) => (
-        <Input
-          // value={text} // This value should be connected to your data
-          disabled={selectedRole === 'ADMIN'}
-          onChange={(e) => {
-            // Handle input changes here and update your data
-            // e.target.value contains the new value of the input field
-            setAbleData(false)
-            const newValue = e.target.value;
-            const newData = slikRequestsIndividualData.data?.map((row:any) => {
-              if(record.slikDto.slkIdx == row.slikDto.slkIdx){
-                return {
-                  ...row,
-                  batchNumber : newValue
+        render: (text, record) => (
+          <Input
+            // value={text} // This value should be connected to your data
+            disabled={selectedRole === 'ADMIN'}
+            readOnly={record.slikDto.clienteleType == 'SPOUSE' || record.slikDto.clienteleType == 'GUARANTOR'}
+            onChange={(e) => {
+              // Handle input changes here and update your data
+              // e.target.value contains the new value of the input field
+              setAbleData(false)
+              const newValue = e.target.value;
+              const newData = slikRequestsIndividualData.data ?.map((row: any) => {
+
+                if (record.slikDto.slkIdx == row.slikDto.slkIdx) {
+
+                  return {
+                    ...row,
+                    batchNumber: newValue
+                  }
+                } else {
+                  return row
                 }
-              }else{
-                return row
-              }
-            })
+
+              })
             actions.editIndividualData(newData)
-            // You can update the data array or state here
-          }}
-        />
-      ),
+              // You can update the data array or state here
+            }}
+          />
+        ),
     },
     // {
     //   title: 'Action',
@@ -124,65 +135,66 @@ export default function IndividualUpdate ({
     // },
   ];
 
-  const getIndividualData = () => {
-      actions.getSlikByIndividual({
-        userId: userData.data?.idx,
-        branchCode: userData.data?.branches[0]?.code,
-        status: 'P',
-        type: "IL"
-      })
-  }
+const getIndividualData = () => {
+  actions.getSlikByIndividual({
+    userId: userData.data ?.idx,
+    branchCode: userData.data ?.branches[0] ?.code,
+    status: 'P',
+    type: "IL"
+  })
+}
 
-  useEffect(() => {
-      getIndividualData()
-  },[])
+useEffect(() => {
+  getIndividualData()
+}, [])
 
-  const uploadData = async () => {
-    try{
-      setLoading(true)
-      const data = slikRequestsIndividualData?.data
-        ?.filter((row:any) => row.batchNumber)
-        ?.map((row:any) => {
+const uploadData = async () => {
+  try {
+    setLoading(true)
+    const data = slikRequestsIndividualData ?.data
+      ?.filter((row: any) => row.batchNumber)
+        ?.map((row: any) => {
           return {
             ...row.slikDto,
-            batchNumber : row.batchNumber
+            batchNumber: row.batchNumber
           }
         })
-      const response = await API.slikServices.updateSlikBulck(data)
-      notification.success({
-          message: 'Batches Updated Successfully'
-      })
-      getIndividualData()
-    }
-    catch(err){
-
-    }finally{
-      setLoading(false)
-    }
+         
+    const response = await API.slikServices.updateSlikBulck(data)
+    notification.success({
+      message: 'Batches Updated Successfully'
+    })
+    getIndividualData()
   }
+  catch (err) {
 
-  return (
-    <div
-         className='border-l-current border-r-current'
-    >
-        <FPaginatedTable 
-            loading={slikRequestsIndividualData.fetching}
-            rowKey={'slkIdx'}
-            columns={columns} 
-            dataSource={slikRequestsIndividualData.data || []}
-        />
-        
-        <div className='flex justify-center p-10 w-full'>
-          <Button 
-            onClick={uploadData} 
-            loading={loading}
-            type='primary'
-            shape="round"
-            size='large'
-            label='Update Batch'
-            disabled={ableUpdate ||  selectedRole === 'ADMIN'}
-          />
-      </div>
+  } finally {
+    setLoading(false)
+  }
+}
+
+return (
+  <div
+    className='border-l-current border-r-current'
+  >
+    <FPaginatedTable
+      loading={slikRequestsIndividualData.fetching}
+      rowKey={'slkIdx'}
+      columns={columns}
+      dataSource={slikRequestsIndividualData.data || []}
+    />
+
+    <div className='flex justify-center p-10 w-full'>
+      <Button
+        onClick={uploadData}
+        loading={loading}
+        type='primary'
+        shape="round"
+        size='large'
+        label='Update Batch'
+        disabled={ableUpdate || selectedRole === 'ADMIN'}
+      />
     </div>
-  );
+  </div>
+);
 }

@@ -16,15 +16,15 @@ import { API } from '../../../services/Services';
 export interface INonPendingSlikProps {
 }
 
-export default function NonPendingSlik (props: INonPendingSlikProps) {
-  
+export default function NonPendingSlik(props: INonPendingSlikProps) {
+
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
   const [searchBranch, setSearchBrach] = useState<string>('')
   const [branch, setBranch] = useState<any[]>([])
   const [showBranch, setShowBranch] = useState()
 
-  
+
   const {
     selectedStatus,
     slikRequestsData,
@@ -34,7 +34,7 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
     userData,
     selectedRole
   } = useSelector((state: any) => state.AppData)
-  
+
   const columnsInProgress: ColumnsType<any> = [
     {
       title: 'Center',
@@ -56,13 +56,18 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'customerName',
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+        return record ?.customerName ?.toLowerCase() ?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       }
     },
     {
       title: 'NIK',
       dataIndex: 'customerKTP',
       key: 'customecustomerKTPrName',
+    },
+    {
+      title: 'Customer Type',
+      dataIndex: 'clienteleType',
+      key: 'clienteleType'
     },
     {
       title: 'Family C.NO',
@@ -115,13 +120,18 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       key: 'customerName',
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return record?.customerName?.toLowerCase()?.includes(typeof(value) == 'string'? value.toLowerCase(): value)
+        return record ?.customerName ?.toLowerCase() ?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       }
     },
     {
       title: 'NIK',
       dataIndex: 'customerKTP',
       key: 'customecustomerKTPrName',
+    },
+    {
+      title: 'Customer Type',
+      dataIndex: 'clienteleType',
+      key: 'clienteleType'
     },
     {
       title: 'Family C.NO',
@@ -143,20 +153,29 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
       dataIndex: 'batchNumber',
       key: 'batchNumber',
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => navigate(`/indo-digital-loan/auth/slikRequest/viewSlik/${record.slkIdx}`)}>View {record.name}</a>
+        </Space>
+      ),
+    },
   ];
 
   const getRequestData = () => {
-    if(!(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')){
+    if (!(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')) {
       return actions.getSlikRequests({
-        userId: userData.data?.idx,
-        branchCode: userData.data?.branches[0]?.code,
+        userId: userData.data ?.idx,
+        branchCode: userData.data ?.branches[0] ?.code,
       })
-    }else if(selectedBranch){
-      setShowBranch( branch.find((branch:any) => {
+    } else if (selectedBranch) {
+      setShowBranch(branch.find((branch: any) => {
         return branch.code == selectedBranch
-      })?.description || userData.data?.branches[0]?.description)
+      }) ?.description || userData.data ?.branches[0] ?.description)
       return actions.getSlikRequests({
-        userId: userData.data?.idx,
+        userId: userData.data ?.idx,
         branchCode: selectedBranch,
       })
     }
@@ -170,76 +189,76 @@ export default function NonPendingSlik (props: INonPendingSlikProps) {
   useEffect(() => {
     getRequestData()
     getBranchData()
-  },[selectedStatus])  
+  }, [selectedStatus])
 
   return (
     <div>
-        <Title 
-          style={{margin: 1}} 
-          level={5}
-          title='Search Items'
-        />
+      <Title
+        style={{ margin: 1 }}
+        level={5}
+        title='Search Items'
+      />
 
       <div className='flex mt-1 mb-3 items-center '>
-      {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
+        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU') ?
           <>
           <Select
-              className='mr-2 '
-              size={'large'}
-              allowClear
-              onChange={(value) => {
-                actions.SRSetBranch(value)
-              }}
-              showSearch
-              value={selectedBranch}
-              style={{ width: 200 }}
-              placeholder='Select A Branch'
-              filterOption={(input, option) => (option?.label?.toLowerCase() ?? '').includes(input)}
-              options={
-                branch.length?
-                branch?.map((branch:any) =>{
+            className='mr-2 '
+            size={'large'}
+            allowClear
+            onChange={(value) => {
+              actions.SRSetBranch(value)
+            }}
+            showSearch
+            value={selectedBranch}
+            style={{ width: 200 }}
+            placeholder='Select A Branch'
+            filterOption={(input, option) => (option ?.label ?.toLowerCase() ?? '').includes(input)}
+            options={
+              branch.length ?
+                branch ?.map((branch: any) => {
                   return ({
                     value: branch.code,
                     label: branch.description,
                   })
                 })
-                : []
+                  : []
             }
           />
           </>
         : null}
         <Search
-          onChange={(value:any) => setSearchText(value)}
+          onChange={(value: any) => setSearchText(value)}
           className={'pb-0'}
         />
-        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')?
+        {(selectedRole == 'ADMIN' || selectedRole == 'SLIKU') ?
           <>
-          <ButtonContainer 
+          <ButtonContainer
             disabled={!selectedBranch}
-            type='primary' 
-            label='Search' 
-            size='large' 
+            type='primary'
+            label='Search'
+            size='large'
             className='ml-3'
             onClick={() => {
               getRequestData()
-          }}/>
+            }} />
           </>
         : null}
       </div>
 
-        <div
-         className='border-l-current border-r-current'
-        >
-          <FPaginatedTable 
-            loading={slikRequestsData.fetching}
-            rowKey={'slkIdx'}
-            columns={selectedStatus === 'inprogress'? columnsInProgress : columnsCompleted} 
-            dataSource={
-              selectedStatus === 'inprogress'
-              ? slikRequestsData.data.filter((data:any) => data.status == "INPG")
-              : slikRequestsData.data.filter((data:any) => data.status == "C" || data.status == "A") || []}
-          />
-        </div>
+      <div
+        className='border-l-current border-r-current'
+      >
+        <FPaginatedTable
+          loading={slikRequestsData.fetching}
+          rowKey={'slkIdx'}
+          columns={selectedStatus === 'inprogress' ? columnsInProgress : columnsCompleted}
+          dataSource={
+            selectedStatus === 'inprogress'
+              ? slikRequestsData.data.filter((data: any) => data.status == "INPG")
+              : slikRequestsData.data.filter((data: any) => data.status == "C" || data.status == "A") || []}
+        />
+      </div>
     </div>
   );
 }
