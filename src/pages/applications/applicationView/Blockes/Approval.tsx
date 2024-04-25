@@ -280,7 +280,7 @@ export default function Approval({
           // style={{ maxWidth: 600 }}
           >
             {
-              roleWiseApproval.length && reasons.length > 0 && (selectedRole === 'ADMIN' || selectedRole === 'RM') ?
+              roleWiseApproval.length && reasons.length > 0 && (selectedRole === 'ADMIN' || selectedRole === 'CA') ?
                 <Form.Item
 
                   name="reason"
