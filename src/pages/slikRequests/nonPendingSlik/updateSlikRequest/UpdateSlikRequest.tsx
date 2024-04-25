@@ -182,7 +182,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         writeOff: e.writeOff,
         totalOutstanding: e.totalOutstanding,
         lovi: e.lovi,
-        comment:e.comment
+        slkComment:e.comment
       }
 
       if (id) {

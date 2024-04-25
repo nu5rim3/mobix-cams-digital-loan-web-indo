@@ -1,6 +1,7 @@
 import userServices from './common/user/api'
 import branchServices from './common/branch/api'
 import roleServices from './common/role/api'
+import reasonServices from './common/reason/api'
 import marketeerServices from './common/Marketeers/api'
 import slikServices from './credit/sliks/api'
 import appraisalsServices from './loan/appraisals/api'
@@ -23,6 +24,7 @@ export const API = {
     userServices,
     branchServices,
     roleServices,
+    reasonServices,
     marketeerServices,
     slikServices,
     appraisalsServices,

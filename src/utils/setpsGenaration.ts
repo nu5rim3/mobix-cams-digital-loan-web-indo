@@ -15,7 +15,7 @@ export  const genarateStepAction = (type: string, selectedRole: string, isSecond
     if(type == 'Approve' && (selectedRole === 'BOD1' || selectedRole === 'BOD2')){
       return 'PROCEED'
     }
-    if(type == 'Approve' && (selectedRole === 'BM') && !isSecondMeeting){
+    if(type == 'Approve' && (selectedRole === 'BM' || selectedRole === 'AM' || selectedRole === 'RM') && !isSecondMeeting){
       return 'AP'
     }
     if(type == 'Approve'){

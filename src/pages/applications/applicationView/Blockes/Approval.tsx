@@ -1,4 +1,4 @@
-import { Divider,Select, Form, Table, Tag, notification } from 'antd';
+import { Divider, Select, Form, Table, Tag, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useEffect, useState } from 'react';
 import ButtonContainer from '../../../../components/Buttons/Button';
@@ -33,11 +33,11 @@ export default function Approval({
 
   const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([])
   const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false)
-
+  const [reasons, setReasons] = useState<any[]>([])
   useEffect(() => {
     if (selectedRole) {
       if (selectedRole === 'CSA') {
-        return setRoleWiseApproval(['Return', 'Verifed'])
+        return setRoleWiseApproval(['Return', 'Verified'])
       }
       if (selectedRole === 'CA') {
         return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
@@ -128,9 +128,10 @@ export default function Approval({
         message: 'Please Upload Image to continue'
       })
     }
-    form.validateFields(['comment'])
+    form.validateFields(['comment', 'reason'])
       .then(async () => {
         try {
+
           setAddingData(type)
           let data
 
@@ -143,7 +144,8 @@ export default function Approval({
               loanProduct: financialDetails.data.pTrhdLType,
               loanAmount: financialDetails.data.pTrhdLocCost,
               loanTerm: financialDetails.data.pTrhdTerm,
-              comment: form.getFieldValue('comment')
+              comment: form.getFieldValue('comment'),
+              reason: form.getFieldValue('reason')
             }
           } else {
             data = {
@@ -158,6 +160,7 @@ export default function Approval({
               lastModifiedBy: userData.data.idx,
               createdBy: userData.data.idx,
               creationDate: moment().toISOString(),
+              reason: form.getFieldValue('reason')
             }
           }
 
@@ -226,6 +229,42 @@ export default function Approval({
     }
   }, [approvalSteps.data ?.secondMeetingApprovalStepDtoList])
 
+  const getValues = async () => {
+    try {
+
+
+      // const allReasons = await API.reasonServices.getAllReasons()
+      // setReasons(allReasons.data)
+      // console.log("reasons ", reasons)
+      // console.log("reasons.data ", reasons[0].code)
+      if (approvalSteps.data) {
+
+        // const reasonCode = approvalSteps.data.approvalStepDtoList ?.map((reason: any) => reason.code)
+        //   form.setFieldsValue({
+
+        //     reason: reasonCode,
+
+        //   })
+
+
+      }
+    } catch (err) {
+      console.log("err", err)
+    }
+  }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const allReasons = await API.reasonServices.getAllReasons();
+      setReasons(allReasons.data);
+    };
+
+
+    fetchData();
+
+
+  }, [approvalSteps.data ?.approvalStepDtoList,selectedRole])
   return (
     <div>
       {
@@ -241,11 +280,37 @@ export default function Approval({
           // style={{ maxWidth: 600 }}
           >
             {
-              roleWiseApproval.length  && selectedRole==='RM' ?
-                <Select >
-                  <Select.Option value="reason">Reason</Select.Option>
-                </Select>
+              roleWiseApproval.length && reasons.length > 0 && (selectedRole === 'ADMIN' || selectedRole === 'RM') ?
+                <Form.Item
 
+                  name="reason"
+                  label="Reasons"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                  style={{
+                    fontWeight: 600,
+                  }}
+                >
+                  <Select
+                    showSearch
+                  >
+                    {
+                      reasons ?.map((option: any, index) => (
+
+                        < Select.Option
+                          value={option.code}
+                          key={index.toString()}
+                        >
+                          {option.description}
+                        </Select.Option>
+
+                      ))
+                }
+                  </Select>
+                </Form.Item>
                 : null}
             {
               roleWiseApproval.length ?
@@ -280,8 +345,8 @@ export default function Approval({
           <Divider />
           </>
       : null
-      }
-      <div className='mt-5'>
+}
+<div className='mt-5'>
         <Title
           level={5}
           title='Application History'
@@ -312,6 +377,6 @@ export default function Approval({
           />
         </div>
       </div>
-    </div>
+    </div >
   );
 }
