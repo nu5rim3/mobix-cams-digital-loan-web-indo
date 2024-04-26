@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { API } from '../../../../services/Services';
 import axios from 'axios';
 import formatAddress from '../../../../utils/getAddressByObjects';
-
+import genarateSlikStatus from '../../../../utils/slikStatus';
 export interface IUpdateSlikRequestProps {
 }
 
@@ -163,7 +163,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '1',
       label: 'Slik Status',
-      children: initialData ?.slkStatus,
+      children: genarateSlikStatus(initialData ?.slkStatus),
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -256,6 +256,26 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         width: '40%'
       }
     },
+    {
+      key: '9',
+      label: 'Comment',
+      children: initialData ?.slkComment,
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
+    {
+      key: '10',
+      label: '',
+      children: '',
+      labelStyle: {
+        color: '#102C57',
+        fontWeight: 600,
+        width: '40%'
+      }
+    },
   ];
 
 
@@ -291,10 +311,10 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
           />
         </ContentContainer>
         <ContentContainer>
-           <Title
+          <Title
             level={5}
             title='SLIK Request Update'
-          /> 
+          />
           <Descriptions
             // bordered
             title={

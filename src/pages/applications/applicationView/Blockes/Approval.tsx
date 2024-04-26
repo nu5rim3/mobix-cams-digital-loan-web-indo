@@ -229,30 +229,6 @@ export default function Approval({
     }
   }, [approvalSteps.data ?.secondMeetingApprovalStepDtoList])
 
-  const getValues = async () => {
-    try {
-
-
-      // const allReasons = await API.reasonServices.getAllReasons()
-      // setReasons(allReasons.data)
-      // console.log("reasons ", reasons)
-      // console.log("reasons.data ", reasons[0].code)
-      if (approvalSteps.data) {
-
-        // const reasonCode = approvalSteps.data.approvalStepDtoList ?.map((reason: any) => reason.code)
-        //   form.setFieldsValue({
-
-        //     reason: reasonCode,
-
-        //   })
-
-
-      }
-    } catch (err) {
-      console.log("err", err)
-    }
-  }
-
 
   useEffect(() => {
     const fetchData = async () => {
