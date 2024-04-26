@@ -1,5 +1,4 @@
-export const genarateSlikStatus = (status: string) => {
-
+export default function genarateSlikStatus(status: string): string {
     if (status == 'C') {
         return 'Claimable'
     } else if (status == 'OK') {
