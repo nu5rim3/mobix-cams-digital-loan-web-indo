@@ -31,9 +31,10 @@ export default function Approval({
     userData
   } = useSelector((state: any) => state.AppData)
 
-  const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([])
-  const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false)
-  const [reasons, setReasons] = useState<any[]>([])
+  const [roleWiseApproval, setRoleWiseApproval] = useState<any[]>([]);
+  const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false);
+  const [reasons, setReasons] = useState<any[]>([]);
+  const [cycleNo, setCycleNo] = useState('');
   useEffect(() => {
     if (selectedRole) {
       if (selectedRole === 'CSA') {
@@ -123,7 +124,7 @@ export default function Approval({
         message: 'Please save the updated Financial Approval to continue.'
       })
     }
-    if ((selectedRole === 'CA' || selectedRole == 'BM') && !fileList.length && (type === 'Recommend' || type === 'Approve')) {
+    if (((selectedRole === 'CA' && cycleNo < 2) || selectedRole == 'BM') && !fileList.length && (type === 'Recommend' || type === 'Approve')) {
       return notification.warning({
         message: 'Please Upload Image to continue'
       })
@@ -145,9 +146,11 @@ export default function Approval({
               loanAmount: financialDetails.data.pTrhdLocCost,
               loanTerm: financialDetails.data.pTrhdTerm,
               comment: form.getFieldValue('comment'),
-              reason: form.getFieldValue('reason')
+              reason: form.getFieldValue('reason').value,
+              reasonDesc: form.getFieldValue('reason').label
             }
           } else {
+
             data = {
               appraisalIdx: customerData.data.appraisalId,
               stepStatus: genarateStepStatus(type, selectedRole),
@@ -160,35 +163,36 @@ export default function Approval({
               lastModifiedBy: userData.data.idx,
               createdBy: userData.data.idx,
               creationDate: moment().toISOString(),
-              reason: form.getFieldValue('reason')
+              reason: form.getFieldValue('reason').value,
+              reasonDesc: form.getFieldValue('reason').label
             }
           }
 
           const processedFiles = [];
+          if (selectedRole === 'CA' && cycleNo < 2) {
+            for (const file of fileList) {
+              let base64
+              // = file.preview
+              // if(!base64){
+              base64 = await fileToBase64Async(file.originFileObj);
+              // }
 
-          for (const file of fileList) {
-            let base64
-            // = file.preview
-            // if(!base64){
-            base64 = await fileToBase64Async(file.originFileObj);
-            // }
+              const processedFile = {
+                stkIdx: customerData.data.cusIdx,
+                cltIdx: customerData.data.cltIdx,
+                centerIdx: customerData.data.centerIdx,
+                appraisalIdx:
+                customerData.data.appraisalId,
+                imgMasterCategory: "APPROVAL_FLOW",
+                imgSubCategory: selectedRole === 'CA' ? "CA_LEVEL" : "BM_LEVEL",
+                imgOriginalName: file.name,
+                imgContentType: file.type,
+                image: base64,
+              };
 
-            const processedFile = {
-              stkIdx: customerData.data.cusIdx,
-              cltIdx: customerData.data.cltIdx,
-              centerIdx: customerData.data.centerIdx,
-              appraisalIdx:
-              customerData.data.appraisalId,
-              imgMasterCategory: "APPROVAL_FLOW",
-              imgSubCategory: selectedRole === 'CA' ? "CA_LEVEL" : "BM_LEVEL",
-              imgOriginalName: file.name,
-              imgContentType: file.type,
-              image: base64,
-            };
-
-            processedFiles.push(processedFile);
+              processedFiles.push(processedFile);
+            }
           }
-
           const newData = {
             ...data,
             documents: processedFiles
@@ -197,6 +201,7 @@ export default function Approval({
           if (isSecondMeeting) {
             const save = await API.approvalServices.createScondMeetingStep(newData)
           } else {
+
             const save = await API.approvalServices.createStep(newData)
           }
 
@@ -223,8 +228,11 @@ export default function Approval({
   useEffect(() => {
     const BMStatus = approvalSteps.data ?.secondMeetingApprovalStepDtoList ?.
       find((row: any) => row.secondMeetingCurrentRole == "BM") ?.secondMeetingStepStatus
+    
+    const cycleNo = approvalSteps.data ?.approvalStepDtoList[0] ?.cycleNo;
+    setCycleNo(cycleNo);
 
-      if(BMStatus === 'PENDING') {
+    if (BMStatus === 'PENDING') {
       setIsSecondMeeting(true)
     }
   }, [approvalSteps.data ?.secondMeetingApprovalStepDtoList])
@@ -272,6 +280,7 @@ export default function Approval({
                 >
                   <Select
                     showSearch
+                    labelInValue
                   >
                     {
                       reasons ?.map((option: any, index) => (
