@@ -163,7 +163,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '1',
       label: 'Slik Status',
-      children: initialData ?.fusionCenterCode,
+      children: initialData ?.slkStatus,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -193,7 +193,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '4',
       label: 'KOL 2-5',
-      children: initialData ?.kol - 2 - 5,
+      children: initialData ?.kol2_5,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -239,7 +239,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '8',
       label: 'LOVI',
-      children: initialData ?.lov1,
+      children: initialData ?.lovi,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -249,7 +249,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '9',
       label: 'Comment',
-      children: initialData ?.comment,
+      children: initialData ?.slkComment,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,

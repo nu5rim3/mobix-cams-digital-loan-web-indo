@@ -417,7 +417,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
 
                 <Form.Item
                   className={screens.xs ? 'w-full' : 'w-1/2'}
-                  name="lov1"
+                  name="lovi"
                   label="LOVI"
                   style={{
                     fontWeight: 600,
