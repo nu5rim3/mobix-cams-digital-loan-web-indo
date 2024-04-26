@@ -260,7 +260,7 @@ export default function Approval({
                 <Form.Item
 
                   name="reason"
-                  label="Reasons"
+                  label="Reason"
                   rules={[
                     {
                       required: true,

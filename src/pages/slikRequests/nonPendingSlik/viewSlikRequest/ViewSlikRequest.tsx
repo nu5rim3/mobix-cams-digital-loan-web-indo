@@ -256,16 +256,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         width: '40%'
       }
     },
-    {
-      key: '9',
-      label: 'Comment',
-      children: initialData ?.slkComment,
-      labelStyle: {
-        color: '#102C57',
-        fontWeight: 600,
-        width: '40%'
-      }
-    },
+
     {
       key: '10',
       label: '',
