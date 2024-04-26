@@ -1,6 +1,6 @@
 export  const genarateStepAction = (type: string, selectedRole: string, isSecondMeeting: boolean) => {
     if(type == 'Recommend' 
-    || type == 'Verifed'
+    || type == 'Verified'
     || type == 'Not Recommend'
     || type == 'Recommend'
     ){
