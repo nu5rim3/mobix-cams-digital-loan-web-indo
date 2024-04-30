@@ -21,7 +21,8 @@ export default function Approval({
   // approvalSteps
 
   const {
-      customerData,
+    imageDetails,
+    customerData,
     approvalSteps,
     financialDetailsSavePending,
     financialDetails,
@@ -36,6 +37,8 @@ export default function Approval({
   const [reasons, setReasons] = useState<any[]>([]);
   const [cycleNo, setCycleNo] = useState('');
   const [isRequired, setIsRequired] = useState(false);
+  const [isCAImage, setCAImage] = useState(false);
+  const [isBMImage, setBMImage] = useState(false);
   useEffect(() => {
     if (selectedRole) {
       if (selectedRole === 'CSA') {
@@ -98,7 +101,7 @@ export default function Approval({
       key: 'comment',
       render: (text, record) => {
         if (record.reason === 'OTHS') {
-          return `${record.comment} - ${record.reasonDesc ? record.reasonDesc : ""} `;
+          return `${record.comment} ( ${record.reasonDesc ? record.reasonDesc : ""} )`;
         } else if (record.comment === null) {
           return ``;
         } else {
@@ -135,7 +138,7 @@ export default function Approval({
       })
     }
 
-    if (((selectedRole === 'CA' && cycleNo < 2) || (selectedRole == 'BM' && cycleNo < 2)) && !fileList.length
+    if (((selectedRole === 'CA' && isCAImage === false) || (selectedRole == 'BM' && isBMImage == false)) && !fileList.length
       && (type === 'Recommend'
         || type === 'Approve' || type === 'Return' || type === 'Not Recommend')) {
       return notification.warning({
@@ -191,15 +194,17 @@ export default function Approval({
           }
 
           const processedFiles = [];
-          if ((selectedRole === 'CA' && cycleNo < 2) || (selectedRole === 'BM' && cycleNo < 2)
+          if ((selectedRole === 'CA' && isCAImage === false) || (selectedRole === 'BM' && isBMImage === false)
             || (selectedRole === 'CSA' || selectedRole === 'AM' || selectedRole === 'RM'
               || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
+
             for (const file of fileList) {
               let base64
               // = file.preview
               // if(!base64){
               base64 = await fileToBase64Async(file.originFileObj);
               // }
+
 
               const processedFile = {
                 stkIdx: customerData.data.cusIdx,
@@ -215,6 +220,7 @@ export default function Approval({
               };
 
               processedFiles.push(processedFile);
+
             }
           }
           const newData = {
@@ -225,7 +231,6 @@ export default function Approval({
           if (isSecondMeeting) {
             const save = await API.approvalServices.createScondMeetingStep(newData)
           } else {
-
             const save = await API.approvalServices.createStep(newData)
           }
 
@@ -255,6 +260,18 @@ export default function Approval({
     
     const cycleNo = approvalSteps.data ?.approvalStepDtoList[0] ?.cycleNo;
     setCycleNo(cycleNo);
+    const caImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL') ?.length;
+ 
+    const bmImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'BM_LEVEL') ?.length;
+     
+
+    if (caImage > 0) {
+      setCAImage(true);
+    }
+    if (bmImage > 0) {
+      setBMImage(true);
+    }
+
 
     if (BMStatus === 'PENDING') {
       setIsSecondMeeting(true)
