@@ -124,7 +124,7 @@ export default function Approval({
         message: 'Please save the updated Financial Approval to continue.'
       })
     }
-    if (((selectedRole === 'CA' && cycleNo < 2) || selectedRole == 'BM') && !fileList.length && (type === 'Recommend' || type === 'Approve')) {
+    if (((selectedRole === 'CA' && cycleNo < 2) || (selectedRole == 'BM' && cycleNo < 2)) && !fileList.length && (type === 'Recommend' || type === 'Approve')) {
       return notification.warning({
         message: 'Please Upload Image to continue'
       })
@@ -169,7 +169,9 @@ export default function Approval({
           }
 
           const processedFiles = [];
-          if (selectedRole === 'CA' && cycleNo < 2) {
+          if ((selectedRole === 'CA' && cycleNo < 2) || (selectedRole === 'BM' && cycleNo < 2)
+            || (selectedRole === 'CSA' || selectedRole === 'AM' || selectedRole === 'RM'
+              || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
             for (const file of fileList) {
               let base64
               // = file.preview

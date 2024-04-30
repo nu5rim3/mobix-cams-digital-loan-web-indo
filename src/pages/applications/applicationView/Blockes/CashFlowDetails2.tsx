@@ -4,7 +4,7 @@ import Title from '../../../../components/Typography/Tytle';
 import { Button, Descriptions, DescriptionsProps, Divider, Grid, Spin, Row, Col, Form, Input, InputNumber } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 import Paragraph from 'antd/es/typography/Paragraph';
-
+import { API } from '../../../../services/Services';
 export interface ICashFlowDetailsProps {
 }
 const itemsSalesOperation: (data: any) => DescriptionsProps['items'] = (data) => [
@@ -503,17 +503,158 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
 export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     const [form] = Form.useForm();
     const {
+         customerData,
         cashFlowDetails
     } = useSelector((state: any) => state.Application)
-
+    const {
+      selectedRole,
+        userData
+  } = useSelector((state: any) => state.AppData)
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
-    const initialValues = {
-        businessDayPerMonth: cashFlowDetails.data ?.salesOperatingRevenueDto.businessDayPerMonth
-    };
+
+    const saveCashFlow = async (e: any) => {
+        // setAllLoading(true)
+        console.log("saveCashFlow ", e)
+        try {
+            const data = {
+                // idx: customerData.data.appraisalId,
+                // roleCode: selectedRole,
+                salesOperatingRevenueDto: {
+                    businessDayPerMonth: e.businessDayPerMonth,
+                    revenueInBusyDay: e.revenueInBusyDay,
+                    revenueInLowSessionDay: e.revenueInLowSessionDay,
+                    revenuePerMonth: e.revenuePerMonth,
+                    numberOfHighSeasonDays: e.numberOfHighSeasonDays,
+                    numberOfLowSeasonDays: e.numberOfLowSeasonDays
+                },
+                salesThreeDayCroscheckRevenueDto: {
+                    revenueOneDayBefore: e.revenueOneDayBefore,
+                    revenueTwoDaysBefore: e.revenueTwoDaysBefore,
+                    revenueThreeDaysBefore: e.revenueThreeDaysBefore,
+                    averagePerDay: e.averagePerDay,
+                    monthlyRevenue: e.monthlyRevenue,
+                },
+                salesCashCroscheckRevenueDto: {
+                    numberOfBusinessHoursPerDay: e.numberOfBusinessHoursPerDay,
+                    currentTime: e.currentTime,
+                    hoursAlreadyOpenToday: e.hoursAlreadyOpenToday,
+                    cashWhenOpenToday: e.cashWhenOpenToday,
+                    cashNow: e.cashNow,
+                    moneyForPurchasingToday: e.moneyForPurchasingToday,
+                    incomeToday: e.incomeToday,
+                    incomePerBusinessHour: e.incomePerBusinessHour,
+                    estimatedIncomePerDay: e.estimatedIncomePerDay,
+                    businessDaysPerMonth: e.businessDaysPerMonth,
+                    estimatedIncomePerMonth: e.estimatedIncomePerMonth
+                },
+                businessExpPerMonthWrapperDto: {
+                    totalExpPerMonth: e.totalExpPerMonth,
+                    businessExpPerMonthDtoList: [
+                        {
+                            transportationExpense: e.transportationExpense,
+                            utilitiesExpense: e.utilitiesExpense,
+                            rentExpense: e.rentExpense,
+                            employeeSalaryExpense: e.employeeSalaryExpense,
+                            otherExpense: e.otherExpense
+
+                        }
+                    ]
+                },
+                houseHoldExpPerMonthWrapperDto: {
+                    householdExpenditurePerMonth: e.householdExpenditurePerMonth,
+                    houseHoldExpPerMonthDtoList: [
+                        {
+                            foodExpense: e.foodExpense,
+                            utilitiesExpense: e.utilitiesExpense,
+                            transportationExpense: e.transportationExpense,
+                            educationExpense: e.educationExpense,
+                            healthExpense: e.healthExpense,
+                            socialContributionExpense: e.socialContributionExpense,
+                            loanPaymentsExpense: e.loanPaymentsExpense,
+                            otherExpense: e.otherExpense
+                        }
+                    ]
+                },
+                otherIncomeWrapperDto: {
+                    totalOtherIncome: e.totalOtherIncome,
+                    otherIncomeDtoList: []
+                },
+                businessStockPurPerMonthWrapperDto: {
+                    totalPurchasingPerMonth: e.totalPurchasingPerMonth,
+                    businessStockPurPerMonthDtoList: []
+                },
+                cashFlowFinalSummaryDto: {
+                    totalExpensesPerMonth: e.totalExpensesPerMonth,
+                    netIncomePerMonth: e.netIncomePerMonth,
+                    netIncomePerWeek: e.netIncomePerWeek,
+                    maximumWeeklyInstallment: e.maximumWeeklyInstallment,
+                    maximumMonthlyInstallment: e.maximumMonthlyInstallment,
+                    grossRevenuePerMonth: e.grossRevenuePerMonth
+                }
 
 
-    console.log("props ", props)
+                // roles: e.roles.map((role: string) => ({ code: role })),
+
+
+            }
+            /*
+                        if (!id) {
+                            const user = await API.userServices.addUser({
+                                ...data,
+                                password: e.password
+                            })
+                            notification.success({
+                                message: 'User has been created successfully'
+                            })
+                            navigate('/indo-digital-loan/auth/userManagement')
+                        } else {
+                            const user = await API.userServices.updateUser({
+                                ...data,
+                            }, id)
+                            notification.success({
+                                message: 'User has been updated successfully'
+                            })
+                            navigate('/indo-digital-loan/auth/userManagement')
+                        }
+                        */
+            console.log("customerData.data.appraisalId  ", customerData.data.appraisalId, " ", data)
+            const incomeExpence = await API.incomeExpencesServices.saveCashFlow(customerData.data.appraisalId, {
+                ...data,
+            })
+            notification.success({
+                message: 'User has been updated successfully'
+            })
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error;
+                // You can access error.response for details about the HTTP response, e.g., status code and data
+                if (axiosError.response) {
+                    const { status, data } = axiosError.response;
+                    notification.error({
+                        message: data.message || 'An error occurred during the request.'
+                    })
+                } else {
+                    // Set a generic network error message
+                    notification.error({
+                        message: 'An error occurred. Please try again later.'
+                    })
+                }
+            }
+            else {
+                // Handle non-Axios errors
+                notification.error({
+                    message: 'There was an error processing your request.'
+                })
+            }
+        } finally {
+            //setAllLoading(false)
+        }
+    }
+
+
+
     console.log("cashFlowDetails ", cashFlowDetails)
     const handleTotal = (changedValues, allValues) => {
         const fieldName = Object.keys(changedValues)[0];
@@ -607,7 +748,16 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 onFinish={(e) => saveCashFlow(e)}
                                 wrapperCol={{ span: 20 }}
                                 onValuesChange={handleTotal}
-                                initialValues={initialValues}
+                                fields={[
+                                    {
+                                        name: ["businessDayPerMonth"],
+                                        value: cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay : 0,
+                                    },
+                                    {
+                                        name: ["revenueInBusyDay"],
+                                        value: cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay : 0,
+                                    }
+                                ]}
                             >
                                 <Row>
                                     <Col span={12}>
@@ -1112,92 +1262,213 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 <Divider />
 
                                 {/* other incomes */}
-                                <Title
-                                    level={5}
-                                    title='Total Other Income'
-                                    style={{ color: '#7C3626' }}
-                                />
+                                <Row>
+                                    <Col span={12}>
+                                        <Title
+                                            level={5}
+                                            title='Total Other Income - MFO '
+                                            style={{ color: '#7C3626' }}
+                                        />
+                                    </Col>
+                                    <Col span={12}>
+                                        <Title
+                                            level={5}
+                                            title='Total Other Income - CA '
+                                            style={{ color: '#7C3626' }}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <div className={
+                                            screens.sm
+                                                ? 'grid grid-cols-1 gap-5 pt-2'
+                                                : 'grid grid-cols-4 gap-5 pt-2'
+                                        }>
+                                            {cashFlowDetails.data ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((stock: any, index: any) => {
+                                                return <div
+                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                                                    className='px-5 pt-5 rounded-md  font-sans my-4'
+                                                    key={index}
+                                                >
+                                                    <Descriptions
+                                                        key={index}
+                                                        column={
+                                                            1
+                                                        }
+                                                        items={stock ? itemsOtherIncome(stock) : []}
+                                                        size='small'
+                                                    />
 
-                                <div className={
-                                    screens.xs
-                                        ? 'grid grid-cols-1 gap-5 pt-2'
-                                        : 'grid grid-cols-4 gap-5 pt-2'
-                                }>
-                                    {cashFlowDetails.data ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((stock: any, index: any) => {
-                                        return <div
-                                            style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                                            className='px-5 pt-5 rounded-md  font-sans my-4'
-                                            key={index}
-                                        >
+                                                </div>
+                                            })}
+                                        </div>
+
+                                        <div className='mt-5'>
                                             <Descriptions
-                                                key={index}
-                                                column={
-                                                    1
+                                                key={'totalOtherIncome'}
+                                                column={screens.xs ?
+                                                    1 : 1
                                                 }
-                                                items={stock ? itemsOtherIncome(stock) : []}
+                                                items={[
+                                                    {
+                                                        key: 'totalOtherIncome',
+                                                        label: 'Total Other Income',
+                                                        children: <div className='font-bold'>
+                                                            {getCurrency(cashFlowDetails.data ?.otherIncomeWrapperDto ?.totalOtherIncome)}
+                                                        </div>,
+                                                        labelStyle: {
+                                                            color: '#102C57',
+                                                            fontWeight: 600,
+                                                            width: '50%'
+                                                        }
+                                                    },
+                                                    {
+                                                        key: 'ex1',
+                                                        label: '',
+                                                        children: ''
+                                                    },
+                                                    {
+                                                        key: 'ex2',
+                                                        label: '',
+                                                        children: ''
+                                                    }
+                                                ]}
                                                 size='small'
                                             />
-
                                         </div>
-                                    })}
-                                </div>
+                                    </Col>
+                                    <Col span={12}>
+                                        <div className='mt-5'>
+                                            {cashFlowDetails.data ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((source: any, index: any) => {
+                                                return <div className={
+                                                    screens.xs
+                                                        ? 'px-6'
+                                                        : 'flex justify-between px-0'
+                                                } key={index}>
+                                                    <Form.Item
+                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                        label="Source"
+                                                        name={['source_' + index]}
+                                                        style={{
+                                                            fontWeight: 600,
+                                                        }}
+                                                    >
 
-                                <div className='mt-5'>
-                                    <Descriptions
-                                        key={'totalOtherIncome'}
-                                        column={screens.xs ?
-                                            1 : 3
-                                        }
-                                        items={[
-                                            {
-                                                key: 'totalOtherIncome',
-                                                label: 'Total Other Income',
-                                                children: <div className='font-bold'>
-                                                    {getCurrency(cashFlowDetails.data ?.otherIncomeWrapperDto ?.totalOtherIncome)}
-                                                </div>,
-                                                labelStyle: {
-                                                    color: '#102C57',
+                                                        <Input
+                                                            defaultValue={source ? source.source : ''}
+
+                                                            className='w-full'
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                        label="Amount"
+                                                        name={['amount_' + index]}
+                                                        style={{
+                                                            fontWeight: 600,
+                                                        }}
+                                                    >
+                                                        <InputNumber
+                                                            defaultValue={source ? source.amount : 0}
+                                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                            className='w-full'
+                                                        />
+                                                    </Form.Item>
+
+                                                </div>
+                                            })};
+                                               <Form.Item
+                                                className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                label="Total Other Income"
+                                                name='totalOtherIncome'
+                                                style={{
                                                     fontWeight: 600,
-                                                    width: '50%'
-                                                }
-                                            },
-                                            {
-                                                key: 'ex1',
-                                                label: '',
-                                                children: ''
-                                            },
-                                            {
-                                                key: 'ex2',
-                                                label: '',
-                                                children: ''
-                                            }
-                                        ]}
-                                        size='small'
-                                    />
-                                </div>
-
+                                                }}
+                                            >
+                                                <InputNumber
+                                                    defaultValue={cashFlowDetails.data ?.otherIncomeWrapperDto ? cashFlowDetails.data ?.otherIncomeWrapperDto ?.totalOtherIncome : 0}
+                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                    className='w-full'
+                                                />
+                                            </Form.Item>
+                                        </div>
+                                    </Col>
+                                </Row>
                                 <Divider />
-
-                                <Title
-                                    level={5}
-                                    title='Gross Revenue per month'
-                                    style={{ color: '#7C3626' }}
-                                />
-
-                                <div className='mt-4'>
-                                    <Descriptions
-                                        column={screens.xs ?
-                                            1 : 3
-                                        }
-                                        items={cashFlowDetails.data ?.salesCashCroscheckRevenueDto
-                                            ? itemsGrossRevenue({
-                                                ...cashFlowDetails.data ?.cashFlowFinalSummaryDto,
-                                                ...cashFlowDetails.data ?.otherIncomeWrapperDto
+                                <Row>
+                                    <Col span={12}>
+                                        <Title
+                                            level={5}
+                                            title='Gross Revenue per month - MFO'
+                                            style={{ color: '#7C3626' }}
+                                        />
+                                    </Col>
+                                    <Col span={12}>
+                                        <Title
+                                            level={5}
+                                            title='Gross Revenue per month - CA'
+                                            style={{ color: '#7C3626' }}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <div className='mt-4'>
+                                            <Descriptions
+                                                column={screens.xs ?
+                                                    1 : 3
+                                                }
+                                                items={cashFlowDetails.data ?.salesCashCroscheckRevenueDto
+                                                    ? itemsGrossRevenue({
+                                                        ...cashFlowDetails.data ?.cashFlowFinalSummaryDto,
+                                                        ...cashFlowDetails.data ?.otherIncomeWrapperDto
                             }) : []} 
-                                        size='small'
-                                    />
-                                </div>
-
+                                                size='small'
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col span={12}>
+                                        <div className='mt-4'>
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-6'
+                                                    : 'flex justify-between px-0'
+                                            }>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Total Sales Revenue"
+                                                    name='grossRevenuePerMonth'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto
+                                                            ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.grossRevenuePerMonth : 0}
+                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        className='w-full'
+                                                    />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Total Other Income"
+                                                    name='totalOtherIncome'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto
+                                                            ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.totalOtherIncome : 0}
+                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        className='w-full'
+                                                    />
+                                                </Form.Item>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
                                 <Divider />
                                 <Row>
                                     <Col span={12}>
@@ -1215,66 +1486,143 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         />
                                     </Col>
                                 </Row>
+                                <Row>
+                                    <Col span={12}>
 
-
-                                <div className={
-                                    screens.xs
-                                        ? 'grid grid-cols-1 gap-5 pt-2'
-                                        : 'grid grid-cols-4 gap-5 pt-2'
-                                }>
-                                    {cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
-                                        return <div
-                                            style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                                            className='px-5 pt-5 rounded-md  font-sans my-4'
-                                            key={index}
+                                        <div className={
+                                            screens.lg
+                                                ? 'grid grid-cols-1 gap-5 pt-2'
+                                                : 'grid grid-cols-2 gap-5 pt-2'
+                                        }
                                         >
+                                            {cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
+                                                return <div
+                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', }}
+                                                    className='px-5 pt-5 rounded-md  font-sans my-4'
+                                                    key={index}
+                                                >
+                                                    <Descriptions
+                                                        key={index}
+                                                        column={
+                                                            1
+                                                        }
+                                                        items={stock ? itemsBusinussStock(stock) : []}
+                                                        size='small'
+                                                    />
+
+                                                </div>
+                                            })}
+                                        </div>
+
+                                    </Col>
+                                    <Col span={12}>
+                                        <div className='mt-5'>
+                                            {cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
+                                                return <div className={
+                                                    screens.xs
+                                                        ? 'px-6'
+                                                        : 'flex justify-between px-0'
+                                                } key={index}>
+                                                    <Form.Item
+                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                        label="Stock Name"
+                                                        name={['stockName_' + index]}
+                                                        style={{
+                                                            fontWeight: 600,
+                                                        }}
+                                                    >
+
+                                                        <Input
+                                                            defaultValue={stock ? stock.stockName : ''}
+
+                                                            className='w-full'
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                        label="Purchasing Price"
+                                                        name={['purchasingPrice_' + index]}
+                                                        style={{
+                                                            fontWeight: 600,
+                                                        }}
+                                                    >
+                                                        <InputNumber
+                                                            defaultValue={stock ? stock.purchasingPrice : 0}
+                                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                            className='w-full'
+                                                        />
+                                                    </Form.Item>
+                                                </div>
+                                            })}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <div className='mt-5'>
                                             <Descriptions
-                                                key={index}
-                                                column={
-                                                    1
+                                                key={'totalPurchasingPerMonth'}
+                                                column={screens.xs ?
+                                                    1 : 1
                                                 }
-                                                items={stock ? itemsBusinussStock(stock) : []}
+                                                items={[
+                                                    {
+                                                        key: 'totalPurchasingPerMonth',
+                                                        label: 'Total Purchasing per Month',
+                                                        children: <div className='font-bold'>
+                                                            {getCurrency(cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth)}
+                                                        </div>,
+                                                        labelStyle: {
+                                                            color: '#102C57',
+                                                            fontWeight: 600,
+                                                            width: '50%'
+                                                        }
+                                                    },
+                                                    {
+                                                        key: 'ex1',
+                                                        label: '',
+                                                        children: ''
+                                                    },
+                                                    {
+                                                        key: 'ex2',
+                                                        label: '',
+                                                        children: ''
+                                                    }
+                                                ]}
                                                 size='small'
                                             />
+                                        </div>
+                                    </Col>
+                                    <Col span={12}>
+                                        <div className='mt-5'>
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-6'
+                                                    : 'flex justify-between px-0'
+                                            }>
+
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Total Purchasing per Month"
+                                                    name='totalPurchasingPerMonth'
+                                                    style={{
+                                                        color: '#102C57',
+                                                        fontWeight: 600,
+                                                        width: '50%'
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        defaultValue={cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth ? cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth : 0}
+                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        className='w-full'
+
+                                                    />
+                                                </Form.Item>
+                                            </div>
 
                                         </div>
-                                    })}
-                                </div>
-
-                                <div className='mt-5'>
-                                    <Descriptions
-                                        key={'totalPurchasingPerMonth'}
-                                        column={screens.xs ?
-                                            1 : 3
-                                        }
-                                        items={[
-                                            {
-                                                key: 'totalPurchasingPerMonth',
-                                                label: 'Total Purchasing per Month',
-                                                children: <div className='font-bold'>
-                                                    {getCurrency(cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth)}
-                                                </div>,
-                                                labelStyle: {
-                                                    color: '#102C57',
-                                                    fontWeight: 600,
-                                                    width: '50%'
-                                                }
-                                            },
-                                            {
-                                                key: 'ex1',
-                                                label: '',
-                                                children: ''
-                                            },
-                                            {
-                                                key: 'ex2',
-                                                label: '',
-                                                children: ''
-                                            }
-                                        ]}
-                                        size='small'
-                                    />
-                                </div>
-
+                                    </Col>
+                                </Row>
                                 <Divider />
                                 <Row>
                                     <Col span={12}>
@@ -1696,8 +2044,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             </Form.Item>
                                         </div>
                                     </Col>
-                                </Row>   
-                           </div>
+                                </Row>
+                        </div>
                             <Row>
                                 <Col span={12}>
 

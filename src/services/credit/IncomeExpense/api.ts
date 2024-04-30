@@ -6,6 +6,7 @@ const getAllCollateralsByAppraisals = (id: string) => {
     return api.get(`/mobixCamsCredit/v1/cash-flows/${id}`)
 }
 const saveCashFlow = (id: string, data: any) => {
+    console.log("cash ", id, " ", data)
     return api.post(`/mobixCamsCredit/v1/cash-flows/${id}`, data)
 }
 

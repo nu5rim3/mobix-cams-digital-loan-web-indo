@@ -6,6 +6,6 @@ export default function genarateSlikStatus(status: string): string {
     } else if (status == 'NOT_OK') {
         return 'Not Ok'
     } else {
-        return status.toUpperCase();
+        return status;
     }
 }
