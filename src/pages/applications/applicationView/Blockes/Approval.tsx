@@ -35,6 +35,7 @@ export default function Approval({
   const [isSecondMeeting, setIsSecondMeeting] = useState<boolean>(false);
   const [reasons, setReasons] = useState<any[]>([]);
   const [cycleNo, setCycleNo] = useState('');
+  const [isRequired, setIsRequired] = useState(false);
   useEffect(() => {
     if (selectedRole) {
       if (selectedRole === 'CSA') {
@@ -95,6 +96,15 @@ export default function Approval({
       title: 'Comment',
       dataIndex: 'comment',
       key: 'comment',
+      render: (text, record) => {
+        if (record.reason === 'OTHS') {
+          return `${record.comment} - ${record.reasonDesc ? record.reasonDesc : ""} `;
+        } else if (record.comment === null) {
+          return ``;
+        } else {
+          return `${record.comment}`;
+        }
+      }
     },
     {
       title: 'created By',
@@ -124,10 +134,19 @@ export default function Approval({
         message: 'Please save the updated Financial Approval to continue.'
       })
     }
-    if (((selectedRole === 'CA' && cycleNo < 2) || (selectedRole == 'BM' && cycleNo < 2)) && !fileList.length && (type === 'Recommend' || type === 'Approve')) {
+
+    if (((selectedRole === 'CA' && cycleNo < 2) || (selectedRole == 'BM' && cycleNo < 2)) && !fileList.length
+      && (type === 'Recommend'
+        || type === 'Approve' || type === 'Return' || type === 'Not Recommend')) {
       return notification.warning({
         message: 'Please Upload Image to continue'
       })
+    }
+
+    if (type === 'Not Recommend') {
+      setIsRequired(true);
+    } else {
+      setIsRequired(false);
     }
     form.validateFields(['comment', 'reason'])
       .then(async () => {
@@ -135,6 +154,9 @@ export default function Approval({
 
           setAddingData(type)
           let data
+
+
+
 
           if (isSecondMeeting) {
             data = {
@@ -146,8 +168,8 @@ export default function Approval({
               loanAmount: financialDetails.data.pTrhdLocCost,
               loanTerm: financialDetails.data.pTrhdTerm,
               comment: form.getFieldValue('comment'),
-              reason: form.getFieldValue('reason').value,
-              reasonDesc: form.getFieldValue('reason').label
+              reason: form.getFieldValue('reason') ? form.getFieldValue('reason').value : "",
+              reasonDesc: form.getFieldValue('reason') ? form.getFieldValue('reason').label : "",
             }
           } else {
 
@@ -163,8 +185,8 @@ export default function Approval({
               lastModifiedBy: userData.data.idx,
               createdBy: userData.data.idx,
               creationDate: moment().toISOString(),
-              reason: form.getFieldValue('reason').value,
-              reasonDesc: form.getFieldValue('reason').label
+              reason: form.getFieldValue('reason') ? form.getFieldValue('reason').value : "",
+              reasonDesc: form.getFieldValue('reason') ? form.getFieldValue('reason').label : "",
             }
           }
 
@@ -273,7 +295,7 @@ export default function Approval({
                   label="Reason"
                   rules={[
                     {
-                      required: true,
+                      required: isRequired,
                     },
                   ]}
                   style={{
