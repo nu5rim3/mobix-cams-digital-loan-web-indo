@@ -261,9 +261,9 @@ export default function Approval({
     const cycleNo = approvalSteps.data ?.approvalStepDtoList[0] ?.cycleNo;
     setCycleNo(cycleNo);
     const caImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL') ?.length;
- 
+    console.log("caImage " + caImage)
     const bmImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'BM_LEVEL') ?.length;
-     
+    console.log("bmImage " + bmImage)
 
     if (caImage > 0) {
       setCAImage(true);
