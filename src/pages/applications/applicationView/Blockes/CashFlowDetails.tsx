@@ -524,7 +524,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
         try {
             const data = {
                 idx: customerData.data.appraisalId,
-                roleCode: 'CA',
+                roleCode: selectedRole,
                 salesOperatingRevenueDto: {
                     appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.appraisalId : null,
                     businessDayPerMonth: e.businessDayPerMonth,
@@ -2390,7 +2390,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }}>
                                             <Button type="primary" size='large'
                                                 disabled={
-                                                    (selectedRole !== 'ADMIN' || selectedRole !== 'CA') ? false : true
+                                                    (selectedRole !== 'CA') ? true : false
                                                 }
                                                 shape="round" htmlType="submit">
                                                 Submit
