@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
-import { Button, TimePicker, Descriptions, DescriptionsProps, Divider, Grid, Spin, Row, Col, Form, Input, InputNumber } from 'antd';
+import { Button, notification, TimePicker, Space, Descriptions, DescriptionsProps, Divider, Grid, Spin, Row, Col, Form, Input, InputNumber } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { API } from '../../../../services/Services';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 // dayjs.extend(customParseFormat);
@@ -519,11 +520,13 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     const saveCashFlow = async (e: any) => {
         // setAllLoading(true)
         console.log("saveCashFlow ", e)
+
         try {
             const data = {
-                // idx: customerData.data.appraisalId,
-                // roleCode: selectedRole,
+                idx: customerData.data.appraisalId,
+                roleCode: 'CA',
                 salesOperatingRevenueDto: {
+                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.appraisalId : null,
                     businessDayPerMonth: e.businessDayPerMonth,
                     revenueInBusyDay: e.revenueInBusyDay,
                     revenueInLowSessionDay: e.revenueInLowSessionDay,
@@ -532,6 +535,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     numberOfLowSeasonDays: e.numberOfLowSeasonDays
                 },
                 salesThreeDayCroscheckRevenueDto: {
+                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.appraisalId : null,
                     revenueOneDayBefore: e.revenueOneDayBefore,
                     revenueTwoDaysBefore: e.revenueTwoDaysBefore,
                     revenueThreeDaysBefore: e.revenueThreeDaysBefore,
@@ -539,6 +543,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     monthlyRevenue: e.monthlyRevenue,
                 },
                 salesCashCroscheckRevenueDto: {
+                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.appraisalId : null,
                     numberOfBusinessHoursPerDay: e.numberOfBusinessHoursPerDay,
                     currentTime: e.currentTime,
                     hoursAlreadyOpenToday: e.hoursAlreadyOpenToday,
@@ -555,11 +560,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     totalExpPerMonth: e.totalExpPerMonth,
                     businessExpPerMonthDtoList: [
                         {
-                            transportationExpense: e.transportationExpense,
-                            utilitiesExpense: e.utilitiesExpense,
+                            appraisalId: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].appraisalId : null,
+                            transportationExpense: e.bnsTransportationExpense,
+                            utilitiesExpense: e.bnsUtilitiesExpense,
                             rentExpense: e.rentExpense,
                             employeeSalaryExpense: e.employeeSalaryExpense,
-                            otherExpense: e.otherExpense
+                            otherExpense: e.bnsOtherExpense
 
                         }
                     ]
@@ -568,26 +574,38 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     householdExpenditurePerMonth: e.householdExpenditurePerMonth,
                     houseHoldExpPerMonthDtoList: [
                         {
+                            appraisalId: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].appraisalId : null,
                             foodExpense: e.foodExpense,
-                            utilitiesExpense: e.utilitiesExpense,
-                            transportationExpense: e.transportationExpense,
+                            utilitiesExpense: e.houseHoldUtilitiesExpense,
+                            transportationExpense: e.houseHoldTransportationExpense,
                             educationExpense: e.educationExpense,
                             healthExpense: e.healthExpense,
                             socialContributionExpense: e.socialContributionExpense,
                             loanPaymentsExpense: e.loanPaymentsExpense,
-                            otherExpense: e.otherExpense
+                            otherExpense: e.houseHoldOtherExpense
                         }
                     ]
                 },
                 otherIncomeWrapperDto: {
                     totalOtherIncome: e.totalOtherIncome,
-                    otherIncomeDtoList: []
+                    otherIncomeDtoList: e.sources.map((source: string) => ({
+                        appraisalId: source.appraisalId,
+                        source: source.source,
+                        amount: source.amount,
+                        isDeleted: source.isDeleted
+                    })),
                 },
                 businessStockPurPerMonthWrapperDto: {
                     totalPurchasingPerMonth: e.totalPurchasingPerMonth,
-                    businessStockPurPerMonthDtoList: []
+                    businessStockPurPerMonthDtoList: e.stocks.map((stock: string) => ({
+                        appraisalId: stock.appraisalId,
+                        stockName: stock.stockName,
+                        purchasingPrice: stock.purchasingPrice,
+                        isDeleted: stock.isDeleted
+                    })),
                 },
                 cashFlowFinalSummaryDto: {
+                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto.appraisalId : null,
                     totalExpensesPerMonth: e.totalExpensesPerMonth,
                     netIncomePerMonth: e.netIncomePerMonth,
                     netIncomePerWeek: e.netIncomePerWeek,
@@ -595,39 +613,32 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     maximumMonthlyInstallment: e.maximumMonthlyInstallment,
                     grossRevenuePerMonth: e.grossRevenuePerMonth
                 }
+            }
+            console.log("incomeExpence ", cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto)
+
+            if (cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto != 'undefined'
+                && cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto != null) {
+                const incomeExpence = await API.incomeExpencesServices.updateCashFlow(customerData.data.appraisalId, {
+                    ...data,
+                })
+                notification.success({
+                    message: 'Cash Flow has been updated successfully'
+                })
+
+            } else {
+
+                console.log("customerData.data.appraisalId  ", customerData.data.appraisalId, " ", data)
 
 
-                // roles: e.roles.map((role: string) => ({ code: role })),
-
+                const incomeExpence = await API.incomeExpencesServices.saveCashFlow(customerData.data.appraisalId, {
+                    ...data,
+                })
+                notification.success({
+                    message: 'Cash Flow has been created successfully'
+                })
 
             }
-            /*
-                        if (!id) {
-                            const user = await API.userServices.addUser({
-                                ...data,
-                                password: e.password
-                            })
-                            notification.success({
-                                message: 'User has been created successfully'
-                            })
-                            navigate('/indo-digital-loan/auth/userManagement')
-                        } else {
-                            const user = await API.userServices.updateUser({
-                                ...data,
-                            }, id)
-                            notification.success({
-                                message: 'User has been updated successfully'
-                            })
-                            navigate('/indo-digital-loan/auth/userManagement')
-                        }
-                        */
-            console.log("customerData.data.appraisalId  ", customerData.data.appraisalId, " ", data)
-            const incomeExpence = await API.incomeExpencesServices.saveCashFlow(customerData.data.appraisalId, {
-                ...data,
-            })
-            notification.success({
-                message: 'User has been updated successfully'
-            })
+
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -661,17 +672,18 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     console.log("cashFlowDetails ", cashFlowDetails)
     const handleTotal = (changedValues, allValues) => {
         const fieldName = Object.keys(changedValues)[0];
+
         console.log("fieldName ", fieldName)
         if (fieldName === "revenueInBusyDay" || fieldName === "numberOfHighSeasonDays"
             || fieldName === "revenueInLowSessionDay" || fieldName === "numberOfLowSeasonDays") {
             const revenueInBusyDay =
-                changedValues["revenueInBusyDay"] || allValues["revenueInBusyDay"] || 0;
+                changedValues["revenueInBusyDay"] || allValues["revenueInBusyDay"] || form.getFieldValue('revenueInBusyDay');
             const noOfBusyDays =
-                changedValues["numberOfHighSeasonDays"] || allValues["numberOfHighSeasonDays"] || 0;
+                changedValues["numberOfHighSeasonDays"] || allValues["numberOfHighSeasonDays"] || form.getFieldValue('numberOfHighSeasonDays');
             const revenueInLowSessionDay =
-                changedValues["revenueInLowSessionDay"] || allValues["revenueInLowSessionDay"] || 0;
+                changedValues["revenueInLowSessionDay"] || allValues["revenueInLowSessionDay"] || form.getFieldValue('revenueInLowSessionDay');
             const numberOfLowSeasonDays =
-                changedValues["numberOfLowSeasonDays"] || allValues["numberOfLowSeasonDays"] || 0;
+                changedValues["numberOfLowSeasonDays"] || allValues["numberOfLowSeasonDays"] || form.getFieldValue('numberOfLowSeasonDays');
 
             const revenuePerMonth = ((revenueInBusyDay * noOfBusyDays) + (revenueInLowSessionDay * numberOfLowSeasonDays));
             console.log("revenueInBusyDay ", revenueInBusyDay)
@@ -679,19 +691,25 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             console.log("revenueInLowSessionDay ", revenueInLowSessionDay)
             console.log("numberOfLowSeasonDays ", numberOfLowSeasonDays)
             console.log("revenuePerMonth ", revenuePerMonth)
+            if (revenuePerMonth <= form.getFieldValue('estimatedIncomePerMonth') && revenuePerMonth <= form.getFieldValue('monthlyRevenue')) {
+                form.setFieldsValue({ grossRevenuePerMonth: revenuePerMonth });
+            }
             form.setFieldsValue({ revenuePerMonth: revenuePerMonth });
         }
 
         if (fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
             || fieldName === "revenueThreeDaysBefore") {
             const revenueOneDayBefore =
-                changedValues["revenueOneDayBefore"] || allValues["revenueOneDayBefore"] || 0;
+                changedValues["revenueOneDayBefore"] || allValues["revenueOneDayBefore"] || form.getFieldValue('revenueOneDayBefore');
             const revenueTwoDaysBefore =
-                changedValues["revenueTwoDaysBefore"] || allValues["revenueTwoDaysBefore"] || 0;
+                changedValues["revenueTwoDaysBefore"] || allValues["revenueTwoDaysBefore"] || form.getFieldValue('revenueTwoDaysBefore');
             const revenueThreeDaysBefore =
-                changedValues["revenueThreeDaysBefore"] || allValues["revenueThreeDaysBefore"] || 0;
+                changedValues["revenueThreeDaysBefore"] || allValues["revenueThreeDaysBefore"] || form.getFieldValue('revenueThreeDaysBefore');
             const averagePerDay = ((revenueOneDayBefore + revenueTwoDaysBefore + revenueThreeDaysBefore) / 3);
             const monthlyRevenue = (averagePerDay * 24);
+            if (monthlyRevenue <= form.getFieldValue('estimatedIncomePerMonth') && monthlyRevenue <= form.getFieldValue('revenuePerMonth')) {
+                form.setFieldsValue({ grossRevenuePerMonth: monthlyRevenue });
+            }
             form.setFieldsValue({ averagePerDay: averagePerDay, monthlyRevenue: monthlyRevenue });
         }
 
@@ -700,22 +718,25 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             || fieldName === "numberOfBusinessHoursPerDay" || fieldName === "businessDayPerMonth") {
 
             const cashWhenOpenToday =
-                changedValues["cashWhenOpenToday"] || allValues["cashWhenOpenToday"] || 0;
+                changedValues["cashWhenOpenToday"] || allValues["cashWhenOpenToday"] || form.getFieldValue('cashWhenOpenToday');
             const cashNow =
-                changedValues["cashNow"] || allValues["cashNow"] || 0;
+                changedValues["cashNow"] || allValues["cashNow"] || form.getFieldValue('cashNow');
             const moneyForPurchasingToday =
-                changedValues["moneyForPurchasingToday"] || allValues["moneyForPurchasingToday"] || 0;
+                changedValues["moneyForPurchasingToday"] || allValues["moneyForPurchasingToday"] || form.getFieldValue('moneyForPurchasingToday');
             const hoursAlreadyOpenToday =
-                changedValues["hoursAlreadyOpenToday"] || allValues["hoursAlreadyOpenToday"] || 0;
+                changedValues["hoursAlreadyOpenToday"] || allValues["hoursAlreadyOpenToday"] || form.getFieldValue('hoursAlreadyOpenToday');
             const businessDayPerMonth =
-                changedValues["businessDayPerMonth"] || allValues["businessDayPerMonth"] || 0;
+                changedValues["businessDayPerMonth"] || allValues["businessDayPerMonth"] || form.getFieldValue('businessDayPerMonth');
             const numberOfBusinessHoursPerDay =
-                changedValues["numberOfBusinessHoursPerDay"] || allValues["numberOfBusinessHoursPerDay"] || 0;
+                changedValues["numberOfBusinessHoursPerDay"] || allValues["numberOfBusinessHoursPerDay"] || form.getFieldValue('numberOfBusinessHoursPerDay');
 
             const incomeToday = (cashNow - (cashWhenOpenToday + moneyForPurchasingToday));
             const incomePerBusinessHour = (incomeToday / hoursAlreadyOpenToday);
             const estimatedIncomePerDay = (numberOfBusinessHoursPerDay * incomePerBusinessHour);
             const estimatedIncomePerMonth = (estimatedIncomePerDay * businessDayPerMonth);
+            if (estimatedIncomePerMonth <= form.getFieldValue('monthlyRevenue') && estimatedIncomePerMonth <= form.getFieldValue('revenuePerMonth')) {
+                form.setFieldsValue({ grossRevenuePerMonth: estimatedIncomePerMonth });
+            }
             form.setFieldsValue(
                 {
                     incomeToday: incomeToday,
@@ -725,25 +746,154 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                 });
         }
-        if (fieldName === "cashWhenOpenToday" || fieldName === "cashNow") {
+
+        if (fieldName === "bnsTransportationExpense" || fieldName === "bnsUtilitiesExpense"
+            || fieldName === "rentExpense" || fieldName === "employeeSalaryExpense"
+            || fieldName === "bnsOtherExpense" || fieldName === "foodExpense"
+            || fieldName === "houseHoldUtilitiesExpense" || fieldName === "houseHoldTransportationExpense"
+            || fieldName === "educationExpense" || fieldName === "healthExpense"
+            || fieldName === "socialContributionExpense" || fieldName === "loanPaymentsExpense"
+            || fieldName === "houseHoldOtherExpense") {
+
+            const bnsTransportationExpense =
+                changedValues["bnsTransportationExpense"] || allValues["bnsTransportationExpense"] || form.getFieldValue('bnsTransportationExpense');
+            const bnsUtilitiesExpense =
+                changedValues["bnsUtilitiesExpense"] || allValues["bnsUtilitiesExpense"] || form.getFieldValue('bnsUtilitiesExpense');
+            const rentExpense =
+                changedValues["rentExpense"] || allValues["rentExpense"] || form.getFieldValue('rentExpense');
+            const employeeSalaryExpense =
+                changedValues["employeeSalaryExpense"] || allValues["employeeSalaryExpense"] || form.getFieldValue('employeeSalaryExpense');
+
+            const bnsOtherExpense =
+                changedValues["bnsOtherExpense"] || allValues["bnsOtherExpense"] || form.getFieldValue('bnsOtherExpense');
+            const foodExpense =
+                changedValues["foodExpense"] || allValues["foodExpense"] || form.getFieldValue('foodExpense');
+
+
+            const houseHoldUtilitiesExpense =
+                changedValues["houseHoldUtilitiesExpense"] || allValues["houseHoldUtilitiesExpense"] || form.getFieldValue('houseHoldUtilitiesExpense');
+            const houseHoldTransportationExpense =
+                changedValues["houseHoldTransportationExpense"] || allValues["houseHoldTransportationExpense"] || form.getFieldValue('houseHoldTransportationExpense');
+
+            const educationExpense =
+                changedValues["educationExpense"] || allValues["educationExpense"] || form.getFieldValue('educationExpense');
+
+            const healthExpense =
+                changedValues["healthExpense"] || allValues["healthExpense"] || form.getFieldValue('healthExpense');
+            const socialContributionExpense =
+                changedValues["socialContributionExpense"] || allValues["socialContributionExpense"] || form.getFieldValue('socialContributionExpense');
+
+            const loanPaymentsExpense =
+                changedValues["loanPaymentsExpense"] || allValues["loanPaymentsExpense"] || form.getFieldValue('loanPaymentsExpense');
+            const houseHoldOtherExpense =
+                changedValues["houseHoldOtherExpense"] || allValues["houseHoldOtherExpense"] || form.getFieldValue('houseHoldOtherExpense');
+
+            const totExpensePerMonth = bnsTransportationExpense + bnsUtilitiesExpense + rentExpense + employeeSalaryExpense + bnsOtherExpense
+                + foodExpense + houseHoldUtilitiesExpense + houseHoldTransportationExpense + educationExpense + healthExpense
+                + socialContributionExpense + loanPaymentsExpense + houseHoldOtherExpense;
+            form.setFieldsValue(
+                {
+                    totalExpensesPerMonth: totExpensePerMonth
+
+                });
+        }
+
+
+
+        let purchasingPrice = 0;
+        if (fieldName === "stocks") {
+
+            changedValues.stocks.forEach((stock: any, index: any) => {
+                if (stock && stock.purchasingPrice) {
+                    purchasingPrice = stock.purchasingPrice;
+
+                }
+
+
+            });
+            const totalPurchasingPerMonth = form.getFieldValue('totalPurchasingPerMonth') + purchasingPrice;
+            form.setFieldsValue(
+                {
+                    totalPurchasingPerMonth: totalPurchasingPerMonth
+
+                });
+
+        }
+        let otherIncome = 0;
+
+        if (fieldName === "sources") {
+
+            changedValues.sources.forEach((source: any, index: any) => {
+                if (source && source.amount) {
+                    otherIncome = source.amount;
+
+                }
+
+
+            });
+            const totOtherIncome = form.getFieldValue('totalOtherIncome') + otherIncome;
+            form.setFieldsValue(
+                {
+                    totalOtherIncome: totOtherIncome
+
+                });
+
+        }
+        if (fieldName === "bnsTransportationExpense" || fieldName === "bnsUtilitiesExpense"
+            || fieldName === "rentExpense" || fieldName === "employeeSalaryExpense"
+            || fieldName === "bnsOtherExpense" || fieldName === "foodExpense"
+            || fieldName === "houseHoldUtilitiesExpense" || fieldName === "houseHoldTransportationExpense"
+            || fieldName === "educationExpense" || fieldName === "healthExpense"
+            || fieldName === "socialContributionExpense" || fieldName === "loanPaymentsExpense"
+            || fieldName === "houseHoldOtherExpense" || fieldName === "stocks"
+            || fieldName === "sources"
+            || fieldName === "revenueInBusyDay" || fieldName === "numberOfHighSeasonDays"
+            || fieldName === "revenueInLowSessionDay" || fieldName === "numberOfLowSeasonDays"
+            || fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
+            || fieldName === "revenueThreeDaysBefore" || fieldName === "cashWhenOpenToday" || fieldName === "cashNow"
+            || fieldName === "moneyForPurchasingToday" || fieldName === "hoursAlreadyOpenToday"
+            || fieldName === "numberOfBusinessHoursPerDay" || fieldName === "businessDayPerMonth") {
+            const totExpenditure = form.getFieldValue('totalExpensesPerMonth') + form.getFieldValue('totalPurchasingPerMonth');
+
+            const totGrossIncome = form.getFieldValue('grossRevenuePerMonth') + form.getFieldValue('totalOtherIncome');
+            const netIncomeMonth = totGrossIncome - totExpenditure;
+            const maxMonthInstallment = netIncomeMonth * 0.35;
+            const netIncomeWeek = netIncomeMonth / 4;
+            const maxWeekInstallment = netIncomeWeek * 0.35;
+            form.setFieldsValue(
+                {
+                    netIncomePerMonth: netIncomeMonth,
+                    maximumMonthlyInstallment: maxMonthInstallment,
+                    netIncomePerWeek: netIncomeWeek,
+                    maximumWeeklyInstallment: maxWeekInstallment
+                });
 
         }
     };
 
-    const stockDetails = (changedValues, allValues) => {
+    const stockDetails = cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?
+        cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
+            : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
+                ?.map((stock: any) => {
+                    return {
+                        appraisalId: stock.appraisalId,
+                        stockName: stock.stockName,
+                        purchasingPrice: stock.purchasingPrice,
+                        isDeleted: stock.isDeleted
+                    };
+                });
 
-        // {
-        //     cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?
-        //         cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-        //             : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-        //                 ?.map((stock: any, index: any) => {
-        //                     {
-        //                         name: ["stockName_" + index],
-        //                             value:  stock ? stock.stockName : '',
-
-        //                                                  },	
-        //                     })}
-    };
+    const sourceDetails = cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
+        ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
+            : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList
+                ?.map((source: any) => {
+                    return {
+                        appraisalId: source.appraisalId,
+                        source: source.source,
+                        amount: source.amount,
+                        isDeleted: source.isDeleted
+                    };
+                });
     return (
         <div
             style={{
@@ -767,10 +917,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 wrapperCol={{ span: 20 }}
                                 onValuesChange={handleTotal}
                                 fields={[
-                                    {
-                                        name: ["businessDayPerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.businessDayPerMonth,
-                                    },
+
                                     {
                                         name: ["revenueInBusyDay"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInBusyDay,
@@ -852,11 +999,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth,
                                     },
                                     {
-                                        name: ["transportationExpense"],
+                                        name: ["bnsTransportationExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense,
                                     },
                                     {
-                                        name: ["utilitiesExpense"],
+                                        name: ["bnsUtilitiesExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense,
                                     },
                                     {
@@ -868,7 +1015,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense,
                                     },
                                     {
-                                        name: ["otherExpense"],
+                                        name: ["bnsOtherExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense,
                                     },
                                     {
@@ -876,11 +1023,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense,
                                     },
                                     {
-                                        name: ["utilitiesExpense"],
+                                        name: ["houseHoldUtilitiesExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense,
                                     },
                                     {
-                                        name: ["transportationExpense"],
+                                        name: ["houseHoldTransportationExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense,
                                     },
                                     {
@@ -900,7 +1047,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense,
                                     },
                                     {
-                                        name: ["otherExpense"],
+                                        name: ["houseHoldOtherExpense"],
                                         value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense,
                                     },
                                     {
@@ -998,7 +1145,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 <Form.Item
                                                     className={screens.xs ? 'w-full' : 'w-1/2'}
                                                     label="Business Day per Month"
-                                                    name='businessDayPerMonth'
+                                                    name='businessDayPerMonth' initialValue={cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.businessDayPerMonth}
                                                     style={{
                                                         fontWeight: 600,
                                                     }}
@@ -1038,7 +1185,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.numberOfLowSeasonDays : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1053,7 +1199,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInLowSessionDay : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1075,7 +1220,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         style={{ margin: 0 }}
-                                                        defaultValue={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.numberOfHighSeasonDays : 0}
 
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1089,15 +1233,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     style={{
                                                         fontWeight: 600,
                                                     }}
+
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenuePerMonth : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
-                                                        onChange={(e: any) => {
-                                                            // actions.updateLoan(e)
-
-                                                        }}
+                                                        disabled={true}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1153,7 +1294,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1167,7 +1307,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1187,7 +1326,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1201,7 +1339,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto.averagePerDay : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1223,7 +1361,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1312,7 +1450,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1326,7 +1463,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.cashWhenOpenToday : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1348,7 +1484,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.cashNow : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1362,7 +1497,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1382,7 +1516,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.incomeToday : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1396,7 +1530,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.incomePerBusinessHour : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1416,7 +1550,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1430,7 +1564,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1462,13 +1596,13 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     <Col span={12}>
                                         <div className={
                                             screens.sm
-                                                ? 'grid grid-cols-1 gap-5 pt-2'
-                                                : 'grid grid-cols-4 gap-5 pt-2'
+                                                ? 'grid grid-cols-0 gap-0 pt-0'
+                                                : 'grid grid-cols-0 gap-0 pt-0'
                                         }>
-                                            {cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((stock: any, index: any) => {
+                                            {cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((source: any, index: any) => {
                                                 return <div
-                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                                                    className='px-5 pt-5 rounded-md  font-sans my-4'
+                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px' }}
+                                                    className='px-0 pt-0 rounded-md  font-sans my-4'
                                                     key={index}
                                                 >
                                                     <Descriptions
@@ -1476,7 +1610,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         column={
                                                             1
                                                         }
-                                                        items={stock ? itemsOtherIncome(stock) : []}
+                                                        items={source ? itemsOtherIncome(source) : []}
                                                         size='small'
                                                     />
 
@@ -1484,6 +1618,57 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             })}
                                         </div>
 
+
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.List name="sources" initialValue={sourceDetails}>
+                                            {(sourceDetails) => (
+                                                <div className='mt-5'>
+                                                    {sourceDetails ?.map((source: any, index: any) => (
+                                                        <div className={
+                                                            screens.xs
+                                                                ? 'px-6'
+                                                                : 'flex justify-between px-0'
+                                                        } key={index}>
+                                                            <Form.Item
+                                                                {...source}
+                                                                className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                                label="Source"
+                                                                name={[source.name, "source"]}
+                                                                style={{
+                                                                    fontWeight: 600,
+                                                                }}
+                                                            >
+
+                                                                <Input
+
+                                                                    className='w-full'
+                                                                />
+                                                            </Form.Item>
+                                                            <Form.Item
+                                                                {...source}
+                                                                className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                                label="Amount"
+                                                                name={[source.name, "amount"]}
+                                                                style={{
+                                                                    fontWeight: 600,
+                                                                }}
+                                                            >
+                                                                <InputNumber
+                                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                                    className='w-full'
+                                                                />
+                                                            </Form.Item>
+
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </Form.List>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
                                         <div className='mt-5'>
                                             <Descriptions
                                                 key={'totalOtherIncome'}
@@ -1520,61 +1705,28 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     </Col>
                                     <Col span={12}>
                                         <div className='mt-5'>
-                                            {cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-                                                ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-                                                    : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-                                                        ?.map((source: any, index: any) => {
-                                                            return <div className={
-                                                                screens.xs
-                                                                    ? 'px-6'
-                                                                    : 'flex justify-between px-0'
-                                                            } key={index}>
-                                                                <Form.Item
-                                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                                    label="Source"
-                                                                    name={['source_' + index]}
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                    }}
-                                                                >
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-6'
+                                                    : 'flex justify-between px-0'
+                                            }>
 
-                                                                    <Input
-                                                                        defaultValue={source ? source.source : ''}
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Total Other Income"
+                                                    name='totalOtherIncome'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        disabled={true}
+                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        className='w-full'
+                                                    />
+                                                </Form.Item>
+                                            </div>
 
-                                                                        className='w-full'
-                                                                    />
-                                                                </Form.Item>
-                                                                <Form.Item
-                                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                                    label="Amount"
-                                                                    name={['amount_' + index]}
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                    }}
-                                                                >
-                                                                    <InputNumber
-                                                                        defaultValue={source ? source.amount : 0}
-                                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                                        className='w-full'
-                                                                    />
-                                                                </Form.Item>
-
-                                                            </div>
-                                                        })};
-                                               <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Total Other Income"
-                                                name='totalOtherIncome'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.otherIncomeWrapperDto ? cashFlowDetails.data ?.otherIncomeWrapperDto ?.totalOtherIncome : 0}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
-                                                />
-                                            </Form.Item>
                                         </div>
                                     </Col>
                                 </Row>
@@ -1627,6 +1779,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1635,11 +1788,13 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     className={screens.xs ? 'w-full' : 'w-1/2'}
                                                     label="Total Other Income"
                                                     name='totalOtherIncome'
+
                                                     style={{
                                                         fontWeight: 600,
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1676,7 +1831,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         >
                                             {cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
                                                 return <div
-                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', }}
+                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px', }}
                                                     className='px-5 pt-5 rounded-md  font-sans my-4'
                                                     key={index}
                                                 >
@@ -1695,57 +1850,59 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                     </Col>
                                     <Col span={12}>
-                                        <Form.List name="stocks">
-                                            {(cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?
-                                                cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-                                                    : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList) => {
-                                                return (
-                                                    <div className='mt-5'>
-                                                {cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?
-                                                    cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-                                                        : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-                                                            ?.map((stock: any, index: any) => {
-                                                                return <div className={
-                                                                    screens.xs
-                                                                        ? 'px-6'
-                                                                        : 'flex justify-between px-0'
-                                                                } key={index}>
-                                                                    <Form.Item
-                                                                        {...stock}
-                                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                                        label="Stock Name"
-                                                                        name={[stock.name, "stocks"]}
-                                                                        style={{
-                                                                            fontWeight: 600,
-                                                                        }}
-                                                                    >
+                                        <Form.List name="stocks" initialValue={stockDetails}>
+                                            {(stockDetails) => (
+                                                <div className='mt-5'>
+                                                    {stockDetails.map((stock) => (
+                                                        <Space
+                                                            key={stock.key}
+                                                            style={{ display: "flex", marginBottom: 8 }}
+                                                            align="baseline"
+                                                        >
+                                                            <div className={
+                                                                screens.xs
+                                                                    ? 'px-6'
+                                                                    : 'flex justify-between px-0'
+                                                            } >
+                                                                <Form.Item
+                                                                    {...stock}
+                                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                                    label="Stock Name"
+                                                                    name={[stock.name, "stockName"]}
+                                                                    fieldKey={[stock.fieldKey, 'stockName']}
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                    }}
+                                                                >
 
-                                                                        <Input
-                                                                            defaultValue={stock ? stock.stockName : ''}
+                                                                    <Input
 
-                                                                            className='w-full'
-                                                                        />
-                                                                    </Form.Item>
-                                                                    <Form.Item
-                                                                        className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                                        label="Purchasing Price"
-                                                                        name={[stock.name, "purchasingPrices"]}
-                                                                        style={{
-                                                                            fontWeight: 600,
-                                                                        }}
-                                                                    >
-                                                                        <InputNumber
-                                                                            defaultValue={stock ? stock.purchasingPrice : 0}
-                                                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                                            className='w-full'
-                                                                        />
-                                                                    </Form.Item>
-                                                                </div>
-                                                            })}
-                                            </div>
-                                            );
-            }}
-                                         </Form.List>
+
+                                                                        className='w-full'
+                                                                    />
+                                                                </Form.Item>
+                                                                <Form.Item
+                                                                    {...stock}
+                                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                                    label="Purchasing Price"
+                                                                    name={[stock.name, "purchasingPrice"]}
+                                                                    fieldKey={[stock.fieldKey, 'purchasingPrice']}
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                    }}
+                                                                >
+                                                                    <InputNumber
+
+                                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                                        className='w-full'
+                                                                    />
+                                                                </Form.Item>
+                                                            </div>
+                                                        </Space>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </Form.List>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -1803,7 +1960,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        defaultValue={cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth ? cashFlowDetails.data ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth : 0}
+                                                        disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
 
@@ -1864,7 +2021,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Transportation"
-                                                name='transportationExpense'
+                                                name='bnsTransportationExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
@@ -1877,13 +2034,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Utility"
-                                                name='utilitiesExpense'
+                                                name='bnsUtilitiesExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -1903,7 +2059,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -1917,7 +2072,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -1931,13 +2085,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Other"
-                                                name='otherExpense'
+                                                name='bnsOtherExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -1993,13 +2146,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Transport"
-                                                name='transportationExpense'
+                                                name='houseHoldTransportationExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2013,13 +2165,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Utility"
-                                                name='utilitiesExpense'
+                                                name='houseHoldUtilitiesExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2033,7 +2184,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2053,7 +2203,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2067,7 +2216,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2087,7 +2235,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2095,13 +2242,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
                                                 label="Other"
-                                                name='otherExpense'
+                                                name='houseHoldOtherExpense'
                                                 style={{
                                                     fontWeight: 600,
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense : 0}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2158,7 +2304,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : 0}
+                                                    disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2172,7 +2318,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : 0}
+                                                    disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2192,7 +2338,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.netIncomePerMonth : 0}
+                                                    disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2206,7 +2352,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.netIncomePerWeek : 0}
+                                                    disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2226,7 +2372,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    defaultValue={cashFlowDetails.data ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowFinalSummaryDto.totalExpensesPerMonth : 0}
+                                                    disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2242,7 +2388,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 <Col span={12}>
                                     <div className='mt-5'>
                                         <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }}>
-                                            <Button type="primary" size='large' shape="round" htmlType="submit">
+                                            <Button type="primary" size='large'
+                                                disabled={
+                                                    (selectedRole !== 'ADMIN' || selectedRole !== 'CA') ? false : true
+                                                }
+                                                shape="round" htmlType="submit">
                                                 Submit
                                             </Button>
                                         </Form.Item>
@@ -2253,7 +2403,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                             </Form>
                         </div >
 
-                }
+                            }
 
             </div >
         </div >
