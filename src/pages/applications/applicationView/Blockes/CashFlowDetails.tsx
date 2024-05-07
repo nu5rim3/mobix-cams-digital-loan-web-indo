@@ -673,10 +673,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     console.log("cashFlowDetails ", cashFlowDetails)
     const handleTotal = (changedValues, allValues) => {
         const fieldName = Object.keys(changedValues)[0];
-        console.log("changedValues ", changedValues)
-        console.log("allValues ", allValues.stocks)
-        const alldName = Object.keys(allValues)[0]
-        console.log("alldName ", alldName)
+        console.log("fieldName ", getCurrency(changedValues[fieldName]))
+
         if (fieldName === "revenueInBusyDay" || fieldName === "numberOfHighSeasonDays"
             || fieldName === "revenueInLowSessionDay" || fieldName === "numberOfLowSeasonDays") {
             const revenueInBusyDay =
@@ -695,9 +693,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             console.log("numberOfLowSeasonDays ", numberOfLowSeasonDays)
             console.log("revenuePerMonth ", revenuePerMonth)
             if (revenuePerMonth <= form.getFieldValue('estimatedIncomePerMonth') && revenuePerMonth <= form.getFieldValue('monthlyRevenue')) {
-                form.setFieldsValue({ grossRevenuePerMonth: getCurrency(revenuePerMonth) });
+                form.setFieldsValue({ grossRevenuePerMonth: revenuePerMonth });
             }
-            form.setFieldsValue({ revenuePerMonth: getCurrency(revenuePerMonth) });
+            form.setFieldsValue({ revenuePerMonth: revenuePerMonth });
         }
 
         if (fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
@@ -711,9 +709,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const averagePerDay = ((revenueOneDayBefore + revenueTwoDaysBefore + revenueThreeDaysBefore) / 3);
             const monthlyRevenue = (averagePerDay * form.getFieldValue('businessDayPerMonth'));
             if (monthlyRevenue <= form.getFieldValue('estimatedIncomePerMonth') && monthlyRevenue <= form.getFieldValue('revenuePerMonth')) {
-                form.setFieldsValue({ grossRevenuePerMonth: getCurrency(monthlyRevenue) });
+                form.setFieldsValue({ grossRevenuePerMonth: monthlyRevenue });
             }
-            form.setFieldsValue({ averagePerDay: getCurrency(averagePerDay), monthlyRevenue: getCurrency(monthlyRevenue) });
+            form.setFieldsValue({ averagePerDay: averagePerDay, monthlyRevenue: monthlyRevenue });
         }
 
         if (fieldName === "cashWhenOpenToday" || fieldName === "cashNow"
@@ -738,14 +736,14 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const estimatedIncomePerDay = (numberOfBusinessHoursPerDay * incomePerBusinessHour);
             const estimatedIncomePerMonth = (estimatedIncomePerDay * businessDayPerMonth);
             if (estimatedIncomePerMonth <= form.getFieldValue('monthlyRevenue') && estimatedIncomePerMonth <= form.getFieldValue('revenuePerMonth')) {
-                form.setFieldsValue({ grossRevenuePerMonth: getCurrency(estimatedIncomePerMonth) });
+                form.setFieldsValue({ grossRevenuePerMonth: estimatedIncomePerMonth });
             }
             form.setFieldsValue(
                 {
-                    incomeToday: getCurrency(incomeToday),
-                    incomePerBusinessHour: getCurrency(incomePerBusinessHour),
-                    estimatedIncomePerDay: getCurrency(estimatedIncomePerDay),
-                    estimatedIncomePerMonth: getCurrency(estimatedIncomePerMonth)
+                    incomeToday: incomeToday,
+                    incomePerBusinessHour: incomePerBusinessHour,
+                    estimatedIncomePerDay: estimatedIncomePerDay,
+                    estimatedIncomePerMonth: estimatedIncomePerMonth
 
                 });
         }
@@ -796,7 +794,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 + socialContributionExpense + loanPaymentsExpense + houseHoldOtherExpense;
             form.setFieldsValue(
                 {
-                    totalExpensesPerMonth: getCurrency(totExpensePerMonth)
+                    totalExpensesPerMonth: totExpensePerMonth
 
                 });
         }
@@ -818,7 +816,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totalPurchasingPerMonth = purchasingPrice;
             form.setFieldsValue(
                 {
-                    totalPurchasingPerMonth: getCurrency(totalPurchasingPerMonth)
+                    totalPurchasingPerMonth: totalPurchasingPerMonth
 
                 });
 
@@ -839,7 +837,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
-                    totalOtherIncome: getCurrency(totOtherIncome)
+                    totalOtherIncome: totOtherIncome
 
                 });
 
@@ -940,47 +938,47 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                     {
                                         name: ["revenueInBusyDay"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInBusyDay),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInBusyDay,
                                     },
                                     {
                                         name: ["numberOfLowSeasonDays"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfLowSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfLowSeasonDays),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfLowSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfLowSeasonDays,
                                     },
                                     {
                                         name: ["revenueInLowSessionDay"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInLowSessionDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInLowSessionDay),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInLowSessionDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInLowSessionDay,
                                     },
                                     {
                                         name: ["numberOfHighSeasonDays"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfHighSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfHighSeasonDays),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfHighSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfHighSeasonDays,
                                     },
                                     {
                                         name: ["revenuePerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenuePerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenuePerMonth,
                                     },
                                     {
                                         name: ["revenueOneDayBefore"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore,
                                     },
                                     {
                                         name: ["revenueTwoDaysBefore"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore,
                                     },
                                     {
                                         name: ["revenueThreeDaysBefore"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore,
                                     },
                                     {
                                         name: ["averagePerDay"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.averagePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.averagePerDay),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.averagePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.averagePerDay,
                                     },
                                     {
                                         name: ["monthlyRevenue"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue,
                                     },
                                     {
                                         name: ["numberOfBusinessHoursPerDay"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay,
                                     },
                                     {
                                         name: ["currentTime"],
@@ -989,119 +987,119 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     },
                                     {
                                         name: ["hoursAlreadyOpenToday"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday,
                                     },
                                     {
                                         name: ["cashWhenOpenToday"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashWhenOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashWhenOpenToday),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashWhenOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashWhenOpenToday,
                                     },
                                     {
                                         name: ["cashNow"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashNow : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashNow),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashNow : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashNow,
                                     },
                                     {
                                         name: ["moneyForPurchasingToday"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday,
                                     },
                                     {
                                         name: ["incomeToday"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomeToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomeToday),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomeToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomeToday,
                                     },
                                     {
                                         name: ["incomePerBusinessHour"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomePerBusinessHour : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomePerBusinessHour),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomePerBusinessHour : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomePerBusinessHour,
                                     },
                                     {
                                         name: ["estimatedIncomePerDay"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay,
                                     },
                                     {
                                         name: ["estimatedIncomePerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth,
                                     },
                                     {
                                         name: ["bnsTransportationExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense,
                                     },
                                     {
                                         name: ["bnsUtilitiesExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense,
                                     },
                                     {
                                         name: ["rentExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense,
                                     },
                                     {
                                         name: ["employeeSalaryExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense,
                                     },
                                     {
                                         name: ["bnsOtherExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense,
                                     },
                                     {
                                         name: ["foodExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense,
                                     },
                                     {
                                         name: ["houseHoldUtilitiesExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense,
                                     },
                                     {
                                         name: ["houseHoldTransportationExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense,
                                     },
                                     {
                                         name: ["educationExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense,
                                     },
                                     {
                                         name: ["healthExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense,
                                     },
                                     {
                                         name: ["socialContributionExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense,
                                     },
                                     {
                                         name: ["loanPaymentsExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense,
                                     },
                                     {
                                         name: ["houseHoldOtherExpense"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense,
                                     },
                                     {
                                         name: ["maximumMonthlyInstallment"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment,
                                     },
                                     {
                                         name: ["maximumWeeklyInstallment"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment,
                                     },
                                     {
                                         name: ["netIncomePerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerMonth,
                                     },
                                     {
                                         name: ["netIncomePerWeek"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerWeek : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerWeek),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerWeek : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerWeek,
                                     },
                                     {
                                         name: ["totalExpensesPerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.totalExpensesPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.totalExpensesPerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.totalExpensesPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.totalExpensesPerMonth,
                                     },
                                     {
                                         name: ["grossRevenuePerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.grossRevenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.grossRevenuePerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.grossRevenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.grossRevenuePerMonth,
                                     },
                                     {
                                         name: ["totalOtherIncome"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto.totalOtherIncome : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto.totalOtherIncome),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto.totalOtherIncome : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto.totalOtherIncome,
                                     },
                                     {
                                         name: ["totalPurchasingPerMonth"],
-                                        value: getCurrency(cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth),
+                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth,
                                     },
 
 
@@ -1175,6 +1173,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         style={{ margin: 0 }}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         precision={2}
+                                            
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
@@ -1261,10 +1260,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                         disabled={true}
-                                                        precision={2}
+
                                                     />
                                                 </Form.Item>
                                             </div>
