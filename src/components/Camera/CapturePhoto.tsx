@@ -44,7 +44,7 @@ const WebcamCapture = ({
         <Webcam
           audio={false}
           ref={webcamRef}
-          screenshotFormat="image/jpeg" videoConstraints={videoConstraints}
+          screenshotFormat="image/jpeg" 
         />
         <Button icon={<CameraOutlined />} className='w-full mt-3' onClick={capture} type='primary'>CAPTURE PHOTO</Button>
         {/* {imgSrc && (
