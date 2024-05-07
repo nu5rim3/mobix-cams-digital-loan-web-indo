@@ -1,4 +1,5 @@
-import * as React from 'react';
+// import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
 import { Button, notification, TimePicker, Space, Descriptions, DescriptionsProps, Divider, Grid, Spin, Row, Col, Form, Input, InputNumber } from 'antd';
@@ -516,7 +517,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
   } = useSelector((state: any) => state.AppData)
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
-
+    const [currentTime, setCurrentTime] = useState('');
     const saveCashFlow = async (e: any) => {
         // setAllLoading(true)
         console.log("saveCashFlow ", e)
@@ -698,7 +699,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
         }
 
         if (fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
-            || fieldName === "revenueThreeDaysBefore") {
+            || fieldName === "revenueThreeDaysBefore" || fieldName === "businessDayPerMonth") {
             const revenueOneDayBefore =
                 changedValues["revenueOneDayBefore"] || allValues["revenueOneDayBefore"] || form.getFieldValue('revenueOneDayBefore');
             const revenueTwoDaysBefore =
@@ -706,7 +707,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const revenueThreeDaysBefore =
                 changedValues["revenueThreeDaysBefore"] || allValues["revenueThreeDaysBefore"] || form.getFieldValue('revenueThreeDaysBefore');
             const averagePerDay = ((revenueOneDayBefore + revenueTwoDaysBefore + revenueThreeDaysBefore) / 3);
-            const monthlyRevenue = (averagePerDay * 24);
+            const monthlyRevenue = (averagePerDay * form.getFieldValue('businessDayPerMonth'));
             if (monthlyRevenue <= form.getFieldValue('estimatedIncomePerMonth') && monthlyRevenue <= form.getFieldValue('revenuePerMonth')) {
                 form.setFieldsValue({ grossRevenuePerMonth: monthlyRevenue });
             }
@@ -894,6 +895,21 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                         isDeleted: source.isDeleted
                     };
                 });
+
+
+
+    useEffect(() => {
+        const getDateTime = async () => {
+            let tempDate = new Date();
+            const currentTime = tempDate.getHours().toString().padStart(2, '0') + ':' + tempDate.getMinutes().toString().padStart(2, '0') + ':' + tempDate.getSeconds().toString().padStart(2, '0');
+            setCurrentTime(currentTime);
+
+        }
+
+        getDateTime();
+
+
+    }, [cashFlowDetails.data])
     return (
         <div
             style={{
@@ -964,7 +980,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     },
                                     {
                                         name: ["currentTime"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.currentTime : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.currentTime,
+
+                                        value: currentTime,
                                     },
                                     {
                                         name: ["hoursAlreadyOpenToday"],
@@ -1431,7 +1448,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        disabled={true}
+
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
