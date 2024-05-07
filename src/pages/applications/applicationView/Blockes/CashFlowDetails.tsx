@@ -673,8 +673,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     console.log("cashFlowDetails ", cashFlowDetails)
     const handleTotal = (changedValues, allValues) => {
         const fieldName = Object.keys(changedValues)[0];
-
-        console.log("fieldName ", fieldName)
+        console.log("changedValues ", changedValues)
+        console.log("allValues ", allValues.stocks)
+        const alldName = Object.keys(allValues)[0]
+        console.log("alldName ", alldName)
         if (fieldName === "revenueInBusyDay" || fieldName === "numberOfHighSeasonDays"
             || fieldName === "revenueInLowSessionDay" || fieldName === "numberOfLowSeasonDays") {
             const revenueInBusyDay =
@@ -804,15 +806,16 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
         let purchasingPrice = 0;
         if (fieldName === "stocks") {
 
-            changedValues.stocks.forEach((stock: any, index: any) => {
+            allValues.stocks.forEach((stock: any, index: any) => {
                 if (stock && stock.purchasingPrice) {
-                    purchasingPrice = stock.purchasingPrice;
-
+                     
+                    purchasingPrice = purchasingPrice + stock.purchasingPrice;
+                   
                 }
 
 
             });
-            const totalPurchasingPerMonth = form.getFieldValue('totalPurchasingPerMonth') + purchasingPrice;
+            const totalPurchasingPerMonth = purchasingPrice;
             form.setFieldsValue(
                 {
                     totalPurchasingPerMonth: totalPurchasingPerMonth
@@ -824,15 +827,16 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
         if (fieldName === "sources") {
 
-            changedValues.sources.forEach((source: any, index: any) => {
+            allValues.sources.forEach((source: any, index: any) => {
                 if (source && source.amount) {
-                    otherIncome = source.amount;
+                    otherIncome = otherIncome+source.amount;
 
                 }
 
 
             });
-            const totOtherIncome = form.getFieldValue('totalOtherIncome') + otherIncome;
+
+            const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
                     totalOtherIncome: totOtherIncome
