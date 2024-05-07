@@ -808,9 +808,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
             allValues.stocks.forEach((stock: any, index: any) => {
                 if (stock && stock.purchasingPrice) {
-                     
+
                     purchasingPrice = purchasingPrice + stock.purchasingPrice;
-                   
+
                 }
 
 
@@ -829,7 +829,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
             allValues.sources.forEach((source: any, index: any) => {
                 if (source && source.amount) {
-                    otherIncome = otherIncome+source.amount;
+                    otherIncome = otherIncome + source.amount;
 
                 }
 
@@ -1174,6 +1174,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     <InputNumber
                                                         style={{ margin: 0 }}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        precision={2}
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
@@ -1188,6 +1189,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     <InputNumber
                                                         value={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        precision={2}
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
@@ -1206,6 +1208,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1222,6 +1225,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     <InputNumber
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
+                                                        precision={2}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1241,7 +1245,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         style={{ margin: 0 }}
-
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1260,6 +1264,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                         disabled={true}
+                                                        precision={2}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1315,6 +1320,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1328,6 +1334,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1347,6 +1354,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1360,6 +1368,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1382,6 +1391,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1439,6 +1449,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1453,7 +1464,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         disabled={true}
-
+                                                        precision={2}
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
@@ -1472,6 +1483,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1485,6 +1497,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1506,6 +1519,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1519,6 +1533,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
                                                     />
@@ -1538,6 +1553,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1552,6 +1568,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1572,6 +1589,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1586,6 +1604,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1677,6 +1696,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                                 }}
                                                             >
                                                                 <InputNumber
+                                                                    precision={2}
                                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                                     className='w-full'
                                                                 />
@@ -1742,6 +1762,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1801,6 +1822,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1816,6 +1838,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -1914,7 +1937,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                                     }}
                                                                 >
                                                                     <InputNumber
-
+                                                                        precision={2}
                                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                                         className='w-full'
                                                                     />
@@ -1982,6 +2005,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
+                                                        precision={2}
                                                         disabled={true}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         className='w-full'
@@ -2049,6 +2073,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2062,6 +2087,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2081,6 +2107,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2094,6 +2121,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2113,6 +2141,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2161,6 +2190,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2174,6 +2204,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2193,6 +2224,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2206,6 +2238,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2225,6 +2258,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2238,6 +2272,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2257,6 +2292,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2270,6 +2306,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
                                                 />
@@ -2326,6 +2363,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
@@ -2340,6 +2378,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
@@ -2360,6 +2399,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
@@ -2374,6 +2414,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
@@ -2394,6 +2435,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                     className='w-full'
