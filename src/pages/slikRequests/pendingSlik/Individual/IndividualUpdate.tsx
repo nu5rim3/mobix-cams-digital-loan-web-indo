@@ -98,7 +98,8 @@ export default function IndividualUpdate({
         render: (text, record) => (
           <Input
             // value={text} // This value should be connected to your data
-            disabled={selectedRole === 'ADMIN' || record.slikDto.clienteleType == 'SPOUSE' || record.slikDto.clienteleType == 'GUARANTOR'}
+            disabled={selectedRole === 'ADMIN' || record.slikDto.clienteleType == 'SPOUSE'
+             || record.slikDto.clienteleType == 'GUARANTOR' && (record.slikDto.postCltFlag !=null &&  record.slikDto.postCltFlag =='N')}
         
             onChange={(e) => {
               // Handle input changes here and update your data
