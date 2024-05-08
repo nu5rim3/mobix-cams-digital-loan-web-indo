@@ -695,7 +695,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             if (revenuePerMonth <= form.getFieldValue('estimatedIncomePerMonth') && revenuePerMonth <= form.getFieldValue('monthlyRevenue')) {
                 form.setFieldsValue({ grossRevenuePerMonth: revenuePerMonth });
             }
-            form.setFieldsValue({ revenuePerMonth: revenuePerMonth });
+            form.setFieldsValue({ revenuePerMonth: Number(revenuePerMonth).toFixed(2) });
         }
 
         if (fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
@@ -711,7 +711,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             if (monthlyRevenue <= form.getFieldValue('estimatedIncomePerMonth') && monthlyRevenue <= form.getFieldValue('revenuePerMonth')) {
                 form.setFieldsValue({ grossRevenuePerMonth: monthlyRevenue });
             }
-            form.setFieldsValue({ averagePerDay: averagePerDay, monthlyRevenue: monthlyRevenue });
+            form.setFieldsValue({ averagePerDay: Number(averagePerDay).toFixed(2), monthlyRevenue: Number(monthlyRevenue).toFixed(2) });
         }
 
         if (fieldName === "cashWhenOpenToday" || fieldName === "cashNow"
@@ -736,14 +736,14 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const estimatedIncomePerDay = (numberOfBusinessHoursPerDay * incomePerBusinessHour);
             const estimatedIncomePerMonth = (estimatedIncomePerDay * businessDayPerMonth);
             if (estimatedIncomePerMonth <= form.getFieldValue('monthlyRevenue') && estimatedIncomePerMonth <= form.getFieldValue('revenuePerMonth')) {
-                form.setFieldsValue({ grossRevenuePerMonth: estimatedIncomePerMonth });
+                form.setFieldsValue({ grossRevenuePerMonth: Number(estimatedIncomePerMonth).toFixed(2) });
             }
             form.setFieldsValue(
                 {
-                    incomeToday: incomeToday,
-                    incomePerBusinessHour: incomePerBusinessHour,
-                    estimatedIncomePerDay: estimatedIncomePerDay,
-                    estimatedIncomePerMonth: estimatedIncomePerMonth
+                    incomeToday: Number(incomeToday).toFixed(2),
+                    incomePerBusinessHour: Number(incomePerBusinessHour).toFixed(2),
+                    estimatedIncomePerDay: Number(estimatedIncomePerDay).toFixed(2),
+                    estimatedIncomePerMonth: Number(estimatedIncomePerMonth).toFixed(2)
 
                 });
         }
@@ -794,7 +794,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 + socialContributionExpense + loanPaymentsExpense + houseHoldOtherExpense;
             form.setFieldsValue(
                 {
-                    totalExpensesPerMonth: totExpensePerMonth
+                    totalExpensesPerMonth: Number(totExpensePerMonth).toFixed(2)
 
                 });
         }
@@ -816,7 +816,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totalPurchasingPerMonth = purchasingPrice;
             form.setFieldsValue(
                 {
-                    totalPurchasingPerMonth: totalPurchasingPerMonth
+                    totalPurchasingPerMonth: Number(totalPurchasingPerMonth).toFixed(2)
 
                 });
 
@@ -837,7 +837,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
-                    totalOtherIncome: totOtherIncome
+                    totalOtherIncome: Number(totOtherIncome).toFixed(2)
 
                 });
 
@@ -865,10 +865,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const maxWeekInstallment = netIncomeWeek * 0.35;
             form.setFieldsValue(
                 {
-                    netIncomePerMonth: getCurrency(netIncomeMonth),
-                    maximumMonthlyInstallment: getCurrency(maxMonthInstallment),
-                    netIncomePerWeek: getCurrency(netIncomeWeek),
-                    maximumWeeklyInstallment: getCurrency(maxWeekInstallment)
+                    netIncomePerMonth: Number(netIncomeMonth).toFixed(2),
+                    maximumMonthlyInstallment: Number(maxMonthInstallment).toFixed(2),
+                    netIncomePerWeek: Number(netIncomeWeek).toFixed(2),
+                    maximumWeeklyInstallment: Number(maxWeekInstallment).toFixed(2)
                 });
 
         }
@@ -1173,7 +1173,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         style={{ margin: 0 }}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         precision={2}
-                                            
+
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
