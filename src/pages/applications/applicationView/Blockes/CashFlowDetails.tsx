@@ -733,7 +733,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             console.log("moneyForPurchasingToday ", Number(moneyForPurchasingToday).toFixed(2))
             console.log("cashWhenOpenToday ", Number(cashWhenOpenToday).toFixed(2));
             console.log("cashNow ", Number(cashNow).toFixed(2));
-            const incomeToday = (cashNow - cashWhenOpenToday.toFixed(2) + moneyForPurchasingToday);
+            const incomeToday = (cashNow - cashWhenOpenToday + moneyForPurchasingToday);
             console.log("incomeToday ", incomeToday)
             const incomePerBusinessHour = incomeToday / hoursAlreadyOpenToday;
             console.log("incomePerBusinessHour ", incomePerBusinessHour)
