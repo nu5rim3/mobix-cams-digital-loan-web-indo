@@ -822,7 +822,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
 
             });
-            const totalPurchasingPerMonth = Number(purchasingPrice).toFixed(2);
+            const totalPurchasingPerMonth = purchasingPrice;
             form.setFieldsValue(
                 {
                     totalPurchasingPerMonth: Number(totalPurchasingPerMonth).toFixed(2)
@@ -843,7 +843,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
             });
 
-            const totOtherIncome = Number(otherIncome).toFixed(2);
+            const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
                     totalOtherIncome: Number(totOtherIncome).toFixed(2)
