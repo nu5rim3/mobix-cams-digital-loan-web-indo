@@ -730,10 +730,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 changedValues["businessDayPerMonth"] || allValues["businessDayPerMonth"] || form.getFieldValue('businessDayPerMonth');
             const numberOfBusinessHoursPerDay =
                 changedValues["numberOfBusinessHoursPerDay"] || allValues["numberOfBusinessHoursPerDay"] || form.getFieldValue('numberOfBusinessHoursPerDay');
-            console.log("moneyForPurchasingToday ", Number(moneyForPurchasingToday).toFixed(2))
-            console.log("cashWhenOpenToday ", Number(cashWhenOpenToday).toFixed(2));
-            console.log("cashNow ", Number(cashNow).toFixed(2));
-            const incomeToday = (cashNow - cashWhenOpenToday + moneyForPurchasingToday);
+        
+            const incomeToday = (cashNow - (cashWhenOpenToday + moneyForPurchasingToday));
             console.log("incomeToday ", incomeToday)
             const incomePerBusinessHour = incomeToday / hoursAlreadyOpenToday;
             console.log("incomePerBusinessHour ", incomePerBusinessHour)
