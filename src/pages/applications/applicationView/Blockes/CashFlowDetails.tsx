@@ -686,16 +686,16 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const numberOfLowSeasonDays =
                 changedValues["numberOfLowSeasonDays"] || allValues["numberOfLowSeasonDays"] || form.getFieldValue('numberOfLowSeasonDays');
 
-            const revenuePerMonth = ((Number(revenueInBusyDay).toFixed(2) * Number(noOfBusyDays).toFixed(2)) + (Number(revenueInLowSessionDay).toFixed(2) * Number(numberOfLowSeasonDays).toFixed(2)));
+            const revenuePerMonth = (revenueInBusyDay * noOfBusyDays) + (revenueInLowSessionDay * numberOfLowSeasonDays);
             console.log("revenueInBusyDay ", revenueInBusyDay)
             console.log("noOfBusyDays ", noOfBusyDays)
             console.log("revenueInLowSessionDay ", revenueInLowSessionDay)
             console.log("numberOfLowSeasonDays ", numberOfLowSeasonDays)
             console.log("revenuePerMonth ", revenuePerMonth)
             if (revenuePerMonth <= form.getFieldValue('estimatedIncomePerMonth') && revenuePerMonth <= form.getFieldValue('monthlyRevenue')) {
-                form.setFieldsValue({ grossRevenuePerMonth: Number(revenuePerMonth).toFixed(2) });
+                form.setFieldsValue({ grossRevenuePerMonth: revenuePerMonth });
             }
-            form.setFieldsValue({ revenuePerMonth: Number(revenuePerMonth).toFixed(2) });
+            form.setFieldsValue({ revenuePerMonth: revenuePerMonth });
         }
 
         if (fieldName === "revenueOneDayBefore" || fieldName === "revenueTwoDaysBefore"
@@ -709,9 +709,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const averagePerDay = ((revenueOneDayBefore + revenueTwoDaysBefore + revenueThreeDaysBefore) / 3);
             const monthlyRevenue = (averagePerDay * form.getFieldValue('businessDayPerMonth'));
             if (monthlyRevenue <= form.getFieldValue('estimatedIncomePerMonth') && monthlyRevenue <= form.getFieldValue('revenuePerMonth')) {
-                form.setFieldsValue({ grossRevenuePerMonth: Number(monthlyRevenue).toFixed(2) });
+                form.setFieldsValue({ grossRevenuePerMonth: monthlyRevenue });
             }
-            form.setFieldsValue({ averagePerDay: Number(averagePerDay).toFixed(2), monthlyRevenue: Number(monthlyRevenue).toFixed(2) });
+            form.setFieldsValue({ averagePerDay: averagePerDay, monthlyRevenue: monthlyRevenue });
         }
 
         if (fieldName === "cashWhenOpenToday" || fieldName === "cashNow"
@@ -742,14 +742,14 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const estimatedIncomePerMonth = (estimatedIncomePerDay * businessDayPerMonth);
             console.log("estimatedIncomePerMonth ", estimatedIncomePerMonth)
             if (estimatedIncomePerMonth <= form.getFieldValue('monthlyRevenue') && estimatedIncomePerMonth <= form.getFieldValue('revenuePerMonth')) {
-                form.setFieldsValue({ grossRevenuePerMonth: Number(estimatedIncomePerMonth).toFixed(2) });
+                form.setFieldsValue({ grossRevenuePerMonth: estimatedIncomePerMonth });
             }
             form.setFieldsValue(
                 {
-                    incomeToday: Number(incomeToday).toFixed(2),
-                    incomePerBusinessHour: Number(incomePerBusinessHour).toFixed(2),
-                    estimatedIncomePerDay: Number(estimatedIncomePerDay).toFixed(2),
-                    estimatedIncomePerMonth: Number(estimatedIncomePerMonth).toFixed(2)
+                    incomeToday: incomeToday,
+                    incomePerBusinessHour: incomePerBusinessHour,
+                    estimatedIncomePerDay: estimatedIncomePerDay,
+                    estimatedIncomePerMonth: estimatedIncomePerMonth
 
                 });
         }
@@ -803,7 +803,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             console.log("totalExpensesPerMonth ", totExpensePerMonth)
             form.setFieldsValue(
                 {
-                    totalExpensesPerMonth: Number(totExpensePerMonth).toFixed(2)
+                    totalExpensesPerMonth: totExpensePerMonth
 
                 });
         }
@@ -825,7 +825,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totalPurchasingPerMonth = purchasingPrice;
             form.setFieldsValue(
                 {
-                    totalPurchasingPerMonth: Number(totalPurchasingPerMonth).toFixed(2)
+                    totalPurchasingPerMonth: totalPurchasingPerMonth
 
                 });
 
@@ -846,7 +846,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
-                    totalOtherIncome: Number(totOtherIncome).toFixed(2)
+                    totalOtherIncome: totOtherIncome
 
                 });
 
