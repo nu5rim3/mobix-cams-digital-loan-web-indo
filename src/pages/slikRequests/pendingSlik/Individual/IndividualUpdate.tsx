@@ -3,11 +3,11 @@ import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { ColumnsType } from 'antd/es/table';
-import { Input, notification } from 'antd';
+import { Input, notification, Space } from 'antd';
 import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
-
+import { JsonToExcel } from "react-json-to-excel";
 export interface IIndividualUpdateProps {
   searchText: string
 }
@@ -22,6 +22,7 @@ export default function IndividualUpdate({
   const userData = useSelector((state: any) => state.AppData.userData)
   const [loading, setLoading] = useState<boolean>(false)
   const [ableUpdate, setAbleData] = useState(true)
+  const [individualData, setIndividualData] = useState<any[]>([]);
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
@@ -99,8 +100,8 @@ export default function IndividualUpdate({
           <Input
             // value={text} // This value should be connected to your data
             disabled={selectedRole === 'ADMIN' || record.slikDto.clienteleType == 'SPOUSE'
-             || record.slikDto.clienteleType == 'GUARANTOR' && (record.slikDto.postCltFlag !=null &&  record.slikDto.postCltFlag =='N')}
-        
+              || record.slikDto.clienteleType == 'GUARANTOR' && (record.slikDto.postCltFlag != null && record.slikDto.postCltFlag == 'N')}
+
             onChange={(e) => {
               // Handle input changes here and update your data
               // e.target.value contains the new value of the input field
@@ -144,11 +145,41 @@ const getIndividualData = () => {
     type: "IL"
   })
 }
+const getIndividualDataForExcel = () => {
+  let slikArray = [];
+  let slikDetails = {};
+  slikRequestsIndividualData.data ?.map((slik: any) => {
+    slikDetails = {
+      "Branch": "",
+      "MFO": slik.slikDto.createdBy,
+      "Centre": "",
+      "Group No": "",
+      "Customer Name": slik.slikDto.customerName,
+      "NIK": slik.slikDto.customerKTP,
+      "Customer Type": slik.slikDto.clienteleType,
+      "Family C.NO": slik.familyCard,
+      "Residential Address": slik.addLine1,
+      "BR Name": slik.brName,
+      "Contact No": slik.cltContact1,
+      "Facility Type": "Individual",
+      "Batch No": ""
+    };
 
+    slikArray.push(slikDetails);
+  });
+  return slikArray;
+}
 useEffect(() => {
-  getIndividualData()
-}, [])
+  getIndividualData();
 
+
+}, [])
+useEffect(() => {
+  if (slikRequestsIndividualData != null) {
+    let slikArray = getIndividualDataForExcel();
+    setIndividualData(slikArray);
+  }
+}, [slikRequestsIndividualData])
 const uploadData = async () => {
   try {
     setLoading(true)
@@ -185,7 +216,16 @@ return (
       dataSource={slikRequestsIndividualData.data || []}
     />
 
-    <div className='flex justify-center p-10 w-full'>
+    <div className='flex justify-center p-10 w-full '>
+      <JsonToExcel
+        type='primary' shape="round"
+        title="Download Excel"
+        loading={loading}
+        data={individualData}
+        fileName="sample-file"
+        btnClassName="custom download-button  ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-round ant-btn-primary ant-btn-lg gap-5 pt-2"
+      />
+
       <Button
         onClick={uploadData}
         loading={loading}
@@ -196,6 +236,7 @@ return (
         disabled={ableUpdate || selectedRole === 'ADMIN'}
       />
     </div>
+
   </div>
 );
 }

@@ -6,7 +6,7 @@ import { actions } from '../../../../store/store';
 import { Button, Input, Space, notification } from 'antd';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
-
+import { JsonToExcel } from "react-json-to-excel";
 export interface IGroupUpdateProps {
   searchText: string
 }
@@ -22,6 +22,7 @@ export default function GroupUpdate({
   const userData = useSelector((state: any) => state.AppData.userData)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [groupData, setGroupData] = useState<any[]>([]);
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
@@ -173,12 +174,48 @@ export default function GroupUpdate({
       branchCode: userData.data ?.branches[0] ?.code, //'TJP',
       status: 'P',
       type: 'GRPL'
-    })
+    });
   }
+  const getGroupDataForExcel = () => {
+
+    let slikArray = [];
+    let slikDetails = {};
+    slikRequestsGroupData.initialData ?.map((slik: any) => {
+      slikDetails = {
+        "Branch": "",
+        "MFO": " slik.slikDto.createdBy",
+        "Centre": "slik.slikDto.centerCode",
+        "Group No": "slik.slikDto.groupIdx",
+        "Customer Name": slik.slikDto.customerName,
+        "NIK": slik.slikDto.customerKTP,
+        "Customer Type": slik.slikDto.clienteleType,
+        "Family C.NO": slik.familyCard,
+        "Residential Address": slik.addLine1,
+        "BR Name": slik.brName,
+        "Contact No": slik.cltContact1,
+        "Facility Type": "Group",
+        "Batch No": ""
+      };
+
+      slikArray.push(slikDetails);
+    });
+    return slikArray;
+  }
+  useEffect(() => {
+    getGroupData();
+
+
+
+  }, [])
 
   useEffect(() => {
-    getGroupData()
-  }, [])
+    if (slikRequestsGroupData != null) {
+
+      let slikArray = getGroupDataForExcel();
+      setGroupData(slikArray);
+    }
+  }, [slikRequestsGroupData])
+
 
   const uploadData = async () => {
     try {
@@ -210,12 +247,24 @@ export default function GroupUpdate({
       className='border-l-current border-r-current'
     >
       {!selectedGroup
-        ? <FPaginatedTable
+        ?
+         <>
+        <FPaginatedTable
           loading={slikRequestsGroupData.fetching}
           rowKey={'slkIdx'}
           columns={columns}
           dataSource={slikRequestsGroupData.data || []}
         />
+        <div className='flex justify-center p-10 w-full'>
+          <JsonToExcel
+            type='primary' shape="round"
+            title="Download Excel"
+            data={groupData}
+            fileName="sample-file"
+            btnClassName="custom download-button  ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-round ant-btn-primary ant-btn-lg"
+          />
+        </div>
+       </>
         :
       <>
         <FPaginatedTable
@@ -226,6 +275,7 @@ export default function GroupUpdate({
         />
 
         <div className='flex justify-center p-10 w-full'>
+
           <Button
             onClick={uploadData}
             loading={loading}
