@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import ButtonContainer from '../../../components/Buttons/Button';
 import { act } from 'react-dom/test-utils';
 import { API } from '../../../services/Services';
-
+import { JsonToExcel } from "react-json-to-excel";
 
 export interface INonPendingSlikProps {
 }
@@ -20,11 +20,10 @@ export default function NonPendingSlik(props: INonPendingSlikProps) {
 
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>('')
-  const [searchBranch, setSearchBrach] = useState<string>('')
   const [branch, setBranch] = useState<any[]>([])
   const [showBranch, setShowBranch] = useState()
-
-
+  const [inProgressData, setInProgressData] = useState<any[]>([]);
+  const [completedData, setCompletedData] = useState<any[]>([]);
   const {
     selectedStatus,
     slikRequestsData,
@@ -186,6 +185,49 @@ export default function NonPendingSlik(props: INonPendingSlikProps) {
     setBranch(branches.data)
   }
 
+  const getDataForExcel = (data) => {
+
+    let slikArray = [];
+    let slikDetails = {};
+    data ?.map((slik: any) => {
+
+      slikDetails = {
+        "Branch": "",
+        "MFO": slik.slikDto.createdBy,
+        "Centre": slik.slikDto.centerCode,
+        "Group No": slik.slikDto.groupIdx,
+        "Customer Name": slik.slikDto.customerName,
+        "NIK": slik.slikDto.customerKTP,
+        "Customer Type": slik.slikDto.clienteleType,
+        "Family C.NO": slik.familyCard,
+        "Residential Address": slik.addLine1,
+        "BR Name": slik.brName,
+        "Contact No": slik.cltContact1,
+        "Facility Type": slik.slikDto.appraisalType === 'GRPL' ? "Group" : "Individual",
+        "Batch No": slik.slikDto.batchNumber
+      };
+
+      slikArray.push(slikDetails);
+    });
+    {/* if (selectedStatus === 'inprogress') {
+ setInProgressData(slikArray);
+    } else if (inprogress === 'completed') {
+
+    } */}
+    return slikArray;
+  }
+
+  {/* useEffect(() => {
+    if (slikRequestsData != null && selectedStatus != null) {
+
+      let slikInProgress = getDataForExcel('inprogress', 'INPG');
+      //setInProgressData(slikInProgress);
+      let slikCompleted = getDataForExcel('completed', 'C');
+      setCompletedData(slikCompleted);
+    }
+  }, [slikRequestsData, selectedStatus]) */}
+
+
   useEffect(() => {
     getRequestData()
     getBranchData()
@@ -242,6 +284,12 @@ export default function NonPendingSlik(props: INonPendingSlikProps) {
             onClick={() => {
               getRequestData()
             }} />
+          <JsonToExcel
+            title="Download Excel"
+            data={selectedStatus === 'inprogress' ? getDataForExcel(slikRequestsData.data.filter((data: any) => data.status == "INPG")) : getDataForExcel(slikRequestsData.data.filter((data: any) => data.status == "C" || data.status == "A"))}
+            fileName="sample-file"
+            btnClassName=" ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-primary ant-btn-lg ml-3"
+          />
           </>
         : null}
       </div>
