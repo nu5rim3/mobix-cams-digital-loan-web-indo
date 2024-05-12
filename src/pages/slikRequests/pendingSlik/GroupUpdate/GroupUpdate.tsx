@@ -183,14 +183,14 @@ export default function GroupUpdate({
     slikRequestsGroupData.initialData ?.map((slik: any) => {
       slikDetails = {
         "Branch": "",
-        "MFO": " slik.slikDto.createdBy",
-        "Centre": "slik.slikDto.centerCode",
-        "Group No": "slik.slikDto.groupIdx",
+        "MFO": slik.slikDto.createdBy,
+        "Centre": slik.slikDto.centerCode,
+        "Group No": slik.slikDto.groupIdx,
         "Customer Name": slik.slikDto.customerName,
         "NIK": slik.slikDto.customerKTP,
         "Customer Type": slik.slikDto.clienteleType,
         "Family C.NO": slik.familyCard,
-        "Residential Address": slik.addLine1,
+        "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
         "BR Name": slik.brName,
         "Contact No": slik.cltContact1,
         "Facility Type": "Group",
