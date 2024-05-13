@@ -101,9 +101,8 @@ export default function Approval({
       key: 'comment',
       render: (text, record) => {
         if (record.reason != null) {
-          return ` [ ${record.reasonDesc ? record.reasonDesc : ""} ]  
-          <br /> 
-          ${record.comment}`;
+          return ` <p> ${record.reasonDesc ? record.reasonDesc : ""} </p>  
+        <p>  ${record.comment} </p>`;
         } else if (record.comment === null) {
           return ``;
         } else {
