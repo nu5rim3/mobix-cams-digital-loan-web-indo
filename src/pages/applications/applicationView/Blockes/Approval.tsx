@@ -105,6 +105,8 @@ export default function Approval({
             <p> {record.reasonDesc ? record.reasonDesc : ""} </p>
             <p> {record.comment} </p>
           </Space>;
+        } else if (record.comment === null) {
+          return ``;
         } else {
           return `${record.comment} `;
         }
