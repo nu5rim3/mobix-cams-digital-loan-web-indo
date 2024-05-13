@@ -100,8 +100,10 @@ export default function Approval({
       dataIndex: 'comment',
       key: 'comment',
       render: (text, record) => {
-        if (record.reason === 'OTHS') {
-          return `${record.comment} ( ${record.reasonDesc ? record.reasonDesc : ""} )`;
+        if (record.reason != null) {
+          return ` [ ${record.reasonDesc ? record.reasonDesc : ""} ]  
+          <br /> 
+          ${record.comment}`;
         } else if (record.comment === null) {
           return ``;
         } else {
