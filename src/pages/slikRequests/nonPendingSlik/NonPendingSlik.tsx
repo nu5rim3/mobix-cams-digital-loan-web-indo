@@ -284,12 +284,12 @@ export default function NonPendingSlik(props: INonPendingSlikProps) {
             onClick={() => {
               getRequestData()
             }} />
-          <JsonToExcel
+          {/* <JsonToExcel
             title="Download Excel"
             data={selectedStatus === 'inprogress' ? getDataForExcel(slikRequestsData.data.filter((data: any) => data.status == "INPG")) : getDataForExcel(slikRequestsData.data.filter((data: any) => data.status == "C" || data.status == "A"))}
             fileName="sample-file"
             btnClassName=" ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-primary ant-btn-lg ml-3"
-          />
+          /> */}
           </>
         : null}
       </div>
