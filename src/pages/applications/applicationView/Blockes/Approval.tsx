@@ -1,4 +1,4 @@
-import { Divider, Select, Form, Table, Tag, notification } from 'antd';
+import { Divider, Space, Select, Form, Table, Tag, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useEffect, useState } from 'react';
 import ButtonContainer from '../../../../components/Buttons/Button';
@@ -101,12 +101,12 @@ export default function Approval({
       key: 'comment',
       render: (text, record) => {
         if (record.reason != null) {
-          return ` ${record.reasonDesc ? record.reasonDesc + '\n' : ""} ${'\n'} 
-          ${record.comment}`;
-        } else if (record.comment === null) {
-          return ``;
+          return <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+            <p> {record.reasonDesc ? record.reasonDesc : ""} </p>
+            <p> {record.comment} </p>
+          </Space>;
         } else {
-          return `${record.comment}`;
+          return `${record.comment} `;
         }
       }
     },
@@ -126,7 +126,7 @@ export default function Approval({
         const localTime = date.toLocaleTimeString();
 
         return <>{ localDate } - { localTime }</>
-        }
+              }
     },
   ];
 
@@ -258,7 +258,7 @@ export default function Approval({
   useEffect(() => {
     const BMStatus = approvalSteps.data ?.secondMeetingApprovalStepDtoList ?.
       find((row: any) => row.secondMeetingCurrentRole == "BM") ?.secondMeetingStepStatus
-    
+
     const cycleNo = approvalSteps.data ?.approvalStepDtoList[0] ?.cycleNo;
     setCycleNo(cycleNo);
     const caImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL') ?.length;
@@ -395,7 +395,7 @@ export default function Approval({
                     filter((row: any) => row.secondMeetingCurrentRole == "BM") ?.
                       map((row: any) => ({
                         ...row,
-                        stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus}`,
+                        stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus} `,
                         roleDescription: row.secondMeetingCurrentRoleDesc
                       })),
                   ...approvalSteps.data ?.approvalStepDtoList,
