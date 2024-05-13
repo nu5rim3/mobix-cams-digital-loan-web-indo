@@ -80,6 +80,13 @@ export default function GroupUpdate({
 
   const columnsNew: ColumnsType<any> = [
     {
+      title: 'Appraisal No',
+      dataIndex: 'appraisalId',
+      key: 'appraisalId',
+    },
+
+    {
+
       title: 'Centre',
       dataIndex: 'fusionCenterCode,',
       key: 'fusionCenterCode',
@@ -182,6 +189,7 @@ export default function GroupUpdate({
     let slikDetails = {};
     slikRequestsGroupData.initialData ?.map((slik: any) => {
       slikDetails = {
+        "Appraisal No": slik.slikDto.appraisalId,
         "Branch": "",
         "MFO": slik.slikDto.createdBy,
         "Centre": slik.slikDto.centerCode,

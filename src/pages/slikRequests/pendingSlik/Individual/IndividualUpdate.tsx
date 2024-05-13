@@ -33,11 +33,11 @@ export default function IndividualUpdate({
     //   dataIndex: 'centerCode',
     //   key: 'center',
     // },
-    // {
-    //   title: 'Group No',
-    //   dataIndex: 'groupIdx',
-    //   key: 'groupIdx',
-    // },
+    {
+      title: 'Appraisal No',
+      dataIndex: 'appraisalId',
+      key: 'appraisalId',
+    },
     {
       title: 'Customer Name',
       dataIndex: 'customerName',
@@ -150,6 +150,7 @@ const getIndividualDataForExcel = () => {
   let slikDetails = {};
   slikRequestsIndividualData.data ?.map((slik: any) => {
     slikDetails = {
+      "Appraisal No": slik.slikDto.appraisalId,
       "Branch": "",
       "MFO": slik.slikDto.createdBy,
       "Centre": "",
