@@ -730,7 +730,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 changedValues["businessDayPerMonth"] || allValues["businessDayPerMonth"] || form.getFieldValue('businessDayPerMonth');
             const numberOfBusinessHoursPerDay =
                 changedValues["numberOfBusinessHoursPerDay"] || allValues["numberOfBusinessHoursPerDay"] || form.getFieldValue('numberOfBusinessHoursPerDay');
-        
+
             const incomeToday = (cashNow - (cashWhenOpenToday + moneyForPurchasingToday));
             console.log("incomeToday ", incomeToday)
             const incomePerBusinessHour = incomeToday / hoursAlreadyOpenToday;
@@ -2375,6 +2375,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: 'rgba(0, 0, 0, 0.88)'
+                                                    }}
                                                     precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -2390,6 +2394,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: 'rgba(0, 0, 0, 0.88)'
+                                                    }}
                                                     precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -2411,6 +2419,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: 'rgba(0, 0, 0, 0.88)'
+                                                    }}
                                                     precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -2426,6 +2438,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: 'rgba(0, 0, 0, 0.88)'
+                                                    }}
                                                     precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -2447,6 +2463,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: 'rgba(0, 0, 0, 0.88)'
+                                                    }}
                                                     precision={2}
                                                     disabled={true}
                                                     formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
