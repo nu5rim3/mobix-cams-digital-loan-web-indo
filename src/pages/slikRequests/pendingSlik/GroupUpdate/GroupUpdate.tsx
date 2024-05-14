@@ -268,7 +268,7 @@ export default function GroupUpdate({
             type='primary' shape="round"
             title="Download Excel"
             data={groupData}
-            fileName="sample-file"
+            fileName="pending-slik-request"
             btnClassName="custom download-button  ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-round ant-btn-primary ant-btn-lg"
           />
         </div>
