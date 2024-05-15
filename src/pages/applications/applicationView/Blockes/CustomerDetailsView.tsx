@@ -157,7 +157,7 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
         {
             key: 'ktp',
             label: '',
-            children: //data?.ktp,
+            children:
             <div className='flex justify-between w-full'>
 
                 <Space size="middle">
@@ -452,7 +452,30 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                 fontWeight: 600,
                 width: '40%'
             }
-        }
+        },
+        {
+            key: 'spouseKtp',
+            label: '',
+
+        },
+        {
+            key: 'spouseKtp',
+            label: '',
+
+        },
+        {
+            key: 'ktp',
+            label: '',
+            children:
+            <div className='flex justify-between w-full'>
+
+                <Space size="middle">
+                    {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm"><i className="bx bxs-report font-size-16 align-middle me-2"></i>Internal Crib</Link> */}
+                    <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
+                </Space>
+            </div>,
+
+        },
     ]
 
     const {
