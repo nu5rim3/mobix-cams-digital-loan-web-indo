@@ -190,7 +190,7 @@ export default function GroupUpdate({
     slikRequestsGroupData.initialData ?.map((slik: any) => {
       slikDetails = {
         "Appraisal No": slik.slikDto.appraisalId,
-        "Branch": "",
+        "Branch": slik.slikDto.branchDesc,
         "MFO": slik.slikDto.createdBy,
         "Centre": slik.slikDto.centerCode,
         "Group No": slik.slikDto.groupIdx,

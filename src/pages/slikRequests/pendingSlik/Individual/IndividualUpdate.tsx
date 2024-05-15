@@ -151,7 +151,7 @@ const getIndividualDataForExcel = () => {
   slikRequestsIndividualData.data ?.map((slik: any) => {
     slikDetails = {
       "Appraisal No": slik.slikDto.appraisalId,
-      "Branch": "",
+      "Branch": slik.slikDto.branchDesc,
       "MFO": slik.slikDto.createdBy,
       "Centre": "",
       "Group No": "",
