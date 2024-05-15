@@ -4,6 +4,7 @@ import roleServices from './common/role/api'
 import reasonServices from './common/reason/api'
 import marketeerServices from './common/Marketeers/api'
 import slikServices from './credit/sliks/api'
+import internalCribServices from './credit/InternalCrib/api'
 import appraisalsServices from './loan/appraisals/api'
 import personServices from './stakeholder/person/api'
 import stakeholderContact from './stakeholder/contact/api'
@@ -27,6 +28,7 @@ export const API = {
     reasonServices,
     marketeerServices,
     slikServices,
+    internalCribServices,
     appraisalsServices,
     personServices,
     stakeholderContact,
