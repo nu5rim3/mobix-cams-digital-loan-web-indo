@@ -17,7 +17,7 @@ const ThemeBlueWhite: React.FC<{children: React.ReactNode}> = ({children}) => (<
                     // algorithm: theme.defaultAlgorithm,
                     // algorithm: userTheme === 'light'? theme.defaultAlgorithm : theme.darkAlgorithm,
                     token: {
-                      colorPrimary: '#DAC0A3',
+                      colorPrimary: '#102C57',
                       colorBgContainer: '#102C57',
                       // colorBgElevated: '#102C57',
                       // colorBgLayout: "#DAC0A3",

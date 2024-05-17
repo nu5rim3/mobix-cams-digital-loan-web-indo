@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
 import { Button, notification, TimePicker, Space, Descriptions, DescriptionsProps, Divider, Grid, Spin, Row, Col, Form, Input, InputNumber } from 'antd';
-import getCurrency from '../../../../utils/getCurrency';
+import getCurrency, { converToCurrency } from '../../../../utils/getCurrency';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { API } from '../../../../services/Services';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import CurrencyInput from '../../../../components/CurrencyInput/CurrencyInput';
 // dayjs.extend(customParseFormat);
 export interface ICashFlowDetailsProps {
 }
@@ -321,7 +322,7 @@ const itemsOtherIncome: (data: any) => DescriptionsProps['items'] = (data) => [
 const itemsTotalExpenseB: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'transportationExpense',
-        label: 'Transportation',
+        label: 'Transport',
         children: getCurrency(data.transportationExpense),
         labelStyle: {
             color: '#102C57',
@@ -508,13 +509,13 @@ const itemsSummary: (data: any) => DescriptionsProps['items'] = (data) => [
 export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     const [form] = Form.useForm();
     const {
-         customerData,
+        customerData,
         cashFlowDetails
     } = useSelector((state: any) => state.Application)
     const {
-      selectedRole,
+        selectedRole,
         userData
-  } = useSelector((state: any) => state.AppData)
+    } = useSelector((state: any) => state.AppData)
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const [currentTime, setCurrentTime] = useState('');
@@ -1160,7 +1161,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     1 : 1
                                                 }
                                                 items={cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto
-                                                    ? itemsSalesOperation(cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto): []} 
+                                                    ? itemsSalesOperation(cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1176,16 +1177,14 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 <Form.Item
                                                     className={screens.xs ? 'w-full' : 'w-1/2'}
                                                     label="Business Day per Month"
-                                                    name='businessDayPerMonth' initialValue={cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.businessDayPerMonth}
+                                                    name='businessDayPerMonth'
+                                                    initialValue={cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.businessDayPerMonth}
                                                     style={{
                                                         fontWeight: 600,
                                                     }}
                                                 >
                                                     <InputNumber
                                                         style={{ margin: 0 }}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        precision={2}
-
                                                         className='w-full'
                                                     />
                                                 </Form.Item>
@@ -1198,7 +1197,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        value={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay : 0}
+                                                        value={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay.toFixed(2) : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         precision={2}
                                                         className='w-full'
@@ -1273,8 +1272,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
 
                                                     />
@@ -1309,7 +1310,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     1 : 1
                                                 }
                                                 items={cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto
-                                                    ? itemsSalesRevenue3Day(cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto): []} 
+                                                    ? itemsSalesRevenue3Day(cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1381,9 +1382,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
 
@@ -1404,9 +1407,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1438,7 +1443,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     1 : 1
                                                 }
                                                 items={cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto
-                                                    ? itemsSalesRevenueCash(cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto): []} 
+                                                    ? itemsSalesRevenueCash(cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1477,7 +1482,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     <InputNumber
                                                         disabled={true}
                                                         precision={2}
-                                                        className='w-full'
+                                                        className='w-full text-black'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1566,9 +1571,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1581,9 +1588,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1602,9 +1611,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1617,9 +1628,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1775,9 +1788,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1813,7 +1828,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     ? itemsGrossRevenue({
                                                         ...cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto,
                                                         ...cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto
-                            }) : []} 
+                                                    }) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1835,9 +1850,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1851,9 +1868,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1879,29 +1898,18 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 </Row>
                                 <Row>
                                     <Col span={12}>
-
-                                        <div className={
-                                            screens.lg
-                                                ? 'grid grid-cols-1 gap-5 pt-2'
-                                                : 'grid grid-cols-2 gap-5 pt-2'
-                                        }
+                                        <div
+                                            className='mt-4'
                                         >
                                             {cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
-                                                return <div
-                                                    style={{ boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px', }}
-                                                    className='px-5 pt-5 rounded-md  font-sans my-4'
+                                                return <Descriptions
                                                     key={index}
-                                                >
-                                                    <Descriptions
-                                                        key={index}
-                                                        column={
-                                                            1
-                                                        }
-                                                        items={stock ? itemsBusinussStock(stock) : []}
-                                                        size='small'
-                                                    />
-
-                                                </div>
+                                                    column={screens.xs ?
+                                                        1 : 3
+                                                    }
+                                                    items={stock ? itemsBusinussStock(stock) : []}
+                                                    size='small'
+                                                />
                                             })}
                                         </div>
 
@@ -1964,7 +1972,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                 </Row>
                                 <Row>
                                     <Col span={12}>
-                                        <div className='mt-5'>
+                                        <div className='mt-4'>
                                             <Descriptions
                                                 key={'totalPurchasingPerMonth'}
                                                 column={screens.xs ?
@@ -1999,13 +2007,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         </div>
                                     </Col>
                                     <Col span={12}>
-                                        <div className='mt-5'>
+                                        <div className='mt-4'>
                                             <div className={
                                                 screens.xs
                                                     ? 'px-6'
                                                     : 'flex justify-between px-0'
                                             }>
-
                                                 <Form.Item
                                                     className={screens.xs ? 'w-full' : 'w-1/2'}
                                                     label="Total Purchasing per Month"
@@ -2013,19 +2020,18 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     style={{
                                                         color: '#102C57',
                                                         fontWeight: 600,
-                                                        width: '50%'
                                                     }}
                                                 >
                                                     <InputNumber
                                                         precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full text-black'
                                                         disabled={true}
-                                                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                        className='w-full'
-
                                                     />
                                                 </Form.Item>
                                             </div>
-
                                         </div>
                                     </Col>
                                 </Row>
@@ -2065,7 +2071,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             items={cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0]
                                                 ? itemsTotalExpenseB(
                                                     cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0]
-                        ): []} 
+                                                ) : []}
                                             size='small'
                                         />
                                     </Col>
@@ -2078,7 +2084,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         }>
                                             <Form.Item
                                                 className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Transportation"
+                                                label="Transport"
                                                 name='bnsTransportationExpense'
                                                 style={{
                                                     fontWeight: 600,
@@ -2182,7 +2188,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             items={cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0]
                                                 ? itemsTotalExpenseH(
                                                     cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0]
-                        ): []} 
+                                                ) : []}
                                             size='small'
                                         />
                                     </Col>
@@ -2355,7 +2361,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             items={cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto
                                                 ? itemsSummary(
                                                     cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto
-                        ): []} 
+                                                    ) : []}
                                             size='small'
                                         />
                                     </Col>
@@ -2375,14 +2381,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'rgba(0, 0, 0, 0.88)'
-                                                    }}
                                                     precision={2}
+                                                    formatter={(value) =>
+                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    }
+                                                    className='w-full text-black'
                                                     disabled={true}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
                                                 />
                                             </Form.Item>
                                             <Form.Item
@@ -2394,14 +2398,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'rgba(0, 0, 0, 0.88)'
-                                                    }}
                                                     precision={2}
+                                                    formatter={(value) =>
+                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    }
+                                                    className='w-full text-black'
                                                     disabled={true}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
                                                 />
                                             </Form.Item>
                                         </div>
@@ -2419,14 +2421,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'rgba(0, 0, 0, 0.88)'
-                                                    }}
                                                     precision={2}
+                                                    formatter={(value) =>
+                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    }
+                                                    className='w-full text-black'
                                                     disabled={true}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
                                                 />
                                             </Form.Item>
                                             <Form.Item
@@ -2438,14 +2438,12 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'rgba(0, 0, 0, 0.88)'
-                                                    }}
                                                     precision={2}
+                                                    formatter={(value) =>
+                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    }
+                                                    className='w-full text-black'
                                                     disabled={true}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
                                                 />
                                             </Form.Item>
                                         </div>
@@ -2463,43 +2461,36 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 }}
                                             >
                                                 <InputNumber
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'rgba(0, 0, 0, 0.88)'
-                                                    }}
                                                     precision={2}
+                                                    formatter={(value) =>
+                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    }
+                                                    className='w-full text-black'
                                                     disabled={true}
-                                                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    className='w-full'
                                                 />
                                             </Form.Item>
                                         </div>
                                     </Col>
                                 </Row>
-                        </div>
+                                </div>
+
                             <Row>
-                                <Col span={12}>
-
-                                </Col>
-                                <Col span={12}>
-                                    <div className='mt-5'>
-                                        <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }}>
-                                            <Button type="primary" size='large'
-                                                disabled={
-                                                    (selectedRole !== 'CA') ? true : false
-                                                }
-                                                shape="round" htmlType="submit">
-                                                Submit
-                                            </Button>
-                                        </Form.Item>
-
+                                <Col span={24}>
+                                    <div className='flex justify-end'>
+                                        <Button type="primary" size='large' className="mt-3"
+                                            disabled={
+                                                (selectedRole !== 'CA') ? true : false
+                                            }
+                                            shape="round" htmlType="submit">
+                                            Submit
+                                                </Button>
                                     </div>
                                 </Col>
                             </Row>
                             </Form>
                         </div >
 
-                            }
+                }
 
             </div >
         </div >
