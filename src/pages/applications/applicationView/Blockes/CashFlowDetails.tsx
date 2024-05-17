@@ -520,15 +520,13 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     const screens = useBreakpoint();
     const [currentTime, setCurrentTime] = useState('');
     const saveCashFlow = async (e: any) => {
-        // setAllLoading(true)
-        console.log("saveCashFlow ", e)
 
         try {
             const data = {
                 idx: customerData.data.appraisalId,
                 roleCode: selectedRole,
                 salesOperatingRevenueDto: {
-                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.appraisalId : null,
+                    appraisalId: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.appraisalId : null,
                     businessDayPerMonth: e.businessDayPerMonth,
                     revenueInBusyDay: e.revenueInBusyDay,
                     revenueInLowSessionDay: e.revenueInLowSessionDay,
@@ -537,7 +535,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     numberOfLowSeasonDays: e.numberOfLowSeasonDays
                 },
                 salesThreeDayCroscheckRevenueDto: {
-                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.appraisalId : null,
+                    appraisalId: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.appraisalId : null,
                     revenueOneDayBefore: e.revenueOneDayBefore,
                     revenueTwoDaysBefore: e.revenueTwoDaysBefore,
                     revenueThreeDaysBefore: e.revenueThreeDaysBefore,
@@ -545,7 +543,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     monthlyRevenue: e.monthlyRevenue,
                 },
                 salesCashCroscheckRevenueDto: {
-                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.appraisalId : null,
+                    appraisalId: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.appraisalId : null,
                     numberOfBusinessHoursPerDay: e.numberOfBusinessHoursPerDay,
                     currentTime: e.currentTime,
                     hoursAlreadyOpenToday: e.hoursAlreadyOpenToday,
@@ -562,7 +560,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     totalExpPerMonth: e.totalExpPerMonth,
                     businessExpPerMonthDtoList: [
                         {
-                            appraisalId: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].appraisalId : null,
+                            appraisalId: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].appraisalId : null,
                             transportationExpense: e.bnsTransportationExpense,
                             utilitiesExpense: e.bnsUtilitiesExpense,
                             rentExpense: e.rentExpense,
@@ -576,7 +574,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     householdExpenditurePerMonth: e.householdExpenditurePerMonth,
                     houseHoldExpPerMonthDtoList: [
                         {
-                            appraisalId: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].appraisalId : null,
+                            appraisalId: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].appraisalId : null,
                             foodExpense: e.foodExpense,
                             utilitiesExpense: e.houseHoldUtilitiesExpense,
                             transportationExpense: e.houseHoldTransportationExpense,
@@ -607,7 +605,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     })),
                 },
                 cashFlowFinalSummaryDto: {
-                    appraisalId: cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto.appraisalId : null,
+                    appraisalId: cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto.appraisalId : null,
                     totalExpensesPerMonth: e.totalExpensesPerMonth,
                     netIncomePerMonth: e.netIncomePerMonth,
                     netIncomePerWeek: e.netIncomePerWeek,
@@ -616,10 +614,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                     grossRevenuePerMonth: e.grossRevenuePerMonth
                 }
             }
-            console.log("incomeExpence ", cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto)
 
-            if (cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto != 'undefined'
-                && cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto != null) {
+            if (cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto != 'undefined'
+                && cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto != null) {
                 const incomeExpence = await API.incomeExpencesServices.updateCashFlow(customerData.data.appraisalId, {
                     ...data,
                 })
@@ -628,9 +625,6 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 })
 
             } else {
-
-                console.log("customerData.data.appraisalId  ", customerData.data.appraisalId, " ", data)
-
 
                 const incomeExpence = await API.incomeExpencesServices.saveCashFlow(customerData.data.appraisalId, {
                     ...data,
@@ -670,11 +664,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
     }
 
 
-
-    console.log("cashFlowDetails ", cashFlowDetails)
     const handleTotal = (changedValues, allValues) => {
         const fieldName = Object.keys(changedValues)[0];
-        console.log("fieldName ", Number(changedValues[fieldName]).toFixed(2))
 
         if (fieldName === "revenueInBusyDay" || fieldName === "numberOfHighSeasonDays"
             || fieldName === "revenueInLowSessionDay" || fieldName === "numberOfLowSeasonDays") {
@@ -688,11 +679,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 changedValues["numberOfLowSeasonDays"] || allValues["numberOfLowSeasonDays"] || form.getFieldValue('numberOfLowSeasonDays');
 
             const revenuePerMonth = (revenueInBusyDay * noOfBusyDays) + (revenueInLowSessionDay * numberOfLowSeasonDays);
-            console.log("revenueInBusyDay ", revenueInBusyDay)
-            console.log("noOfBusyDays ", noOfBusyDays)
-            console.log("revenueInLowSessionDay ", revenueInLowSessionDay)
-            console.log("numberOfLowSeasonDays ", numberOfLowSeasonDays)
-            console.log("revenuePerMonth ", revenuePerMonth)
+
             if (revenuePerMonth <= form.getFieldValue('estimatedIncomePerMonth') && revenuePerMonth <= form.getFieldValue('monthlyRevenue')) {
                 form.setFieldsValue({ grossRevenuePerMonth: revenuePerMonth });
             }
@@ -733,13 +720,13 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 changedValues["numberOfBusinessHoursPerDay"] || allValues["numberOfBusinessHoursPerDay"] || form.getFieldValue('numberOfBusinessHoursPerDay');
 
             const incomeToday = (cashNow - (cashWhenOpenToday + moneyForPurchasingToday));
-            console.log("incomeToday ", incomeToday)
+
             const incomePerBusinessHour = incomeToday / hoursAlreadyOpenToday;
-            console.log("incomePerBusinessHour ", incomePerBusinessHour)
+
             const estimatedIncomePerDay = (numberOfBusinessHoursPerDay * incomePerBusinessHour);
-            console.log("estimatedIncomePerDay ", estimatedIncomePerDay)
+
             const estimatedIncomePerMonth = (estimatedIncomePerDay * businessDayPerMonth);
-            console.log("estimatedIncomePerMonth ", estimatedIncomePerMonth)
+
             if (estimatedIncomePerMonth <= form.getFieldValue('monthlyRevenue') && estimatedIncomePerMonth <= form.getFieldValue('revenuePerMonth')) {
                 form.setFieldsValue({ grossRevenuePerMonth: estimatedIncomePerMonth });
             }
@@ -799,7 +786,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                 + foodExpense + houseHoldUtilitiesExpense
                 + houseHoldTransportationExpense + educationExpense + healthExpense
                 + socialContributionExpense + loanPaymentsExpense + houseHoldOtherExpense;
-            console.log("totalExpensesPerMonth ", totExpensePerMonth)
+
             form.setFieldsValue(
                 {
                     totalExpensesPerMonth: totExpensePerMonth
@@ -865,17 +852,17 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             || fieldName === "moneyForPurchasingToday" || fieldName === "hoursAlreadyOpenToday"
             || fieldName === "numberOfBusinessHoursPerDay" || fieldName === "businessDayPerMonth") {
             const totExpenditure = form.getFieldValue('totalExpensesPerMonth') + form.getFieldValue('totalPurchasingPerMonth');
-            console.log("totExpenditure " + totExpenditure);
+
             const totGrossIncome = form.getFieldValue('grossRevenuePerMonth') + form.getFieldValue('totalOtherIncome');
-            console.log("totGrossIncome " + totGrossIncome);
+
             const netIncomeMonth = totGrossIncome - totExpenditure;
-            console.log("netIncomeMonth " + netIncomeMonth);
+
             const maxMonthInstallment = netIncomeMonth * 0.35;
-            console.log("maxMonthInstallment " + maxMonthInstallment);
+
             const netIncomeWeek = netIncomeMonth / 4;
-            console.log("netIncomeWeek " + netIncomeWeek);
+
             const maxWeekInstallment = netIncomeWeek * 0.35;
-            console.log("maxWeekInstallment " + maxWeekInstallment);
+
             form.setFieldsValue(
                 {
                     netIncomePerMonth: Number(netIncomeMonth).toFixed(2),
@@ -887,29 +874,29 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
         }
     };
 
-    const stockDetails = cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?
-        cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-            : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList
-                ?.map((stock: any) => {
-                    return {
-                        appraisalId: stock.appraisalId,
-                        stockName: stock.stockName,
-                        purchasingPrice: stock.purchasingPrice,
-                        isDeleted: stock.isDeleted
-                    };
-                });
+    const stockDetails = cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList ?
+        cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList
+        : cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList
+            ?.map((stock: any) => {
+                return {
+                    appraisalId: stock.appraisalId,
+                    stockName: stock.stockName,
+                    purchasingPrice: stock.purchasingPrice,
+                    isDeleted: stock.isDeleted
+                };
+            });
 
-    const sourceDetails = cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-        ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-            : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList
-                ?.map((source: any) => {
-                    return {
-                        appraisalId: source.appraisalId,
-                        source: source.source,
-                        amount: source.amount,
-                        isDeleted: source.isDeleted
-                    };
-                });
+    const sourceDetails = cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto?.otherIncomeDtoList
+        ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto?.otherIncomeDtoList
+        : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto?.otherIncomeDtoList
+            ?.map((source: any) => {
+                return {
+                    appraisalId: source.appraisalId,
+                    source: source.source,
+                    amount: source.amount,
+                    isDeleted: source.isDeleted
+                };
+            });
 
 
 
@@ -951,47 +938,47 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                     {
                                         name: ["revenueInBusyDay"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInBusyDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInBusyDay,
                                     },
                                     {
                                         name: ["numberOfLowSeasonDays"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfLowSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfLowSeasonDays,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfLowSeasonDays : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfLowSeasonDays,
                                     },
                                     {
                                         name: ["revenueInLowSessionDay"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenueInLowSessionDay : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenueInLowSessionDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInLowSessionDay : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInLowSessionDay,
                                     },
                                     {
                                         name: ["numberOfHighSeasonDays"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.numberOfHighSeasonDays : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.numberOfHighSeasonDays,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfHighSeasonDays : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfHighSeasonDays,
                                     },
                                     {
                                         name: ["revenuePerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.revenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.revenuePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenuePerMonth : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenuePerMonth,
                                     },
                                     {
                                         name: ["revenueOneDayBefore"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore,
                                     },
                                     {
                                         name: ["revenueTwoDaysBefore"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore,
                                     },
                                     {
                                         name: ["revenueThreeDaysBefore"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore,
                                     },
                                     {
                                         name: ["averagePerDay"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.averagePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.averagePerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.averagePerDay : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.averagePerDay,
                                     },
                                     {
                                         name: ["monthlyRevenue"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto.monthlyRevenue,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.monthlyRevenue,
                                     },
                                     {
                                         name: ["numberOfBusinessHoursPerDay"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay,
                                     },
                                     {
                                         name: ["currentTime"],
@@ -1000,119 +987,119 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     },
                                     {
                                         name: ["hoursAlreadyOpenToday"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday,
                                     },
                                     {
                                         name: ["cashWhenOpenToday"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashWhenOpenToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashWhenOpenToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashWhenOpenToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashWhenOpenToday,
                                     },
                                     {
                                         name: ["cashNow"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.cashNow : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.cashNow,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashNow : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashNow,
                                     },
                                     {
                                         name: ["moneyForPurchasingToday"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.moneyForPurchasingToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.moneyForPurchasingToday,
                                     },
                                     {
                                         name: ["incomeToday"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomeToday : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomeToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomeToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomeToday,
                                     },
                                     {
                                         name: ["incomePerBusinessHour"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.incomePerBusinessHour : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.incomePerBusinessHour,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomePerBusinessHour : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomePerBusinessHour,
                                     },
                                     {
                                         name: ["estimatedIncomePerDay"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerDay,
                                     },
                                     {
                                         name: ["estimatedIncomePerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth,
                                     },
                                     {
                                         name: ["bnsTransportationExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].transportationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense,
                                     },
                                     {
                                         name: ["bnsUtilitiesExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].utilitiesExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense,
                                     },
                                     {
                                         name: ["rentExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].rentExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense,
                                     },
                                     {
                                         name: ["employeeSalaryExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].employeeSalaryExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense,
                                     },
                                     {
                                         name: ["bnsOtherExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0].otherExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense,
                                     },
                                     {
                                         name: ["foodExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].foodExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense,
                                     },
                                     {
                                         name: ["houseHoldUtilitiesExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].utilitiesExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense,
                                     },
                                     {
                                         name: ["houseHoldTransportationExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].transportationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense,
                                     },
                                     {
                                         name: ["educationExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].educationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense,
                                     },
                                     {
                                         name: ["healthExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].healthExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense,
                                     },
                                     {
                                         name: ["socialContributionExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].socialContributionExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense,
                                     },
                                     {
                                         name: ["loanPaymentsExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].loanPaymentsExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense,
                                     },
                                     {
                                         name: ["houseHoldOtherExpense"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0] ? cashFlowDetails.data ?.cashFlowCa ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense : cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0].otherExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense,
                                     },
                                     {
                                         name: ["maximumMonthlyInstallment"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumMonthlyInstallment,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumMonthlyInstallment,
                                     },
                                     {
                                         name: ["maximumWeeklyInstallment"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.maximumWeeklyInstallment,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumWeeklyInstallment,
                                     },
                                     {
                                         name: ["netIncomePerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerMonth,
                                     },
                                     {
                                         name: ["netIncomePerWeek"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.netIncomePerWeek : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.netIncomePerWeek,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerWeek : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerWeek,
                                     },
                                     {
                                         name: ["totalExpensesPerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.totalExpensesPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.totalExpensesPerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.totalExpensesPerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.totalExpensesPerMonth,
                                     },
                                     {
                                         name: ["grossRevenuePerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto ? cashFlowDetails.data ?.cashFlowCa ?.cashFlowFinalSummaryDto.grossRevenuePerMonth : cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto.grossRevenuePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.grossRevenuePerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.grossRevenuePerMonth,
                                     },
                                     {
                                         name: ["totalOtherIncome"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.otherIncomeWrapperDto.totalOtherIncome : cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto.totalOtherIncome,
+                                        value: cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto.totalOtherIncome : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto.totalOtherIncome,
                                     },
                                     {
                                         name: ["totalPurchasingPerMonth"],
-                                        value: cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data ?.cashFlowCa ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth : cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth,
                                     },
 
 
@@ -1160,8 +1147,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 column={screens.lg ?
                                                     1 : 1
                                                 }
-                                                items={cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto
-                                                    ? itemsSalesOperation(cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto) : []}
+                                                items={cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto
+                                                    ? itemsSalesOperation(cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1178,7 +1165,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     className={screens.xs ? 'w-full' : 'w-1/2'}
                                                     label="Business Day per Month"
                                                     name='businessDayPerMonth'
-                                                    initialValue={cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.cashFlowCa ?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data ?.cashFlowMfo ?.salesOperatingRevenueDto.businessDayPerMonth}
+                                                    initialValue={cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.businessDayPerMonth : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.businessDayPerMonth}
                                                     style={{
                                                         fontWeight: 600,
                                                     }}
@@ -1197,7 +1184,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     }}
                                                 >
                                                     <InputNumber
-                                                        value={cashFlowDetails.data ?.salesOperatingRevenueDto ? cashFlowDetails.data ?.salesOperatingRevenueDto.revenueInBusyDay.toFixed(2) : 0}
+                                                        value={cashFlowDetails.data?.salesOperatingRevenueDto ? cashFlowDetails.data?.salesOperatingRevenueDto.revenueInBusyDay.toFixed(2) : 0}
                                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         precision={2}
                                                         className='w-full'
@@ -1275,9 +1262,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
-
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1309,8 +1298,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 column={screens.lg ?
                                                     1 : 1
                                                 }
-                                                items={cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto
-                                                    ? itemsSalesRevenue3Day(cashFlowDetails.data ?.cashFlowMfo ?.salesThreeDayCroscheckRevenueDto) : []}
+                                                items={cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto
+                                                    ? itemsSalesRevenue3Day(cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1385,8 +1374,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
 
@@ -1410,8 +1402,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1442,8 +1437,8 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 column={screens.lg ?
                                                     1 : 1
                                                 }
-                                                items={cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto
-                                                    ? itemsSalesRevenueCash(cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto) : []}
+                                                items={cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto
+                                                    ? itemsSalesRevenueCash(cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto) : []}
                                                 size='small'
                                             />
                                         </div>
@@ -1482,7 +1477,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                     <InputNumber
                                                         disabled={true}
                                                         precision={2}
-                                                        className='w-full text-black'
+                                                        className='w-full'
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1574,8 +1572,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1591,8 +1592,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1614,8 +1618,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1631,8 +1638,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1665,7 +1675,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 ? 'grid grid-cols-0 gap-0 pt-0'
                                                 : 'grid grid-cols-0 gap-0 pt-0'
                                         }>
-                                            {cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.otherIncomeDtoList ?.map((source: any, index: any) => {
+                                            {cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto?.otherIncomeDtoList?.map((source: any, index: any) => {
                                                 return <div
                                                     style={{ boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px' }}
                                                     className='px-0 pt-0 rounded-md  font-sans my-4'
@@ -1690,7 +1700,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         <Form.List name="sources" initialValue={sourceDetails}>
                                             {(sourceDetails) => (
                                                 <div className='mt-5'>
-                                                    {sourceDetails ?.map((source: any, index: any) => (
+                                                    {sourceDetails?.map((source: any, index: any) => (
                                                         <div className={
                                                             screens.xs
                                                                 ? 'px-6'
@@ -1747,7 +1757,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         key: 'totalOtherIncome',
                                                         label: 'Total Other Income',
                                                         children: <div className='font-bold'>
-                                                            {getCurrency(cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto ?.totalOtherIncome)}
+                                                            {getCurrency(cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto?.totalOtherIncome)}
                                                         </div>,
                                                         labelStyle: {
                                                             color: '#102C57',
@@ -1791,8 +1801,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1824,10 +1837,10 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                 column={screens.xs ?
                                                     1 : 3
                                                 }
-                                                items={cashFlowDetails.data ?.cashFlowMfo ?.salesCashCroscheckRevenueDto
+                                                items={cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto
                                                     ? itemsGrossRevenue({
-                                                        ...cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto,
-                                                        ...cashFlowDetails.data ?.cashFlowMfo ?.otherIncomeWrapperDto
+                                                        ...cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto,
+                                                        ...cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto
                                                     }) : []}
                                                 size='small'
                                             />
@@ -1853,8 +1866,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                                 <Form.Item
@@ -1871,8 +1887,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -1901,7 +1920,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                         <div
                                             className='mt-4'
                                         >
-                                            {cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.businessStockPurPerMonthDtoList ?.map((stock: any, index: any) => {
+                                            {cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto?.businessStockPurPerMonthDtoList?.map((stock: any, index: any) => {
                                                 return <Descriptions
                                                     key={index}
                                                     column={screens.xs ?
@@ -1983,7 +2002,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         key: 'totalPurchasingPerMonth',
                                                         label: 'Total Purchasing per Month',
                                                         children: <div className='font-bold'>
-                                                            {getCurrency(cashFlowDetails.data ?.cashFlowMfo ?.businessStockPurPerMonthWrapperDto ?.totalPurchasingPerMonth)}
+                                                            {getCurrency(cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto?.totalPurchasingPerMonth)}
                                                         </div>,
                                                         labelStyle: {
                                                             color: '#102C57',
@@ -2027,8 +2046,11 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                                         formatter={(value) =>
                                                             `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
-                                                        className='w-full text-black'
+                                                        className='w-full'
                                                         disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
                                                     />
                                                 </Form.Item>
                                             </div>
@@ -2068,9 +2090,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             column={screens.xs ?
                                                 1 : 2
                                             }
-                                            items={cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0]
+                                            items={cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
                                                 ? itemsTotalExpenseB(
-                                                    cashFlowDetails.data ?.cashFlowMfo ?.businessExpPerMonthWrapperDto ?.businessExpPerMonthDtoList ?.[0]
+                                                    cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0]
                                                 ) : []}
                                             size='small'
                                         />
@@ -2185,9 +2207,9 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                             column={screens.xs ?
                                                 1 : 2
                                             }
-                                            items={cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0]
+                                            items={cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
                                                 ? itemsTotalExpenseH(
-                                                    cashFlowDetails.data ?.cashFlowMfo ?.houseHoldExpPerMonthWrapperDto ?.houseHoldExpPerMonthDtoList ?.[0]
+                                                    cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0]
                                                 ) : []}
                                             size='small'
                                         />
@@ -2336,157 +2358,171 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                 <div className='bg-slate-200
                                     p-3 rounded'>
-                                <Row>
-                                    <Col span={12}>
-                                        <Title
-                                            level={5}
-                                            title='Cash Flow Final Summary - MFO'
-                                            style={{ color: '#7C3626' }}
-                                        />
-                                    </Col>
-                                    <Col span={12}>
-                                        <Title
-                                            level={5}
-                                            title='Cash Flow Final Summary - CA'
-                                            style={{ color: '#7C3626' }}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={12}>
-                                        <Descriptions
-                                            column={screens.xs ?
-                                                1 : 2
-                                            }
-                                            items={cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto
-                                                ? itemsSummary(
-                                                    cashFlowDetails.data ?.cashFlowMfo ?.cashFlowFinalSummaryDto
+                                    <Row>
+                                        <Col span={12}>
+                                            <Title
+                                                level={5}
+                                                title='Cash Flow Final Summary - MFO'
+                                                style={{ color: '#7C3626' }}
+                                            />
+                                        </Col>
+                                        <Col span={12}>
+                                            <Title
+                                                level={5}
+                                                title='Cash Flow Final Summary - CA'
+                                                style={{ color: '#7C3626' }}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={12}>
+                                            <Descriptions
+                                                column={screens.xs ?
+                                                    1 : 2
+                                                }
+                                                items={cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto
+                                                    ? itemsSummary(
+                                                        cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto
                                                     ) : []}
-                                            size='small'
-                                        />
-                                    </Col>
-                                    <Col span={12}>
+                                                size='small'
+                                            />
+                                        </Col>
+                                        <Col span={12}>
 
-                                        <div className={
-                                            screens.xs
-                                                ? 'px-2'
-                                                : 'flex justify-between px-0'
-                                        }>
-                                            <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Maximum Monthly Installment"
-                                                name='maximumMonthlyInstallment'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    precision={2}
-                                                    formatter={(value) =>
-                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                    }
-                                                    className='w-full text-black'
-                                                    disabled={true}
-                                                />
-                                            </Form.Item>
-                                            <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Maximum Weekly Installment"
-                                                name='maximumWeeklyInstallment'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    precision={2}
-                                                    formatter={(value) =>
-                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                    }
-                                                    className='w-full text-black'
-                                                    disabled={true}
-                                                />
-                                            </Form.Item>
-                                        </div>
-                                        <div className={
-                                            screens.xs
-                                                ? 'px-2'
-                                                : 'flex justify-between px-0'
-                                        }>
-                                            <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Net Income per Month"
-                                                name='netIncomePerMonth'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    precision={2}
-                                                    formatter={(value) =>
-                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                    }
-                                                    className='w-full text-black'
-                                                    disabled={true}
-                                                />
-                                            </Form.Item>
-                                            <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Net Income per Week"
-                                                name='netIncomePerWeek'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    precision={2}
-                                                    formatter={(value) =>
-                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                    }
-                                                    className='w-full text-black'
-                                                    disabled={true}
-                                                />
-                                            </Form.Item>
-                                        </div>
-                                        <div className={
-                                            screens.xs
-                                                ? 'px-2'
-                                                : 'flex justify-between px-0'
-                                        }>
-                                            <Form.Item
-                                                className={screens.xs ? 'w-full' : 'w-1/2'}
-                                                label="Total Purchasing Per Month"
-                                                name='totalExpensesPerMonth'
-                                                style={{
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <InputNumber
-                                                    precision={2}
-                                                    formatter={(value) =>
-                                                        `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                    }
-                                                    className='w-full text-black'
-                                                    disabled={true}
-                                                />
-                                            </Form.Item>
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-2'
+                                                    : 'flex justify-between px-0'
+                                            }>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Maximum Monthly Installment"
+                                                    name='maximumMonthlyInstallment'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full'
+                                                        disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
+                                                    />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Maximum Weekly Installment"
+                                                    name='maximumWeeklyInstallment'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full'
+                                                        disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
+                                                    />
+                                                </Form.Item>
+                                            </div>
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-2'
+                                                    : 'flex justify-between px-0'
+                                            }>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Net Income per Month"
+                                                    name='netIncomePerMonth'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full'
+                                                        disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
+                                                    />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Net Income per Week"
+                                                    name='netIncomePerWeek'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full'
+                                                        disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
+                                                    />
+                                                </Form.Item>
+                                            </div>
+                                            <div className={
+                                                screens.xs
+                                                    ? 'px-2'
+                                                    : 'flex justify-between px-0'
+                                            }>
+                                                <Form.Item
+                                                    className={screens.xs ? 'w-full' : 'w-1/2'}
+                                                    label="Total Purchasing Per Month"
+                                                    name='totalExpensesPerMonth'
+                                                    style={{
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    <InputNumber
+                                                        precision={2}
+                                                        formatter={(value) =>
+                                                            `${parseFloat(value).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
+                                                        className='w-full'
+                                                        disabled={true}
+                                                        style={{
+                                                            color: 'black'
+                                                        }}
+                                                    />
+                                                </Form.Item>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                                <Row>
+                                    <Col span={24}>
+                                        <div className='flex justify-end mt-4'>
+                                            <Button type="primary" size='large'
+                                                disabled={
+                                                    (selectedRole !== 'CA') ? true : false
+                                                }
+                                                shape="round" htmlType="submit">
+                                                Submit
+                                            </Button>
                                         </div>
                                     </Col>
                                 </Row>
-                                </div>
-
-                            <Row>
-                                <Col span={24}>
-                                    <div className='flex justify-end'>
-                                        <Button type="primary" size='large' className="mt-3"
-                                            disabled={
-                                                (selectedRole !== 'CA') ? true : false
-                                            }
-                                            shape="round" htmlType="submit">
-                                            Submit
-                                                </Button>
-                                    </div>
-                                </Col>
-                            </Row>
                             </Form>
                         </div >
 
