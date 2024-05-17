@@ -832,7 +832,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
             const totOtherIncome = otherIncome;
             form.setFieldsValue(
                 {
-                    totalOtherIncome: totOtherIncome
+                    totalOtherIncome: totOtherIncome ?? 0
 
                 });
 
