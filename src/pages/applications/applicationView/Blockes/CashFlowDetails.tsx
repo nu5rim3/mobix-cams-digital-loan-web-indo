@@ -938,47 +938,47 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
 
                                     {
                                         name: ["revenueInBusyDay"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInBusyDay : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInBusyDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInBusyDay ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInBusyDay ?? 0,
                                     },
                                     {
                                         name: ["numberOfLowSeasonDays"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfLowSeasonDays : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfLowSeasonDays,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfLowSeasonDays ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfLowSeasonDays ?? 0,
                                     },
                                     {
                                         name: ["revenueInLowSessionDay"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInLowSessionDay : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInLowSessionDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenueInLowSessionDay ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenueInLowSessionDay ?? 0,
                                     },
                                     {
                                         name: ["numberOfHighSeasonDays"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfHighSeasonDays : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfHighSeasonDays,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.numberOfHighSeasonDays ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.numberOfHighSeasonDays ?? 0,
                                     },
                                     {
                                         name: ["revenuePerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenuePerMonth : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenuePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesOperatingRevenueDto.revenuePerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesOperatingRevenueDto.revenuePerMonth ?? 0,
                                     },
                                     {
                                         name: ["revenueOneDayBefore"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueOneDayBefore ?? 0,
                                     },
                                     {
                                         name: ["revenueTwoDaysBefore"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueTwoDaysBefore ?? 0,
                                     },
                                     {
                                         name: ["revenueThreeDaysBefore"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.revenueThreeDaysBefore ?? 0,
                                     },
                                     {
                                         name: ["averagePerDay"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.averagePerDay : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.averagePerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.averagePerDay ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.averagePerDay ?? 0,
                                     },
                                     {
                                         name: ["monthlyRevenue"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.monthlyRevenue : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.monthlyRevenue,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesThreeDayCroscheckRevenueDto.monthlyRevenue ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesThreeDayCroscheckRevenueDto.monthlyRevenue ?? 0,
                                     },
                                     {
                                         name: ["numberOfBusinessHoursPerDay"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.numberOfBusinessHoursPerDay ?? 0,
                                     },
                                     {
                                         name: ["currentTime"],
@@ -987,119 +987,119 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     },
                                     {
                                         name: ["hoursAlreadyOpenToday"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.hoursAlreadyOpenToday ?? 0,
                                     },
                                     {
                                         name: ["cashWhenOpenToday"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashWhenOpenToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashWhenOpenToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashWhenOpenToday ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashWhenOpenToday ?? 0,
                                     },
                                     {
                                         name: ["cashNow"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashNow : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashNow,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.cashNow ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.cashNow ?? 0,
                                     },
                                     {
                                         name: ["moneyForPurchasingToday"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.moneyForPurchasingToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.moneyForPurchasingToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.moneyForPurchasingToday ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.moneyForPurchasingToday ?? 0,
                                     },
                                     {
                                         name: ["incomeToday"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomeToday : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomeToday,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomeToday ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomeToday ?? 0,
                                     },
                                     {
                                         name: ["incomePerBusinessHour"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomePerBusinessHour : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomePerBusinessHour,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.incomePerBusinessHour ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.incomePerBusinessHour ?? 0,
                                     },
                                     {
                                         name: ["estimatedIncomePerDay"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerDay : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerDay,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerDay ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerDay ?? 0,
                                     },
                                     {
                                         name: ["estimatedIncomePerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto ? cashFlowDetails.data?.cashFlowCa?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.salesCashCroscheckRevenueDto.estimatedIncomePerMonth ?? 0,
                                     },
                                     {
                                         name: ["bnsTransportationExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].transportationExpense ?? 0,
                                     },
                                     {
                                         name: ["bnsUtilitiesExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].utilitiesExpense ?? 0,
                                     },
                                     {
                                         name: ["rentExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].rentExpense ?? 0,
                                     },
                                     {
                                         name: ["employeeSalaryExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].employeeSalaryExpense ?? 0,
                                     },
                                     {
                                         name: ["bnsOtherExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessExpPerMonthWrapperDto?.businessExpPerMonthDtoList?.[0].otherExpense ?? 0,
                                     },
                                     {
                                         name: ["foodExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].foodExpense ?? 0,
                                     },
                                     {
                                         name: ["houseHoldUtilitiesExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].utilitiesExpense ?? 0,
                                     },
                                     {
                                         name: ["houseHoldTransportationExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].transportationExpense ?? 0,
                                     },
                                     {
                                         name: ["educationExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].educationExpense ?? 0,
                                     },
                                     {
                                         name: ["healthExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].healthExpense ?? 0,
                                     },
                                     {
                                         name: ["socialContributionExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].socialContributionExpense ?? 0,
                                     },
                                     {
                                         name: ["loanPaymentsExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].loanPaymentsExpense ?? 0,
                                     },
                                     {
                                         name: ["houseHoldOtherExpense"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense,
+                                        value: cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0] ? cashFlowDetails.data?.cashFlowCa?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense ?? 0 : cashFlowDetails.data?.cashFlowMfo?.houseHoldExpPerMonthWrapperDto?.houseHoldExpPerMonthDtoList?.[0].otherExpense ?? 0,
                                     },
                                     {
                                         name: ["maximumMonthlyInstallment"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumMonthlyInstallment : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumMonthlyInstallment,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumMonthlyInstallment ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumMonthlyInstallment ?? 0,
                                     },
                                     {
                                         name: ["maximumWeeklyInstallment"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumWeeklyInstallment : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumWeeklyInstallment,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.maximumWeeklyInstallment ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.maximumWeeklyInstallment ?? 0,
                                     },
                                     {
                                         name: ["netIncomePerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerMonth ?? 0,
                                     },
                                     {
                                         name: ["netIncomePerWeek"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerWeek : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerWeek,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.netIncomePerWeek ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.netIncomePerWeek ?? 0,
                                     },
                                     {
                                         name: ["totalExpensesPerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.totalExpensesPerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.totalExpensesPerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.totalExpensesPerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.totalExpensesPerMonth ?? 0,
                                     },
                                     {
                                         name: ["grossRevenuePerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.grossRevenuePerMonth : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.grossRevenuePerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto ? cashFlowDetails.data?.cashFlowCa?.cashFlowFinalSummaryDto.grossRevenuePerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.cashFlowFinalSummaryDto.grossRevenuePerMonth ?? 0,
                                     },
                                     {
                                         name: ["totalOtherIncome"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto.totalOtherIncome??0 : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto.totalOtherIncome??0,
+                                        value: cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto.totalOtherIncome ?? 0 : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto.totalOtherIncome ?? 0,
                                     },
                                     {
                                         name: ["totalPurchasingPerMonth"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth : cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth,
+                                        value: cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto ? cashFlowDetails.data?.cashFlowCa?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth ?? 0 : cashFlowDetails.data?.cashFlowMfo?.businessStockPurPerMonthWrapperDto.totalPurchasingPerMonth ?? 0,
                                     },
 
 
