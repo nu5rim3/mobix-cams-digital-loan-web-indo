@@ -3,10 +3,11 @@ import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
 import { actions } from '../../../../store/store';
-import { Button, Input, Space, notification } from 'antd';
+import { Input, Space, notification } from 'antd';
+import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
-import { JsonToExcel } from "react-json-to-excel";
+import { JsonToExcel, exportToExcel } from "react-json-to-excel";
 export interface IGroupUpdateProps {
   searchText: string
 }
@@ -48,8 +49,8 @@ export default function GroupUpdate({
       key: 'createdBy',
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return record ?.createdBy ?.toLowerCase() ?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
-        }
+        return record?.createdBy?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+      }
     },
     {
       title: 'Date',
@@ -177,8 +178,8 @@ export default function GroupUpdate({
 
   const getGroupData = () => {
     actions.getSlikByGroup({
-      userId: userData.data ?.idx,
-      branchCode: userData.data ?.branches[0] ?.code, //'TJP',
+      userId: userData.data?.idx,
+      branchCode: userData.data?.branches[0]?.code, //'TJP',
       status: 'P',
       type: 'GRPL'
     });
@@ -187,7 +188,7 @@ export default function GroupUpdate({
 
     let slikArray = [];
     let slikDetails = {};
-    slikRequestsGroupData.initialData ?.map((slik: any) => {
+    slikRequestsGroupData.initialData?.map((slik: any) => {
       slikDetails = {
         "Appraisal No": slik.slikDto.appraisalId,
         "Branch": slik.slikDto.branchDesc,
@@ -230,13 +231,13 @@ export default function GroupUpdate({
       setLoading(true)
       const response = await API.slikServices.updateSlikBulck(selectedGroup
         ?.filter((row: any) => row.batchNumber)
-          ?.map((row: any) => {
-            return {
-              ...row.slikDto,
-              batchNumber: row.batchNumber
-            }
-          })
-          )
+        ?.map((row: any) => {
+          return {
+            ...row.slikDto,
+            batchNumber: row.batchNumber
+          }
+        })
+      )
       notification.success({
         message: 'Batches Updated Successfully'
       })
@@ -256,50 +257,47 @@ export default function GroupUpdate({
     >
       {!selectedGroup
         ?
-         <>
-        <FPaginatedTable
-          loading={slikRequestsGroupData.fetching}
-          rowKey={'slkIdx'}
-          columns={columns}
-          dataSource={slikRequestsGroupData.data || []}
-        />
-        <div className='flex justify-center p-10 w-full'>
-          <JsonToExcel
-            type='primary' shape="round"
-            title="Download Excel"
-            data={groupData}
-            fileName="pending-slik-request"
-            btnClassName="custom download-button  ant-btn css-dev-only-do-not-override-c5cmmx ant-btn-round ant-btn-primary ant-btn-lg"
+        <>
+          <FPaginatedTable
+            loading={slikRequestsGroupData.fetching}
+            rowKey={'slkIdx'}
+            columns={columns}
+            dataSource={slikRequestsGroupData.data || []}
           />
-        </div>
-       </>
+          <div className='flex justify-end py-10 w-full'>
+            <Button
+              onClick={() => exportToExcel(groupData, 'pending-slik-request')}
+              loading={loading}
+              type='primary'
+              shape="round"
+              size='large'
+              label='Download Excel'
+              className={'mr-2'} />
+          </div>
+        </>
         :
-      <>
-        <FPaginatedTable
-          loading={slikRequestsGroupData.fetching}
-          rowKey={'key'}
-          columns={columnsNew}
-          dataSource={selectedGroup || []}
-        />
+        <>
+          <FPaginatedTable
+            loading={slikRequestsGroupData.fetching}
+            rowKey={'key'}
+            columns={columnsNew}
+            dataSource={selectedGroup || []}
+          />
 
-        <div className='flex justify-center p-10 w-full'>
+          <div className='flex justify-end py-10 w-full'>
 
-          <Button
-            onClick={uploadData}
-            loading={loading}
-            // htmlType="submit"
-            type='primary'
-            shape="round"
-            size='large'
-            disabled={selectedRole === 'ADMIN'}
-          // loading={addLoading}
-          //   icon={<PlusOutlined/>}
-          >
-            Update Batch
-            </Button>
+            <Button
+              onClick={uploadData}
+              loading={loading}
+              type='primary'
+              shape="round"
+              size='large'
+              disabled={selectedRole === 'ADMIN'}
+              label='Update Batch'
+            />
 
-        </div>
-      </>
+          </div>
+        </>
 
       }
     </div>
