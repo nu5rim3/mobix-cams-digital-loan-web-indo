@@ -1095,7 +1095,7 @@ export default function CashFlowDetails(props: ICashFlowDetailsProps) {
                                     },
                                     {
                                         name: ["totalOtherIncome"],
-                                        value: cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto.totalOtherIncome : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto.totalOtherIncome,
+                                        value: cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto ? cashFlowDetails.data?.cashFlowCa?.otherIncomeWrapperDto.totalOtherIncome??0 : cashFlowDetails.data?.cashFlowMfo?.otherIncomeWrapperDto.totalOtherIncome??0,
                                     },
                                     {
                                         name: ["totalPurchasingPerMonth"],
