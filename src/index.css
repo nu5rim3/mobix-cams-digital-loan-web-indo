@@ -25,6 +25,9 @@
   padding: 0;
 }
 
+.ant-tooltip-inner {
+  color: #102C57 !important;
+}
 /* a {
   font-weight: 500;
   color: #646cff;
