@@ -40,7 +40,7 @@ export default function SelectUserRole(props: ISelectUserRoleProps) {
                     {userData ?.data ?.roles ?.map((role: any) => {
                         return <div
                             key={role ?.description}
-                            className={`${clickedRole ?.code == role ?.code ? 'bg-blue-100' : ''} w-32 h-32 rounded-md flex justify-center items-center cursor-pointer shadow-md hover:shadow-xl mx-2`}
+                            className={`${clickedRole?.code == role?.code ? 'bg-blue-100' : ''} bg-white w-32 h-32 rounded-md flex justify-center items-center cursor-pointer shadow-md hover:shadow-xl mx-2 p-2`}
                             onClick={() => {
                                 actions.setRole(role.code)
                                 localStorage.setItem('selectedRole', role.code)
