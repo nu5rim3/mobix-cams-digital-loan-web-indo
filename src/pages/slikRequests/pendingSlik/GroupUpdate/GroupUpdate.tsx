@@ -195,15 +195,12 @@ export default function GroupUpdate({
       title: 'Batch No',
       dataIndex: 'batchNumber',
       key: 'batchNumber',
-      render: (text: string, record: any) => {
-        console.log('[record] - ', record)
-        return (
-          <Input
-            // value={text} // This value should be connected to your data
-            disabled={selectedRole === 'ADMIN' || record.clienteleType === 'SPOUSE'
-              || record.clienteleType === 'GUARANTOR' && (record.postCltFlag != null && record.postCltFlag === 'N')}
-            // disabled={selectedRole === 'ADMIN' || record.slikDto.clienteleType == 'SPOUSE'
-            //   || record.slikDto.clienteleType == 'GUARANTOR' && (record.slikDto.postCltFlag != null && record.slikDto.postCltFlag == 'N')}
+      render: (text, record) => {
+        if (record.slikDto) {
+          return <Input disabled={
+            selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'SPOUSE' && record.slikDto.postCltFlag === 'N') ||
+            (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
+          }
             onChange={(e) => {
               // Handle input changes here and update your data
               // e.target.value contains the new value of the input field
@@ -224,8 +221,9 @@ export default function GroupUpdate({
               // You can update the data array or state here
             }}
           />
-        )
-
+        } else {
+          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} />
+        }
       }
     },
   ];

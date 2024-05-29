@@ -27,6 +27,31 @@ export default function IndividualUpdate({
     selectedRole
   } = useSelector((state: any) => state.AppData)
 
+  const [requestsIndividualData, setRequestsIndividualData] = useState([])
+
+  useEffect(() => {
+    console.log('[USEEFFECT]')
+    const newData = slikRequestsIndividualData.data.map((item: any) => {
+      if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
+        const guarantorsExist = Array.isArray(item.guarantors) && item.guarantors.length > 0;
+        const spousesExist = Array.isArray(item.spouses) && item.spouses.length > 0;
+
+        if (guarantorsExist || spousesExist) {
+          return {
+            ...item,
+            children: [
+              ...(guarantorsExist ? item.guarantors : []),
+              ...(spousesExist ? item.spouses : []),
+            ],
+          }
+        }
+      }
+      return item;
+    });
+
+    setRequestsIndividualData(newData)
+  }, [slikRequestsIndividualData])
+
   const columns: ColumnsType<any> = [
     // {
     //   title: 'Center',
@@ -43,20 +68,28 @@ export default function IndividualUpdate({
       dataIndex: 'customerName',
       key: 'customerName',
       filteredValue: [searchText],
-      render: (text, record) => (
-        <>{record.slikDto?.customerName}</>
-      ),
-      onFilter: (value, record) => {
-        return record?.slikDto?.customerName?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
-      }
+      render: (text, record) => {
+        if (record.slikDto?.customerName) {
+          return record.customerName
+        } else {
+          return record.fullName
+        }
+      },
+      // onFilter: (value, record) => {
+      //   return record?.slikDto?.customerName?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+      // }
     },
     {
       title: 'NIK',
       dataIndex: 'customerKTP',
       key: 'customecustomerKTPrName',
-      render: (text, record) => (
-        <>{record.slikDto?.customerKTP}</>
-      )
+      render: (text, record) => {
+        if (record.slikDto?.customerKTP) {
+          return record.slikDto?.customerKTP
+        } else {
+          return record.ktp
+        }
+      },
     },
     {
       title: 'Family C.NO',
@@ -66,7 +99,14 @@ export default function IndividualUpdate({
     {
       title: 'Customer Type',
       dataIndex: 'clienteleType',
-      key: 'clienteleType'
+      key: 'clienteleType',
+      render: (text, record) => {
+        if (record.slikDto?.clienteleType) {
+          return record.slikDto?.clienteleType
+        } else {
+          return record.cltType === 'G' ? 'GUARANTOR' : 'SPOUSE'
+        }
+      },
     },
     {
       title: 'Residential Address',
@@ -91,50 +131,51 @@ export default function IndividualUpdate({
       title: 'Contact No',
       dataIndex: 'cltContact1',
       key: 'cltContact1',
+      render: (text, record) => {
+        if (record.cltContact1) {
+          return <>{record.cltContact1}</>
+        } else {
+          return record.cusContact1
+        }
+      },
     },
     {
       title: 'Batch No',
       dataIndex: 'batchNumber',
       key: 'batchNumber',
-      render: (text, record) => (
-        <Input
-          // value={text} // This value should be connected to your data
-          disabled={selectedRole === 'ADMIN' || record.slikDto.clienteleType == 'SPOUSE'
-            || record.slikDto.clienteleType == 'GUARANTOR' && (record.slikDto.postCltFlag != null && record.slikDto.postCltFlag == 'N')}
+      render: (text, record) => {
+        if (record.slikDto) {
+          return <Input disabled={
+            selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'SPOUSE' && record.slikDto.postCltFlag === 'N') ||
+            (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
+          }
+            onChange={(e) => {
+              // Handle input changes here and update your data
+              // e.target.value contains the new value of the input field
+              setAbleData(false)
+              const newValue = e.target.value;
+              const newData = slikRequestsIndividualData.data?.map((row: any) => {
 
-          onChange={(e) => {
-            // Handle input changes here and update your data
-            // e.target.value contains the new value of the input field
-            setAbleData(false)
-            const newValue = e.target.value;
-            const newData = slikRequestsIndividualData.data?.map((row: any) => {
+                if (record.slikDto.slkIdx == row.slikDto.slkIdx) {
 
-              if (record.slikDto.slkIdx == row.slikDto.slkIdx) {
-
-                return {
-                  ...row,
-                  batchNumber: newValue
+                  return {
+                    ...row,
+                    batchNumber: newValue
+                  }
+                } else {
+                  return row
                 }
-              } else {
-                return row
-              }
 
-            })
-            actions.editIndividualData(newData)
-            // You can update the data array or state here
-          }}
-        />
-      ),
+              })
+              actions.editIndividualData(newData)
+              // You can update the data array or state here
+            }}
+          />
+        } else {
+          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} />
+        }
+      }
     },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (_, record) => (
-    //     <Space size="middle">
-    //       {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}>Update {record.name}</a> */}
-    //     </Space>
-    //   ),
-    // },
   ];
 
   const getIndividualData = () => {
@@ -142,7 +183,9 @@ export default function IndividualUpdate({
       userId: userData.data?.idx,
       branchCode: userData.data?.branches[0]?.code,
       status: 'P',
-      type: "IL"
+      type: "IL",
+      pageNumber: 1,
+      pageSize: 15
     })
   }
   const getIndividualDataForExcel = () => {
@@ -212,9 +255,9 @@ export default function IndividualUpdate({
     >
       <FPaginatedTable
         loading={slikRequestsIndividualData.fetching}
-        rowKey={'slkIdx'}
+        rowKey={'cltIdx'}
         columns={columns}
-        dataSource={slikRequestsIndividualData.data || []}
+        dataSource={requestsIndividualData || []}
       />
 
       <div className='flex justify-end py-10 w-full '>

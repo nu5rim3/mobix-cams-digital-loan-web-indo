@@ -28,6 +28,10 @@
 .ant-tooltip-inner {
   color: #102C57 !important;
 }
+.ant-table-row-expand-icon{
+  background-color: #102C57 !important;
+  color: white !important;
+}
 /* a {
   font-weight: 500;
   color: #646cff;

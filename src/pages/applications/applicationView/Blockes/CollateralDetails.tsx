@@ -1,9 +1,12 @@
 import * as React from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
-import { Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Divider, Grid, Spin } from 'antd';
 import getCurrency from '../../../../utils/getCurrency';
 import moment from 'moment';
+import { useState } from 'react';
+import { IImageCategory } from './CustomerDetailsView';
+import PopupImage from '../../../../components/PopupImage/PopupImage';
 
 export interface ICollateralDetailsProps {
 }
@@ -62,7 +65,7 @@ const itemsGold: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'ex1',
         label: '',
-        children:''
+        children: ''
     },
 ]
 
@@ -310,7 +313,7 @@ const itemsLand: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'ex1',
         label: '',
-        children:''
+        children: ''
     },
 ]
 
@@ -398,11 +401,11 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'securityCategory',
         label: 'Security Category',
-        children: data.securityCategory == "M" 
-        ? 'Main Security'
-        : data.securityCategory == "O" 
-        ? 'Other Security'
-        : '-',
+        children: data.securityCategory == "M"
+            ? 'Main Security'
+            : data.securityCategory == "O"
+                ? 'Other Security'
+                : '-',
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -432,11 +435,11 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'ownership',
         label: 'Ownership',
-        children: data.ownership == "0" 
-        ? 'Own'
-        : data.ownership == "2" 
-        ? 'Third party'
-        : '-',
+        children: data.ownership == "0"
+            ? 'Own'
+            : data.ownership == "2"
+                ? 'Third party'
+                : '-',
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -516,11 +519,11 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'condition',
         label: 'Condition',
-        children: data.condition == "1" 
-        ? 'New/Recondition'
-        : data.condition == "2" 
-        ? '2nd Hand'
-        : '-',
+        children: data.condition == "1"
+            ? 'New/Recondition'
+            : data.condition == "2"
+                ? '2nd Hand'
+                : '-',
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -617,11 +620,11 @@ const itemsVehicle: (data: any) => DescriptionsProps['items'] = (data) => [
             width: '40%'
         }
     },
-   
+
     {
         key: 'ex1',
         label: '',
-        children:''
+        children: ''
     },
 ]
 
@@ -656,7 +659,7 @@ const itemsOther: (data: any) => DescriptionsProps['items'] = (data) => [
             width: '20%'
         }
     },
-   
+
 ]
 
 const landAndBuildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
@@ -913,12 +916,12 @@ const landAndBuildingDtoList: (data: any) => DescriptionsProps['items'] = (data)
     {
         key: 'ex1',
         label: '',
-        children:''
+        children: ''
     },
     {
         key: 'ex2',
         label: '',
-        children:''
+        children: ''
     },
 ]
 
@@ -1156,7 +1159,7 @@ const condominiumDtoList: (data: any) => DescriptionsProps['items'] = (data) => 
     {
         key: 'ex1',
         label: '',
-        children:''
+        children: ''
     }
 ]
 
@@ -1194,7 +1197,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'legalBindingDate',
         label: 'Legal Binding Date',
-        children: (data.legalBindingDate? moment(data.legalBindingDate)?.format('YYYY-MM-DD'): '-') ,
+        children: (data.legalBindingDate ? moment(data.legalBindingDate)?.format('YYYY-MM-DD') : '-'),
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1254,7 +1257,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'appraisalDate',
         label: 'Appraisal Date',
-        children: (data.appraisalDate? moment(data.appraisalDate)?.format('YYYY-MM-DD'): '-') ,
+        children: (data.appraisalDate ? moment(data.appraisalDate)?.format('YYYY-MM-DD') : '-'),
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1314,7 +1317,7 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     {
         key: 'bondDate',
         label: 'Bond Date',
-        children: (data.bondDate? moment(data.bondDate)?.format('YYYY-MM-DD'): '-') ,
+        children: (data.bondDate ? moment(data.bondDate)?.format('YYYY-MM-DD') : '-'),
         labelStyle: {
             color: '#102C57',
             fontWeight: 600,
@@ -1403,235 +1406,287 @@ const buildingDtoList: (data: any) => DescriptionsProps['items'] = (data) => [
     },
 ]
 
-export default function CollateralDetails (props: ICollateralDetailsProps) {
+export default function CollateralDetails(props: ICollateralDetailsProps) {
 
     const {
-        collateralDetails : {
+        collateralDetails: {
             data, fetching }
     } = useSelector((state: any) => state.Application)
 
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint()
-    
-  return (
-    <div
-        style={{
-            fontWeight: 300
-        }} 
-    >
-        {fetching?
-            <div className='w-full h-32 flex justify-center'>
-                <Spin/>
-            </div>
-        :
-            <div>
-                {data?.goldDtoList?.length?
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Gold'
-                        style={{color: '#7C3626'}} 
-                    />
+    const [openImage, setOpenImage] = useState(false)
+    const [imageCategory, setImageCategory] = useState<IImageCategory>({ mainCategory: '', subCategory: '' })
 
-                    {
-                        data?.goldDtoList?.map((guarantor:any, index: any) => {
-                                return  <div 
-                                    // className='py-4' 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
-                                    className='p-5 rounded-md  font-sans my-4' 
-                                    key={index}
-                                    >
-                                    <Descriptions 
-                                    key={index}
-                                    column={ screens.xs?
-                                     1 : 3
-                                    }
-                                    items={guarantor? itemsGold(guarantor): []} 
-                                    size='small'
-                                />  
-
-                                </div>
-                    })}
-
-                    <Divider/>
-                    </>
-                : null}
-
-                {data?.landDtoList?.length?
-                    <>
-                        <Title 
-                            level={5}
-                            title='Collateral Type: Land'
-                            style={{color: '#7C3626'}} 
-                        />
-
-                        {data?.landDtoList?.map((guarantor:any, index: any) => {
-                                    return  <div 
-                                        style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+    return (
+        <div
+            style={{
+                fontWeight: 300
+            }}
+        >
+            {fetching ?
+                <div className='w-full h-32 flex justify-center'>
+                    <Spin />
+                </div>
+                :
+                <div>
+                    <PopupImage open={openImage} setOpen={setOpenImage} mainCategory={imageCategory.mainCategory} subCategory={imageCategory.subCategory} />
+                    {data?.goldDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Gold'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {
+                                data?.goldDtoList?.map((guarantor: any, index: any) => {
+                                    return <div
+                                        // className='py-4' 
+                                        style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                         className='p-5 rounded-md  font-sans my-4'
                                         key={index}
-                                        >
-                                        <Descriptions 
+                                    >
+                                        <Descriptions
                                             key={index}
-                                            column={ screens.xs?
+                                            column={screens.xs ?
                                                 1 : 3
-                                               }
-                                            items={guarantor? itemsLand(guarantor): []} 
+                                            }
+                                            items={guarantor ? itemsGold(guarantor) : []}
                                             size='small'
-                                    />  
+                                        />
+
                                     </div>
-                        })}
+                                })}
 
-                        <Divider/>
-                    </>
-                :null
-                }
+                            <Divider />
+                        </>
+                        : null}
 
-                {data?.vehicleDtoList?.length?
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Vehical'
-                        style={{color: '#7C3626'}} 
-                    />
-
-
-                    {data?.vehicleDtoList?.map((guarantor:any, index: any) => {
-                                return  <div 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                    {data?.landDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Land'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.landDtoList?.map((guarantor: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                     className='p-5 rounded-md  font-sans my-4'
                                     key={index}
-                                    >
-                                    <Descriptions 
+                                >
+                                    <Descriptions
                                         key={index}
-                                        column={ screens.xs?
+                                        column={screens.xs ?
                                             1 : 3
-                                           }
-                                        items={guarantor? itemsVehicle(guarantor): []} 
+                                        }
+                                        items={guarantor ? itemsLand(guarantor) : []}
                                         size='small'
-                                />  
+                                    />
                                 </div>
-                    })}
+                            })}
 
-                    <Divider/>
-                    </>
-                :null
-                }
+                            <Divider />
+                        </>
+                        : null
+                    }
 
-                {data?.otherDtoList?.length?
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Other'
-                        style={{color: '#7C3626'}} 
-                    />
+                    {data?.vehicleDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Vehical'
+                                style={{ color: '#7C3626' }}
+                            />
 
-                    {data?.otherDtoList?.map((guarantor:any, index: any) => {
-                                return  <div 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.vehicleDtoList?.map((guarantor: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                     className='p-5 rounded-md  font-sans my-4'
                                     key={index}
-                                    >
-                                    <Descriptions 
+                                >
+                                    <Descriptions
                                         key={index}
-                                        column={ screens.xs?
+                                        column={screens.xs ?
                                             1 : 3
-                                           }
-                                        items={guarantor? itemsOther(guarantor): []} 
+                                        }
+                                        items={guarantor ? itemsVehicle(guarantor) : []}
                                         size='small'
-                                />  
+                                    />
                                 </div>
-                    })}
-                    </>
-                : null
-                }
+                            })}
 
-                {data?.landAndBuildingDtoList?.length?
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Land And Building'
-                        style={{color: '#7C3626'}} 
-                    />
+                            <Divider />
+                        </>
+                        : null
+                    }
 
-                    {data?.landAndBuildingDtoList?.map((guarantor:any, index: any) => {
-                                return  <div 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                    {data?.otherDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Other'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.otherDtoList?.map((guarantor: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                     className='p-5 rounded-md  font-sans my-4'
                                     key={index}
-                                    >
-                                    <Descriptions 
+                                >
+                                    <Descriptions
                                         key={index}
-                                        column={ screens.xs?
+                                        column={screens.xs ?
                                             1 : 3
-                                           }
-                                        items={guarantor? landAndBuildingDtoList(guarantor): []} 
+                                        }
+                                        items={guarantor ? itemsOther(guarantor) : []}
                                         size='small'
-                                />  
+                                    />
                                 </div>
-                    })}
-                    </>
-                : null
-                }
+                            })}
+                        </>
+                        : null
+                    }
 
-
-                {data?.condominiumDtoList?.length? 
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Condominium'
-                        style={{color: '#7C3626'}} 
-                    />
-
-                    {data?.condominiumDtoList?.map((guarantor:any, index: any) => { //condominiumDtoList
-                                return  <div 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                    {data?.landAndBuildingDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Land And Building'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.landAndBuildingDtoList?.map((guarantor: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                     className='p-5 rounded-md  font-sans my-4'
                                     key={index}
-                                    >
-                                    <Descriptions 
+                                >
+                                    <Descriptions
                                         key={index}
-                                        column={ screens.xs?
+                                        column={screens.xs ?
                                             1 : 3
-                                           }
-                                        items={guarantor? condominiumDtoList(guarantor): []} 
+                                        }
+                                        items={guarantor ? landAndBuildingDtoList(guarantor) : []}
                                         size='small'
-                                />  
+                                    />
                                 </div>
-                    })}
-                    </>
-                : null
-                }
+                            })}
+                        </>
+                        : null
+                    }
 
-                {data?.buildingDtoList?.length? // buildingDtoList
-                    <>
-                    <Title 
-                        level={5}
-                        title='Collateral Type: Building'
-                        style={{color: '#7C3626'}} 
-                    />
 
-                    {data?.buildingDtoList?.map((guarantor:any, index: any) => { //buildingDtoList
-                                return  <div 
-                                    style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}
+                    {data?.condominiumDtoList?.length ?
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Condominium'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.condominiumDtoList?.map((guarantor: any, index: any) => { //condominiumDtoList
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                     className='p-5 rounded-md  font-sans my-4'
                                     key={index}
-                                    >
-                                    <Descriptions 
+                                >
+                                    <Descriptions
                                         key={index}
-                                        column={ screens.xs?
+                                        column={screens.xs ?
                                             1 : 3
-                                           }
-                                        items={guarantor? buildingDtoList(guarantor): []} 
+                                        }
+                                        items={guarantor ? condominiumDtoList(guarantor) : []}
                                         size='small'
-                                />  
+                                    />
                                 </div>
-                    })}
-                    </>
-                : null
-                }
-            </div>
-        }
-    </div>
-  );
+                            })}
+                        </>
+                        : null
+                    }
+
+                    {data?.buildingDtoList?.length ? // buildingDtoList
+                        <>
+                            <Title
+                                level={5}
+                                title='Collateral Type: Building'
+                                style={{ color: '#7C3626' }}
+                            />
+                            <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                <Button onClick={() => {
+                                    setImageCategory({ mainCategory: 'COLLATERAL_IMAGES', subCategory: 'COLLATERAL_IMAGES' })
+                                    setOpenImage(true)
+                                }}>
+                                    Collateral Image
+                                </Button>
+                            </div>
+                            {data?.buildingDtoList?.map((guarantor: any, index: any) => { //buildingDtoList
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                                    className='p-5 rounded-md  font-sans my-4'
+                                    key={index}
+                                >
+                                    <Descriptions
+                                        key={index}
+                                        column={screens.xs ?
+                                            1 : 3
+                                        }
+                                        items={guarantor ? buildingDtoList(guarantor) : []}
+                                        size='small'
+                                    />
+                                </div>
+                            })}
+                        </>
+                        : null
+                    }
+                </div>
+            }
+        </div>
+    );
 }

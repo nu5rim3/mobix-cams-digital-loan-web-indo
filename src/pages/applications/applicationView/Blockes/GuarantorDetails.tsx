@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Tytle';
 import formatAddress from '../../../../utils/getAddressByObjects';
 import { Link } from "react-router-dom";
+import PopupImage from '../../../../components/PopupImage/PopupImage';
+import { IImageCategory } from './CustomerDetailsView';
+import { useState } from 'react';
 export interface GuarantorDetailsProps {
 }
 
@@ -96,13 +99,13 @@ const items: (data: any) => DescriptionsProps['items'] = (data) => [
         key: 'ex3',
         label: '',
         children: //data?.ktp,
-        <div className='flex justify-between w-full'>
+            <div className='flex justify-between w-full'>
 
-            <Space size="middle">
-                {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm">Internal Crib</Link> */}
-                <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
-            </Space>
-        </div>,
+                <Space size="middle">
+                    {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm">Internal Crib</Link> */}
+                    <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
+                </Space>
+            </div>,
 
     }
 ]
@@ -115,7 +118,8 @@ export default function GuarantorDetails(props: GuarantorDetailsProps) {
 
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint()
-
+    const [openImage, setOpenImage] = useState(false)
+    const [imageCategory, setImageCategory] = useState<IImageCategory>({ mainCategory: '', subCategory: '' })
     return (
         <div
             style={{
@@ -128,7 +132,8 @@ export default function GuarantorDetails(props: GuarantorDetailsProps) {
                 </div>
                 :
                 <div>
-                    {guarantorDetails ?.data ?.
+                    <PopupImage open={openImage} setOpen={setOpenImage} mainCategory={imageCategory.mainCategory} subCategory={imageCategory.subCategory} />
+                    {guarantorDetails?.data?.
                         filter((guarantor: any) => guarantor.cltType === 'G').
                         map((guarantor: any, index: any) => {
                             return <div
@@ -144,7 +149,14 @@ export default function GuarantorDetails(props: GuarantorDetailsProps) {
                                     items={guarantor ? items(guarantor) : []}
                                     size='small'
                                 />
-
+                                <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                    <Button onClick={() => {
+                                        setImageCategory({ mainCategory: 'GUARANTOR', subCategory: 'GUARANTOR_ID' })
+                                        setOpenImage(true)
+                                    }}>
+                                        Guarantor Image
+                                    </Button>
+                                </div>
                                 {/* <Divider/> */}
                             </div>
                         })}

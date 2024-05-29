@@ -1,11 +1,15 @@
 import { Descriptions, Button, Space, DescriptionsProps, Divider, Grid, Spin } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Title from '../../../../components/Typography/Tytle';
 import { useSelector } from 'react-redux';
 import formatAddress from '../../../../utils/getAddressByObjects';
 import PopupImage from '../../../../components/PopupImage/PopupImage';
-import { Link } from "react-router-dom";
 export interface ICustomerDetailsViewProps {
+}
+
+export interface IImageCategory {
+    mainCategory: 'CLIENT_IDENTIFICATION' | 'RESIDENCIAL_IMAGES' | 'BUSINESS_IMAGE' | 'SPOUSE_IMAGES' | 'GUARANTOR' | 'COLLATERAL_IMAGES' | ""
+    subCategory: 'CUSTOMER_ID' | 'FAMLIY_CARD' | 'CUSTOMER_IMAGE' | 'RESIDENCE_LOCATION_TAGGING' | 'RESIDENCE_IMAGE' | 'RESIDENCE_OWNERSHIP_PROOF' | 'BUSINESS_LOCATION_TAGGING' | 'BUSINESS_IMAGE' | 'SPOUSE_ID' | "SPOUSE_IMAGE" | "GUARANTOR_ID" | "COLLATERAL_IMAGES" | ""
 }
 
 export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
@@ -28,16 +32,7 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
         {
             key: 'ktp',
             label: 'NIK',
-            children: //data?.ktp,
-            <div className='flex justify-between w-full'>
-                <div >{data.ktp}</div>
-                <div className={
-                    screens.xs
-                        ? 'cursor-pointer text-sky-600'
-                        : 'pl-2 pr-5 cursor-pointer text-sky-600'
-                } onClick={() => setOpenImage(true)}>View Image</div>
-            </div>,
-
+            children: data?.ktp,
             labelStyle: {
                 color: '#102C57',
                 fontWeight: 600,
@@ -158,13 +153,13 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
             key: 'ktp',
             label: '',
             children:
-            <div className='flex justify-between w-full'>
+                <div className='flex justify-between w-full'>
 
-                <Space size="middle">
-                    {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm"><i className="bx bxs-report font-size-16 align-middle me-2"></i>Internal Crib</Link> */}
-                    <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
-                </Space>
-            </div>,
+                    <Space size="middle">
+                        {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm"><i className="bx bxs-report font-size-16 align-middle me-2"></i>Internal Crib</Link> */}
+                        <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
+                    </Space>
+                </div>,
 
         },
     ]
@@ -467,13 +462,13 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
             key: 'ktp',
             label: '',
             children:
-            <div className='flex justify-between w-full'>
+                <div className='flex justify-between w-full'>
 
-                <Space size="middle">
-                    {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm"><i className="bx bxs-report font-size-16 align-middle me-2"></i>Internal Crib</Link> */}
-                    <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
-                </Space>
-            </div>,
+                    <Space size="middle">
+                        {/* <Link target="_blank" to={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`} className="btn btn-info btn-sm"><i className="bx bxs-report font-size-16 align-middle me-2"></i>Internal Crib</Link> */}
+                        <Button type="primary" target="_blank" href={`/indo-digital-loan/auth/applications/internal-crib/${data.cltIdx}`}>Internal Crib</Button>
+                    </Space>
+                </div>,
 
         },
     ]
@@ -486,6 +481,8 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
         spouseDetails,
     } = useSelector((state: any) => state.Application)
 
+    const [imageCategory, setImageCategory] = useState<IImageCategory>({ mainCategory: '', subCategory: '' })
+
     return (
         <div
             style={{
@@ -496,7 +493,7 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                 <div className='w-full h-32 flex justify-center'><Spin /></div>
                 :
                 <div>
-                    <PopupImage open={openImage} setOpen={setOpenImage} subCategory="CUSTOMER_ID" />
+                    <PopupImage open={openImage} setOpen={setOpenImage} mainCategory={imageCategory.mainCategory} subCategory={imageCategory.subCategory} />
                     <Descriptions
                         title={
                             <Title
@@ -511,7 +508,22 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                         items={customerData.data ? items(customerData.data) : []}
                         size='small'
                     />
-
+                    <div className='flex justify-end gap-2'>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'CLIENT_IDENTIFICATION', subCategory: 'CUSTOMER_ID' })
+                            setOpenImage(true)
+                        }}>
+                            NIK
+                        </Button>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'CLIENT_IDENTIFICATION', subCategory: 'FAMLIY_CARD' })
+                            setOpenImage(true)
+                        }}>Family Card</Button>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'CLIENT_IDENTIFICATION', subCategory: 'CUSTOMER_IMAGE' })
+                            setOpenImage(true)
+                        }}>Customer Image</Button>
+                    </div>
                     <Divider />
 
 
@@ -526,7 +538,7 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                             ? 'grid grid-cols-1 gap-5 pt-2'
                             : 'grid grid-cols-3 gap-5 pt-2'
                     }>
-                        {contactDetails ?.data ?.map((contact: any, index: any) => {
+                        {contactDetails?.data?.map((contact: any, index: any) => {
                             return <div
                                 style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                                 className='p-5 rounded-md  font-sans'
@@ -558,43 +570,69 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                             ? 'grid grid-cols-1 gap-5 pt-2'
                             : 'grid grid-cols-3 gap-5 pt-2'
                     }>
-                        {addressDetails ?.data ?.
-                            filter((row: any) => row.addressType == 'TEMPORARY') ?.
-                                map((address: any, index: any) => {
-                                    return <div
-                                        style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                                        className='p-5 rounded-md  font-sans'
+                        {addressDetails?.data?.
+                            filter((row: any) => row.addressType == 'TEMPORARY')?.
+                            map((address: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                                    className='p-5 rounded-md  font-sans'
+                                    key={index}
+                                >
+                                    <Descriptions
                                         key={index}
-                                    >
-                                        <Descriptions
-                                            key={index}
-                                            column={
-                                                1
-                                            }
-                                            items={address ? itemsAddressType2(address) : []}
-                                            size='small'
-                                        />
+                                        column={
+                                            1
+                                        }
+                                        items={address ? itemsAddressType2(address) : []}
+                                        size='small'
+                                    />
+                                    <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                        <Button onClick={() => {
+                                            setImageCategory({ mainCategory: 'RESIDENCIAL_IMAGES', subCategory: 'RESIDENCE_LOCATION_TAGGING' })
+                                            setOpenImage(true)
+                                        }}>
+                                            Location
+                                        </Button>
+                                        <Button onClick={() => {
+                                            setImageCategory({ mainCategory: 'RESIDENCIAL_IMAGES', subCategory: 'RESIDENCE_IMAGE' })
+                                            setOpenImage(true)
+                                        }}>Image</Button>
+                                        <Button onClick={() => {
+                                            setImageCategory({ mainCategory: 'RESIDENCIAL_IMAGES', subCategory: 'RESIDENCE_OWNERSHIP_PROOF' })
+                                            setOpenImage(true)
+                                        }}>Ownership</Button>
                                     </div>
-                                })}
+                                </div>
+                            })}
 
-                        {addressDetails ?.data ?.
-                            filter((row: any) => row.addressType != 'TEMPORARY') ?.
-                                map((address: any, index: any) => {
-                                    return <div
-                                        style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                                        className='p-5 rounded-md  font-sans'
+                        {addressDetails?.data?.
+                            filter((row: any) => row.addressType != 'TEMPORARY')?.
+                            map((address: any, index: any) => {
+                                return <div
+                                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                                    className='p-5 rounded-md  font-sans'
+                                    key={index}
+                                >
+                                    <Descriptions
                                         key={index}
-                                    >
-                                        <Descriptions
-                                            key={index}
-                                            column={
-                                                1
-                                            }
-                                            items={address ? itemsAddressType1(address) : []}
-                                            size='small'
-                                        />
-                                    </div>
-                                })}
+                                        column={
+                                            1
+                                        }
+                                        items={address ? itemsAddressType1(address) : []}
+                                        size='small'
+                                    />
+                                    {address.addressType === 'BUSINESS' &&
+                                        <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                                            <Button onClick={() => {
+                                                setImageCategory({ mainCategory: 'BUSINESS_IMAGE', subCategory: 'BUSINESS_LOCATION_TAGGING' })
+                                                setOpenImage(true)
+                                            }}>
+                                                Business Location
+                                            </Button>
+                                        </div>
+                                    }
+                                </div>
+                            })}
                     </div>
 
                     <Divider />
@@ -611,6 +649,14 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                         items={businessDetails.data ? businessItems(businessDetails.data) : []}
                         size='small'
                     />
+                    <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'BUSINESS_IMAGE', subCategory: 'BUSINESS_IMAGE' })
+                            setOpenImage(true)
+                        }}>
+                            Business Image
+                        </Button>
+                    </div>
 
                     <Divider />
 
@@ -628,6 +674,21 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                         items={spouseDetails.data ? spouseItems(spouseDetails.data) : []}
                         size='small'
                     />
+                    <div className='flex flex-col sm:flex-row justify-end gap-2'>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'SPOUSE_IMAGES', subCategory: 'SPOUSE_ID' })
+                            setOpenImage(true)
+                        }}>
+                            Spouse Id
+                        </Button>
+                        <Button onClick={() => {
+                            setImageCategory({ mainCategory: 'SPOUSE_IMAGES', subCategory: 'SPOUSE_IMAGE' })
+                            setOpenImage(true)
+                        }}>
+                            Spouse Image
+                        </Button>
+                    </div>
+
                 </div>
             }
         </div>

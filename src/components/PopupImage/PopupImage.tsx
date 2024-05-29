@@ -6,32 +6,32 @@ import { useSelector } from 'react-redux';
 import ImageDisplay from '../Image/ImageViewerByHash';
 
 interface IProps {
-    open: any;
-    setOpen: any;
-    subCategory: string
-    mainCategory?: string;
-  }
+  open: any;
+  setOpen: any;
+  subCategory: string
+  mainCategory?: string;
+}
 
 const PopupImage: React.FC<IProps> = ({
-    open,
-    setOpen,
-    mainCategory,
-    subCategory
+  open,
+  setOpen,
+  mainCategory,
+  subCategory
 }) => {
-//   const [open, setOpen] = useState(false);
+  //   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
   const {
     imageDetails
-} = useSelector((state: any) => state.Application)
+  } = useSelector((state: any) => state.Application)
 
   const signImage = imageDetails?.data?.find((row: any) => {
-    if(mainCategory){
-      if(row.imgMasterCategory === mainCategory && row.imgSubCategory == subCategory){
+    if (mainCategory) {
+      if (row.imgMasterCategory === mainCategory && row.imgSubCategory == subCategory) {
         return true
-      }else{
+      } else {
         return false
       }
     }
@@ -84,9 +84,9 @@ const PopupImage: React.FC<IProps> = ({
             }}
             // fix eslintjsx-a11y/mouse-events-have-key-events
             // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
-            onFocus={() => {}}
-            onBlur={() => {}}
-            // end
+            onFocus={() => { }}
+            onBlur={() => { }}
+          // end
           >
             Image Viewer
           </div>
@@ -105,16 +105,16 @@ const PopupImage: React.FC<IProps> = ({
           </Draggable>
         )}
       >
-       <div className='flex justify-center mx-12'>
-            <div className=' flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'>
-                <ImageDisplay
-                    hashValue={signImage?.hashIdentifier}
-                    data={{
+        <div className='flex justify-center mx-12'>
+          <div className=' flex flex-col justify-center items-center bg-gray-300 h-full p-1 rounded'>
+            <ImageDisplay
+              hashValue={signImage?.hashIdentifier}
+              data={{
 
-                    }}
-                />
-                <p>Customer ID</p>
-            </div>
+              }}
+            />
+            <p>{subCategory}</p>
+          </div>
         </div>
       </Modal>
     </>
