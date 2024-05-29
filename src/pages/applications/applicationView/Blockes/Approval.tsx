@@ -196,7 +196,7 @@ export default function Approval({
           }
 
           const processedFiles = [];
-          if (selectedRole === 'CA' || (selectedRole === 'BM' && isBMImage === false)
+          if (selectedRole === 'CA' || selectedRole === 'BM' 
             || (selectedRole === 'CSA' || selectedRole === 'AM' || selectedRole === 'RM'
               || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
 
