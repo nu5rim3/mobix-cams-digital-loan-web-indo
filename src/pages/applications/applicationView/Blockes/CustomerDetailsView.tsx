@@ -9,7 +9,7 @@ export interface ICustomerDetailsViewProps {
 
 export interface IImageCategory {
     mainCategory: 'CLIENT_IDENTIFICATION' | 'RESIDENCIAL_IMAGES' | 'BUSINESS_IMAGE' | 'SPOUSE_IMAGES' | 'GUARANTOR' | 'COLLATERAL_IMAGES' | ""
-    subCategory: 'CUSTOMER_ID' | 'FAMLIY_CARD' | 'CUSTOMER_IMAGE' | 'RESIDENCE_LOCATION_TAGGING' | 'RESIDENCE_IMAGE' | 'RESIDENCE_OWNERSHIP_PROOF' | 'BUSINESS_LOCATION_TAGGING' | 'BUSINESS_IMAGE' | 'SPOUSE_ID' | "SPOUSE_IMAGE" | "GUARANTOR_ID" | "COLLATERAL_IMAGES" | ""
+    subCategory: 'CUSTOMER_ID' | 'FAMILY_CARD' | 'CUSTOMER_IMAGE' | 'RESIDENCE_LOCATION_TAGGING' | 'RESIDENCE_IMAGE' | 'RESIDENCE_OWNERSHIP_PROOF' | 'BUSINESS_LOCATION_TAGGING' | 'BUSINESS_IMAGE' | 'SPOUSE_ID' | "SPOUSE_IMAGE" | "GUARANTOR_ID" | "COLLATERAL_IMAGES" | ""
 }
 
 export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
@@ -516,7 +516,7 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                             NIK
                         </Button>
                         <Button onClick={() => {
-                            setImageCategory({ mainCategory: 'CLIENT_IDENTIFICATION', subCategory: 'FAMLIY_CARD' })
+                            setImageCategory({ mainCategory: 'CLIENT_IDENTIFICATION', subCategory: 'FAMILY_CARD' })
                             setOpenImage(true)
                         }}>Family Card</Button>
                         <Button onClick={() => {
