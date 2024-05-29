@@ -26,9 +26,9 @@ export default function Approval({
     approvalSteps,
     financialDetailsSavePending,
     financialDetails,
-    } = useSelector((state: any) => state.Application)
+  } = useSelector((state: any) => state.Application)
   const {
-      selectedRole,
+    selectedRole,
     userData
   } = useSelector((state: any) => state.AppData)
 
@@ -127,8 +127,8 @@ export default function Approval({
         const localDate = date.toLocaleDateString();
         const localTime = date.toLocaleTimeString();
 
-        return <>{ localDate } - { localTime }</>
-              }
+        return <>{localDate} - {localTime}</>
+      }
     },
   ];
 
@@ -141,7 +141,7 @@ export default function Approval({
       })
     }
 
-    if (((selectedRole === 'CA' && isCAImage === false) || (selectedRole == 'BM' && isBMImage == false)) && !fileList.length
+    if ((selectedRole == 'BM' && isBMImage == false) && !fileList.length
       && (type === 'Recommend'
         || type === 'Approve' || type === 'Return' || type === 'Not Recommend')) {
       return notification.warning({
@@ -166,30 +166,29 @@ export default function Approval({
 
           if (isSecondMeeting) {
             data = {
-              appraisalIdx: customerData.data.appraisalId,
+              appraisalIdx: customerData?.data?.appraisalId,
               secondMeetingStepAction: genarateStepStatus(type, selectedRole),
               secondMeetingStepStatus: genarateStepAction(type, selectedRole, isSecondMeeting),
-              appraisalType: approvalSteps ?.data ?.approvalStepDtoList ?.[approvalSteps ?.data ?.approvalStepDtoList ?.length - 1]?.appraisalType,
-              loanProduct: financialDetails.data.pTrhdLType,
-              loanAmount: financialDetails.data.pTrhdLocCost,
-              loanTerm: financialDetails.data.pTrhdTerm,
+              appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType,
+              loanProduct: financialDetails?.data?.pTrhdLType,
+              loanAmount: financialDetails?.data?.pTrhdLocCost,
+              loanTerm: financialDetails?.data?.pTrhdTerm,
               comment: form.getFieldValue('comment'),
               reason: form.getFieldValue('reason') ? form.getFieldValue('reason').value : "",
               reasonDesc: form.getFieldValue('reason') ? form.getFieldValue('reason').label : "",
             }
           } else {
-
             data = {
-              appraisalIdx: customerData.data.appraisalId,
+              appraisalIdx: customerData?.data?.appraisalId,
               stepStatus: genarateStepStatus(type, selectedRole),
               stepAction: genarateStepAction(type, selectedRole, isSecondMeeting),
-              appraisalType: approvalSteps ?.data ?.approvalStepDtoList ?.[approvalSteps ?.data ?.approvalStepDtoList ?.length - 1]?.appraisalType, //customerData.data.appraisalType,
-              loanProduct: financialDetails.data.pTrhdLType,
-              loanAmount: financialDetails.data.pTrhdLocCost,
-              loanTerm: financialDetails.data.pTrhdTerm,
+              appraisalType: approvalSteps?.data?.approvalStepDtoList?.[approvalSteps?.data?.approvalStepDtoList?.length - 1]?.appraisalType, //customerData.data.appraisalType,
+              loanProduct: financialDetails?.data?.pTrhdLType,
+              loanAmount: financialDetails?.data?.pTrhdLocCost,
+              loanTerm: financialDetails?.data?.pTrhdTerm,
               comment: form.getFieldValue('comment'),
-              lastModifiedBy: userData.data.idx,
-              createdBy: userData.data.idx,
+              lastModifiedBy: userData?.data?.idx,
+              createdBy: userData?.data?.idx,
               creationDate: moment().toISOString(),
               reason: form.getFieldValue('reason') ? form.getFieldValue('reason').value : "",
               reasonDesc: form.getFieldValue('reason') ? form.getFieldValue('reason').label : "",
@@ -197,7 +196,7 @@ export default function Approval({
           }
 
           const processedFiles = [];
-          if ((selectedRole === 'CA' && isCAImage === false) || (selectedRole === 'BM' && isBMImage === false)
+          if ((selectedRole === 'BM' && isBMImage === false)
             || (selectedRole === 'CSA' || selectedRole === 'AM' || selectedRole === 'RM'
               || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
 
@@ -214,7 +213,7 @@ export default function Approval({
                 cltIdx: customerData.data.cltIdx,
                 centerIdx: customerData.data.centerIdx,
                 appraisalIdx:
-                customerData.data.appraisalId,
+                  customerData.data.appraisalId,
                 imgMasterCategory: "APPROVAL_FLOW",
                 imgSubCategory: selectedRole === 'CA' ? "CA_LEVEL" : "BM_LEVEL",
                 imgOriginalName: file.name,
@@ -247,6 +246,7 @@ export default function Approval({
           }
         }
         catch (err) {
+          console.log('[ERROR] - ', err)
           notification.error({
             message: 'Application update failed'
           })
@@ -258,15 +258,17 @@ export default function Approval({
   }
 
   useEffect(() => {
-    const BMStatus = approvalSteps.data ?.secondMeetingApprovalStepDtoList ?.
-      find((row: any) => row.secondMeetingCurrentRole == "BM") ?.secondMeetingStepStatus
+    const BMStatus = approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+      find((row: any) => row.secondMeetingCurrentRole == "BM")?.secondMeetingStepStatus
 
-    const cycleNo = approvalSteps.data ?.approvalStepDtoList[0] ?.cycleNo;
+    const cycleNo = approvalSteps.data?.approvalStepDtoList[0]?.cycleNo;
     setCycleNo(cycleNo);
-    const caImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL') ?.length;
+    const caImage = imageDetails.data?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL')?.length;
     console.log("caImage " + caImage)
-    const bmImage = imageDetails.data ?.filter((image: any) => image.imgSubCategory === 'BM_LEVEL') ?.length;
-    console.log("bmImage " + bmImage)
+    const bmImage = imageDetails.data?.filter((image: any) => image.imgSubCategory === 'BM_LEVEL')?.length;
+    console.log("imageDetails ", imageDetails)
+
+
 
     if (caImage > 0) {
       setCAImage(true);
@@ -279,7 +281,7 @@ export default function Approval({
     if (BMStatus === 'PENDING') {
       setIsSecondMeeting(true)
     }
-  }, [approvalSteps.data ?.secondMeetingApprovalStepDtoList])
+  }, [approvalSteps.data?.secondMeetingApprovalStepDtoList])
 
 
   useEffect(() => {
@@ -292,90 +294,90 @@ export default function Approval({
     fetchData();
 
 
-  }, [approvalSteps.data ?.approvalStepDtoList,selectedRole])
+  }, [approvalSteps.data?.approvalStepDtoList, selectedRole])
   return (
     <div>
       {
-        (approvalSteps.data ?.approvalStepDtoList ?.find((row: any) => row ?.stepAction === 'PENDING')?.roleCode === selectedRole)
-          || (approvalSteps.data ?.secondMeetingApprovalStepDtoList ?.find((row: any) => row ?.secondMeetingStepAction === 'PENDING')?.secondMeetingCurrentRole === selectedRole)?
+        (approvalSteps.data?.approvalStepDtoList?.find((row: any) => row?.stepAction === 'PENDING')?.roleCode === selectedRole)
+          || (approvalSteps.data?.secondMeetingApprovalStepDtoList?.find((row: any) => row?.secondMeetingStepAction === 'PENDING')?.secondMeetingCurrentRole === selectedRole) ?
           <>
-          <Form
-            form={form}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 26 }}
-            layout="vertical"
-          // disabled={componentDisabled}
-          // style={{ maxWidth: 600 }}
-          >
-            {
-              roleWiseApproval.length && reasons.length > 0 && (selectedRole === 'ADMIN' || selectedRole === 'CA') ?
-                <Form.Item
+            <Form
+              form={form}
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 26 }}
+              layout="vertical"
+            // disabled={componentDisabled}
+            // style={{ maxWidth: 600 }}
+            >
+              {
+                roleWiseApproval.length && reasons.length > 0 && (selectedRole === 'ADMIN' || selectedRole === 'CA') ?
+                  <Form.Item
 
-                  name="reason"
-                  label="Reason"
-                  rules={[
-                    {
-                      required: isRequired,
-                    },
-                  ]}
-                  style={{
-                    fontWeight: 600,
-                  }}
-                >
-                  <Select
-                    showSearch
-                    labelInValue
+                    name="reason"
+                    label="Reason"
+                    rules={[
+                      {
+                        required: isRequired,
+                      },
+                    ]}
+                    style={{
+                      fontWeight: 600,
+                    }}
                   >
+                    <Select
+                      showSearch
+                      labelInValue
+                    >
+                      {
+                        reasons?.map((option: any, index) => (
+
+                          < Select.Option
+                            value={option.code}
+                            key={index.toString()}
+                          >
+                            {option.description}
+                          </Select.Option>
+
+                        ))
+                      }
+                    </Select>
+                  </Form.Item>
+                  : null}
+              {
+                roleWiseApproval.length ?
+                  <Form.Item label="Comment" name='comment' rules={[
                     {
-                      reasons ?.map((option: any, index) => (
-
-                        < Select.Option
-                          value={option.code}
-                          key={index.toString()}
-                        >
-                          {option.description}
-                        </Select.Option>
-
-                      ))
-                }
-                  </Select>
-                </Form.Item>
-                : null}
-            {
-              roleWiseApproval.length ?
-                <Form.Item label="Comment" name='comment' rules={[
-                  {
-                    required: true,
-                  },
-                ]}>
-                  <TextArea rows={4} placeholder='Add Comment here' />
-                </Form.Item>
-                : null}
-            <div className='flex justify-center'>
-              {roleWiseApproval.map((type: any) => {
-                return (
-                  <ButtonContainer
-                    type='primary'
-                    label={type}
-                    loading={addingData === type ? true : false}
-                    disabled={
-                      addingData ? true
-                        : false
-                    }
-                    size='large'
-                    onClick={() => handleSubmit(type)}
-                    className='mr-1 '
-                    shape='round'
-                  />
-                )
-              })}
-            </div>
-          </Form>
-          <Divider />
+                      required: true,
+                    },
+                  ]}>
+                    <TextArea rows={4} placeholder='Add Comment here' />
+                  </Form.Item>
+                  : null}
+              <div className='flex justify-center'>
+                {roleWiseApproval.map((type: any) => {
+                  return (
+                    <ButtonContainer
+                      type='primary'
+                      label={type}
+                      loading={addingData === type ? true : false}
+                      disabled={
+                        addingData ? true
+                          : false
+                      }
+                      size='large'
+                      onClick={() => handleSubmit(type)}
+                      className='mr-1 '
+                      shape='round'
+                    />
+                  )
+                })}
+              </div>
+            </Form>
+            <Divider />
           </>
-      : null
-}
-<div className='mt-5'>
+          : null
+      }
+      <div className='mt-5'>
         <Title
           level={5}
           title='Application History'
@@ -391,16 +393,16 @@ export default function Approval({
             columns={columns}
             pagination={false}
             dataSource={
-              approvalSteps.data ?.approvalStepDtoList
+              approvalSteps.data?.approvalStepDtoList
                 ? [
-                  ...approvalSteps.data ?.secondMeetingApprovalStepDtoList ?.
-                    filter((row: any) => row.secondMeetingCurrentRole == "BM") ?.
-                      map((row: any) => ({
-                        ...row,
-                        stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus} `,
-                        roleDescription: row.secondMeetingCurrentRoleDesc
-                      })),
-                  ...approvalSteps.data ?.approvalStepDtoList,
+                  ...approvalSteps.data?.secondMeetingApprovalStepDtoList?.
+                    filter((row: any) => row.secondMeetingCurrentRole == "BM")?.
+                    map((row: any) => ({
+                      ...row,
+                      stepStatus: `SECOND MEETING - ${row.secondMeetingStepStatus} `,
+                      roleDescription: row.secondMeetingCurrentRoleDesc
+                    })),
+                  ...approvalSteps.data?.approvalStepDtoList,
                 ]
                 : []}
           />
