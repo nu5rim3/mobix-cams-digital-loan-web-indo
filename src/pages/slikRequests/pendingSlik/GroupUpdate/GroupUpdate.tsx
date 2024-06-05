@@ -55,7 +55,7 @@ export default function GroupUpdate({
 
   const columns: ColumnsType<any> = [
     {
-      title: 'Centre',
+      title: 'Center',
       dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
       // filteredValue: [searchText],
@@ -112,12 +112,13 @@ export default function GroupUpdate({
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
       render: (text, record) => {
+        console.log('[RECORD] - ', record)
         return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
     {
-      title: 'Centre',
-      dataIndex: 'fusionCenterCode,',
+      title: 'Center',
+      dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
     },
     {
