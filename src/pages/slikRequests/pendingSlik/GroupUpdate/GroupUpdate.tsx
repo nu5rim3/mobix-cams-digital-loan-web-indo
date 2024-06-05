@@ -31,6 +31,7 @@ export default function GroupUpdate({
   } = useSelector((state: any) => state.AppData)
 
   const differSpouseGarent = (data: any[]) => {
+    console.log('[differSpouseGarent - ] ', data)
     return data.map((item: any) => {
       if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
 
@@ -92,12 +93,10 @@ export default function GroupUpdate({
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}> */}
           <a onClick={() => {
             const select = slikRequestsGroupData.initialData.filter((row: any) => (row.centerCode == record.centerCode) && (row.groupIdx == record.groupIdx))
-            setSelectedGroup(differSpouseGarent([select[0].slikDto]))
+            setSelectedGroup(differSpouseGarent([{ ...select[0].slikDto, familyCard: select[0].familyCard, addLine1: select[0].addLine1, addLine2: select[0].addLine2, addLine3: select[0].addLine3, brName: select[0].brName, cltContact1: select[0].cltContact1 }]))
           }}>View</a>
-          {/* </a> */}
         </Space>
       ),
     },
@@ -108,9 +107,13 @@ export default function GroupUpdate({
       title: 'Appraisal No',
       dataIndex: 'appraisalId',
       key: 'appraisalId',
-      render: (value) => (
-        <div className='flex justify-between'><span>{value}</span> <span onClick={() => copyToClipborad(value)}><CopyOutlined /></span></div>
-      )
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+      },
+      render: (text, record) => {
+        return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      }
     },
     {
       title: 'Centre',
@@ -174,6 +177,7 @@ export default function GroupUpdate({
       dataIndex: 'address',
       key: 'address',
       render: (text, record) => {
+        console.log('[TABLE RECORD] - ', record)
         return formatAddress({
           address1: record.addLine1,
           address2: record.addLine2,

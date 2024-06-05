@@ -3,11 +3,13 @@ import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { ColumnsType } from 'antd/es/table';
-import { Input, notification, Space } from 'antd';
+import { Input, notification } from 'antd';
 import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
-import { JsonToExcel, exportToExcel } from "react-json-to-excel";
+import { exportToExcel } from "react-json-to-excel";
+import copyToClipborad from '../../../../utils/copyToClipBorad';
+import { CopyOutlined } from '@ant-design/icons'
 export interface IIndividualUpdateProps {
   searchText: string
 }
@@ -53,15 +55,17 @@ export default function IndividualUpdate({
   }, [slikRequestsIndividualData])
 
   const columns: ColumnsType<any> = [
-    // {
-    //   title: 'Center',
-    //   dataIndex: 'centerCode',
-    //   key: 'center',
-    // },
     {
       title: 'Appraisal No',
       dataIndex: 'appraisalId',
       key: 'appraisalId',
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+      },
+      render: (text, record) => {
+        return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      }
     },
     {
       title: 'Customer Name',
@@ -75,9 +79,6 @@ export default function IndividualUpdate({
           return record.fullName
         }
       },
-      // onFilter: (value, record) => {
-      //   return record?.slikDto?.customerName?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
-      // }
     },
     {
       title: 'NIK',
