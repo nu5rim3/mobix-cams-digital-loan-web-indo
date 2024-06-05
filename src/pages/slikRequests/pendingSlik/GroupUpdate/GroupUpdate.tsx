@@ -11,7 +11,7 @@ import { exportToExcel } from "react-json-to-excel";
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipborad from '../../../../utils/copyToClipBorad';
 export interface IGroupUpdateProps {
-  searchText: string
+  searchText: string | number
 }
 
 export default function GroupUpdate({
@@ -22,6 +22,9 @@ export default function GroupUpdate({
   const {
     slikRequestsGroupData
   } = useSelector((state: any) => state.SlikRequest)
+  const {
+    slikRequestsPaginatedData
+  } = useSelector((state: any) => state.SlikRequest)
   const userData = useSelector((state: any) => state.AppData.userData)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -31,7 +34,6 @@ export default function GroupUpdate({
   } = useSelector((state: any) => state.AppData)
 
   const differSpouseGarent = (data: any[]) => {
-    console.log('[differSpouseGarent - ] ', data)
     return data.map((item: any) => {
       if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
 
@@ -55,7 +57,7 @@ export default function GroupUpdate({
 
   const columns: ColumnsType<any> = [
     {
-      title: 'Centre',
+      title: 'Center',
       dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
       // filteredValue: [searchText],
@@ -93,10 +95,12 @@ export default function GroupUpdate({
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
+          {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}> */}
           <a onClick={() => {
             const select = slikRequestsGroupData.initialData.filter((row: any) => (row.centerCode == record.centerCode) && (row.groupIdx == record.groupIdx))
-            setSelectedGroup(differSpouseGarent([{ ...select[0].slikDto, familyCard: select[0].familyCard, addLine1: select[0].addLine1, addLine2: select[0].addLine2, addLine3: select[0].addLine3, brName: select[0].brName, cltContact1: select[0].cltContact1 }]))
+            setSelectedGroup(differSpouseGarent([select[0].slikDto]))
           }}>View</a>
+          {/* </a> */}
         </Space>
       ),
     },
@@ -112,7 +116,7 @@ export default function GroupUpdate({
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
       render: (text, record) => {
-        return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+        return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
     {
@@ -177,7 +181,6 @@ export default function GroupUpdate({
       dataIndex: 'address',
       key: 'address',
       render: (text, record) => {
-        console.log('[TABLE RECORD] - ', record)
         return formatAddress({
           address1: record.addLine1,
           address2: record.addLine2,
@@ -206,9 +209,11 @@ export default function GroupUpdate({
             (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
           }
             onChange={(e) => {
+
               // Handle input changes here and update your data
               // e.target.value contains the new value of the input field
               const newValue = e.target.value;
+
               setSelectedGroup((prev: any) => {
                 const newData = prev.map((row: any) => {
                   if (record.slkIdx == row.slkIdx) {
@@ -223,10 +228,35 @@ export default function GroupUpdate({
                 return newData
               })
               // You can update the data array or state here
+              console.log('change 1')
             }}
+
           />
         } else {
-          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} />
+          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} onChange={(e) => {
+
+            // Handle input changes here and update your data
+            // e.target.value contains the new value of the input field
+            const newValue = e.target.value;
+
+            setSelectedGroup((prev: any) => {
+              const newData = prev.map((row: any) => {
+                console.log('[row] - ', row)
+                if (record.slkIdx === row.slkIdx) {
+                  return {
+                    ...row,
+                    batchNumber: newValue
+                  }
+                } else {
+                  return row
+                }
+              })
+              return newData
+            })
+            // You can update the data array or state here
+            console.log('change 2')
+          }
+          } />
         }
       }
     },
@@ -237,10 +267,17 @@ export default function GroupUpdate({
       userId: userData.data?.idx,
       branchCode: userData.data?.branches[0]?.code, //'TJP',
       status: 'P',
-      type: 'GRPL',
-      pageNumber: 1,
-      pageSize: 20
+      type: 'GRPL'
     });
+
+    // actions.getSliksWithPagination({
+    //   userId: userData.data?.idx,
+    //   branchCode: userData.data?.branches[0]?.code,
+    //   status: 'P',
+    //   type: "GRPL",
+    //   page: 0,
+    //   size: 10
+    // })
   }
 
   const getGroupDataForExcel = () => {
@@ -288,15 +325,15 @@ export default function GroupUpdate({
   const uploadData = async () => {
     try {
       setLoading(true)
-      const response = await API.slikServices.updateSlikBulck(selectedGroup
+      const _selectedGroup = selectedGroup
         ?.filter((row: any) => row.batchNumber)
         ?.map((row: any) => {
           return {
-            ...row.slikDto,
+            ...row,
             batchNumber: row.batchNumber
           }
         })
-      )
+      await API.slikServices.updateSlikBulck(_selectedGroup)
       notification.success({
         message: 'Batches Updated Successfully'
       })
@@ -304,7 +341,9 @@ export default function GroupUpdate({
       getGroupData()
     }
     catch (err) {
-      console.error(err)
+      notification.error({
+        message: 'Batches Not Updated Successfully'
+      })
     } finally {
       setLoading(false)
     }
@@ -321,7 +360,7 @@ export default function GroupUpdate({
             loading={slikRequestsGroupData.fetching}
             rowKey={'slkIdx'}
             columns={columns}
-            dataSource={slikRequestsGroupData.data || []}
+            dataSource={slikRequestsGroupData?.data ?? []}
           />
           <div className='flex justify-end py-10 w-full'>
             <Button

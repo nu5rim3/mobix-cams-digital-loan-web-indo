@@ -44,7 +44,7 @@ export default function Applications(props: IApplicationsProps) {
     actions.getAllApplications({
       role: selectedRole,
       status: searchStatus,
-      branch: userData ?.data ?.branches[0] ?.code
+      branch: userData?.data?.branches[0]?.code
     })
   }, [])
 
@@ -72,7 +72,7 @@ export default function Applications(props: IApplicationsProps) {
       fromDate: fromDateFilter,
       toDate: toDateFilter,
       status: searchStatus,
-      branch: userData ?.data ?.branches[0] ?.code
+      branch: userData?.data?.branches[0]?.code
     })
   }
 
@@ -103,7 +103,7 @@ export default function Applications(props: IApplicationsProps) {
       dataIndex: 'ktp',
       key: 'ktp',
       render: (_, record) => {
-        return <>{ record.clienteles[0] ?.ktp || ''}</>
+        return <>{record.clienteles[0]?.ktp || ''}</>
       }
     },
     {
@@ -111,7 +111,7 @@ export default function Applications(props: IApplicationsProps) {
       key: 'fullName',
       dataIndex: 'fullName',
       render: (_, record) => {
-        return <>{ record.clienteles[0] ?.fullName || ''}</>
+        return <>{record.clienteles[0]?.fullName || ''}</>
       }
     },
     {
@@ -152,7 +152,7 @@ export default function Applications(props: IApplicationsProps) {
   return (
     <div>
       <BreadCrumbContainer>
-        <Paragraph className='m-0 p-0 ' style={{ margin: 0, padding: 0 }} type="secondary">Home</Paragraph>
+        {/* <Paragraph className='m-0 p-0 ' style={{ margin: 0, padding: 0 }} type="secondary">Home</Paragraph> */}
         <Title
           level={4}
           title='Application Approval'
@@ -161,21 +161,23 @@ export default function Applications(props: IApplicationsProps) {
 
 
       <ContentContainer >
-        <Title
-          style={{ color: '#374957' }}
-          level={4}
-          title='Appraisal Origination'
-        />
-        <Title
+        <div className='mt-2'>
+          <Title
+            style={{ color: '#374957' }}
+            level={4}
+            title='Appraisal Origination'
+          />
+        </div>
+        {/* <Title
           style={{ margin: 1 }}
           level={5}
           title='Search Items'
-        />
+        /> */}
 
         <div className='flex mt-1 mb-3 items-center'>
           <Select
             className='mr-2'
-            size={'large'}
+            size={'middle'}
             // allowClear
             onChange={(value) => {
               setSearchStatus(value)
@@ -207,21 +209,21 @@ export default function Applications(props: IApplicationsProps) {
             ]}
           />
           <Input
-            size={'large'}
+            size={'middle'}
             placeholder='Appraisal ID'
             className='mr-2 w-2/6'
             allowClear
             onChange={(e) => setSearchAppraisal(e.target.value)}
           />
-          <DatePicker size={'large'} onChange={handleFromDateFilterChange} />
+          <DatePicker size={'middle'} onChange={handleFromDateFilterChange} />
           <div className='m-2 font-bold' style={{ color: colorTextHeading }}>
             To
-            </div>
-          <DatePicker size={'large'} onChange={handleToDateFilterChange} />
+          </div>
+          <DatePicker size={'middle'} onChange={handleToDateFilterChange} />
           <ButtonContainer
             type='primary'
             label='Search'
-            size='large'
+            size='middle'
             className='ml-3'
             onClick={() => {
               searchData()
@@ -240,11 +242,12 @@ export default function Applications(props: IApplicationsProps) {
             rowKey={'idx'}
             columns={columns.filter((column: any) => (
               searchedStatus !== 'APPROVED' && (
-                column ?.key == 'voucherNo' ||
-                  column ?.key == 'contractNo'
-                )) ? false : true
+                column?.key == 'voucherNo' ||
+                column?.key == 'contractNo'
+              )) ? false : true
             )}
             dataSource={applications.data || []}
+            size={'middle'}
           />
         </div>
 
