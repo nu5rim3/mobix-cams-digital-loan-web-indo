@@ -45,7 +45,7 @@ export default function Approval({
         return setRoleWiseApproval(['Return', 'Verified'])
       }
       if (selectedRole === 'CA') {
-        return setRoleWiseApproval(['Return', 'Not Recommend', 'Recommend']) // DIRECT TO NEXT
+        return setRoleWiseApproval(['Return', 'Not Recommended', 'Recommended']) // DIRECT TO NEXT
       }
       if (selectedRole === 'BM' && isSecondMeeting) {
         return setRoleWiseApproval(['Reject', 'Approve'])
@@ -142,14 +142,14 @@ export default function Approval({
     }
 
     if ((selectedRole == 'BM' && isBMImage == false) && !fileList.length
-      && (type === 'Recommend'
-        || type === 'Approve' || type === 'Return' || type === 'Not Recommend')) {
+      && (type === 'Recommended'
+        || type === 'Approve' || type === 'Return' || type === 'Not Recommended')) {
       return notification.warning({
         message: 'Please Upload Image to continue'
       })
     }
 
-    if (type === 'Not Recommend') {
+    if (type === 'Not Recommended') {
       setIsRequired(true);
     } else {
       setIsRequired(false);
@@ -196,7 +196,7 @@ export default function Approval({
           }
 
           const processedFiles = [];
-          if (selectedRole === 'CA' || selectedRole === 'BM' 
+          if (selectedRole === 'CA' || selectedRole === 'BM'
             || (selectedRole === 'CSA' || selectedRole === 'AM' || selectedRole === 'RM'
               || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
 
