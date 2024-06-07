@@ -31,7 +31,6 @@ export default function GroupUpdate({
   } = useSelector((state: any) => state.AppData)
 
   const differSpouseGarent = (data: any[]) => {
-    console.log('[differSpouseGarent - ] ', data)
     return data.map((item: any) => {
       if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
 
@@ -112,8 +111,7 @@ export default function GroupUpdate({
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
       render: (text, record) => {
-        console.log('[RECORD] - ', record)
-        return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+        return <div className='w-56'><span className='w-full'>{text}</span> <span className='w-5 h-5 ml-2' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
     {
@@ -178,7 +176,6 @@ export default function GroupUpdate({
       dataIndex: 'address',
       key: 'address',
       render: (text, record) => {
-        console.log('[TABLE RECORD] - ', record)
         return formatAddress({
           address1: record.addLine1,
           address2: record.addLine2,
@@ -195,6 +192,13 @@ export default function GroupUpdate({
       title: 'Contact No',
       dataIndex: 'cltContact1',
       key: 'cltContact1',
+      render: (value, record) => {
+        if (record.cltContact1) {
+          return record.cltContact1
+        } else {
+          return record.cusContact1
+        }
+      }
     },
     {
       title: 'Batch No',
@@ -227,7 +231,27 @@ export default function GroupUpdate({
             }}
           />
         } else {
-          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} />
+          return <Input
+            disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'}
+            onChange={(e) => {
+              // Handle input changes here and update your data
+              // e.target.value contains the new value of the input field
+              const newValue = e.target.value;
+              setSelectedGroup((prev: any) => {
+                const newData = prev.map((row: any) => {
+                  if (record.slkIdx == row.slkIdx) {
+                    return {
+                      ...row,
+                      batchNumber: newValue
+                    }
+                  } else {
+                    return row
+                  }
+                })
+                return newData
+              })
+              // You can update the data array or state here
+            }} />
         }
       }
     },
@@ -272,32 +296,32 @@ export default function GroupUpdate({
   }
   useEffect(() => {
     getGroupData();
-
-
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (slikRequestsGroupData != null) {
 
-      let slikArray = getGroupDataForExcel();
+      const slikArray = getGroupDataForExcel();
       setGroupData(slikArray);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slikRequestsGroupData])
 
 
   const uploadData = async () => {
     try {
       setLoading(true)
-      const response = await API.slikServices.updateSlikBulck(selectedGroup
+      const _data = selectedGroup
         ?.filter((row: any) => row.batchNumber)
         ?.map((row: any) => {
           return {
-            ...row.slikDto,
+            ...row,
             batchNumber: row.batchNumber
           }
         })
-      )
+
+      await API.slikServices.updateSlikBulck(_data)
       notification.success({
         message: 'Batches Updated Successfully'
       })

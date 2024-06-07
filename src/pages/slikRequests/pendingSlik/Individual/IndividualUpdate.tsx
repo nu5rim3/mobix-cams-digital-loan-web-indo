@@ -32,7 +32,6 @@ export default function IndividualUpdate({
   const [requestsIndividualData, setRequestsIndividualData] = useState([])
 
   useEffect(() => {
-    console.log('[USEEFFECT]')
     const newData = slikRequestsIndividualData.data.map((item: any) => {
       if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
         const guarantorsExist = Array.isArray(item.guarantors) && item.guarantors.length > 0;
@@ -64,7 +63,7 @@ export default function IndividualUpdate({
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
       render: (text, record) => {
-        return <div className='w-56 sm:4/5 flex justify-between'><span className='w-full'>{text}</span> <span className='w-5 h-5' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+        return <div className='w-56'><span className='w-full'>{text}</span> <span className='w-5 h-5 ml-2' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
     {
@@ -184,9 +183,7 @@ export default function IndividualUpdate({
       userId: userData.data?.idx,
       branchCode: userData.data?.branches[0]?.code,
       status: 'P',
-      type: "IL",
-      pageNumber: 1,
-      pageSize: 15
+      type: "IL"
     })
   }
   const getIndividualDataForExcel = () => {
@@ -216,15 +213,17 @@ export default function IndividualUpdate({
   }
   useEffect(() => {
     getIndividualData();
-
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   useEffect(() => {
     if (slikRequestsIndividualData != null) {
-      let slikArray = getIndividualDataForExcel();
+      const slikArray = getIndividualDataForExcel();
       setIndividualData(slikArray);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slikRequestsIndividualData])
+
   const uploadData = async () => {
     try {
       setLoading(true)
@@ -236,15 +235,14 @@ export default function IndividualUpdate({
             batchNumber: row.batchNumber
           }
         })
-
-      const response = await API.slikServices.updateSlikBulck(data)
+      await API.slikServices.updateSlikBulck(data)
       notification.success({
         message: 'Batches Updated Successfully'
       })
       getIndividualData()
     }
     catch (err) {
-
+      console.error(err)
     } finally {
       setLoading(false)
     }
