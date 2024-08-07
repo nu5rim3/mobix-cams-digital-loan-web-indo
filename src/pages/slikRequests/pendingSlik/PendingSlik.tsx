@@ -68,6 +68,10 @@ export default function Pending(_props: IPendingProps) {
   }, [slikRequestsPaginatedData])
 
 
+  /**
+   * generate group data for excel
+   * @returns group data for excel
+   */
   const getGroupDataForExcel = () => {
     return slikRequestsGroupData.initialData?.map((slik: any) => ({
       "Appraisal No": slik.slikDto.appraisalId,
