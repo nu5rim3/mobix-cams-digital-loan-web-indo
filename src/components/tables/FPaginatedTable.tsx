@@ -31,8 +31,9 @@ export default function FPaginatedTable({
         rowKey={rowKey}
         columns={columns}
         dataSource={dataSource || []}
-        size={screens.xs ? 'small' : 'middle'}
+        size={screens.md ? 'small' : 'middle'}
         expandable={expandable}
+        bordered
       // pagination={{
       //   total: 10,
       //   pageSize: 10,

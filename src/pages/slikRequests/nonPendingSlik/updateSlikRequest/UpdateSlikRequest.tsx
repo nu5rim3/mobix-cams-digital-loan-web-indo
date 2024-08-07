@@ -55,7 +55,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '1',
       label: 'Center',
-      children: initialData ?.fusionCenterCode,
+      children: initialData?.fusionCenterCode,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -65,7 +65,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '3',
       label: 'Group No',
-      children: initialData ?.groupIdx,
+      children: initialData?.groupIdx,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -75,7 +75,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '5',
       label: 'Customer Name',
-      children: initialData ?.customerName,
+      children: initialData?.customerName,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -85,7 +85,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '7',
       label: 'NIK',
-      children: initialData ?.customerKTP,
+      children: initialData?.customerKTP,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -95,7 +95,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '8',
       label: 'Batch No',
-      children: initialData ?.batchNumber,
+      children: initialData?.batchNumber,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -106,9 +106,9 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
       key: '2',
       label: 'Residence Address',
       children: formatAddress({
-        address1: initialData ?.addLine1,
-        address2: initialData ?.addLine2,
-        address3: initialData ?.addLine3,
+        address1: initialData?.addLine1,
+        address2: initialData?.addLine2,
+        address3: initialData?.addLine3,
         // address4 :initialData.address4
       }),
       labelStyle: {
@@ -130,7 +130,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
     {
       key: '6',
       label: 'Contact Number',
-      children: initialData ?.cltContact1,
+      children: initialData?.cltContact1,
       labelStyle: {
         color: '#102C57',
         fontWeight: 600,
@@ -182,7 +182,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         writeOff: e.writeOff,
         totalOutstanding: e.totalOutstanding,
         lovi: e.lovi,
-        slkComment:e.comment
+        slkComment: e.comment
       }
 
       if (id) {
@@ -264,26 +264,9 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
               layout='vertical'
               scrollToFirstError
               onFinish={(e) => saveSlickRequest(e)}
-              // onFieldsChange={(e:any)=> {
-              //   if(e[0]?.name[0] == "roles"){
-              //     if((e[0]?.value.includes('MFO') || e[0]?.value.includes('CSA'))){
-              //       setShowMeCode(true)
-              //     }else{
-              //       setShowMeCode(false)
-              //     }
-              //   }
-              // }}
-              wrapperCol={{ span: 20 }}
-            // size={screens.xs? 'middle' :'large'}
             >
-              <div className={
-                screens.xs
-                  ? 'px-2'
-                  : 'flex justify-between px-12'
-              }>
-
+              <div className='grid grid-cols-2 gap-3'>
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="status"
                   label="Recommendation"
                   rules={[
@@ -311,7 +294,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                         code: 'NOT_OK',
                         description: 'Not Ok',
                       },
-                    ] ?.map((option: any, index) => (
+                    ]?.map((option: any, index) => (
                       <Select.Option
                         value={option.code}
                         key={index.toString()}
@@ -322,7 +305,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                   </Select>
                 </Form.Item>
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
+                  // className={}
                   label="KOL 1"
                   name='kol1'
                   style={{
@@ -332,15 +315,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                   <Input />
                 </Form.Item>
 
-              </div>
-
-              <div className={
-                screens.xs
-                  ? 'px-2'
-                  : 'flex justify-between px-12'
-              }>
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="otherFacilityCount"
                   label="Other Active Facilities Count"
                   style={{
@@ -351,7 +326,6 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 </Form.Item>
 
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="kol-2-5"
                   label="KOL 2-5"
                   style={{
@@ -360,15 +334,8 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 >
                   <Input />
                 </Form.Item>
-              </div>
 
-              <div className={
-                screens.xs
-                  ? 'px-2'
-                  : 'flex justify-between px-12'
-              }>
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="totalLoanAmounts"
                   label="Total Plafon/ Total Loan Amounts"
                   style={{
@@ -384,7 +351,6 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 </Form.Item>
 
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="writeOff"
                   label="Write Off"
                   style={{
@@ -393,15 +359,8 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 >
                   <Input />
                 </Form.Item>
-              </div>
 
-              <div className={
-                screens.xs
-                  ? 'px-2'
-                  : 'flex justify-between px-12'
-              }>
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="totalOutstanding"
                   label="Total Outstanding"
                   style={{
@@ -416,7 +375,6 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 </Form.Item>
 
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="lovi"
                   label="LOVI"
                   style={{
@@ -426,41 +384,38 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
                 >
                   <Input style={{ margin: 0 }} />
                 </Form.Item>
-              </div>
-              <div className={
-                screens.xs
-                  ? 'px-2'
-                  : 'flex justify-between px-12'
-              }>
+
                 <Form.Item
-                  className={screens.xs ? 'w-full' : 'w-1/2'}
                   name="comment"
                   label="Comment"
                   style={{
                     fontWeight: 600,
                   }} >
 
-                  <Input.TextArea style={{ margin: 0}} />
+                  <Input.TextArea style={{ margin: 0 }} />
                 </Form.Item>
-
-
               </div>
-              <div className='flex justify-center p-10 w-full'>
+
+              <div className='flex justify-center w-full gap-3 mt-10'>
+                <Button
+                  type='dashed'
+                  onClick={() => navigate(-1)}>
+                  Back
+                </Button>
                 <Button htmlType="reset"
-                  shape="round"
-                  size='large'
-                  className='mr-3'
+                  // shape="round"
+                  size='middle'
                 >Reset</Button>
                 <Button
                   htmlType="submit"
                   type='primary'
-                  shape="round"
-                  size='large'
+                  // shape="round"
+                  size='middle'
                   loading={addLoading}
                   disabled={selectedRole === 'ADMIN'}
                 >
                   Save
-              </Button>
+                </Button>
 
               </div>
             </Form>

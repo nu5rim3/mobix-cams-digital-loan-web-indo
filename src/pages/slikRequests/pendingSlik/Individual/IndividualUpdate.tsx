@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { ColumnsType } from 'antd/es/table';
-import { Input, notification } from 'antd';
-import Button from '../../../../components/Buttons/Button';
-import { API } from '../../../../services/Services';
+import { Input, Tag } from 'antd';
 import formatAddress from '../../../../utils/getAddressByObjects';
-import { exportToExcel } from "react-json-to-excel";
-import copyToClipborad from '../../../../utils/copyToClipBorad';
 import { CopyOutlined } from '@ant-design/icons'
+import BPaginatedTable from '../../../../components/tables/BPaginatedTable';
+import copyToClipborad from '../../../../utils/copyToClipBorad';
 export interface IIndividualUpdateProps {
-  searchText: string
+  searchText: string | number
 }
 
 export default function IndividualUpdate({
@@ -19,39 +17,15 @@ export default function IndividualUpdate({
 }: IIndividualUpdateProps) {
 
   const {
-    slikRequestsIndividualData,
+    slikRequestsPaginatedData
   } = useSelector((state: any) => state.SlikRequest)
   const userData = useSelector((state: any) => state.AppData.userData)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [ableUpdate, setAbleData] = useState(true)
-  const [individualData, setIndividualData] = useState<any[]>([]);
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
 
-  const [requestsIndividualData, setRequestsIndividualData] = useState([])
-
-  useEffect(() => {
-    const newData = slikRequestsIndividualData.data.map((item: any) => {
-      if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
-        const guarantorsExist = Array.isArray(item.guarantors) && item.guarantors.length > 0;
-        const spousesExist = Array.isArray(item.spouses) && item.spouses.length > 0;
-
-        if (guarantorsExist || spousesExist) {
-          return {
-            ...item,
-            children: [
-              ...(guarantorsExist ? item.guarantors : []),
-              ...(spousesExist ? item.spouses : []),
-            ],
-          }
-        }
-      }
-      return item;
-    });
-
-    setRequestsIndividualData(newData)
-  }, [slikRequestsIndividualData])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
 
   const columns: ColumnsType<any> = [
     {
@@ -62,34 +36,19 @@ export default function IndividualUpdate({
       onFilter: (value, record) => {
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
-      render: (text, record) => {
-        return <div className='w-56'><span className='w-full'>{text}</span> <span className='w-5 h-5 ml-2' onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      render: (text) => {
+        return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
     {
       title: 'Customer Name',
-      dataIndex: 'customerName',
-      key: 'customerName',
-      filteredValue: [searchText],
-      render: (text, record) => {
-        if (record.slikDto?.customerName) {
-          return record.customerName
-        } else {
-          return record.fullName
-        }
-      },
+      dataIndex: 'fullName',
+      key: 'fullName'
     },
     {
       title: 'NIK',
-      dataIndex: 'customerKTP',
-      key: 'customecustomerKTPrName',
-      render: (text, record) => {
-        if (record.slikDto?.customerKTP) {
-          return record.slikDto?.customerKTP
-        } else {
-          return record.ktp
-        }
-      },
+      dataIndex: 'ktp',
+      key: 'ktp',
     },
     {
       title: 'Family C.NO',
@@ -98,13 +57,19 @@ export default function IndividualUpdate({
     },
     {
       title: 'Customer Type',
-      dataIndex: 'clienteleType',
-      key: 'clienteleType',
-      render: (text, record) => {
-        if (record.slikDto?.clienteleType) {
-          return record.slikDto?.clienteleType
-        } else {
-          return record.cltType === 'G' ? 'GUARANTOR' : 'SPOUSE'
+      dataIndex: 'cltType',
+      key: 'cltType',
+      align: 'center',
+      render: (text) => {
+        switch (text) {
+          case "C":
+            return <Tag className='rounded-full' color='blue'>Customer</Tag>;
+          case "G":
+            return <Tag className='rounded-full' color='cyan'>Guarantor</Tag>;
+          case "S":
+            return <Tag className='rounded-full' color='gold'>Spouse</Tag>
+          default:
+            return "NONE";
         }
       },
     },
@@ -112,7 +77,7 @@ export default function IndividualUpdate({
       title: 'Residential Address',
       dataIndex: 'address',
       key: 'address',
-      render: (text, record) => (
+      render: (_, record) => (
         <>{
           formatAddress({
             address1: record.addLine1,
@@ -131,156 +96,92 @@ export default function IndividualUpdate({
       title: 'Contact No',
       dataIndex: 'cltContact1',
       key: 'cltContact1',
-      render: (text, record) => {
-        if (record.cltContact1) {
-          return <>{record.cltContact1}</>
-        } else {
-          return record.cusContact1
-        }
+      render(value) {
+        return <div className='flex justify-between'>
+          <a href={`tel:${value}`}>{value}</a>
+        </div>
       },
     },
     {
       title: 'Batch No',
       dataIndex: 'batchNumber',
       key: 'batchNumber',
-      render: (text, record) => {
-        if (record.slikDto) {
-          return <Input disabled={
-            selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'SPOUSE' && record.slikDto.postCltFlag === 'N') ||
-            (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
-          }
-            onChange={(e) => {
-              // Handle input changes here and update your data
-              // e.target.value contains the new value of the input field
-              setAbleData(false)
-              const newValue = e.target.value;
-              const newData = slikRequestsIndividualData.data?.map((row: any) => {
+      align: 'center',
+      render: (_, record) => {
+        return <Input className='w-56' disabled={selectedRole === 'ADMIN' || record.postCltFlag === 'N'} onChange={(e) => {
+          const newValue = e.target.value;
+          const newData = slikRequestsPaginatedData?.data?.content?.map((row: any) => {
 
-                if (record.slikDto.slkIdx == row.slikDto.slkIdx) {
+            if (record.slikIdx === row.slikIdx) {
 
-                  return {
-                    ...row,
-                    batchNumber: newValue
-                  }
-                } else {
-                  return row
-                }
+              return {
+                ...row,
+                batchNumber: newValue
+              }
+            } else {
+              return row
+            }
 
-              })
-              actions.editIndividualData(newData)
-              // You can update the data array or state here
-            }}
-          />
-        } else {
-          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} />
-        }
+          })
+          actions.editIndividualData(newData)
+          // You can update the data array or state here
+        }} />
       }
     },
   ];
 
   const getIndividualData = () => {
-    actions.getSlikByIndividual({
-      userId: userData.data?.idx,
+
+    actions.getSliksWithPagination({
+      userId: '',
       branchCode: userData.data?.branches[0]?.code,
       status: 'P',
-      type: "IL"
+      type: "IL",
+      page: searchText !== '' ? currentPage : currentPage,
+      size: searchText !== '' ? pageSize : pageSize,
+      appriasalId: searchText
     })
-  }
-  const getIndividualDataForExcel = () => {
-    let slikArray = [];
-    let slikDetails = {};
-    slikRequestsIndividualData.data?.map((slik: any) => {
-      slikDetails = {
-        "Appraisal No": slik.slikDto.appraisalId,
-        "Branch": slik.slikDto.branchDesc,
-        "MFO": slik.slikDto.createdBy,
-        "Centre": "",
-        "Group No": "",
-        "Customer Name": slik.slikDto.customerName,
-        "NIK": slik.slikDto.customerKTP,
-        "Customer Type": slik.slikDto.clienteleType,
-        "Family C.NO": slik.familyCard,
-        "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
-        "BR Name": slik.brName,
-        "Contact No": slik.cltContact1,
-        "Facility Type": "Individual",
-        "Batch No": ""
-      };
 
-      slikArray.push(slikDetails);
-    });
-    return slikArray;
+    if (searchText !== '') {
+      setCurrentPage(1)
+      setPageSize(7)
+    }
   }
+
   useEffect(() => {
     getIndividualData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [pageSize, currentPage, searchText])
 
-  useEffect(() => {
-    if (slikRequestsIndividualData != null) {
-      const slikArray = getIndividualDataForExcel();
-      setIndividualData(slikArray);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slikRequestsIndividualData])
 
-  const uploadData = async () => {
-    try {
-      setLoading(true)
-      const data = slikRequestsIndividualData?.data
-        ?.filter((row: any) => row.batchNumber)
-        ?.map((row: any) => {
-          return {
-            ...row.slikDto,
-            batchNumber: row.batchNumber
-          }
-        })
-      await API.slikServices.updateSlikBulck(data)
-      notification.success({
-        message: 'Batches Updated Successfully'
-      })
-      getIndividualData()
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    setCurrentPage(page);
+    if (pageSize) {
+      setPageSize(pageSize);
     }
-    catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  };
 
   return (
     <div
       className='border-l-current border-r-current'
     >
-      <FPaginatedTable
-        loading={slikRequestsIndividualData.fetching}
-        rowKey={'cltIdx'}
+      <BPaginatedTable
+        loading={slikRequestsPaginatedData.fetching}
+        rowKey={'slikIdx'}
         columns={columns}
-        dataSource={requestsIndividualData || []}
+        dataSource={slikRequestsPaginatedData?.data?.content ?? []}
+        handlePaginationChange={handlePaginationChange}
+        pagination={{
+          total: slikRequestsPaginatedData?.data?.totalElements,
+          current: currentPage,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          pageSizeOptions: ['7', '10', '15', '20', '50', '100'],
+          showTotal: (total: number) =>
+            <p className='text-gray-700'>Total {total} items</p>,
+        }}
       />
-
-      <div className='flex justify-end py-10 w-full '>
-
-        <Button
-          onClick={() => exportToExcel(individualData, 'pending-slik-request')}
-          loading={loading}
-          type='primary'
-          shape="round"
-          size='large'
-          label='Download Excel'
-          className={'mr-2'} />
-
-        <Button
-          onClick={uploadData}
-          loading={loading}
-          type='primary'
-          shape="round"
-          size='large'
-          label='Update Batch'
-          disabled={ableUpdate || selectedRole === 'ADMIN'}
-        />
-      </div>
-
     </div>
   );
 }

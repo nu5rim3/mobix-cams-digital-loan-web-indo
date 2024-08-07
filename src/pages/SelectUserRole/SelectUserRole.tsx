@@ -32,14 +32,14 @@ export default function SelectUserRole(props: ISelectUserRoleProps) {
             </div>
 
             <div className={screens.xs ? '' : 'w-1/2 p-20'}>
-                <div className={screens.xs ? 'text-center' : 'my-7'}>
+                <div className={'text-center'}>
                     <Title title='Select A User Role to Continue' level={3} />
                 </div>
 
                 <div className='h-96  p-5 flex justify-center items-center '>
-                    {userData ?.data ?.roles ?.map((role: any) => {
+                    {userData?.data?.roles?.map((role: any) => {
                         return <div
-                            key={role ?.description}
+                            key={role?.description}
                             className={`${clickedRole?.code == role?.code ? 'bg-blue-100' : ''} bg-white w-32 h-32 rounded-md flex justify-center items-center cursor-pointer shadow-md hover:shadow-xl mx-2 p-2`}
                             onClick={() => {
                                 actions.setRole(role.code)
