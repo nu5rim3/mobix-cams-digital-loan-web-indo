@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
 import { actions } from '../../../../store/store';
@@ -10,6 +10,9 @@ import formatAddress from '../../../../utils/getAddressByObjects';
 import { exportToExcel } from "react-json-to-excel";
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipborad from '../../../../utils/copyToClipBorad';
+import BPaginatedTable from '../../../../components/tables/BPaginatedTable';
+import { useNavigate } from 'react-router-dom';
+import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 export interface IGroupUpdateProps {
   searchText: string | number
 }
@@ -23,15 +26,22 @@ export default function GroupUpdate({
     slikRequestsGroupData
   } = useSelector((state: any) => state.SlikRequest)
   const {
-    slikRequestsPaginatedData
+    slikRequestsGroupPaginatedData
+  } = useSelector((state: any) => state.SlikRequest)
+  const {
+    innerSlikRequestsGroupPaginatedData
   } = useSelector((state: any) => state.SlikRequest)
   const userData = useSelector((state: any) => state.AppData.userData)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
+  const [selectedRecord, setSelectedRecord] = useState<{ centerCode: string, groupCode: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
+  const navigate = useNavigate();
 
   const differSpouseGarent = (data: any[]) => {
     return data.map((item: any) => {
@@ -54,56 +64,61 @@ export default function GroupUpdate({
     });
   }
 
+  console.log('[innerSlikRequestsGroupPaginatedData] - ', innerSlikRequestsGroupPaginatedData)
 
   const columns: ColumnsType<any> = [
     {
       title: 'Center',
-      dataIndex: 'fusionCenterCode',
-      key: 'fusionCenterCode',
-      // filteredValue: [searchText],
-      // onFilter: (value, record) => {
-      //   return record.userName.toLowerCase().includes(typeof(value) == 'string'? value.toLowerCase(): value)
-      // }
+      dataIndex: 'centerCode',
+      key: 'centerCode',
+      render(_, record,) {
+        return record.fusionCenterCode ?? record.centerCode
+      },
     },
     {
       title: 'Group No',
-      dataIndex: 'groupIdx',
-      key: 'groupIdx',
+      dataIndex: 'groupCode',
+      key: 'groupCode',
+    },
+    {
+      title: 'Branch',
+      dataIndex: 'branchCode',
+      key: 'branchCode',
     },
     {
       title: 'MFO Username',
-      dataIndex: 'createdBy',
-      key: 'createdBy',
+      dataIndex: 'userIdx',
+      key: 'userIdx',
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return record?.createdBy?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+        return record?.userIdx?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       }
     },
     {
       title: 'Date',
-      dataIndex: 'creationDate',
-      key: 'creationDate',
-      sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
+      dataIndex: 'createdDate',
+      key: 'createdDate',
+      render(_, record) {
+        return record.createdDate ? new Date(record.createdDate).toLocaleDateString() : '-'
+      },
     },
     {
       title: 'Customer Count',
-      dataIndex: 'count',
-      key: 'count',
+      dataIndex: 'cltCount',
+      key: 'cltCount',
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a onClick={() => navigate(`/slikRequest/updateSlik/${record.idx}`)}> */}
-          <a onClick={() => {
-            const select = slikRequestsGroupData.initialData.filter((row: any) => (row.centerCode == record.centerCode) && (row.groupIdx == record.groupIdx))
-            setSelectedGroup(differSpouseGarent([select[0].slikDto]))
-          }}>View</a>
-          {/* </a> */}
+          <a onClick={() =>
+            setSelectedRecord({ centerCode: record.centerCode, groupCode: record.groupCode })
+          }>
+            View</a>
         </Space>
-      ),
-    },
+      )
+    }
   ];
 
   const columnsNew: ColumnsType<any> = [
@@ -115,7 +130,7 @@ export default function GroupUpdate({
       onFilter: (value, record) => {
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
-      render: (text, record) => {
+      render: (text, _record) => {
         return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
@@ -128,7 +143,7 @@ export default function GroupUpdate({
       title: 'Group No',
       dataIndex: 'groupIdx',
       key: 'groupIdx',
-      render: (value, record) => {
+      render: (_value, record) => {
         if (record.groupIdx) {
           return record.groupIdx
         } else {
@@ -140,7 +155,7 @@ export default function GroupUpdate({
       title: 'Customer Name',
       dataIndex: 'customerName',
       key: 'customerName',
-      render: (value, record) => {
+      render: (_value, record) => {
         if (record.customerName) {
           return record.customerName
         } else {
@@ -152,7 +167,7 @@ export default function GroupUpdate({
       title: 'NIK',
       dataIndex: 'customerKTP',
       key: 'customerKTP',
-      render: (value, record) => {
+      render: (_value, record) => {
         if (record.customerKTP) {
           return record.customerKTP
         } else {
@@ -168,7 +183,7 @@ export default function GroupUpdate({
       title: 'Customer Type',
       dataIndex: 'clienteleType',
       key: 'clienteleType',
-      render: (value, record) => {
+      render: (_value, record) => {
         if (record.clienteleType) {
           return <>{record.clienteleType}</>
         } else {
@@ -180,7 +195,7 @@ export default function GroupUpdate({
       title: 'Residential Address',
       dataIndex: 'address',
       key: 'address',
-      render: (text, record) => {
+      render: (_value, record) => {
         return formatAddress({
           address1: record.addLine1,
           address2: record.addLine2,
@@ -202,7 +217,7 @@ export default function GroupUpdate({
       title: 'Batch No',
       dataIndex: 'batchNumber',
       key: 'batchNumber',
-      render: (text, record) => {
+      render: (_, record) => {
         if (record.slikDto) {
           return <Input disabled={
             selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'SPOUSE' && record.slikDto.postCltFlag === 'N') ||
@@ -263,21 +278,19 @@ export default function GroupUpdate({
   ];
 
   const getGroupData = () => {
-    actions.getSlikByGroup({
+    actions.getSlikGroupWithPagination({
       userId: userData.data?.idx,
-      branchCode: userData.data?.branches[0]?.code, //'TJP',
+      branchCode: userData.data?.branches[0]?.code,
       status: 'P',
-      type: 'GRPL'
+      page: searchText !== '' ? currentPage : currentPage,
+      size: searchText !== '' ? pageSize : pageSize,
+      appriasalId: searchText
     });
 
-    // actions.getSliksWithPagination({
-    //   userId: userData.data?.idx,
-    //   branchCode: userData.data?.branches[0]?.code,
-    //   status: 'P',
-    //   type: "GRPL",
-    //   page: 0,
-    //   size: 10
-    // })
+    if (searchText !== '') {
+      setCurrentPage(1)
+      setPageSize(7)
+    }
   }
 
   const getGroupDataForExcel = () => {
@@ -308,18 +321,17 @@ export default function GroupUpdate({
   }
   useEffect(() => {
     getGroupData();
-
-
-
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize, currentPage, searchText])
 
   useEffect(() => {
-    if (slikRequestsGroupData != null) {
+    if (slikRequestsGroupPaginatedData != null) {
 
-      let slikArray = getGroupDataForExcel();
+      const slikArray = getGroupDataForExcel();
       setGroupData(slikArray);
     }
-  }, [slikRequestsGroupData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slikRequestsGroupPaginatedData])
 
 
   const uploadData = async () => {
@@ -349,18 +361,56 @@ export default function GroupUpdate({
     }
   }
 
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    setCurrentPage(page);
+    if (pageSize) {
+      setPageSize(pageSize);
+    }
+  };
+
+  const getInnerGroupSlikData = () => {
+
+    actions.getInnerSliksGroupWithPagination({
+      userId: userData.data?.idx,
+      branchCode: userData.data?.branches[0]?.code,
+      status: 'P',
+      type: 'GRPL',
+      page: currentPage,
+      size: pageSize,
+      center: selectedRecord?.centerCode,
+      group: selectedRecord?.groupCode
+    });
+  }
+
+  useEffect(() => {
+    getInnerGroupSlikData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRecord])
+
+
   return (
     <div
       className='border-l-current border-r-current'
     >
-      {!selectedGroup
-        ?
+      {selectedRecord === null ?
+
         <>
-          <FPaginatedTable
-            loading={slikRequestsGroupData.fetching}
-            rowKey={'slkIdx'}
+          <BPaginatedTable
+            loading={slikRequestsGroupPaginatedData.fetching}
+            rowKey={'centerCode'}
             columns={columns}
-            dataSource={slikRequestsGroupData?.data ?? []}
+            dataSource={slikRequestsGroupPaginatedData?.data?.content ?? []}
+            handlePaginationChange={handlePaginationChange}
+            pagination={{
+              total: slikRequestsGroupPaginatedData?.data?.totalElements,
+              current: currentPage,
+              pageSize: pageSize,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              pageSizeOptions: ['7', '10', '15', '20', '50', '100'],
+              showTotal: (total: number) =>
+                <p className='text-gray-700'>Total {total} items</p>,
+            }}
           />
           <div className='flex justify-end py-10 w-full'>
             <Button
@@ -368,7 +418,7 @@ export default function GroupUpdate({
               loading={loading}
               type='primary'
               shape="round"
-              size='large'
+              size='middle'
               label='Download Excel'
               className={'mr-2'} />
           </div>
@@ -376,10 +426,10 @@ export default function GroupUpdate({
         :
         <>
           <FPaginatedTable
-            loading={slikRequestsGroupData.fetching}
+            loading={innerSlikRequestsGroupPaginatedData.fetching}
             rowKey={'key'}
             columns={columnsNew}
-            dataSource={selectedGroup || []}
+            dataSource={innerSlikRequestsGroupPaginatedData?.data?.content ?? []}
             rowSelection={true}
           />
 
@@ -387,25 +437,22 @@ export default function GroupUpdate({
 
             <Button
               className={'mr-2'}
-              type='primary'
+              type='default'
               shape="round"
-              size='large'
+              size='middle'
               label='Back'
-              onClick={() => setSelectedGroup(null)} />
+              onClick={() => setSelectedRecord(null)} />
             <Button
               onClick={uploadData}
               loading={loading}
               type='primary'
               shape="round"
-              size='large'
+              size='middle'
               disabled={selectedRole === 'ADMIN'}
               label='Update Batch'
             />
-
-
           </div>
         </>
-
       }
     </div>
   );

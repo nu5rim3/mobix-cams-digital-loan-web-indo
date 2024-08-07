@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SlikRequestsStoreType } from "./interface";
 import { API } from "../../services/Services";
@@ -18,6 +20,16 @@ export const initialState: SlikRequestsStoreType = {
     error: false,
   },
   slikRequestsPaginatedData: {
+    data: null,
+    fetching: false,
+    error: false,
+  },
+  slikRequestsGroupPaginatedData: {
+    data: null,
+    fetching: false,
+    error: false,
+  },
+  innerSlikRequestsGroupPaginatedData: {
     data: null,
     fetching: false,
     error: false,
@@ -105,6 +117,56 @@ export const getSliksWithPagination = createAsyncThunk(
       const response = await API.slikServices.getSliksWithPagination(arg);
       return response.data;
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const er = error as any;
+      notification.error({
+        message:
+          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+      });
+      return er?.response
+        ? thunkAPI.rejectWithValue(er?.response.data)
+        : thunkAPI.rejectWithValue(er.message);
+    }
+  }
+);
+
+export const getSlikGroupWithPagination = createAsyncThunk(
+  "SlickRequestsDetails/getSlikGroupWithPagination",
+  async (
+    arg: Parameters<typeof API.slikServices.getSlikGroupWithPagination>[0],
+    thunkAPI
+  ) => {
+    try {
+      const response = await API.slikServices.getSlikGroupWithPagination(arg);
+      return response.data;
+    } catch (error) {
+      const er = error as any;
+      notification.error({
+        message:
+          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+      });
+      return er?.response
+        ? thunkAPI.rejectWithValue(er?.response.data)
+        : thunkAPI.rejectWithValue(er.message);
+    }
+  }
+);
+
+export const getInnerSliksGroupWithPagination = createAsyncThunk(
+  "SlickRequestsDetails/getInnerSliksGroupWithPagination",
+  async (
+    arg: Parameters<
+      typeof API.slikServices.getGroupInnerSliksWithPagination
+    >[0],
+    thunkAPI
+  ) => {
+    try {
+      const response = await API.slikServices.getGroupInnerSliksWithPagination(
+        arg
+      );
+      return response.data;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const er = error as any;
       notification.error({
         message:
@@ -272,14 +334,14 @@ export const SlikRequestsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getSlikRequests.pending, (state, action) => {
+    builder.addCase(getSlikRequests.pending, (state, _action) => {
       state.slikRequestsData.fetching = true;
     }),
       builder.addCase(getSlikRequests.fulfilled, (state, action) => {
         state.slikRequestsData.fetching = false;
         state.slikRequestsData.data = action.payload;
       }),
-      builder.addCase(getSlikRequests.rejected, (state, action) => {
+      builder.addCase(getSlikRequests.rejected, (state, _action) => {
         state.slikRequestsData.fetching = false;
       }),
       builder.addCase(getSlikRequestData.pending, (state, action) => {
@@ -290,10 +352,10 @@ export const SlikRequestsSlice = createSlice({
         state.slikUpdateUserData.fetching = false;
         state.slikUpdateUserData.initialData = action.payload;
       }),
-      builder.addCase(getSlikRequestData.rejected, (state, action) => {
+      builder.addCase(getSlikRequestData.rejected, (state, _action) => {
         state.slikUpdateUserData.fetching = false;
       }),
-      builder.addCase(getSliksWithPagination.pending, (state, action) => {
+      builder.addCase(getSliksWithPagination.pending, (state, _action) => {
         state.slikRequestsPaginatedData.fetching = true;
         state.slikRequestsPaginatedData.data = null;
       }),
@@ -301,11 +363,45 @@ export const SlikRequestsSlice = createSlice({
         state.slikRequestsPaginatedData.fetching = false;
         state.slikRequestsPaginatedData.data = action.payload;
       }),
-      builder.addCase(getSliksWithPagination.rejected, (state, action) => {
+      builder.addCase(getSliksWithPagination.rejected, (state, _action) => {
         state.slikRequestsPaginatedData.fetching = false;
       });
-
-    builder.addCase(getSlikByGroup.pending, (state, action) => {
+    // getSlikGroupWithPagination
+    builder.addCase(getSlikGroupWithPagination.pending, (state, _action) => {
+      state.slikRequestsGroupPaginatedData.fetching = true;
+      state.slikRequestsGroupPaginatedData.data = null;
+    }),
+      builder.addCase(getSlikGroupWithPagination.fulfilled, (state, action) => {
+        state.slikRequestsGroupPaginatedData.fetching = false;
+        state.slikRequestsGroupPaginatedData.data = action.payload;
+      }),
+      builder.addCase(getSlikGroupWithPagination.rejected, (state, _action) => {
+        state.slikRequestsGroupPaginatedData.fetching = false;
+      });
+    // end getSlikGroupWithPagination
+    // getInnerSlikGroupWithPagination
+    builder.addCase(
+      getInnerSliksGroupWithPagination.pending,
+      (state, _action) => {
+        state.innerSlikRequestsGroupPaginatedData.fetching = true;
+        state.innerSlikRequestsGroupPaginatedData.data = null;
+      }
+    ),
+      builder.addCase(
+        getInnerSliksGroupWithPagination.fulfilled,
+        (state, action) => {
+          state.innerSlikRequestsGroupPaginatedData.fetching = false;
+          state.innerSlikRequestsGroupPaginatedData.data = action.payload;
+        }
+      ),
+      builder.addCase(
+        getInnerSliksGroupWithPagination.rejected,
+        (state, _action) => {
+          state.innerSlikRequestsGroupPaginatedData.fetching = false;
+        }
+      );
+    // end getInnerSlikGroupWithPagination
+    builder.addCase(getSlikByGroup.pending, (state, _action) => {
       state.slikRequestsGroupData.fetching = true;
       state.slikRequestsGroupData.initialData = [];
     }),
@@ -314,10 +410,10 @@ export const SlikRequestsSlice = createSlice({
         state.slikRequestsGroupData.data = action.payload.newData;
         state.slikRequestsGroupData.initialData = action.payload.data;
       }),
-      builder.addCase(getSlikByGroup.rejected, (state, action) => {
+      builder.addCase(getSlikByGroup.rejected, (state, _action) => {
         state.slikRequestsGroupData.fetching = false;
       }),
-      builder.addCase(getSlikByIndividual.pending, (state, action) => {
+      builder.addCase(getSlikByIndividual.pending, (state, _action) => {
         state.slikRequestsIndividualData.data = [];
         state.slikRequestsIndividualData.fetching = true;
       }),
@@ -325,7 +421,7 @@ export const SlikRequestsSlice = createSlice({
         state.slikRequestsIndividualData.fetching = false;
         state.slikRequestsIndividualData.data = action.payload;
       });
-    builder.addCase(getSlikByIndividual.rejected, (state, action) => {
+    builder.addCase(getSlikByIndividual.rejected, (state, _action) => {
       state.slikRequestsIndividualData.fetching = false;
     });
   },
@@ -340,6 +436,8 @@ export const slikActions = {
   getSlikByGroup,
   getSlikByIndividual,
   getSliksWithPagination,
+  getSlikGroupWithPagination,
+  getInnerSliksGroupWithPagination,
 };
 
 export default SlikRequestsSlice.reducer;

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { actions } from '../../../../store/store';
 import { ColumnsType } from 'antd/es/table';
-import { Input, notification, Space, Tag } from 'antd';
-import Button from '../../../../components/Buttons/Button';
+import { Input, notification, Tag } from 'antd';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
 import { exportToExcel } from "react-json-to-excel";
@@ -183,8 +182,8 @@ export default function IndividualUpdate({
       branchCode: userData.data?.branches[0]?.code,
       status: 'P',
       type: "IL",
-      page: searchText !== '' ? '' : currentPage,
-      size: searchText !== '' ? '' : pageSize,
+      page: searchText !== '' ? currentPage : currentPage,
+      size: searchText !== '' ? pageSize : pageSize,
       appriasalId: searchText
     })
 

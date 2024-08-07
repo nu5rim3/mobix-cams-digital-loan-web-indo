@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import Search from '../../../components/Search/Search';
 import { useSelector } from 'react-redux';
@@ -11,7 +12,8 @@ import { API } from '../../../services/Services';
 export interface IPendingProps {
 }
 
-export default function Pending(props: IPendingProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Pending(_props: IPendingProps) {
 
   const {
     selectedType,
@@ -64,6 +66,13 @@ export default function Pending(props: IPendingProps) {
   }, [slikRequestsPaginatedData])
 
 
+  useEffect(() => {
+    setSearchText('');
+    return () => {
+      setSearchText('');
+    }
+  }, [selectedType])
+
   return (
     <>
       <div className='flex flex-col sm:flex-row items-center justify-between my-2 gap-2'>
@@ -78,6 +87,7 @@ export default function Pending(props: IPendingProps) {
           <Search
             placeholder='Search by Appraisal No.'
             className={'w-full sm:w-1/3'}
+            value={searchText}
             onChange={(value: string | number) => setSearchText(value)}
           />
 
@@ -86,7 +96,7 @@ export default function Pending(props: IPendingProps) {
           {selectedType !== 'group' &&
             <Button size='middle' type='primary' onClick={() => updateSlikBulk()} label='Update Batch' disabled={selectedRole === 'ADMIN' || isUpdateDisabled} loading={isUpdateBtnLoading} />
           }
-          <Button size='middle' type='default' onClick={() => console.log('[DOWNLOAD BUTTON]')} label='Download Excel' />
+          {/* <Button size='middle' type='default' onClick={() => console.log('[DOWNLOAD BUTTON]')} label='Download Excel' /> */}
         </div>
       </div>
       {selectedType === 'group'

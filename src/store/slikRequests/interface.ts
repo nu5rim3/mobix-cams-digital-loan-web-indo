@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export enum SlikRequestStatusType {
   PENDING = "pending",
   INPROGRESS = "inprogress",
@@ -30,6 +32,19 @@ export interface SlikRequestsStoreType {
     fetching: boolean;
     error: boolean | string;
   };
+
+  slikRequestsGroupPaginatedData: {
+    data: paginationDataType | null;
+    fetching: boolean;
+    error: boolean | string;
+  };
+
+  innerSlikRequestsGroupPaginatedData: {
+    data: paginationDataType | null;
+    fetching: boolean;
+    error: boolean | string;
+  };
+
   slikRequestsData: {
     data: any[];
     fetching: boolean;

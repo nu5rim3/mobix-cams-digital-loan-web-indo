@@ -1,16 +1,20 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Grid, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons'
 
 export interface ISearchProps {
     onChange: Function,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     className?: any,
     placeholder?: string
+    value?: string | number;
 }
 
 export default function Search({
     className,
     onChange,
-    placeholder
+    placeholder,
+    value
 }: ISearchProps) {
 
     const { useBreakpoint } = Grid;
@@ -30,6 +34,7 @@ export default function Search({
                 allowClear
                 placeholder={placeholder ?? " Search"}
                 prefix={<SearchOutlined />}
+                value={value}
                 onChange={(e) => onChange(e.target.value)}
             />
         </div>

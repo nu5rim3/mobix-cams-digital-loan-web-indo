@@ -62,7 +62,62 @@ const getSliksWithPagination = ({
   center?: string;
   group?: string;
 }) => {
-  //TODO: change the page number to zero based
+  const _page = page ? Number(page) - 1 : "";
+  return api.get(
+    `/mobixCamsCredit/v1/sliks/filters?user=${userId}&branch=${branchCode}&status=${status}&type=${type}&appraisal=${
+      appriasalId ?? ""
+    }&center=${center ?? ""}&group=${group ?? ""}&page=${_page}&size=${size}`
+  );
+};
+
+const getSlikGroupWithPagination = ({
+  userId,
+  branchCode,
+  status,
+  appriasalId,
+  page,
+  size,
+  center,
+  group,
+}: {
+  userId: string;
+  branchCode: string;
+  status: "P";
+  appriasalId?: string | number;
+  page?: number | string;
+  size?: number | string;
+  center?: string;
+  group?: string;
+}) => {
+  const _page = page ? Number(page) - 1 : "";
+  return api.get(
+    `/mobixCamsCredit/v1/sliks/groups/filters?user=${userId}&branch=${branchCode}&status=${status}&type=GRPL&appraisal=${
+      appriasalId ?? ""
+    }&center=${center ?? ""}&group=${group ?? ""}&page=${_page}&size=${size}`
+  );
+};
+
+const getGroupInnerSliksWithPagination = ({
+  userId,
+  branchCode,
+  status,
+  type,
+  appriasalId,
+  page,
+  size,
+  center,
+  group,
+}: {
+  userId: string;
+  branchCode: string;
+  status: "P";
+  type: "GRPL";
+  appriasalId?: string | number;
+  page?: number | string;
+  size?: number | string;
+  center?: string;
+  group?: string;
+}) => {
   const _page = page ? Number(page) - 1 : "";
   return api.get(
     `/mobixCamsCredit/v1/sliks/filters?user=${userId}&branch=${branchCode}&status=${status}&type=${type}&appraisal=${
@@ -87,6 +142,7 @@ const updateSlik = ({
   data,
 }: {
   slikId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; //SlickUpdate
 }) => {
   // this API provides status inprogress and completed sliks (this is status not slik status)
@@ -102,8 +158,10 @@ export default {
   getSlikRequestById,
   getSliksByBranchAndType,
   getSliksWithPagination,
+  getSlikGroupWithPagination,
   getSliksByGroupsAndCenter,
   getSliksByStatus,
   updateSlik,
   updateSlikBulck,
+  getGroupInnerSliksWithPagination,
 };
