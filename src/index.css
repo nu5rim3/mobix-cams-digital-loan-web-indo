@@ -26,11 +26,14 @@
 }
 
 .ant-tooltip-inner {
-  color: #102C57 !important;
+  color: #102c57 !important;
 }
-.ant-table-row-expand-icon{
-  background-color: #102C57 !important;
+.ant-table-row-expand-icon {
+  background-color: #102c57 !important;
   color: white !important;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 /* a {
   font-weight: 500;

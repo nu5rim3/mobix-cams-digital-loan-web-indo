@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ColumnsType } from 'antd/es/table';
 import { actions } from '../../../../store/store';
-import { Input, Space, notification } from 'antd';
+import { Input, Space, Tag, notification } from 'antd';
 import Button from '../../../../components/Buttons/Button';
 import { API } from '../../../../services/Services';
 import formatAddress from '../../../../utils/getAddressByObjects';
-import { exportToExcel } from "react-json-to-excel";
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipborad from '../../../../utils/copyToClipBorad';
 import BPaginatedTable from '../../../../components/tables/BPaginatedTable';
-import { useNavigate } from 'react-router-dom';
 import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 export interface IGroupUpdateProps {
   searchText: string | number
@@ -21,10 +19,6 @@ export default function GroupUpdate({
   searchText
 }: IGroupUpdateProps) {
 
-
-  const {
-    slikRequestsGroupData
-  } = useSelector((state: any) => state.SlikRequest)
   const {
     slikRequestsGroupPaginatedData
   } = useSelector((state: any) => state.SlikRequest)
@@ -35,36 +29,12 @@ export default function GroupUpdate({
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
   const [selectedRecord, setSelectedRecord] = useState<{ centerCode: string, groupCode: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(false)
-  const [groupData, setGroupData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(7);
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
-  const navigate = useNavigate();
 
-  const differSpouseGarent = (data: any[]) => {
-    return data.map((item: any) => {
-      if (item.slikFlag === 'A' && item.clienteleType === 'CUSTOMER') {
-
-        const guarantorsExist = Array.isArray(item.guarantors) && item.guarantors.length > 0;
-        const spousesExist = Array.isArray(item.spouses) && item.spouses.length > 0;
-
-        if (guarantorsExist || spousesExist) {
-          return {
-            ...item,
-            children: [
-              ...(guarantorsExist ? item.guarantors : []),
-              ...(spousesExist ? item.spouses : []),
-            ],
-          }
-        }
-      }
-      return item;
-    });
-  }
-
-  console.log('[innerSlikRequestsGroupPaginatedData] - ', innerSlikRequestsGroupPaginatedData)
 
   const columns: ColumnsType<any> = [
     {
@@ -130,7 +100,7 @@ export default function GroupUpdate({
       onFilter: (value, record) => {
         return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
       },
-      render: (text, _record) => {
+      render: (text) => {
         return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
       }
     },
@@ -183,13 +153,19 @@ export default function GroupUpdate({
       title: 'Customer Type',
       dataIndex: 'clienteleType',
       key: 'clienteleType',
-      render: (_value, record) => {
-        if (record.clienteleType) {
-          return <>{record.clienteleType}</>
-        } else {
-          return record.cltType === 'G' ? 'GUARANTOR' : 'SPOUSE'
+      align: 'center',
+      render: (text) => {
+        switch (text) {
+          case "C":
+            return <Tag className='rounded-full' color='blue'>Customer</Tag>;
+          case "G":
+            return <Tag className='rounded-full' color='cyan'>Guarantor</Tag>;
+          case "S":
+            return <Tag className='rounded-full' color='gold'>Spouse</Tag>
+          default:
+            return "NONE";
         }
-      }
+      },
     },
     {
       title: 'Residential Address',
@@ -224,9 +200,6 @@ export default function GroupUpdate({
             (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
           }
             onChange={(e) => {
-
-              // Handle input changes here and update your data
-              // e.target.value contains the new value of the input field
               const newValue = e.target.value;
 
               setSelectedGroup((prev: any) => {
@@ -242,16 +215,11 @@ export default function GroupUpdate({
                 })
                 return newData
               })
-              // You can update the data array or state here
-              console.log('change 1')
             }}
 
           />
         } else {
           return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} onChange={(e) => {
-
-            // Handle input changes here and update your data
-            // e.target.value contains the new value of the input field
             const newValue = e.target.value;
 
             setSelectedGroup((prev: any) => {
@@ -268,8 +236,6 @@ export default function GroupUpdate({
               })
               return newData
             })
-            // You can update the data array or state here
-            console.log('change 2')
           }
           } />
         }
@@ -293,46 +259,10 @@ export default function GroupUpdate({
     }
   }
 
-  const getGroupDataForExcel = () => {
-
-    let slikArray = [];
-    let slikDetails = {};
-    slikRequestsGroupData.initialData?.map((slik: any) => {
-      slikDetails = {
-        "Appraisal No": slik.slikDto.appraisalId,
-        "Branch": slik.slikDto.branchDesc,
-        "MFO": slik.slikDto.createdBy,
-        "Centre": slik.slikDto.centerCode,
-        "Group No": slik.slikDto.groupIdx,
-        "Customer Name": slik.slikDto.customerName,
-        "NIK": slik.slikDto.customerKTP,
-        "Customer Type": slik.slikDto.clienteleType,
-        "Family C.NO": slik.familyCard,
-        "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
-        "BR Name": slik.brName,
-        "Contact No": slik.cltContact1,
-        "Facility Type": "Group",
-        "Batch No": ""
-      };
-
-      slikArray.push(slikDetails);
-    });
-    return slikArray;
-  }
   useEffect(() => {
     getGroupData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageSize, currentPage, searchText])
-
-  useEffect(() => {
-    if (slikRequestsGroupPaginatedData != null) {
-
-      const slikArray = getGroupDataForExcel();
-      setGroupData(slikArray);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slikRequestsGroupPaginatedData])
-
 
   const uploadData = async () => {
     try {
@@ -412,16 +342,6 @@ export default function GroupUpdate({
                 <p className='text-gray-700'>Total {total} items</p>,
             }}
           />
-          <div className='flex justify-end py-10 w-full'>
-            <Button
-              onClick={() => exportToExcel(groupData, 'pending-slik-request')}
-              loading={loading}
-              type='primary'
-              shape="round"
-              size='middle'
-              label='Download Excel'
-              className={'mr-2'} />
-          </div>
         </>
         :
         <>

@@ -8,6 +8,7 @@ import { Radio, RadioChangeEvent, notification } from 'antd';
 import { actions } from '../../../store/store';
 import Button from '../../../components/Buttons/Button';
 import { API } from '../../../services/Services';
+import { exportToExcel } from "react-json-to-excel";
 
 export interface IPendingProps {
 }
@@ -17,7 +18,8 @@ export default function Pending(_props: IPendingProps) {
 
   const {
     selectedType,
-    slikRequestsPaginatedData
+    slikRequestsPaginatedData,
+    slikRequestsGroupData
   } = useSelector((state: any) => state.SlikRequest)
   const {
     selectedRole
@@ -66,12 +68,33 @@ export default function Pending(_props: IPendingProps) {
   }, [slikRequestsPaginatedData])
 
 
+  const getGroupDataForExcel = () => {
+    return slikRequestsGroupData.initialData?.map((slik: any) => ({
+      "Appraisal No": slik.slikDto.appraisalId,
+      "Branch": slik.slikDto.branchDesc,
+      "MFO": slik.slikDto.createdBy,
+      "Centre": slik.slikDto.centerCode,
+      "Group No": slik.slikDto.groupIdx,
+      "Customer Name": slik.slikDto.customerName,
+      "NIK": slik.slikDto.customerKTP,
+      "Customer Type": slik.slikDto.clienteleType,
+      "Family C.NO": slik.familyCard,
+      "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
+      "BR Name": slik.brName,
+      "Contact No": slik.cltContact1,
+      "Facility Type": "Group",
+      "Batch No": ""
+    })) || [];
+  }
+
   useEffect(() => {
     setSearchText('');
     return () => {
       setSearchText('');
     }
   }, [selectedType])
+
+  // console.log('[slikRequestsGroupData] - ', slikRequestsGroupData)
 
   return (
     <>
@@ -85,7 +108,7 @@ export default function Pending(_props: IPendingProps) {
             size='middle'
           />
           <Search
-            placeholder='Search by Appraisal No.'
+            placeholder={selectedType === 'group' ? 'Search by Center' : 'Search by Appraisal No.'}
             className={'w-full sm:w-1/3'}
             value={searchText}
             onChange={(value: string | number) => setSearchText(value)}
@@ -93,10 +116,11 @@ export default function Pending(_props: IPendingProps) {
 
         </div>
         <div className='flex items-center justify-between gap-3'>
-          {selectedType !== 'group' &&
+          {selectedType !== 'group' ?
             <Button size='middle' type='primary' onClick={() => updateSlikBulk()} label='Update Batch' disabled={selectedRole === 'ADMIN' || isUpdateDisabled} loading={isUpdateBtnLoading} />
+            :
+            <Button size='middle' type='primary' onClick={() => exportToExcel(getGroupDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={slikRequestsGroupData?.initialData?.length === 0} />
           }
-          {/* <Button size='middle' type='default' onClick={() => console.log('[DOWNLOAD BUTTON]')} label='Download Excel' /> */}
         </div>
       </div>
       {selectedType === 'group'

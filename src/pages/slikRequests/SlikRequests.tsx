@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import Paragraph from 'antd/es/typography/Paragraph';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import { useSelector } from 'react-redux';
@@ -60,20 +60,21 @@ const SlikRequests: React.FC = () => {
   ];
 
   const roleViseItems = () => {
-    return selectedRole.includes('ADMIN') ?
-      itemsThree
-      : selectedRole.includes('CSA') ?
-        itemsTwo
-        : selectedRole.includes('SLIKU') ?
-          itemsOne
-          : itemsOne
-
+    switch (true) {
+      case selectedRole.includes('ADMIN'):
+        return itemsThree;
+      case selectedRole.includes('CSA'):
+        return itemsTwo;
+      case selectedRole.includes('SLIKU'):
+        return itemsOne;
+      default:
+        return itemsOne;
+    }
   }
 
   return (
     <div>
       <BreadCrumbContainer>
-        {/* <Paragraph className='m-0 p-0 ' style={{ margin: 0, padding: 0 }} type="secondary">Home</Paragraph> */}
         <Title
           level={5}
           title='SLIK Requests'

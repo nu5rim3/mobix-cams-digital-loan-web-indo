@@ -16,7 +16,7 @@ const getSliksByBranchAndType = ({
   userId: string;
   branchCode: string;
   status: "P";
-  type: "GRPL" | "IL";
+  type: "GRPL" | "IL" | "";
 }) => {
   return api.get(
     `/mobixCamsCredit/v1/sliks/${userId}/${branchCode}/${status}/${type}`
@@ -34,7 +34,7 @@ const getSliksByGroupsAndCenter = ({
   branchCode: string;
   group: string;
   center: string;
-  status: "p";
+  status: "P" | "C" | "INPG";
 }) => {
   return api.get(
     `/mobixCamsCredit/v1/sliks/${userId}/${branchCode}/${status}/${center}/${group}`
@@ -54,8 +54,8 @@ const getSliksWithPagination = ({
 }: {
   userId: string;
   branchCode: string;
-  status: "P";
-  type: "GRPL" | "IL";
+  status: "P" | "C" | "INPG";
+  type: "GRPL" | "IL" | "";
   appriasalId?: string | number;
   page?: number | string;
   size?: number | string;
@@ -82,7 +82,7 @@ const getSlikGroupWithPagination = ({
 }: {
   userId: string;
   branchCode: string;
-  status: "P";
+  status: "P" | "C" | "INPG";
   appriasalId?: string | number;
   page?: number | string;
   size?: number | string;
@@ -110,7 +110,7 @@ const getGroupInnerSliksWithPagination = ({
 }: {
   userId: string;
   branchCode: string;
-  status: "P";
+  status: "P" | "C" | "INPG";
   type: "GRPL";
   appriasalId?: string | number;
   page?: number | string;
