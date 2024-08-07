@@ -105,8 +105,8 @@ export default function GroupUpdate({
       }
     },
     {
-      title: 'Centre',
-      dataIndex: 'fusionCenterCode,',
+      title: 'Center',
+      dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
     },
     {
@@ -188,6 +188,13 @@ export default function GroupUpdate({
       title: 'Contact No',
       dataIndex: 'cltContact1',
       key: 'cltContact1',
+      render: (value, record) => {
+        if (record.cltContact1) {
+          return record.cltContact1
+        } else {
+          return record.cusContact1
+        }
+      }
     },
     {
       title: 'Batch No',
@@ -267,7 +274,9 @@ export default function GroupUpdate({
   const uploadData = async () => {
     try {
       setLoading(true)
+
       const _selectedGroup = selectedGroup
+
         ?.filter((row: any) => row.batchNumber)
         ?.map((row: any) => {
           return {
@@ -275,6 +284,7 @@ export default function GroupUpdate({
             batchNumber: row.batchNumber
           }
         })
+
       await API.slikServices.updateSlikBulck(_selectedGroup)
       notification.success({
         message: 'Batches Updated Successfully'

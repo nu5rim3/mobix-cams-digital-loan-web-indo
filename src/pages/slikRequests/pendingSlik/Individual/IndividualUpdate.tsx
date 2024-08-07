@@ -24,7 +24,6 @@ export default function IndividualUpdate({
     selectedRole
   } = useSelector((state: any) => state.AppData)
 
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(7);
 

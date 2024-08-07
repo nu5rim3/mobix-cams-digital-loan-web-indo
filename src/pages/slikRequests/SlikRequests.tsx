@@ -60,6 +60,7 @@ const SlikRequests: React.FC = () => {
   ];
 
   const roleViseItems = () => {
+
     switch (true) {
       case selectedRole.includes('ADMIN'):
         return itemsThree;
@@ -70,7 +71,6 @@ const SlikRequests: React.FC = () => {
       default:
         return itemsOne;
     }
-  }
 
   return (
     <div>
