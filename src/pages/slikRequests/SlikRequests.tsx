@@ -71,6 +71,7 @@ const SlikRequests: React.FC = () => {
       default:
         return itemsOne;
     }
+  }
 
   return (
     <div>
