@@ -267,6 +267,18 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
             {
               value: 'group',
               label: 'Group No'
+            },
+            {
+              value: 'customer',
+              label: 'Customer Name'
+            },
+            {
+              value: 'nik',
+              label: 'NIK'
+            },
+            {
+              value: 'batch',
+              label: 'Batch No'
             }
           ]}
         />
@@ -283,7 +295,7 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
           loading={slikRequestsPaginatedData.fetching}
           rowKey={'slikIdx'}
           columns={selectedStatus === 'inprogress' ? columnsInProgress : columnsCompleted}
-          dataSource={slikRequestsPaginatedData?.data?.content.filter((item: any) => item.fusionCenterCode !== null) ?? []}
+          dataSource={slikRequestsPaginatedData?.data?.content ?? []}
           handlePaginationChange={handlePaginationChange}
           pagination={{
             total: slikRequestsPaginatedData?.data?.totalElements,
