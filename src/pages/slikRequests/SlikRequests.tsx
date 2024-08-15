@@ -77,7 +77,7 @@ const SlikRequests: React.FC = () => {
     <div>
       <BreadCrumbContainer>
         <Title
-          level={5}
+          level={4}
           title='SLIK Requests'
         />
       </BreadCrumbContainer>

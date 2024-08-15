@@ -34,6 +34,22 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
 
   const columnsInProgress: ColumnsType<any> = [
     {
+      title: 'Loan Type',
+      dataIndex: 'appraisalType',
+      key: 'appraisalType',
+      align: 'center',
+      render: (text) => {
+        switch (text) {
+          case "IL":
+            return <Tag className='rounded-full' color='green'>Individual</Tag>;
+          case "GRPL":
+            return <Tag className='rounded-full' color='blue'>Group</Tag>;
+          default:
+            return "NONE";
+        }
+      }
+    },
+    {
       title: 'Center',
       dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
@@ -44,10 +60,10 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     },
     {
       title: 'Group No',
-      dataIndex: 'groupIdx',
-      key: 'groupIdx',
+      dataIndex: 'groupCode',
+      key: 'groupCode',
       render(_value, record) {
-        return record?.groupIdx || "-"
+        return record?.groupCode || "-"
       },
     },
     {
@@ -114,6 +130,22 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
   ];
   const columnsCompleted: ColumnsType<any> = [
     {
+      title: 'Loan Type',
+      dataIndex: 'appraisalType',
+      key: 'appraisalType',
+      align: 'center',
+      render: (text) => {
+        switch (text) {
+          case "IL":
+            return <Tag className='rounded-full' color='green'>Individual</Tag>;
+          case "GRPL":
+            return <Tag className='rounded-full' color='blue'>Group</Tag>;
+          default:
+            return "NONE";
+        }
+      }
+    },
+    {
       title: 'Center',
       dataIndex: 'fusionCenterCode',
       key: 'fusionCenterCode',
@@ -124,10 +156,10 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     },
     {
       title: 'Group No',
-      dataIndex: 'groupIdx',
-      key: 'groupIdx',
+      dataIndex: 'groupCode',
+      key: 'groupCode',
       render(_value, record) {
-        return record?.groupIdx || "-"
+        return record?.groupCode || "-"
       },
     },
     {

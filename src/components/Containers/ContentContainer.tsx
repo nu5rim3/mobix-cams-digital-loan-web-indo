@@ -22,7 +22,7 @@ export default function ContentContainer({
         backgroundColor: colorBgContainer,
         borderRadius: borderRadiusOuter
       }}
-      className={screens.xs ? 'p-2' : 'p-6 px-8 shadow-xl'}
+      className={screens.xs ? 'p-2' : 'px-6 py-2 shadow-xl'}
     >
       {children}
     </div>

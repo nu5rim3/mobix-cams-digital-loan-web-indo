@@ -92,8 +92,6 @@ export default function Pending(_props: IPendingProps) {
     })) || [];
   }
 
-  console.log('[slikRequestsGroupData] - ', slikRequestsGroupData)
-
   useEffect(() => {
     setSearchText('');
     return () => {

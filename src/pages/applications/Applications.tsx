@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API } from '../../services/Services';
 import { ColumnsType } from 'antd/es/table';
-import { DatePicker, Input, Select, Space, Tag, theme } from 'antd';
+import { DatePicker, Input, Select, Space, theme } from 'antd';
 import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
 import Title from '../../components/Typography/Tytle';
-import Paragraph from 'antd/es/typography/Paragraph';
 import ContentContainer from '../../components/Containers/ContentContainer';
-import Search from '../../components/Search/Search';
-import FPaginatedTable from '../../components/tables/FPaginatedTable';
-import Button from '../../components/Buttons/Button';
 import { useSelector } from 'react-redux';
 import { actions } from '../../store/store';
 import moment from 'moment';
 import ButtonContainer from '../../components/Buttons/Button';
+import BPaginatedTable from '../../components/tables/BPaginatedTable';
+import copyToClipborad from '../../utils/copyToClipBorad';
+import { CopyOutlined } from '@ant-design/icons'
 
 export interface IApplicationsProps {
 
 }
 
-export default function Applications(props: IApplicationsProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Applications(_props: IApplicationsProps) {
   const navigate = useNavigate();
-  const [users, setUsers] = useState<[]>([])
   const [searchStatus, setSearchStatus] = useState<string>('APPROVAL_PENDING')
   const [searchAppraisal, setSearchAppraisal] = useState<string | null>(null)
   const [fromDateFilter, setFromDateFilter] = useState(null);
@@ -40,13 +39,33 @@ export default function Applications(props: IApplicationsProps) {
     userData
   } = useSelector((state: any) => state.AppData)
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(7);
+
   useEffect(() => {
-    actions.getAllApplications({
-      role: selectedRole,
-      status: searchStatus,
-      branch: userData?.data?.branches[0]?.code
-    })
-  }, [])
+    if (searchAppraisal === null) {
+      actions.getAllApplications({
+        role: selectedRole,
+        status: searchStatus,
+        branch: userData?.data?.branches[0]?.code,
+        page: currentPage,
+        size: pageSize
+      })
+    }
+    else if (searchAppraisal !== null) {
+      actions.getAllApplications({
+        role: selectedRole,
+        appraisalId: searchAppraisal,
+        fromDate: fromDateFilter,
+        toDate: toDateFilter,
+        status: searchStatus,
+        branch: userData?.data?.branches[0]?.code,
+        page: currentPage,
+        size: pageSize
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize, currentPage, searchStatus, searchAppraisal, toDateFilter, fromDateFilter])
 
   const handleFromDateFilterChange = (date: any) => {
     if (date) {
@@ -72,7 +91,9 @@ export default function Applications(props: IApplicationsProps) {
       fromDate: fromDateFilter,
       toDate: toDateFilter,
       status: searchStatus,
-      branch: userData?.data?.branches[0]?.code
+      branch: userData?.data?.branches[0]?.code,
+      page: currentPage,
+      size: pageSize
     })
   }
 
@@ -81,7 +102,9 @@ export default function Applications(props: IApplicationsProps) {
       title: 'Appraisal ID',
       dataIndex: 'idx',
       key: 'idx',
-
+      render: (text) => {
+        return <div className='flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      }
     },
     {
       title: 'Contract ID',
@@ -95,30 +118,26 @@ export default function Applications(props: IApplicationsProps) {
     },
     {
       title: 'Product Name',
-      dataIndex: 'productName',
-      key: 'productName',
+      dataIndex: 'loanProduct',
+      key: 'loanProduct',
     },
     {
       title: 'Customer NIK',
-      dataIndex: 'ktp',
-      key: 'ktp',
-      render: (_, record) => {
-        return <>{record.clienteles[0]?.ktp || ''}</>
-      }
+      dataIndex: 'identificationNo',
+      key: 'identificationNo',
+      render: (_, record) => record.identificationNo || '-'
     },
     {
       title: 'Customer Name',
       key: 'fullName',
       dataIndex: 'fullName',
-      render: (_, record) => {
-        return <>{record.clienteles[0]?.fullName || ''}</>
-      }
+      render: (_, record) => record.fullName || '-'
     },
     {
       title: 'Modified At',
       dataIndex: 'lastModifiedDate',
       key: 'lastModifiedDate',
-      sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
+      render: (value) => moment(value).format('YYYY-MM-DD')
     },
     {
       title: 'Created By',
@@ -136,23 +155,18 @@ export default function Applications(props: IApplicationsProps) {
     },
   ];
 
-  // const filteredData = applications.data?.filter((item:any) => {
-  //   if (!fromDateFilter || !toDateFilter) {
-  //     return true; // No filters selected, show all data
-  //   }
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    setCurrentPage(page);
+    if (pageSize) {
+      setPageSize(pageSize);
+    }
+  };
 
-  //   const itemDate = moment(item.creationDate, 'YYYY-MM-DD');
-
-  //   return (
-  //     itemDate.isSameOrAfter(fromDateFilter, 'day') &&
-  //     itemDate.isSameOrBefore(toDateFilter, 'day')
-  //   );
-  // });
+  console.log('[applications?.data?.content] - ', applications?.data?.content)
 
   return (
     <div>
       <BreadCrumbContainer>
-        {/* <Paragraph className='m-0 p-0 ' style={{ margin: 0, padding: 0 }} type="secondary">Home</Paragraph> */}
         <Title
           level={4}
           title='Application Approval'
@@ -160,25 +174,19 @@ export default function Applications(props: IApplicationsProps) {
       </BreadCrumbContainer>
 
 
-      <ContentContainer >
+      <ContentContainer>
         <div className='mt-2'>
           <Title
-            style={{ color: '#374957' }}
-            level={4}
+            level={5}
             title='Appraisal Origination'
           />
         </div>
-        {/* <Title
-          style={{ margin: 1 }}
-          level={5}
-          title='Search Items'
-        /> */}
 
         <div className='flex mt-1 mb-3 items-center'>
           <Select
             className='mr-2'
             size={'middle'}
-            // allowClear
+            allowClear
             onChange={(value) => {
               setSearchStatus(value)
             }}
@@ -186,10 +194,6 @@ export default function Applications(props: IApplicationsProps) {
             defaultValue='APPROVAL_PENDING'
             placeholder='Select A Status'
             options={[
-              // {
-              //     value: '',
-              //     label: 'All'
-              // },
               {
                 value: 'APPROVAL_PENDING',
                 label: 'Approval Pending'
@@ -228,17 +232,13 @@ export default function Applications(props: IApplicationsProps) {
             onClick={() => {
               searchData()
             }} />
-          {/* <Search
-            onChange={(value:any) => setSearchText(value)}
-            /> */}
         </div>
 
         <div
           className='border-l-current border-r-current'
         >
-          <FPaginatedTable
+          <BPaginatedTable
             loading={applications.fetching}
-            // loading={false}
             rowKey={'idx'}
             columns={columns.filter((column: any) => (
               searchedStatus !== 'APPROVED' && (
@@ -246,23 +246,20 @@ export default function Applications(props: IApplicationsProps) {
                 column?.key == 'contractNo'
               )) ? false : true
             )}
-            dataSource={applications.data || []}
-            size={'middle'}
+            dataSource={applications?.data?.content ?? []}
+            handlePaginationChange={handlePaginationChange}
+            pagination={{
+              total: applications?.data?.totalElements,
+              current: currentPage,
+              pageSize: pageSize,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              pageSizeOptions: ['7', '10', '15', '20', '50', '100'],
+              showTotal: (total: number) =>
+                <p className='text-gray-700'>Total {total} items</p>,
+            }}
           />
         </div>
-
-        {/* <div className='flex justify-center p-10'>
-          <Button 
-            onClick={() => {
-              navigate('/userManagement/createUser')
-            }} 
-            type='primary'
-            shape="round"
-            size='large'
-            icon={<PlusOutlined/>}
-            label="Create New User"
-          />
-        </div> */}
       </ContentContainer>
     </div>
   )
