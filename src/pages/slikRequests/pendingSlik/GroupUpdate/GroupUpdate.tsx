@@ -36,6 +36,14 @@ export default function GroupUpdate({
   } = useSelector((state: any) => state.AppData)
 
 
+  useEffect(() => {
+    if (innerSlikRequestsGroupPaginatedData?.data?.content) {
+      setSelectedGroup(innerSlikRequestsGroupPaginatedData?.data?.content)
+    }
+  }, [innerSlikRequestsGroupPaginatedData])
+
+
+
   const columns: ColumnsType<any> = [
     {
       title: 'Center',
@@ -66,10 +74,10 @@ export default function GroupUpdate({
     },
     {
       title: 'Date',
-      dataIndex: 'createdDate',
-      key: 'createdDate',
+      dataIndex: 'modifiedDate',
+      key: 'modifiedDate',
       render(_, record) {
-        return record.createdDate ? new Date(record.createdDate).toLocaleDateString() : '-'
+        return record.modifiedDate ? new Date(record.modifiedDate).toLocaleDateString() : '-'
       },
     },
     {
@@ -106,20 +114,16 @@ export default function GroupUpdate({
     },
     {
       title: 'Center',
-      dataIndex: 'fusionCenterCode',
-      key: 'fusionCenterCode',
+      dataIndex: 'centerCode',
+      key: 'centerCode',
+      render(_, record,) {
+        return record.fusionCenterCode ?? record.centerCode
+      },
     },
     {
       title: 'Group No',
-      dataIndex: 'groupIdx',
-      key: 'groupIdx',
-      render: (_value, record) => {
-        if (record.groupIdx) {
-          return record.groupIdx
-        } else {
-          return record.groupIdx
-        }
-      }
+      dataIndex: 'groupCode',
+      key: 'groupCode',
     },
     {
       title: 'Customer Name',
@@ -151,8 +155,8 @@ export default function GroupUpdate({
     },
     {
       title: 'Customer Type',
-      dataIndex: 'clienteleType',
-      key: 'clienteleType',
+      dataIndex: 'cltType',
+      key: 'cltType',
       align: 'center',
       render: (text) => {
         switch (text) {
@@ -183,12 +187,14 @@ export default function GroupUpdate({
       title: 'BR Name',
       dataIndex: 'brName',
       key: 'brName',
+      render: (_value, record) =>
+        record.brName ?? "-"
     },
     {
       title: 'Contact No',
       dataIndex: 'cltContact1',
       key: 'cltContact1',
-      render: (value, record) => {
+      render: (_value, record) => {
         if (record.cltContact1) {
           return record.cltContact1
         } else {
@@ -211,7 +217,7 @@ export default function GroupUpdate({
 
               setSelectedGroup((prev: any) => {
                 const newData = prev.map((row: any) => {
-                  if (record.slkIdx == row.slkIdx) {
+                  if (record.slikIdx == row.slikIdx) {
                     return {
                       ...row,
                       batchNumber: newValue
@@ -231,8 +237,7 @@ export default function GroupUpdate({
 
             setSelectedGroup((prev: any) => {
               const newData = prev.map((row: any) => {
-                console.log('[row] - ', row)
-                if (record.slkIdx === row.slkIdx) {
+                if (record.slikIdx == row.slikIdx) {
                   return {
                     ...row,
                     batchNumber: newValue
@@ -254,10 +259,13 @@ export default function GroupUpdate({
     actions.getSlikGroupWithPagination({
       userId: userData.data?.idx,
       branchCode: userData.data?.branches[0]?.code,
+      role: selectedRole,
       status: 'P',
       page: searchText !== '' ? currentPage : currentPage,
       size: searchText !== '' ? pageSize : pageSize,
-      appriasalId: searchText
+      appriasalId: '',
+      center: searchText !== '' ? searchText : '',
+      group: ''
     });
 
     if (searchText !== '') {
@@ -323,7 +331,9 @@ export default function GroupUpdate({
   }
 
   useEffect(() => {
-    getInnerGroupSlikData();
+    if (selectedRecord !== null) {
+      getInnerGroupSlikData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRecord])
 
@@ -357,9 +367,9 @@ export default function GroupUpdate({
         <>
           <FPaginatedTable
             loading={innerSlikRequestsGroupPaginatedData.fetching}
-            rowKey={'key'}
+            rowKey={'appraisalIds'}
             columns={columnsNew}
-            dataSource={innerSlikRequestsGroupPaginatedData?.data?.content ?? []}
+            dataSource={selectedGroup ?? []}
             rowSelection={true}
           />
 
@@ -371,9 +381,12 @@ export default function GroupUpdate({
               shape="round"
               size='middle'
               label='Back'
-              onClick={() => setSelectedRecord(null)} />
+              onClick={() => {
+                setSelectedRecord(null)
+                setSelectedGroup(null)
+              }} />
             <Button
-              onClick={uploadData}
+              onClick={() => uploadData()}
               loading={loading}
               type='primary'
               shape="round"

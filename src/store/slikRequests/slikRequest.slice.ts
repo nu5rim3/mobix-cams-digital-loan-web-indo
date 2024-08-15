@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SlikRequestsStoreType } from "./interface";
 import { API } from "../../services/Services";
 import { notification } from "antd";
+import { handleApiError } from "../../utils/errorHandler";
 
 export const initialState: SlikRequestsStoreType = {
   selectedStatus: "pending",
@@ -70,9 +71,9 @@ export const getSlikRequests = createAsyncThunk(
       return modify;
     } catch (error) {
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
@@ -95,11 +96,10 @@ export const getSlikRequestData = createAsyncThunk(
       };
     } catch (error) {
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
-
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
         : thunkAPI.rejectWithValue(er.message);
@@ -119,9 +119,9 @@ export const getSliksWithPagination = createAsyncThunk(
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
@@ -141,9 +141,9 @@ export const getSlikGroupWithPagination = createAsyncThunk(
       return response.data;
     } catch (error) {
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
@@ -168,9 +168,9 @@ export const getInnerSliksGroupWithPagination = createAsyncThunk(
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
@@ -200,9 +200,9 @@ export const getSlikByIndividual = createAsyncThunk(
       // return response.data
     } catch (error) {
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
@@ -273,11 +273,10 @@ export const getSlikByGroup = createAsyncThunk(
       return { newData, data };
     } catch (error) {
       const er = error as any;
+      const errorMessage = handleApiError(error);
       notification.error({
-        message:
-          er?.response?.data?.message ?? er.message ?? "Data Fetching Error",
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
       });
-
       return er?.response
         ? thunkAPI.rejectWithValue(er?.response.data)
         : thunkAPI.rejectWithValue(er.message);

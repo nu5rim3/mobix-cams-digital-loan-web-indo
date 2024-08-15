@@ -24,6 +24,7 @@ export default function Pending(_props: IPendingProps) {
   const {
     selectedRole
   } = useSelector((state: any) => state.AppData)
+  const userData = useSelector((state: any) => state.AppData.userData)
 
   const [searchText, setSearchText] = useState<string | number>('')
   const [isUpdateBtnLoading, setIsUpdateBtnLoading] = useState<boolean>(false);
@@ -91,6 +92,8 @@ export default function Pending(_props: IPendingProps) {
     })) || [];
   }
 
+  console.log('[slikRequestsGroupData] - ', slikRequestsGroupData)
+
   useEffect(() => {
     setSearchText('');
     return () => {
@@ -98,7 +101,18 @@ export default function Pending(_props: IPendingProps) {
     }
   }, [selectedType])
 
-  // console.log('[slikRequestsGroupData] - ', slikRequestsGroupData)
+  useEffect(() => {
+    if (selectedRole === 'CSA') {
+      actions.getSlikByGroup({
+        userId: userData.data?.idx,
+        branchCode: userData.data?.branches[0]?.code,
+        status: 'P',
+        type: 'GRPL',
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRole])
+
 
   return (
     <>
@@ -123,7 +137,7 @@ export default function Pending(_props: IPendingProps) {
           {selectedType !== 'group' ?
             <Button size='middle' type='primary' onClick={() => updateSlikBulk()} label='Update Batch' disabled={selectedRole === 'ADMIN' || isUpdateDisabled} loading={isUpdateBtnLoading} />
             :
-            <Button size='middle' type='primary' onClick={() => exportToExcel(getGroupDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={slikRequestsGroupData?.initialData?.length === 0} />
+            <Button size='middle' type='primary' onClick={() => exportToExcel(getGroupDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={selectedRole !== 'CSA'} />
           }
         </div>
       </div>

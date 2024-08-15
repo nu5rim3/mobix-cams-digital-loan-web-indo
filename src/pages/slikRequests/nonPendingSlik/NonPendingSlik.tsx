@@ -30,6 +30,7 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
   } = useSelector((state: any) => state.AppData)
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(7);
+  const [searchStatus, setSearchStatus] = useState('')
 
   const columnsInProgress: ColumnsType<any> = [
     {
@@ -171,15 +172,9 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
       },
     },
     {
-      title: 'Batch No',
-      dataIndex: 'batchNumber',
-      key: 'batchNumber',
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (_, record) => {
-        // console.log('[record] - ', record)
         return (
           <Space size="middle">
             <a onClick={() => navigate(`/indo-digital-loan/auth/slikRequest/viewSlik/${record.slikIdx}`)}>View {record.name}</a>
@@ -197,7 +192,12 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
       type: "",
       page: searchText !== '' ? currentPage : currentPage,
       size: searchText !== '' ? pageSize : pageSize,
-      appriasalId: searchText
+      // appriasalId: searchText,
+      batchNo: searchStatus === 'batch' ? searchText : '',
+      identificationNo: searchStatus === 'nik' ? searchText : '',
+      customerName: searchStatus === 'customer' ? searchText : '',
+      center: searchStatus === 'center' ? searchText : '',
+      group: searchStatus === 'group' ? searchText : '',
     })
 
     if (searchText !== '') {
@@ -235,9 +235,6 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStatus])
 
-
-  // console.log('[slikRequestsPaginatedData] - ', slikRequestsPaginatedData?.data?.content);
-
   const handlePaginationChange = (page: number, pageSize?: number) => {
     setCurrentPage(page);
     if (pageSize) {
@@ -253,8 +250,7 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
           size={'middle'}
           allowClear
           onChange={(e) => {
-            console.log('[value] - ', e)
-            // setSearchStatus(value)
+            setSearchStatus(e)
           }}
           style={{ width: 200 }}
           defaultValue='center'

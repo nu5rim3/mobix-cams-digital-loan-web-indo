@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Title from '../../../../components/Typography/Tytle';
 import ContentContainer from '../../../../components/Containers/ContentContainer';
@@ -15,7 +16,7 @@ export interface IUpdateSlikRequestProps {
 
 export default function UpdateSlikRequest(_props: IUpdateSlikRequestProps) {
 
-  let { id } = useParams();
+  const { id } = useParams();
   const [form] = Form.useForm();
   const {
     initialData
@@ -36,10 +37,12 @@ export default function UpdateSlikRequest(_props: IUpdateSlikRequestProps) {
         status: initialData.status === 'C' ? null : initialData.status
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData])
 
   useEffect(() => {
     getSlikRequestData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const items: DescriptionsProps['items'] = [

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from 'react';
 import BreadCrumbContainer from '../../../../components/Containers/BreadCrumbContainer';
 import Title from '../../../../components/Typography/Tytle';
 import ContentContainer from '../../../../components/Containers/ContentContainer';
@@ -6,7 +7,7 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { actions } from '../../../../store/store';
-import { Button, Descriptions, Form, Grid, Input, InputNumber, Select, Space, notification } from 'antd';
+import { Button, Descriptions, Form, Input, InputNumber, Select, Space, notification } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { useSelector } from 'react-redux';
 import { API } from '../../../../services/Services';
@@ -16,12 +17,13 @@ import formatAddress from '../../../../utils/getAddressByObjects';
 export interface IUpdateSlikRequestProps {
 }
 
-export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function UpdateSlikRequest(_props: IUpdateSlikRequestProps) {
 
-  let { id } = useParams();
+  const { id } = useParams();
   const [form] = Form.useForm();
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
+  // const { useBreakpoint } = Grid;
+  // const screens = useBreakpoint();
   const [addLoading, setAllLoading] = useState(false)
   const {
     initialData
@@ -45,10 +47,12 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         status: initialData.status === 'INPG' ? null : initialData.status
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData])
 
   useEffect(() => {
     getSlikRequestData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const items: DescriptionsProps['items'] = [
@@ -186,7 +190,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
       }
 
       if (id) {
-        const user = await API.slikServices.updateSlik({ slikId: id, data: data })
+        await API.slikServices.updateSlik({ slikId: id, data: data })
         notification.success({
           message: 'Slik request updated successfully'
         })
@@ -198,7 +202,7 @@ export default function UpdateSlikRequest(props: IUpdateSlikRequestProps) {
         const axiosError = error;
         // You can access error.response for details about the HTTP response, e.g., status code and data
         if (axiosError.response) {
-          const { status, data } = axiosError.response;
+          const { data } = axiosError.response;
           notification.error({
             message: data.message || 'An error occurred during the request.'
           })

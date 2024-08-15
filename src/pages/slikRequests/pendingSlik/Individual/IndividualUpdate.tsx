@@ -139,7 +139,12 @@ export default function IndividualUpdate({
       type: "IL",
       page: searchText !== '' ? currentPage : currentPage,
       size: searchText !== '' ? pageSize : pageSize,
-      appriasalId: searchText
+      appriasalId: searchText,
+      batchNo: '',
+      identificationNo: '',
+      customerName: '',
+      center: '',
+      group: '',
     })
 
     if (searchText !== '') {
