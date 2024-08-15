@@ -60,7 +60,7 @@ export default function Applications(_props: IApplicationsProps) {
         toDate: toDateFilter,
         status: searchStatus,
         branch: userData?.data?.branches[0]?.code,
-        page: currentPage,
+        page: currentPage - 1,
         size: pageSize
       })
     }
@@ -92,7 +92,7 @@ export default function Applications(_props: IApplicationsProps) {
       toDate: toDateFilter,
       status: searchStatus,
       branch: userData?.data?.branches[0]?.code,
-      page: currentPage,
+      page: currentPage - 1,
       size: pageSize
     })
   }
