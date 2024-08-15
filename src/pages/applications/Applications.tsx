@@ -162,8 +162,6 @@ export default function Applications(_props: IApplicationsProps) {
     }
   };
 
-  console.log('[applications?.data?.content] - ', applications?.data?.content)
-
   return (
     <div>
       <BreadCrumbContainer>
