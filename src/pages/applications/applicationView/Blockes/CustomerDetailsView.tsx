@@ -142,16 +142,6 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
         {
             key: 'ktp',
             label: '',
-
-        },
-        {
-            key: 'ktp',
-            label: '',
-
-        },
-        {
-            key: 'ktp',
-            label: '',
             children:
                 <div className='flex justify-between w-full'>
 
@@ -447,16 +437,6 @@ export default function CustomerDetailsView(props: ICustomerDetailsViewProps) {
                 fontWeight: 600,
                 width: '40%'
             }
-        },
-        {
-            key: 'spouseKtp',
-            label: '',
-
-        },
-        {
-            key: 'spouseKtp',
-            label: '',
-
         },
         {
             key: 'ktp',

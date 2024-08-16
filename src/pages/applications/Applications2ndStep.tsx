@@ -1,41 +1,39 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../../services/Services';
 import { ColumnsType } from 'antd/es/table';
 import { DatePicker, Input, Modal, Select, Space, Tag, notification, theme } from 'antd';
 import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
 import Title from '../../components/Typography/Tytle';
-import Paragraph from 'antd/es/typography/Paragraph';
 import ContentContainer from '../../components/Containers/ContentContainer';
-import Search from '../../components/Search/Search';
-import FPaginatedTable from '../../components/tables/FPaginatedTable';
-import Button from '../../components/Buttons/Button';
 import { useSelector } from 'react-redux';
 import { actions } from '../../store/store';
 import moment from 'moment';
 import ButtonContainer from '../../components/Buttons/Button';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { genarateStepAction, genarateStepStatus } from '../../utils/setpsGenaration';
+import { genarateStepStatus } from '../../utils/setpsGenaration';
+import BPaginatedTable from '../../components/tables/BPaginatedTable';
+import copyToClipborad from '../../utils/copyToClipBorad';
+import { CopyOutlined } from '@ant-design/icons'
 
 export interface IApplicationsProps {
 
 }
 
-export default function Applications2ndStep (props: IApplicationsProps) {
-    const navigate = useNavigate();
-  const [users, setUsers] = useState<[]>([])
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Applications2ndStep(_props: IApplicationsProps) {
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
   const [searchStatus, setSearchStatus] = useState<string>('APPROVAL_PENDING')
   const [searchAppraisal, setSearchAppraisal] = useState<string | null>(null)
   const [fromDateFilter, setFromDateFilter] = useState(null);
   const [toDateFilter, setToDateFilter] = useState(null);
   const [searchedStatus, setSearchedStatus] = useState('APPROVAL_PENDING')
   const {
-    token: {colorTextHeading},
+    token: { colorTextHeading },
   } = theme.useToken();
-//   const {
-//     customerData,
-//     financialDetails
-// } = useSelector((state: any) => state.Application)
 
   const {
     applications
@@ -45,29 +43,45 @@ export default function Applications2ndStep (props: IApplicationsProps) {
     selectedRole,
     userData
   } = useSelector((state: any) => state.AppData)
-  
+
   useEffect(() => {
-    actions.getSecondMeetingAppraisals({
-      role: selectedRole,
-      status: searchStatus,
-      branch: userData?.data?.branches[0]?.code
-    })
-  }, [])
+    if (searchAppraisal === null) {
+      actions.getSecondMeetingAppraisals({
+        role: selectedRole,
+        status: searchStatus,
+        branch: userData?.data?.branches[0]?.code,
+        page: currentPage - 1,
+        size: pageSize
+      })
+    } else if (searchAppraisal !== null) {
+      actions.getSecondMeetingAppraisals({
+        role: selectedRole,
+        appraisalId: searchAppraisal,
+        fromDate: fromDateFilter,
+        toDate: toDateFilter,
+        status: searchStatus,
+        branch: userData?.data?.branches[0]?.code,
+        page: currentPage - 1,
+        size: pageSize
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize, currentPage, searchStatus, searchAppraisal, toDateFilter, fromDateFilter])
 
   const { confirm } = Modal;
 
-  const handleFromDateFilterChange = (date:any) => {
-    if(date){
+  const handleFromDateFilterChange = (date: any) => {
+    if (date) {
       setFromDateFilter(date.format('YYYY-MM-DD'));
-    }else{
+    } else {
       setFromDateFilter(null);
     }
   };
-  
-  const handleToDateFilterChange = (date:any) => {
-    if(date){
+
+  const handleToDateFilterChange = (date: any) => {
+    if (date) {
       setToDateFilter(date.format('YYYY-MM-DD'));
-    }else{
+    } else {
       setToDateFilter(null)
     }
   };
@@ -80,57 +94,59 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       fromDate: fromDateFilter,
       toDate: toDateFilter,
       status: searchStatus,
-      branch: userData?.data?.branches[0]?.code
+      branch: userData?.data?.branches[0]?.code,
+      page: currentPage - 1,
+      size: pageSize
     })
   }
 
   const genarateStepA = (type: string) => {
-    if(type == 'Return'){
+    if (type == 'Return') {
       return 'RETURNED'
     }
-    if(type == 'Reject'){
+    if (type == 'Reject') {
       return 'REJECTED'
     }
-    if(type == 'Approve'){
+    if (type == 'Approve') {
       return 'APPROVED'
     }
   }
 
-  const showPromiseConfirm = (type:string, record: any) => {
+  const showPromiseConfirm = (type: string, record: any) => {
     confirm({
       title: 'Second Meeting Confirmation',
       icon: <ExclamationCircleFilled />,
       content: `Do you confirm and ${type} second meeting of this customer ?`,
-      onOk: async () =>  {
+      onOk: async () => {
         //return new Promise(async (resolve, reject) => {
-          try{
-            const data = {
-              appraisalIdx: record.idx,
-              secondMeetingStepAction: genarateStepA(type) ,
-              secondMeetingStepStatus: genarateStepStatus(type, selectedRole),
-              appraisalType: record.appraisalType,
-              loanProduct: record.loanProduct,
-              loanAmount: record.loanAmount,
-              loanTerm: record.loanTerm,
-              documents: []
-            }
-  
-            const save = await API.approvalServices.createScondMeetingStep(data)
-  
-            notification.success({
-              message: 'Application Updated Successfully.'
-            })
+        try {
+          const data = {
+            appraisalIdx: record.idx,
+            secondMeetingStepAction: genarateStepA(type),
+            secondMeetingStepStatus: genarateStepStatus(type, selectedRole),
+            appraisalType: record.appraisalType,
+            loanProduct: record.loanProduct,
+            loanAmount: record.loanAmount,
+            loanTerm: record.loanTerm,
+            documents: []
+          }
 
-            searchData()
-  
-            return true
-          }
-          catch{
-            return false
-          }
+          await API.approvalServices.createScondMeetingStep(data)
+
+          notification.success({
+            message: 'Application Updated Successfully.'
+          })
+
+          searchData()
+
+          return true
+        }
+        catch {
+          return false
+        }
       },
-      onCancel() {},
-      okText:'Yes '
+      onCancel() { },
+      okText: 'Yes '
     })
   };
 
@@ -139,66 +155,49 @@ export default function Applications2ndStep (props: IApplicationsProps) {
       title: 'Appraisal ID',
       dataIndex: 'idx',
       key: 'idx',
-      // filteredValue: [searchAppraisal],
-      // onFilter: (value, record) => {
-      //   return record?.idx?.toLowerCase()?.includes(typeof(value) == 'string'? value?.toLowerCase(): value)
-      // },
-      render: (_, { status, idx }) => (
-        <>
-          {status === "P" 
-          ? <Tag color='yellow' key={status}>
-              {idx}
-            </Tag>
-          : status === "R" 
-          ?<Tag color='red' key={status}>
-              {idx}
-            </Tag>
-          : status === "C" 
-          ? <Tag color='green' key={status}>
-                {idx}
-            </Tag>
-          :<Tag color='' key={status}>
-              {idx}
-          </Tag>
-          }
-        </>
-      ),
+      render: (_, { status, idx }) => {
+        switch (status) {
+          case "P":
+            return <div className='flex justify-between'><Tag color='orange' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "R":
+            return <div className='flex justify-between'><Tag color='cyan' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "J":
+            return <div className='flex justify-between'><Tag color='red' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "C":
+            return <div className='flex justify-between'><Tag color='green' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "AP":
+            return <div className='flex justify-between'><Tag color='blue' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          default:
+            return <div className='flex justify-between'><Tag color='' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+        }
+      }
     },
     {
       title: 'Contract ID',
       dataIndex: 'contractNo',
       key: 'contractNo',
-      // filteredValue: [searchStatus],
-      // onFilter: (value, record) => {
-      //   return value == "All"? true
-      //     : record?.status?.toLowerCase()?.includes(typeof(value) == 'string'? value?.toLowerCase(): value)
-      //   },
     },
     {
       title: 'Product Name',
-      dataIndex: 'productName',
-      key: 'productName',
+      dataIndex: 'loanProduct',
+      key: 'loanProduct',
     },
     {
       title: 'Customer NIK',
-      dataIndex: 'tcNo',
-      key: 'tcNo',
-      render: (_, {clienteles}) => (
-        <>{clienteles[0]?.ktp}</>
-      )
+      dataIndex: 'identificationNo',
+      key: 'identificationNo',
+      render: (_, record) => record.identificationNo || '-'
     },
     {
       title: 'Customer Name',
       key: 'tags',
-      render: (_, {clienteles}) => (
-        <>{clienteles[0]?.fullName}</>
-      )
+      render: (_, record) => record.fullName || '-'
     },
     {
       title: 'Modified At',
       dataIndex: 'lastModifiedDate',
       key: 'lastModifiedDate',
-      sorter: (a, b) => a.lastModifiedDateMilliSecond - b.lastModifiedDateMilliSecond,
+      render: (value) => moment(value).format('YYYY-MM-DD')
     },
     {
       title: 'Created By',
@@ -207,131 +206,123 @@ export default function Applications2ndStep (props: IApplicationsProps) {
     },
     {
       title: 'Branch Name',
-      dataIndex: 'branchName',
-      key: 'branchName',
+      dataIndex: 'branchDesc',
+      key: 'branchDesc',
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
+        <div className='flex justify-between'>
           <Space size="middle" className='mr-3'>
             <a onClick={() => navigate(`/indo-digital-loan/auth/applications/viewApplication/${record.idx}`)}>View</a>
           </Space>
           {
             searchedStatus != 'APPROVAL_PENDING'
-            ? null
-            :
-            <>
-              <Space size="middle" className='mr-3' >
-                <a hidden={selectedRole != 'BM'} onClick={() => showPromiseConfirm('Approve', record)}>Approve</a>
-              </Space>
-              <Space size="middle" className='mr-3'>
-                <a hidden={selectedRole != 'BM'}  onClick={() => showPromiseConfirm('Reject', record)}>Reject</a>
-              </Space>
-            </>
+              ? null
+              :
+              <>
+
+                <Space size="middle" className='mr-3' >
+                  <a hidden={selectedRole != 'BM'} onClick={() => showPromiseConfirm('Approve', record)}>| Approve</a>
+                </Space>
+
+                <Space size="middle" className='mr-3'>
+                  <a hidden={selectedRole != 'BM'} onClick={() => showPromiseConfirm('Reject', record)}>| Reject</a>
+                </Space>
+              </>
           }
-        </>
+        </div>
       ),
     },
   ];
 
-  // const filteredData = applications.data?.filter((item:any) => {
-  //   if (!fromDateFilter || !toDateFilter) {
-  //     return true; // No filters selected, show all data
-  //   }
-  
-  //   const itemDate = moment(item.creationDate, 'YYYY-MM-DD');
-    
-  //   return (
-  //     itemDate.isSameOrAfter(fromDateFilter, 'day') &&
-  //     itemDate.isSameOrBefore(toDateFilter, 'day')
-  //   );
-  // });
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    setCurrentPage(page);
+    if (pageSize) {
+      setPageSize(pageSize);
+    }
+  };
 
   return (
     <div>
       <BreadCrumbContainer>
-        <Paragraph className='m-0 p-0 ' style={{margin: 0, padding:0}}  type="secondary">Home</Paragraph>
-        <Title 
+
+        <Title
           level={4}
           title='Application Approval'
         />
       </BreadCrumbContainer>
 
-
       <ContentContainer >
-        <Title 
-          style={{color: '#374957'}} 
-          level={4}
-          title='Appraisal Origination'
-        /> 
-        <Title 
-          style={{margin: 1}} 
-          level={5}
-          title='Search Items'
-        />
+        <div className='mt-2'>
+          <Title
+            style={{ color: '#374957' }}
+            level={5}
+            title='Second Meeting Pending'
+          />
+        </div>
 
         <div className='flex mt-1 mb-3 items-center'>
-            <Select
-                className='mr-2'
-                size={'large'}
-                // allowClear
-                onChange={(value) => {
-                    setSearchStatus(value)
-                }}
-                style={{ width: 200 }}
-                defaultValue='APPROVAL_PENDING'
-                placeholder='Select A Status'
-                options={[
-                    {
-                        value: 'APPROVAL_PENDING',
-                        label: 'Approval Pending'
-                    },
-                    // {
-                    //   value: 'APPROVED',
-                    //   label: 'Approved'
-                    // },
-                    // {
-                    //   value: 'REJECTED',
-                    //   label: 'Rejected'
-                    // },
-                ]}
-            />
-            <Input 
-              size={'large'} 
-              placeholder='Appraisal ID' 
-              className='mr-2 w-2/6'
-              allowClear
-              onChange={(e) => setSearchAppraisal(e.target.value)}
-            />
-            <DatePicker size={'large'} onChange={handleFromDateFilterChange} />
-            <div className='m-2 font-bold' style={{color: colorTextHeading}}>
-                To 
-            </div>
-            <DatePicker size={'large'} onChange={handleToDateFilterChange} />
-            <ButtonContainer 
-              type='primary' 
-              label='Search' 
-              size='large' 
-              className='ml-3'
-              onClick={() => {
-                searchData()
-            }}/>
-            {/* <Search
-            onChange={(value:any) => setSearchText(value)}
-            /> */}
+          <Select
+            className='mr-2'
+            size={'middle'}
+            allowClear
+            onChange={(value) => {
+              setSearchStatus(value)
+            }}
+            style={{ width: 200 }}
+            defaultValue='APPROVAL_PENDING'
+            placeholder='Select A Status'
+            options={[
+              {
+                value: 'APPROVAL_PENDING',
+                label: 'Approval Pending'
+              }
+            ]}
+          />
+          <Input
+            size={'middle'}
+            placeholder='Appraisal ID'
+            className='mr-2 w-2/6'
+            allowClear
+            onChange={(e) => setSearchAppraisal(e.target.value)}
+          />
+          <DatePicker size={'middle'} onChange={handleFromDateFilterChange} />
+          <div className='m-2 font-bold' style={{ color: colorTextHeading }}>
+            To
+          </div>
+          <DatePicker size={'middle'} onChange={handleToDateFilterChange} />
+          <ButtonContainer
+            type='primary'
+            label='Search'
+            size={'middle'}
+            className='ml-3'
+            onClick={() => {
+              searchData()
+            }} />
         </div>
 
         <div
-         className='border-l-current border-r-current'
+          className='border-l-current border-r-current'
         >
-          <FPaginatedTable 
+          <BPaginatedTable
             loading={applications.fetching}
             // loading={false}
             rowKey={'idx'}
-            columns={columns.filter((column:any) => (searchedStatus !== 'APPROVED' && column?.key == 'contractNo')? false : true)} 
-            dataSource={applications.data || [] }
+            columns={columns.filter((column: any) => (searchedStatus !== 'APPROVED' && column?.key == 'contractNo') ? false : true)}
+            dataSource={applications?.data?.content || []}
+            handlePaginationChange={handlePaginationChange}
+            pagination={{
+              total: applications?.data?.totalElements,
+              current: currentPage,
+              pageSize: pageSize,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              pageSizeOptions: ['7', '10', '15', '20', '50', '100'],
+              showTotal: (total: number) =>
+                <p className='text-gray-700'>Total {total} items</p>,
+            }}
           />
         </div>
 

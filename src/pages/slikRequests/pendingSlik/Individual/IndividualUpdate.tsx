@@ -32,12 +32,24 @@ export default function IndividualUpdate({
       title: 'Appraisal No',
       dataIndex: 'appraisalId',
       key: 'appraisalId',
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return record?.appraisalId?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
-      },
-      render: (text) => {
-        return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      // render: (text) => {
+      //   return <div className='w-56 sm:w-4/5 flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      // },
+      render: (_, { status, appraisalId }) => {
+        switch (status) {
+          case "P":
+            return <div className='flex justify-between'><Tag color='orange' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "R":
+            return <div className='flex justify-between'><Tag color='cyan' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "J":
+            return <div className='flex justify-between'><Tag color='red' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "C":
+            return <div className='flex justify-between'><Tag color='green' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "AP":
+            return <div className='flex justify-between'><Tag color='blue' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          default:
+            return <div className='flex justify-between'><Tag color='' key={status}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+        }
       }
     },
     {

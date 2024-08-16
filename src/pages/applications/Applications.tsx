@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
-import { DatePicker, Input, Select, Space, theme } from 'antd';
+import { DatePicker, Input, Select, Space, Tag, theme } from 'antd';
 import BreadCrumbContainer from '../../components/Containers/BreadCrumbContainer';
 import Title from '../../components/Typography/Tytle';
 import ContentContainer from '../../components/Containers/ContentContainer';
@@ -39,7 +39,7 @@ export default function Applications(_props: IApplicationsProps) {
     userData
   } = useSelector((state: any) => state.AppData)
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(7);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function Applications(_props: IApplicationsProps) {
         role: selectedRole,
         status: searchStatus,
         branch: userData?.data?.branches[0]?.code,
-        page: currentPage,
+        page: currentPage - 1,
         size: pageSize
       })
     }
@@ -102,8 +102,21 @@ export default function Applications(_props: IApplicationsProps) {
       title: 'Appraisal ID',
       dataIndex: 'idx',
       key: 'idx',
-      render: (text) => {
-        return <div className='flex justify-between'><span>{text}</span> <span onClick={() => copyToClipborad(text)}><CopyOutlined /></span></div>
+      render: (_, { status, idx }) => {
+        switch (status) {
+          case "P":
+            return <div className='flex justify-between'><Tag color='orange' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "R":
+            return <div className='flex justify-between'><Tag color='cyan' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "J":
+            return <div className='flex justify-between'><Tag color='red' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "C":
+            return <div className='flex justify-between'><Tag color='green' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          case "AP":
+            return <div className='flex justify-between'><Tag color='blue' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+          default:
+            return <div className='flex justify-between'><Tag color='' key={status}>{idx}</Tag><CopyOutlined onClick={() => copyToClipborad(idx)} /></div>;
+        }
       }
     },
     {
@@ -176,7 +189,7 @@ export default function Applications(_props: IApplicationsProps) {
         <div className='mt-2'>
           <Title
             level={5}
-            title='Appraisal Origination'
+            title='Approval Workflow'
           />
         </div>
 
