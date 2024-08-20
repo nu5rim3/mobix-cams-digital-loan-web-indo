@@ -179,7 +179,7 @@ export default function ApplicationView(_props: IApplicationViewProps) {
                     </div>
                 </ContentContainer> */}
 
-                <Collapse defaultActiveKey={['0']} items={items} expandIconPosition='end' style={{
+                <Collapse defaultActiveKey={['0']} items={items} expandIconPosition='end' activeKey={[0, 1, 2, 3, 4, 5, 6]} style={{
                     fontWeight: 600,
                 }} />
                 <ApprovalEnd />
