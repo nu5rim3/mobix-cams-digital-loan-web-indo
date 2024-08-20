@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import digitalMe from '../../../assets/digitalMe.png'
 import {
@@ -11,6 +12,7 @@ import {
 } from '@ant-design/icons';
 import { MenuItem } from '../../../routes/navigation';
 import navigation from '../../../routes/navigation';
+import { useLocation, useNavigate } from "react-router-dom";
 import lolcTech from '../../../assets/lolcTechPng.png'
 
 const iconStyle: React.CSSProperties = {
@@ -52,6 +54,8 @@ export default function SideBar({
     token: { boxShadow },
   } = theme.useToken();
 
+  const location = useLocation();
+
   const menu = function menuItems(params: MenuItem[] | undefined): MenuProps['items'] {
     if (!params) return
 
@@ -62,7 +66,7 @@ export default function SideBar({
         if (!routes.allowedRoles) return true
         return routes.allowedRoles?.some(element => roles.includes(element));
       })
-      .map((row, _index) => {
+      .map((row) => {
         return {
           key: row.key,
           icon: row.icon,
@@ -89,13 +93,19 @@ export default function SideBar({
   }, [screens])
 
   useEffect(() => {
-    if (collapsed) {
-      setTimeout(() => {
-        setCollapsed(true)
-      }, 5000);
-    }
+    setTimeout(() => {
+      setCollapsed(true)
+    }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collapsed])
+
+  const handleMouseEnter = () => {
+    setCollapsed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setCollapsed(true);
+  };
 
   return (
     <Sider
@@ -110,6 +120,8 @@ export default function SideBar({
         boxShadow: boxShadow,
         zIndex: 2
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {screens.xs ?
         <div className='pt-3'>
@@ -118,6 +130,7 @@ export default function SideBar({
             icon={collapsed ? <MenuUnfoldOutlined size={20} /> : <MenuFoldOutlined size={25} />}
             onClick={() =>
               setCollapsed(!collapsed)
+              // logOut('', '/logout')
             }
             size='large'
           />

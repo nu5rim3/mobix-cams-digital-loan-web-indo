@@ -1,24 +1,23 @@
-import { Button, Grid, Layout } from 'antd';
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Grid, Layout } from 'antd';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Title from '../../components/Typography/Tytle';
 import { actions } from '../../store/store';
 import digitalMe from '../../assets/digitalMe.png'
-import { RightOutlined } from '@ant-design/icons'
 
 export interface ISelectUserRoleProps {
 }
 
-export default function SelectUserRole(props: ISelectUserRoleProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function SelectUserRole(_props: ISelectUserRoleProps) {
 
-    const { Content } = Layout;
-    const [clickedRole, setClickedRole] = useState<null | any>(null)
+    const [clickedRole] = useState<null | any>(null)
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
 
     const {
         userData,
-        selectedRole
     } = useSelector((state: any) => state.AppData)
     return (
         <Layout
