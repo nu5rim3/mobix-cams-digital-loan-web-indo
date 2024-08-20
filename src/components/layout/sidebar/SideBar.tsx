@@ -95,7 +95,7 @@ export default function SideBar({
   useEffect(() => {
     setTimeout(() => {
       setCollapsed(true)
-    }, 5000);
+    }, 10000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collapsed])
 
