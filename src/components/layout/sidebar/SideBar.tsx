@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import digitalMe from '../../../assets/digitalMe.png'
 import {
   Button, Grid, Layout, Menu,
@@ -11,7 +11,6 @@ import {
 } from '@ant-design/icons';
 import { MenuItem } from '../../../routes/navigation';
 import navigation from '../../../routes/navigation';
-import { useLocation, useNavigate } from "react-router-dom";
 import lolcTech from '../../../assets/lolcTechPng.png'
 
 const iconStyle: React.CSSProperties = {
@@ -38,7 +37,7 @@ export interface ISideBarProps {
 }
 
 export default function SideBar({
-    collapsed,
+  collapsed,
   setCollapsed,
   userData
 }: ISideBarProps) {
@@ -50,10 +49,8 @@ export default function SideBar({
   const roles = userData.roles.map((role: any) => role.code)
 
   const {
-        token: { colorBgContainer, boxShadow },
-      } = theme.useToken();
-
-  let location = useLocation();
+    token: { boxShadow },
+  } = theme.useToken();
 
   const menu = function menuItems(params: MenuItem[] | undefined): MenuProps['items'] {
     if (!params) return
@@ -63,9 +60,9 @@ export default function SideBar({
       .filter(({ visibleInMenu }) => visibleInMenu)
       .filter((routes) => {
         if (!routes.allowedRoles) return true
-        return routes.allowedRoles ?.some(element => roles.includes(element));
+        return routes.allowedRoles?.some(element => roles.includes(element));
       })
-      .map((row, index) => {
+      .map((row, _index) => {
         return {
           key: row.key,
           icon: row.icon,
@@ -88,7 +85,17 @@ export default function SideBar({
     if (screens.xs) {
       setCollapsed(true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screens])
+
+  useEffect(() => {
+    if (collapsed) {
+      setTimeout(() => {
+        setCollapsed(true)
+      }, 5000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collapsed])
 
   return (
     <Sider
@@ -111,7 +118,6 @@ export default function SideBar({
             icon={collapsed ? <MenuUnfoldOutlined size={20} /> : <MenuFoldOutlined size={25} />}
             onClick={() =>
               setCollapsed(!collapsed)
-              // logOut('', '/logout')
             }
             size='large'
           />
@@ -154,7 +160,7 @@ export default function SideBar({
               <div className='flex justify-center items-center'>
                 <div>
                   Powered By
-                      </div>
+                </div>
                 <div className='w-24 ml-3'>
                   <img className='w-full' src={lolcTech} />
                 </div>

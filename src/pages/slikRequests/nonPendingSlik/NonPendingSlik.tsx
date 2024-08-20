@@ -216,47 +216,36 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     },
   ];
 
-  const getIndividualData = () => {
-    actions.getSliksWithPagination({
-      userId: '',
-      branchCode: userData.data?.branches[0]?.code,
-      status: selectedStatus === 'inprogress' ? 'INPG' : 'C',
-      type: "",
-      page: searchText !== '' ? currentPage : currentPage,
-      size: searchText !== '' ? pageSize : pageSize,
-      // appriasalId: searchText,
-      batchNo: searchStatus === 'batch' ? searchText : '',
-      identificationNo: searchStatus === 'nik' ? searchText : '',
-      customerName: searchStatus === 'customer' ? searchText : '',
-      center: searchStatus === 'center' ? searchText : '',
-      group: searchStatus === 'group' ? searchText : '',
-    })
-
-    if (searchText !== '') {
-      setCurrentPage(1)
-      setPageSize(7)
-    }
-  }
-
-  // const getRequestData = () => {
-  //   if (!(selectedRole == 'ADMIN' || selectedRole == 'SLIKU')) {
-  //     return actions.getSlikRequests({
-  //       userId: userData.data?.idx,
-  //       branchCode: userData.data?.branches[0]?.code,
-  //     })
-  //   } else if (selectedBranch) {
-  //     setShowBranch(branch.find((branch: any) => {
-  //       return branch.code == selectedBranch
-  //     })?.description || userData.data?.branches[0]?.description)
-  //     return actions.getSlikRequests({
-  //       userId: userData.data?.idx,
-  //       branchCode: selectedBranch,
-  //     })
-  //   }
-  // }
-
   useEffect(() => {
-    getIndividualData();
+    if (searchText === '') {
+      actions.getSliksWithPagination({
+        userId: '',
+        branchCode: userData.data?.branches[0]?.code,
+        status: selectedStatus === 'inprogress' ? 'INPG' : 'C',
+        type: "",
+        batchNo: searchStatus === 'batch' ? searchText : '',
+        identificationNo: searchStatus === 'nik' ? searchText : '',
+        customerName: searchStatus === 'customer' ? searchText : '',
+        center: searchStatus === 'center' ? searchText : '',
+        group: searchStatus === 'group' ? searchText : '',
+        page: searchText !== '' ? currentPage : currentPage,
+        size: searchText !== '' ? pageSize : pageSize,
+      })
+    } else if (searchText !== '') {
+      actions.getSliksWithPagination({
+        userId: '',
+        branchCode: userData.data?.branches[0]?.code,
+        status: selectedStatus === 'inprogress' ? 'INPG' : 'C',
+        type: "",
+        batchNo: searchStatus === 'batch' ? searchText : '',
+        identificationNo: searchStatus === 'nik' ? searchText : '',
+        customerName: searchStatus === 'customer' ? searchText : '',
+        center: searchStatus === 'center' ? searchText : '',
+        group: searchStatus === 'group' ? searchText : '',
+        page: searchText !== '' ? currentPage : currentPage,
+        size: searchText !== '' ? pageSize : pageSize,
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStatus, pageSize, currentPage, searchText])
 
