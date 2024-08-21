@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Layout } from 'antd';
 import ThemeBlueWhite from '../../themes/ThemeBlueWhite';
@@ -34,6 +36,8 @@ export default function LayoutContainer(props: ILayoutProps) {
     const { useBreakpoint } = Grid;
     const screens = useBreakpoint();
     const userData = useSelector((state: any) => state.AppData.userData.data)
+    const selectedRoleStore = useSelector((state: any) => state.AppData.selectedRole)
+
     const selectedRole = localStorage.getItem('selectedRole')
     const navigate = useNavigate();
 
@@ -48,7 +52,7 @@ export default function LayoutContainer(props: ILayoutProps) {
                 if (!routes.allowedRoles) return true
                 return routes.allowedRoles?.some(element => roles.includes(element));
             })
-            .map((row) => {
+            .map((row, index) => {
                 return {
                     key: row.key,
                     path: row.path,
@@ -78,14 +82,12 @@ export default function LayoutContainer(props: ILayoutProps) {
             actions.getUserDataById(decoded.sub)
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginInProgress])
 
     useEffect(() => {
         if (selectedRole) {
             actions.setRole(selectedRole)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
