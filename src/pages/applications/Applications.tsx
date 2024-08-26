@@ -28,7 +28,6 @@ export default function Applications(_props: IApplicationsProps) {
   const {
     token: { colorTextHeading },
   } = theme.useToken();
-  const [searchedStatus, setSearchedStatus] = useState('APPROVAL_PENDING')
 
   const {
     applications
@@ -84,7 +83,7 @@ export default function Applications(_props: IApplicationsProps) {
   };
 
   const searchData = () => {
-    setSearchedStatus(searchStatus)
+    setSearchStatus(searchStatus)
     actions.getAllApplications({
       role: selectedRole,
       appraisalId: searchAppraisal,
@@ -168,6 +167,11 @@ export default function Applications(_props: IApplicationsProps) {
     },
   ];
 
+  /**
+   * handlePaginationChange
+   * @param page 
+   * @param pageSize 
+   */
   const handlePaginationChange = (page: number, pageSize?: number) => {
     setCurrentPage(page);
     if (pageSize) {
@@ -175,6 +179,14 @@ export default function Applications(_props: IApplicationsProps) {
     }
   };
 
+  /**
+   * onChangeSearchStatus
+   * @param value 
+   */
+  const onChangeSearchStatus = (value: string) => {
+    setSearchStatus(value)
+
+  }
   return (
     <div>
       <BreadCrumbContainer>
@@ -199,7 +211,8 @@ export default function Applications(_props: IApplicationsProps) {
             size={'middle'}
             allowClear
             onChange={(value) => {
-              setSearchStatus(value)
+              // console.log('[value] - ', value)
+              onChangeSearchStatus(value)
             }}
             style={{ width: 200 }}
             defaultValue='APPROVAL_PENDING'
@@ -252,7 +265,7 @@ export default function Applications(_props: IApplicationsProps) {
             loading={applications.fetching}
             rowKey={'idx'}
             columns={columns.filter((column: any) => (
-              searchedStatus !== 'APPROVED' && (
+              searchStatus !== 'APPROVED' && (
                 column?.key == 'voucherNo' ||
                 column?.key == 'contractNo'
               )) ? false : true
