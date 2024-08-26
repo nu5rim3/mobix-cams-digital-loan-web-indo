@@ -74,10 +74,10 @@ export default function GroupUpdate({
     },
     {
       title: 'Date',
-      dataIndex: 'modifiedDate',
-      key: 'modifiedDate',
+      dataIndex: 'lastModifiedDate',
+      key: 'lastModifiedDate',
       render(_, record) {
-        return record.modifiedDate ? new Date(record.modifiedDate).toLocaleDateString() : '-'
+        return record.lastModifiedDate ? new Date(record.lastModifiedDate).toLocaleDateString() : '-'
       },
     },
     {
