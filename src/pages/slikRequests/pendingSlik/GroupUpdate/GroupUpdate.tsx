@@ -218,8 +218,8 @@ export default function GroupUpdate({
       render: (_, record) => {
         if (record.slikDto) {
           return <Input disabled={
-            selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'SPOUSE' && record.slikDto.postCltFlag === 'N') ||
-            (record.slikDto.clienteleType === 'GUARANTOR' && record.slikDto.postCltFlag === 'N')
+            selectedRole === 'ADMIN' || (record.slikDto.clienteleType === 'S' && record.slikDto.postCltFlag === 'N') ||
+            (record.slikDto.clienteleType === 'G' && record.slikDto.postCltFlag === 'N')
           }
             onChange={(e) => {
               const newValue = e.target.value;
@@ -241,7 +241,7 @@ export default function GroupUpdate({
 
           />
         } else {
-          return <Input disabled={selectedRole === 'ADMIN' || record.cltType === 'S' || record.cltType === 'G'} onChange={(e) => {
+          return <Input disabled={selectedRole === 'ADMIN' || (record.cltType === 'S' && record.postCltFlag === 'N') || (record.cltType === 'G' && record.postCltFlag === 'N')} onChange={(e) => {
             const newValue = e.target.value;
 
             setSelectedGroup((prev: any) => {
