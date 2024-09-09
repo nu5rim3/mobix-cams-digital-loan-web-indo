@@ -121,14 +121,7 @@ export default function Approval({
       title: 'lastModifiedDate',
       key: 'lastModifiedDate',
       dataIndex: 'lastModifiedDate',
-      render: (_, { lastModifiedDate }) => {
-        const date = new Date(lastModifiedDate);
-
-        const localDate = date.toLocaleDateString();
-        const localTime = date.toLocaleTimeString();
-
-        return <>{localDate} - {localTime}</>
-      }
+      render: (_, { lastModifiedDate }) => moment(lastModifiedDate).format('YYYY-MM-DD - hh:mm:ss A')
     },
   ];
 
@@ -173,6 +166,7 @@ export default function Approval({
               loanProduct: financialDetails?.data?.pTrhdLType,
               loanAmount: financialDetails?.data?.pTrhdLocCost,
               loanTerm: financialDetails?.data?.pTrhdTerm,
+              loanRate: financialDetails?.data?.pTrhdRate,
               comment: form.getFieldValue('comment'),
               reason: form.getFieldValue('reason') ? form.getFieldValue('reason').value : "",
               reasonDesc: form.getFieldValue('reason') ? form.getFieldValue('reason').label : "",
@@ -186,6 +180,7 @@ export default function Approval({
               loanProduct: financialDetails?.data?.pTrhdLType,
               loanAmount: financialDetails?.data?.pTrhdLocCost,
               loanTerm: financialDetails?.data?.pTrhdTerm,
+              loanRate: financialDetails?.data?.pTrhdRate,
               comment: form.getFieldValue('comment'),
               lastModifiedBy: userData?.data?.idx,
               createdBy: userData?.data?.idx,
@@ -201,10 +196,10 @@ export default function Approval({
               || selectedRole === 'DIR' || selectedRole === 'BOD1' || selectedRole === 'BOD2' || selectedRole === 'BOD3')) {
 
             for (const file of fileList) {
-              let base64
+              // let base64
               // = file.preview
               // if(!base64){
-              base64 = await fileToBase64Async(file.originFileObj);
+              const base64 = await fileToBase64Async(file.originFileObj);
               // }
 
 
@@ -246,7 +241,7 @@ export default function Approval({
           }
         }
         catch (err) {
-          console.log('[ERROR] - ', err)
+          // console.log('[ERROR] - ', err)
           notification.error({
             message: 'Application update failed'
           })
@@ -264,9 +259,9 @@ export default function Approval({
     const cycleNo = approvalSteps.data?.approvalStepDtoList[0]?.cycleNo;
     setCycleNo(cycleNo);
     const caImage = imageDetails.data?.filter((image: any) => image.imgSubCategory === 'CA_LEVEL')?.length;
-    console.log("caImage " + caImage)
+    // console.log("caImage " + caImage)
     const bmImage = imageDetails.data?.filter((image: any) => image.imgSubCategory === 'BM_LEVEL')?.length;
-    console.log("imageDetails ", imageDetails)
+    // console.log("imageDetails ", imageDetails)
 
 
 
@@ -281,6 +276,7 @@ export default function Approval({
     if (BMStatus === 'PENDING') {
       setIsSecondMeeting(true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approvalSteps.data?.secondMeetingApprovalStepDtoList])
 
 

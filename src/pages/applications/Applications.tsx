@@ -27,6 +27,7 @@ export default function Applications(_props: IApplicationsProps) {
   const [searchAppraisal, setSearchAppraisal] = useState<string | null>(null)
   const [fromDateFilter, setFromDateFilter] = useState<string>('');
   const [toDateFilter, setToDateFilter] = useState<string>('');
+  const [dateRange, setDateRange] = useState(null);
 
   const {
     applications
@@ -176,6 +177,7 @@ export default function Applications(_props: IApplicationsProps) {
     setFromDateFilter('')
     setToDateFilter('')
     setSearchStatus('APPROVAL_PENDING')
+    setDateRange(null);
     setCurrentPage(1)
     setPageSize(7)
   }
@@ -210,6 +212,7 @@ export default function Applications(_props: IApplicationsProps) {
             style={{ width: 200 }}
             defaultValue='APPROVAL_PENDING'
             placeholder='Select A Status'
+            value={searchStatus}
             options={[
               {
                 value: 'APPROVAL_PENDING',
@@ -244,7 +247,9 @@ export default function Applications(_props: IApplicationsProps) {
           <DatePicker size={'middle'} onChange={handleToDateFilterChange} /> */}
           <RangePicker
             size='middle'
+            value={dateRange}
             onCalendarChange={(value: any) => {
+              setDateRange(value);
               if (value && value?.length !== 0) {
                 setToDateFilter(value[1].format('YYYY-MM-DD'))
                 setFromDateFilter(value[0].format('YYYY-MM-DD'))
