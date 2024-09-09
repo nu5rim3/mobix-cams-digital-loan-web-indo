@@ -11,6 +11,7 @@ import { CopyOutlined } from '@ant-design/icons'
 import copyToClipborad from '../../../../utils/copyToClipBorad';
 import BPaginatedTable from '../../../../components/tables/BPaginatedTable';
 import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
+import moment from 'moment';
 export interface IGroupUpdateProps {
   searchText: string | number
 }
@@ -77,7 +78,7 @@ export default function GroupUpdate({
       dataIndex: 'lastModifiedDate',
       key: 'lastModifiedDate',
       render(_, record) {
-        return record.lastModifiedDate ? new Date(record.lastModifiedDate).toLocaleDateString() : '-'
+        return record.lastModifiedDate ? moment(record.lastModifiedDate).format('YYYY-MM-DD') : '-'
       },
     },
     {
