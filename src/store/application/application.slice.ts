@@ -782,6 +782,19 @@ export const ApplicationDataSlice = createSlice({
       };
       return state;
     },
+    updateRate: (state, action: PayloadAction<any>) => {
+      state = {
+        ...state,
+        financialDetails: {
+          ...state.financialDetails,
+          data: {
+            ...state.financialDetails.data,
+            pTrhdTr: action.payload,
+          },
+        },
+      };
+      return state;
+    },   
     financialDSavePendingUpdate: (state, action: PayloadAction<boolean>) => {
       state = {
         ...state,
