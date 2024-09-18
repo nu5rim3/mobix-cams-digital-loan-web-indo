@@ -19,7 +19,7 @@ export default function Pending(_props: IPendingProps) {
   const {
     selectedType,
     slikRequestsPaginatedData,
-    slikRequestsGroupData
+    slikExcelData
   } = useSelector((state: any) => state.SlikRequest)
   const {
     selectedRole
@@ -68,28 +68,34 @@ export default function Pending(_props: IPendingProps) {
     }
   }, [slikRequestsPaginatedData])
 
-
+  console.log('[slikExcelData] - ', slikExcelData.data);
   /**
-   * generate group data for excel
-   * @returns group data for excel
+   * generate data for excel
+   * @returns data for excel
    */
-  const getGroupDataForExcel = () => {
-    return slikRequestsGroupData.initialData?.map((slik: any) => ({
-      "Appraisal No": slik.slikDto.appraisalId,
-      "Branch": slik.slikDto.branchDesc,
-      "MFO": slik.slikDto.createdBy,
-      "Centre": slik.slikDto.centerCode,
-      "Group No": slik.slikDto.groupIdx,
-      "Customer Name": slik.slikDto.customerName,
-      "NIK": slik.slikDto.customerKTP,
-      "Customer Type": slik.slikDto.clienteleType,
-      "Family C.NO": slik.familyCard,
-      "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
-      "BR Name": slik.brName,
-      "Contact No": slik.cltContact1,
-      "Facility Type": "Group",
-      "Batch No": ""
-    })) || [];
+  const getSlikDataForExcel = () => {
+    return slikExcelData.data.map((slik: any) => {
+      const customerType = slik.cltType === 'G' ? 'Guarantor' : slik.cltType === 'S' ? 'Spouse' : slik.cltType === 'C' ? 'Customer' : '';
+      return ({
+        "Appraisal No": slik.appraisalId,
+        "Branch": slik.branchDesc,
+        "MFO": slik.createdBy,
+        "Centre": slik.centerCode,
+        "Fusion Center": slik.fusionCenterCode,
+        "Group No": slik.groupCode,
+        "Customer Name": slik.fullName,
+        "NIK": slik.ktp,
+        "Customer Type": customerType,
+        "Family C.NO": slik.familyCard,
+        "Residential Address": slik.addLine1 + ',' + slik.addLine2 + ',' + slik.addLine3,
+        "BR Name": slik.brName,
+        "Contact No": slik.cltContact1,
+        "Facility Type": slik.appraisalType === 'IL' ? 'Individual' : 'Group',
+        "Batch No": slik.batchNumber,
+        "Created By": slik.createdBy,
+      }) || []
+    }
+    )
   }
 
   useEffect(() => {
@@ -100,16 +106,22 @@ export default function Pending(_props: IPendingProps) {
   }, [selectedType])
 
   useEffect(() => {
-    if (selectedRole === 'CSA') {
-      actions.getSlikByGroup({
+    if (selectedRole === 'CSA' || selectedRole === 'ADMIN') {
+
+      actions.getExcelSlikRequestData({
         userId: userData.data?.idx,
         branchCode: userData.data?.branches[0]?.code,
         status: 'P',
-        type: 'GRPL',
+        type: selectedType === 'individual' ? 'IL' : 'GRPL',
+        role: selectedRole,
+        appraisal: '',
+        center: '',
+        group: ''
       })
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRole])
+  }, [selectedRole, selectedType])
 
 
   return (
@@ -133,9 +145,13 @@ export default function Pending(_props: IPendingProps) {
         </div>
         <div className='flex items-center justify-between gap-3'>
           {selectedType !== 'group' ?
-            <Button size='middle' type='primary' onClick={() => updateSlikBulk()} label='Update Batch' disabled={selectedRole === 'ADMIN' || isUpdateDisabled} loading={isUpdateBtnLoading} />
+            <>
+              <Button size='middle' type='primary' onClick={() => updateSlikBulk()} label='Update Batch' disabled={selectedRole === 'ADMIN' || isUpdateDisabled} loading={isUpdateBtnLoading} />
+              <Button size='middle' type='primary' onClick={() => exportToExcel(getSlikDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={selectedRole !== 'CSA' && selectedRole !== 'ADMIN'} />
+            </>
+
             :
-            <Button size='middle' type='primary' onClick={() => exportToExcel(getGroupDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={selectedRole !== 'CSA'} />
+            <Button size='middle' type='primary' onClick={() => exportToExcel(getSlikDataForExcel(), 'pending-slik-request')} label='Download Excel' disabled={selectedRole !== 'CSA' && selectedRole !== 'ADMIN'} />
           }
         </div>
       </div>

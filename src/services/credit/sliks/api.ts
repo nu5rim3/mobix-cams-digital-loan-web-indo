@@ -164,6 +164,34 @@ const updateSlikBulck = (data: SlickUpdate[]) => {
   return api.post(`/mobixCamsCredit/v1/sliks/bulk`, data);
 };
 
+/**
+ * get Excel Slik Data
+ * @param param0
+ * @returns
+ */
+const getExcelSlikData = ({
+  userId,
+  branchCode,
+  status,
+  type,
+  appraisal,
+  center,
+  group,
+  role,
+}: {
+  userId: string;
+  branchCode: string;
+  status: "P" | "C" | "INPG";
+  type: "GRPL" | "IL" | "";
+  appraisal?: string | "";
+  center?: string | "";
+  group?: string | "";
+  role: string;
+}) => {
+  return api.get(`/mobixCamsCredit/v1/sliks/excels/filters?user=${userId}&branch=${branchCode}&status=${status}&type=${type}&appraisal=${appraisal}&center=${center}&group=${group}&role=${role}
+`);
+};
+
 export default {
   getSlikRequestById,
   getSliksByBranchAndType,
@@ -174,4 +202,5 @@ export default {
   updateSlik,
   updateSlikBulck,
   getGroupInnerSliksWithPagination,
+  getExcelSlikData,
 };

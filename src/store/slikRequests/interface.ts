@@ -22,6 +22,11 @@ export interface SlikRequestsStoreType {
     fetching: boolean;
     error: boolean | string;
   };
+  slikExcelData: {
+    data: any[];
+    fetching: boolean;
+    error: boolean;
+  };
   slikRequestsIndividualData: {
     data: any[];
     fetching: boolean;

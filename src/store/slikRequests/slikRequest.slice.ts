@@ -15,6 +15,11 @@ export const initialState: SlikRequestsStoreType = {
     fetching: false,
     error: false,
   },
+  slikExcelData: {
+    data: [],
+    fetching: false,
+    error: false,
+  },
   slikRequestsIndividualData: {
     data: [],
     fetching: false,
@@ -94,6 +99,28 @@ export const getSlikRequestData = createAsyncThunk(
         ...response.data,
         ...response.data.slikDto,
       };
+    } catch (error) {
+      const er = error as any;
+      const errorMessage = handleApiError(error);
+      notification.error({
+        message: errorMessage ?? er.message ?? "Data Fetching Error",
+      });
+      return er?.response
+        ? thunkAPI.rejectWithValue(er?.response.data)
+        : thunkAPI.rejectWithValue(er.message);
+    }
+  }
+);
+
+export const getExcelSlikRequestData = createAsyncThunk(
+  "SlickExcelRequestsDetails/fetchByGroup",
+  async (
+    arg: Parameters<typeof API.slikServices.getExcelSlikData>[0],
+    thunkAPI
+  ) => {
+    try {
+      const response = await API.slikServices.getExcelSlikData(arg);
+      return response.data;
     } catch (error) {
       const er = error as any;
       const errorMessage = handleApiError(error);
@@ -423,6 +450,17 @@ export const SlikRequestsSlice = createSlice({
     builder.addCase(getSlikByIndividual.rejected, (state, _action) => {
       state.slikRequestsIndividualData.fetching = false;
     });
+    builder.addCase(getExcelSlikRequestData.pending, (state, _action) => {
+      state.slikExcelData.data = [];
+      state.slikExcelData.fetching = true;
+    }),
+      builder.addCase(getExcelSlikRequestData.fulfilled, (state, action) => {
+        state.slikExcelData.fetching = false;
+        state.slikExcelData.data = action.payload;
+      });
+    builder.addCase(getExcelSlikRequestData.rejected, (state, _action) => {
+      state.slikExcelData.fetching = false;
+    });
   },
 });
 
@@ -437,6 +475,7 @@ export const slikActions = {
   getSliksWithPagination,
   getSlikGroupWithPagination,
   getInnerSliksGroupWithPagination,
+  getExcelSlikRequestData,
 };
 
 export default SlikRequestsSlice.reducer;
