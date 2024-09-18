@@ -29,6 +29,7 @@ export default function Pending(_props: IPendingProps) {
   const [searchText, setSearchText] = useState<string | number>('')
   const [isUpdateBtnLoading, setIsUpdateBtnLoading] = useState<boolean>(false);
   const [isUpdateDisabled, setIsUpdateDisabled] = useState<boolean>(true);
+  const [renderKey, setRenderKey] = useState(0);
 
   const slikTypes = [
     { label: 'Group', value: 'group' },
@@ -53,6 +54,8 @@ export default function Pending(_props: IPendingProps) {
       notification.error({
         message: 'Batches Not Updated Successfully'
       })
+    } finally {
+      setRenderKey(Math.floor(Math.random() * 100))
     }
   }
 
@@ -68,7 +71,6 @@ export default function Pending(_props: IPendingProps) {
     }
   }, [slikRequestsPaginatedData])
 
-  console.log('[slikExcelData] - ', slikExcelData.data);
   /**
    * generate data for excel
    * @returns data for excel
@@ -157,7 +159,7 @@ export default function Pending(_props: IPendingProps) {
       </div>
       {selectedType === 'group'
         ? <GroupUpdate searchText={searchText} />
-        : <IndividualUpdate searchText={searchText} />
+        : <IndividualUpdate searchText={searchText} key={renderKey} />
       }
     </>
   );

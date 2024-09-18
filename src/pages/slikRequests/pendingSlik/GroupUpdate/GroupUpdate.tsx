@@ -316,6 +316,7 @@ export default function GroupUpdate({
       })
     } finally {
       setLoading(false)
+      getInnerGroupSlikData();
     }
   }
 
