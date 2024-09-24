@@ -291,8 +291,6 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     }
   };
 
-  console.log('[slikRequestsPaginatedData?.data?.content] - ', slikRequestsPaginatedData?.data?.content)
-
   return (
     <div>
       <div className='flex my-2 items-center '>
