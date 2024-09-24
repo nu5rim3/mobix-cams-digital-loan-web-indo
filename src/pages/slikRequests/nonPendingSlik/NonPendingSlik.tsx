@@ -7,6 +7,8 @@ import { Select, Space, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useNavigate } from 'react-router-dom';
 import BPaginatedTable from '../../../components/tables/BPaginatedTable';
+import copyToClipborad from '../../../utils/copyToClipBorad';
+import { CopyOutlined } from '@ant-design/icons'
 
 export interface INonPendingSlikProps {
 }
@@ -33,6 +35,19 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
   const [searchStatus, setSearchStatus] = useState('')
 
   const columnsInProgress: ColumnsType<any> = [
+    {
+      title: 'Appraisal ID',
+      dataIndex: 'appraisalId',
+      key: 'appraisalId',
+      render: (_, { appraisalType, appraisalId }) => {
+        switch (appraisalType) {
+          case "IL":
+            return <div className='flex justify-between'><Tag color='green' key={appraisalType}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "GRPL":
+            return <div className='flex justify-between'><Tag color='blue' key={appraisalType}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+        }
+      }
+    },
     {
       title: 'Loan Type',
       dataIndex: 'appraisalType',
@@ -129,6 +144,19 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
     },
   ];
   const columnsCompleted: ColumnsType<any> = [
+    {
+      title: 'Appraisal ID',
+      dataIndex: 'appraisalId',
+      key: 'appraisalId',
+      render: (_, { appraisalType, appraisalId }) => {
+        switch (appraisalType) {
+          case "IL":
+            return <div className='flex justify-between'><Tag color='green' key={appraisalType}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+          case "GRPL":
+            return <div className='flex justify-between'><Tag color='blue' key={appraisalType}>{appraisalId}</Tag><CopyOutlined onClick={() => copyToClipborad(appraisalId)} /></div>;
+        }
+      }
+    },
     {
       title: 'Loan Type',
       dataIndex: 'appraisalType',
@@ -262,6 +290,8 @@ export default function NonPendingSlik(_props: INonPendingSlikProps) {
       setPageSize(pageSize);
     }
   };
+
+  console.log('[slikRequestsPaginatedData?.data?.content] - ', slikRequestsPaginatedData?.data?.content)
 
   return (
     <div>
