@@ -10,7 +10,6 @@ import formatAddress from '../../../../utils/getAddressByObjects';
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipborad from '../../../../utils/copyToClipBorad';
 import BPaginatedTable from '../../../../components/tables/BPaginatedTable';
-import FPaginatedTable from '../../../../components/tables/FPaginatedTable';
 import moment from 'moment';
 export interface IGroupUpdateProps {
   searchText: string | number
@@ -26,16 +25,18 @@ export default function GroupUpdate({
   const {
     innerSlikRequestsGroupPaginatedData
   } = useSelector((state: any) => state.SlikRequest)
+  const {
+    selectedRole
+  } = useSelector((state: any) => state.AppData)
+
   const userData = useSelector((state: any) => state.AppData.userData)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
   const [selectedRecord, setSelectedRecord] = useState<{ centerCode: string, groupCode: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(7);
-  const {
-    selectedRole
-  } = useSelector((state: any) => state.AppData)
-
+  const [innerCurrentPage, setInnerCurrentPage] = useState(1);
+  const [innerPageSize, setInnerPageSize] = useState(7);
 
   useEffect(() => {
     if (innerSlikRequestsGroupPaginatedData?.data?.content) {
@@ -68,10 +69,10 @@ export default function GroupUpdate({
       title: 'MFO Username',
       dataIndex: 'userIdx',
       key: 'userIdx',
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return record?.userIdx?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
-      }
+      // filteredValue: [searchText],
+      // onFilter: (value, record) => {
+      //   return record?.userIdx?.toLowerCase()?.includes(typeof (value) == 'string' ? value.toLowerCase() : value)
+      // }
     },
     {
       title: 'Date',
@@ -327,15 +328,21 @@ export default function GroupUpdate({
     }
   };
 
-  const getInnerGroupSlikData = () => {
+  const handleInnerPaginationChange = (page: number, pageSize?: number) => {
+    setInnerCurrentPage(page);
+    if (pageSize) {
+      setInnerPageSize(pageSize);
+    }
+  };
 
+  const getInnerGroupSlikData = () => {
     actions.getInnerSliksGroupWithPagination({
       userId: userData.data?.idx,
       branchCode: userData.data?.branches[0]?.code,
       status: 'P',
       type: 'GRPL',
-      page: currentPage,
-      size: pageSize,
+      page: innerCurrentPage,
+      size: innerPageSize,
       center: selectedRecord?.centerCode,
       group: selectedRecord?.groupCode
     });
@@ -348,7 +355,6 @@ export default function GroupUpdate({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRecord])
 
-
   return (
     <div
       className='border-l-current border-r-current'
@@ -358,7 +364,7 @@ export default function GroupUpdate({
         <>
           <BPaginatedTable
             loading={slikRequestsGroupPaginatedData.fetching}
-            rowKey={'centerCode'}
+            // rowKey={'centerCode'}
             columns={columns}
             dataSource={slikRequestsGroupPaginatedData?.data?.content ?? []}
             handlePaginationChange={handlePaginationChange}
@@ -376,12 +382,22 @@ export default function GroupUpdate({
         </>
         :
         <>
-          <FPaginatedTable
+          <BPaginatedTable
             loading={innerSlikRequestsGroupPaginatedData.fetching}
-            rowKey={'appraisalIds'}
+            // rowKey={'appraisalIds'}
             columns={columnsNew}
-            dataSource={selectedGroup ?? []}
-            rowSelection={true}
+            dataSource={innerSlikRequestsGroupPaginatedData?.data?.content ?? []}
+            handlePaginationChange={handleInnerPaginationChange}
+            pagination={{
+              total: innerSlikRequestsGroupPaginatedData?.data?.totalElements,
+              current: innerCurrentPage,
+              pageSize: innerPageSize,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              pageSizeOptions: ['7', '10', '15', '20', '50', '100'],
+              showTotal: (total: number) =>
+                <p className='text-gray-700'>Total {total} items</p>,
+            }}
           />
 
           <div className='flex justify-end py-10 w-full'>
