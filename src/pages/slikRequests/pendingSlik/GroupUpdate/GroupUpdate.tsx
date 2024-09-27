@@ -353,7 +353,7 @@ export default function GroupUpdate({
       getInnerGroupSlikData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRecord])
+  }, [selectedRecord, innerPageSize, innerCurrentPage])
 
   return (
     <div
